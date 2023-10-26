@@ -84,7 +84,7 @@
 				}, 1000)
 			},
 			loadmore() {
-				for (let i = 0; i < 17; i++) {
+				for (let i = 0; i < 16; i++) {
 					this.contentList.push({
 						text: parseInt(Math.random() * 10) + 10
 					})
