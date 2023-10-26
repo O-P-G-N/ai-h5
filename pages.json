@@ -1,32 +1,63 @@
 {
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "uni-app"
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/market/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/partner/chat",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/community/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
 		}
-	},
-	{
-		"path": "pages/user/index",
-		"style": {
-			"navigationBarTitleText": "uni-app"
-		}
-	}],
+	],
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#3cc51f",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [{
-			"pagePath": "pages/index/index",
-			// "iconPath": "static/image/icon_component.png",
-			// "selectedIconPath": "static/image/icon_component_HL.png",
-			"text": "组件"
-		}, {
-			"pagePath": "pages/user/index",
-			// "iconPath": "static/image/icon_API.png",
-			// "selectedIconPath": "static/image/icon_API_HL.png",
-			"text": "接口"
-		}]
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "页面1"
+			}, {
+				"pagePath": "pages/market/index",
+				"text": "页面2"
+			},
+			{
+				"pagePath": "pages/community/index",
+				"text": "页面3"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "页面4"
+			}
+		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
