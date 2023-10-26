@@ -10,7 +10,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="user_head_right">
+		<view class="user_head_right" @click="viewNotice">
 			<view class="user_head_right_content">
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
@@ -26,7 +26,7 @@
 						<image class="balancenum_img" src="../../static/user/eye.png" mode=""></image>
 					</view>
 				</view>
-				<button class="right_btn" size="default" type="default">积分兑换</button>
+				<button class="right_btn" size="default" type="default" @click="integralExchange">积分兑换</button>
 			</view>
 			<view class="yuecard_nei">
 				<view class="yuecardtop">
@@ -166,8 +166,20 @@
 		},
 		created() {},
 		methods: {
-
-		}
+			// 查看通知
+			viewNotice(){
+				uni.navigateTo({
+					url: `/pages/user/user_notice`
+				});
+			},
+			// 积分兑换
+			integralExchange(){
+				uni.navigateTo({
+					url: `/pages/user/integral_exchange`
+				});
+			}
+		},
+		
 	}
 </script>
 

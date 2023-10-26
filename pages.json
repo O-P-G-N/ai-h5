@@ -41,6 +41,20 @@
 				"navigationBarTitleText": "通知",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path": "pages/user/integral_exchange",
+			"style": {
+				"navigationBarTitleText": "积分兑换",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/user/history",
+			"style": {
+				"navigationBarTitleText": "兑换记录",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {
