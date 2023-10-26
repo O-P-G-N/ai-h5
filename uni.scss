@@ -1,10 +1,8 @@
 @import '@/uni_modules/uni-scss/variables.scss';
 @import '@/uni_modules/uview-ui/theme.scss';
 .uni-tabbar-bottom{
-	display: none;
+ display: none;
 }
-
-
 .uni-app--showtabbar uni-page-wrapper  {
     height: 100% !important;
     height: calc(100% - constant(safe-area-inset-top) - constant(safe-area-inset-bottom))  !important;
@@ -14,4 +12,9 @@
     height: calc(100% - 44px ) !important;
     height: calc(100% - 44px - constant(safe-area-inset-top) - constant(safe-area-inset-bottom))  !important;
     height: calc(100% - 44px - env(safe-area-inset-top) - env(safe-area-inset-bottom))  !important;
+}
+
+// 颜色
+.cbac{
+	color: black;
 }
