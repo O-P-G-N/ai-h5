@@ -13,7 +13,7 @@
 				</view>
 			</view>
 			<view class="twocardfuns">
-				<view class="card-item left">
+				<view class="card-item left" @click="toPage('/pages/index/dfqaichat')">
 					<view class="card-nei">
 						<view class="top">
 							<view class="title">AI创作</view>
@@ -82,7 +82,7 @@
 
 			</vide>
 
-			<view class="loadingTxt" v-if='isReachBottom'>数据记载中</view>
+			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
 			<Footer pageName='index'></Footer>
 		</view>
 	</view>
@@ -165,6 +165,11 @@
 				}
 				this.isReachBottom = false
 			},
+			toPage(e){
+				uni.navigateTo({
+					url:e
+				})
+			}
 		}
 	}
 </script>
@@ -177,7 +182,7 @@
 	}
 
 	.globalMian {
-		width: 670rpx;
+		width: calc(100vw - 80rpx);
 		display: flex;
 		justify-content: flex-end;
 		position: absolute;
@@ -198,9 +203,8 @@
 	.container {
 		padding: 40rpx;
 		position: relative;
-
 		.justcard {
-			width: 670rpx;
+			width: 100%;
 			height: 250rpx;
 			background-image: url('@/static/index/hometopcard.webp');
 			background-size: cover;
@@ -428,7 +432,7 @@
 	.skeletonLi{
 		width: 100%;
 		height: 660rpx;
-		margin-top: 20rpx;
+		margin: 20rpx 0;
 		.two{
 			width: calc((100% - 20rpx) /2);
 			height: 660rpx;

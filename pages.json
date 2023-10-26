@@ -8,6 +8,20 @@
 			}
 		},
 		{
+			"path": "pages/index/dfqaichat",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "AI创作"
+			}
+		},
+		{
+			"path": "pages/index/modelworks",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "作品集"
+			}
+		},
+		{
 			"path": "pages/market/index",
 			"style": {
 				"navigationBarTitleText": "uni-app",
