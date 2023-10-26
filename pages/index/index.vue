@@ -1,65 +1,90 @@
 <template>
-	<view class="container">
-		<view class="justcard">
-			<image class="justchating" src="~@/static/index/justchating.webp"></image>
-			<view class="button">
-				<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
-				<text>1423</text>
-				<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
-			</view>
+	<view>
+		<view class="globalMian">
+			<image class="global" src="~@/static/index/global.png"></image>
 		</view>
-		<view class="twocardfuns">
-			<view class="card-item left">
-				<view class="card-nei">
-					<view class="top">
-						<view class="title">AI创作</view>
-						<view class="intro">创意画廊</view>
-					</view>
-					<view class="bottom">
-						<image src="~@/static/index/tiyanjt.webp"></image>
-						<view>体验</view>
-					</view>
+		<view class="container">
+			<view class="justcard">
+				<image class="justchating" src="~@/static/index/justchating.webp"></image>
+				<view class="button">
+					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
+					<text>1423</text>
+					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
 				</view>
+			</view>
+			<view class="twocardfuns">
+				<view class="card-item left" @click="toPage('/pages/index/dfqaichat')">
+					<view class="card-nei">
+						<view class="top">
+							<view class="title">AI创作</view>
+							<view class="intro">创意画廊</view>
+						</view>
+						<view class="bottom">
+							<image src="~@/static/index/tiyanjt.webp"></image>
+							<view>体验</view>
+						</view>
+					</view>
 
-			</view>
-			<view class="card-item right">
-				<view class="card-nei">
-					<view class="top">
-						<view class="title">视频营销</view>
-						<view class="intro">数字人</view>
+				</view>
+				<view class="card-item right">
+					<view class="card-nei">
+						<view class="top">
+							<view class="title">视频营销</view>
+							<view class="intro">数字人</view>
+						</view>
+						<view class="bottom">
+							<image src="~@/static/index/tiyanjt.webp"></image>
+							<view>体验</view>
+						</view>
 					</view>
-					<view class="bottom">
-						<image src="~@/static/index/tiyanjt.webp"></image>
-						<view>体验</view>
+
+				</view>
+			</view>
+
+			<view class="aicreate">
+				<view class="heard">
+					<image class="homecs" src="~@/static/index/homecs.webp"></image>
+					<text>创作</text>
+					<view class="rightyishu">
+						<view class="text"><text>· 人人都是大艺术家</text></view>
 					</view>
 				</view>
+			</view>
+			<view class="tabselect">
+				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
+					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
+			</view>
+			<vide class="content-mian">
+				<template v-if='constenList.length'>
+					<view class="content-item" v-for='(item,index) in constenList' :key='index'>
+						<image src="@/static/index/png.webp"></image>
+						<view class="mian-text">
+							<view class="text">{{item.text}}</view>
+						</view>
+					</view>
+				</template>
+				<template v-else>
+					<!-- 骨架屏 -->
+					<view class="skeleton one"></view>
+					<view class="skeletonLi">
+						<view class="skeleton two"></view>
+						<view class="skeleton three"></view>
+						<view class="skeleton four"></view>
+					</view>
+					<view class="skeleton one"></view>
+					<view class="skeletonLi">
+						<view class="skeleton two"></view>
+						<view class="skeleton three"></view>
+						<view class="skeleton four"></view>
+					</view>
+				</template>
+				
 
-			</view>
-		</view>
+			</vide>
 
-		<view class="aicreate">
-			<view class="heard">
-				<image class="homecs" src="~@/static/index/homecs.webp"></image>
-				<text>创作</text>
-				<view class="rightyishu">
-					<view class="text"><text>· 人人都是大艺术家</text></view>
-				</view>
-			</view>
+			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
+			<Footer pageName='index'></Footer>
 		</view>
-		<view class="tabselect">
-			<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle' :activeStyle="activeStyle"
-				@click="tabSelectClick"></u-tabs>
-		</view>
-		<vide class="content-mian" v-if='constenList.length'>
-			<view class="content-item" v-for='(item,index) in constenList' :key='index'>
-				<image src="@/static/index/png.webp"></image>
-				<view class="mian-text">
-					<view class="text">{{item.text}}</view>
-				</view>
-			</view>
-		</vide>
-		<view class="loadingTxt" v-if='isReachBottom'>数据记载中</view>
-		<Footer pageName='index'></Footer>
 	</view>
 </template>
 
@@ -91,7 +116,7 @@
 					name: '涂鸦'
 				}],
 				constenList: [],
-				isReachBottom:false,
+				isReachBottom: false,
 			}
 		},
 		computed: {
@@ -116,23 +141,35 @@
 			this.loadmore()
 		},
 		onReachBottom() {
-			if(this.isReachBottom){
+			if (this.isReachBottom) {
 				return
 			}
-			this.isReachBottom=true
-			setTimeout(()=>{
+			this.isReachBottom = true
+			setTimeout(() => {
 				this.loadmore()
-			},1000)
+			}, 1000)
 		},
 		methods: {
+			tabSelectClick(e) {
+				this.constenList = []
+				if(this.setTimeoutL)clearTimeout(this.setTimeoutL)
+				this.setTimeoutL= setTimeout(() => {
+					this.loadmore()
+				}, 1000)
+			},
 			loadmore() {
 				for (let i = 0; i < 10; i++) {
 					this.constenList.push({
-						text:parseInt(Math.random()*10) + 10
+						text: parseInt(Math.random() * 10) + 10
 					})
 				}
-				this.isReachBottom=false
+				this.isReachBottom = false
 			},
+			toPage(e){
+				uni.navigateTo({
+					url:e
+				})
+			}
 		}
 	}
 </script>
@@ -144,11 +181,30 @@
 		background-color: #fff;
 	}
 
+	.globalMian {
+		width: calc(100vw - 80rpx);
+		display: flex;
+		justify-content: flex-end;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		margin-top: 40rpx;
+
+		.global {
+			width: 70rpx;
+			height: 72rpx;
+			position: relative;
+			top: -10rpx;
+			right: -10rpx;
+		}
+
+	}
+
 	.container {
 		padding: 40rpx;
-
+		position: relative;
 		.justcard {
-			width: 670rpx;
+			width: 100%;
 			height: 250rpx;
 			background-image: url('@/static/index/hometopcard.webp');
 			background-size: cover;
@@ -309,37 +365,41 @@
 		.tabselect {
 			margin: 20rpx 0;
 		}
-		
-		
-		.content-mian{
+
+
+		.content-mian {
 			width: 100%;
 			display: flex;
 			flex-wrap: wrap;
-			.content-item{
-				width:calc((100% - 20rpx)/2) ;
+
+			.content-item {
+				width: calc((100% - 20rpx)/2);
 				height: 328rpx;
 				margin-top: 20rpx;
 				position: relative;
 				padding-bottom: 10rpx;
-				
-				&:nth-of-type(even){
+
+				&:nth-of-type(even) {
 					margin-left: 20rpx;
 				}
-				image{
+
+				image {
 					width: 100%;
-					height:328rpx;
-					border-radius:40rpx ;
+					height: 328rpx;
+					border-radius: 40rpx;
 					position: relative;
 					z-index: 9;
 				}
-				.mian-text{
+
+				.mian-text {
 					position: absolute;
 					z-index: 99;
-					top:0;
+					top: 0;
 					left: 0;
 					width: 100%;
 					height: 100%;
-					.text{
+
+					.text {
 						margin: 20rpx 0 0 20rpx;
 						color: #fff;
 						font-size: 28rpx;
@@ -348,7 +408,8 @@
 			}
 		}
 	}
-	.loadingTxt{
+
+	.loadingTxt {
 		margin-top: 20rpx;
 		width: 100%;
 		height: 100rpx;
@@ -368,4 +429,49 @@
 			height: 0;
 		}
 	}
+	.skeletonLi{
+		width: 100%;
+		height: 660rpx;
+		margin: 20rpx 0;
+		.two{
+			width: calc((100% - 20rpx) /2);
+			height: 660rpx;
+			margin-right: 20rpx;
+			float: left;
+			border-radius: 40rpx;
+		}
+		.three{
+			width: calc((100% - 20rpx) /2);
+			height: 320rpx;
+			float: right;
+			border-radius: 40rpx;
+		}
+		.four{
+			width: calc((100% - 20rpx) /2);
+			height: 320rpx;
+			margin-top: 20rpx;
+			float: right;
+			border-radius: 40rpx;
+		}
+		
+	}
+	.skeleton{
+		background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
+		background-size: 400% 100%;
+		animation: skeletonAm 1.8s ease infinite;
+		&.one{
+			width: 100%;
+			height: 328rpx;
+			border-radius: 40rpx;
+		}
+	}
+	@keyframes skeletonAm{
+		0% {
+		    background-position: 100% 50%;
+		}
+		100% {
+		    background-position: 0 50%;
+		} 
+	}
+
 </style>
