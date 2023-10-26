@@ -57,7 +57,6 @@
 	.footerMain {
 		position: fixed;
 		z-index: 99;
-		height: 124rpx;
 		bottom: 42rpx;
 		left: 37.5rpx;
 		right: 0;
@@ -66,15 +65,15 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		padding-top: 20rpx;
+		padding-bottom: 20rpx;
 		background: #ededed;
 		.footer_every{
 			    width: 18%;
-				height: 100%;
 			    display: flex;
 				flex-direction: column;
 				justify-content: center;
 			    align-items: center;
-			    font-size: 17px;
 			    position: relative;
 				&.active{
 					animation-name: clickAnimation;
@@ -82,18 +81,18 @@
 					animation-timing-function: ease-in-out;
 				}
 				.icon{
-					width: 84rpx;
-					height: 84rpx;
+					width: 80rpx;
+					height: 80rpx;
 				}
 				.tx_main{
-					width: 128rpx;
-					height: 128rpx;
+					width: 122rpx;
+					height: 122rpx;
 					padding: 2rpx;
 					border-radius: 50%;
 					border: 1rpx solid #c8c8c8;
 					.tx_png{
-						width: 128rpx;
-						height: 128rpx;
+						width: 122rpx;
+						height: 122rpx;
 						border-radius: 50%;
 						
 					}
