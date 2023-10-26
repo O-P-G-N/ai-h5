@@ -2,7 +2,6 @@
 	<view class="container">
 		
 
-
 		<u-icon name="photo" color="#2979ff" size="28"></u-icon>
 		<u-button type="success" :ripple="true">test</u-button>
 	</view>

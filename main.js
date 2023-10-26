@@ -116,7 +116,7 @@ const remoteSource = (url) => {
 
 
 const app = new Vue({
-	i18n,
+	i18nConfig,
 	store,
     ...App
 })
