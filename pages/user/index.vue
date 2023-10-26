@@ -1,6 +1,15 @@
 <template>
-	<view class="container">
-		<view>user</view>
+	<view class="user_index">
+		<view class="user_head">
+			<view class="user_head_left">
+				<view class="name">Ks</view>
+				<view class="account_level">
+
+				</view>
+			</view>
+			<image class="user_head_right" :mode="item.mode" :src="src" @error="imageError"></image>
+		</view>
+
 		<Footer pageName='user'></Footer>
 	</view>
 </template>
@@ -8,34 +17,41 @@
 
 <script>
 	export default {
-		components:{
-			Footer:()=>import('@/components/footer.vue')
+		components: {
+			Footer: () => import('@/components/footer.vue')
 		},
 		data() {
 			return {
 
 			}
 		},
-		created() {
-		},
+		created() {},
 		methods: {
 
 		}
 	}
 </script>
 
-<style lang="scss">
-	@import "@/uni_modules/uview-ui/index.scss";
+<style lang="scss" scoped>
+	.user_index {
+		width: 100vw;
+		height: 100vh;
+		padding: 16px;
 
-	.container {
-		padding: 20px;
-		font-size: 14px;
-		line-height: 24px;
-	}
+		.user_head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 59px;
 
-	.mian {
-		width: 750rpx;
-		height: 300rpx;
-		background-color: red;
+			.user_head_left {
+				.name {
+					font-size: 26px;
+					color: rgb(0, 0, 0);
+				}
+			}
+
+			.user_head_right {}
+		}
 	}
 </style>
