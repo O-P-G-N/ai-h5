@@ -1,5 +1,5 @@
 export default {
-	apiUrl: 'https://'
+	apiUrl: 'https://',
 	sourceUrl: 'https://',
 	socketUrl: 'wss://',
 	infoLevel: 'debug'

@@ -4,9 +4,8 @@ import App from './App'
 import uView from '@/uni_modules/uview-ui'
 import store from '@/store'
 import md5Libs from './common/md5'
-import Base64 from "./common/base64"
 import VueI18n from 'vue-i18n'// v8.x
-import en from '..i18n/en.json'
+import en from './i18n/en.json'
 import zhHans from './i18n/zh-Hans.json'
 import zhHant from './i18n/zh-Hant.json'
 import app_config from './common/config.js';
