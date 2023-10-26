@@ -1,2 +1,10 @@
 @import '@/uni_modules/uni-scss/variables.scss';
 @import '@/uni_modules/uview-ui/theme.scss';
+.uni-tabbar-bottom{
+	display: none;
+}
+.uni-app--showtabbar uni-page-head[uni-page-head-type="default"] ~ uni-page-wrapper {
+    height: calc(100% - 44px ) !important;
+    height: calc(100% - 44px - constant(safe-area-inset-top) - constant(safe-area-inset-bottom))  !important;
+    height: calc(100% - 44px - env(safe-area-inset-top) - env(safe-area-inset-bottom))  !important;
+}
