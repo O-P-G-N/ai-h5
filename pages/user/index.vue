@@ -30,11 +30,11 @@
 			</view>
 			<view class="yuecard_nei">
 				<view class="yuecardtop">
-					<view class="yuecardtopevery">
+					<view class="yuecardtopevery" @click="viewContract">
 						<text>合约金额:</text>
 						<text class="texta">5200.00</text>
 					</view>
-					<view class="yuecardtopevery">
+					<view class="yuecardtopevery" @click="viewHistory">
 						<text>积分余额:</text>
 						<text class="texta">22860.00</text>
 					</view>
@@ -176,6 +176,18 @@
 			integralExchange(){
 				uni.navigateTo({
 					url: `/pages/user/integral_exchange`
+				});
+			},
+			// 查看历史记录
+			viewHistory(){
+				uni.navigateTo({
+					url: `/pages/user/history`
+				});
+			},
+			// 查看合约金额
+			viewContract(){
+				uni.navigateTo({
+					url: `/pages/user/contract_amount`
 				});
 			}
 		},
