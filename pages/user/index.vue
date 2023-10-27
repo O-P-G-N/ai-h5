@@ -40,7 +40,7 @@
 					</view>
 				</view>
 				<view class="yuecardtop">
-					<view class="yuecardtopevery">
+					<view class="yuecardtopevery" @click="viewCapitalFlow">
 						<text>USDT余额:</text>
 						<text class="texta">640.5600</text>
 					</view>
@@ -188,6 +188,12 @@
 			viewContract(){
 				uni.navigateTo({
 					url: `/pages/user/contract_amount`
+				});
+			},
+			// 查看资金流水
+			viewCapitalFlow(){
+				uni.navigateTo({
+					url: `/pages/user/capital_flow`
 				});
 			}
 		},
