@@ -50,12 +50,19 @@
 			},
 			toWorks() {
 				uni.navigateTo({
-					url: '/pages/index/modelworks'
+					url: '/pages/index/picture/modelworks'
 				})
 			},
 			nextFn(){
+				if(this.parameter.prompt==''){
+					uni.showToast({
+						title:'请输入描述画面',
+						icon:'none'
+					})
+					return 
+				}
 				uni.navigateTo({
-					url: `/pages/index/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
+					url: `/pages/index/picture/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
 				})
 			}
 		}

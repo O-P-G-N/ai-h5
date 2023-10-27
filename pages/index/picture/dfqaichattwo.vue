@@ -174,7 +174,7 @@
 			},
 			toWorks() {
 				uni.navigateTo({
-					url: '/pages/index/modelworks'
+					url: '/pages/index/picture/modelworks'
 				})
 			},
 			showFn(src){

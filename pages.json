@@ -12,24 +12,31 @@
 			}
 		},
 		{
-			"path": "pages/index/dfqaichat",
+			"path": "pages/index/picture/dfqaichat",
 			"style": {
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "AI创作"
 			}
 		},
 		{
-			"path": "pages/index/dfqaichattwo",
+			"path": "pages/index/picture/dfqaichattwo",
 			"style": {
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "AI创作"
 			}
 		},
 		{
-			"path": "pages/index/modelworks",
+			"path": "pages/index/picture/modelworks",
 			"style": {
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "作品集"
+			}
+		},
+		{
+			"path": "pages/index/video/indexIntr",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "视频营销"
 			}
 		},
 		{
