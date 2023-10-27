@@ -28,8 +28,13 @@
 				</view>
 			</template>
 			<template v-else>
-				<view class="contentItemVideo"  v-for="(item,index) in contentList2" :key='index'>
-					<video class="contentVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"  controls></video>
+				<view class="contentItemVideo" v-for="(item,index) in contentList2" :key='index'>
+					<view class="contentVideoMain">
+						<video  @pause="stopFn(index,$event)" @ended="stopFn(index,$event)" :class="{'playVideo':item.isPlay}" class="contentVideo" :id='`video_${index}`' :show-center-play-btn='false'
+							src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" controls></video>
+						<image v-if='!item.isPlay' class="playImg" @click="playFn(index)" mode="aspectFit" src="~@/static/index/bofangicon.png">
+						</image>
+					</view>
 					<view class="copy-btn" @click="copyFn">复制视频链接</view>
 				</view>
 			</template>
@@ -94,11 +99,30 @@
 			}, 1000)
 		},
 		methods: {
-			copyFn(){
-				this.$copyToClipboard('复制信息',()=>{
+			stopFn(){
+				this.contentList2=this.contentList2.map(n=>{
+					n['isPlay']=false
+					return n
+				})
+			},
+			playFn(index) {
+				document.querySelectorAll('.playVideo').forEach(item=>{
+					item.querySelector('.uni-video-video').pause()
+				})
+				this.contentList2=this.contentList2.map(n=>{
+					n['isPlay']=false
+					return n
+				})
+				this.$set(this.contentList2[index],'isPlay',true)
+				const playMainDom=document.getElementById(`video_${index}`)
+				const videoPlay=playMainDom.querySelector('.uni-video-video')
+				videoPlay.play()
+			},
+			copyFn() {
+				this.$copyToClipboard('复制信息', () => {
 					uni.showToast({
-						title:'复制成功！',
-						icon:'none'
+						title: '复制成功！',
+						icon: 'none'
 					})
 				})
 			},
@@ -107,7 +131,9 @@
 				this.showImage = require(`@/static/index/anli.webp`)
 			},
 			tabSelectClick(e) {
-				this.seachInput=''
+				this.stopFn()
+				this.isReachBottom = true
+				this.seachInput = ''
 				this.selectIndex = e.index
 				this.constenList = []
 				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
@@ -116,7 +142,6 @@
 				}, 1000)
 			},
 			loadmore() {
-				this.isReachBottom = true
 				for (let i = 0; i < 16; i++) {
 					if (this.selectIndex == 0) {
 						this.contentList.push({
@@ -128,12 +153,12 @@
 						})
 					}
 				}
-				this.$nextTick(()=>{
-					setTimeout(()=>{
+				this.$nextTick(() => {
+					setTimeout(() => {
 						this.isReachBottom = false
-					},1000)
+					}, 1000)
 				})
-				
+
 			},
 			back() {
 				uni.navigateBack()
@@ -157,7 +182,7 @@
 		color: #303133;
 
 	}
-	
+
 	.content-lei {
 		padding: 0 40rpx;
 		margin-top: 30rpx;
@@ -264,14 +289,33 @@
 		width: 100%;
 		margin-bottom: 80rpx;
 
-		.contentVideo {
-			width: 100% !important;
-			height: 458rpx !important;
-			border-radius: 44rpx;
-			box-sizing: border-box;
+		.contentVideoMain {
 			position: relative;
+			width: 100%;
+			height: 458rpx;
+			border-radius: 44rpx;
+			overflow: hidden;
+		
+			.contentVideo {
+				width: 100% !important;
+				height: 100% !important;
+				box-sizing: border-box;
+				position: relative;
+		
+			}
+		
+			.playImg {
+				width: 76rpx;
+				height: 96rpx;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 999;
+			}
 		}
-		.copy-btn{
+
+		.copy-btn {
 			width: 100%;
 			height: 124rpx;
 			border-radius: 26rpx;
@@ -284,5 +328,8 @@
 			background-color: #333333;
 			margin-top: 20rpx;
 		}
+	}
+	::v-deep .uni-video-bar{
+		display: block !important;
 	}
 </style>
