@@ -107,6 +107,7 @@
 				this.showImage = require(`@/static/index/anli.webp`)
 			},
 			tabSelectClick(e) {
+				this.seachInput=''
 				this.selectIndex = e.index
 				this.constenList = []
 				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)

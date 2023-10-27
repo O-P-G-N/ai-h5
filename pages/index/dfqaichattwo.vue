@@ -11,10 +11,8 @@
 		</u-navbar>
 		<view class="content-lei">
 			<template v-if='!isGenerate'>
-
-
 				<view class="content-title"><text>· 模型主题</text>
-					<image class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
+					<image @click="showPopupFn(1)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="typeList">
 					<view class="type-item" v-for="(item,index) in typeList" :key='index' @click="typeIndex=index">
@@ -24,7 +22,7 @@
 					</view>
 				</view>
 				<view class="content-title"><text>· 风格选择</text>
-					<image class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
+					<image  @click="showPopupFn(2)"class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="stylelist">
 					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index' @click='styleIndex=index'
@@ -70,6 +68,15 @@
 		    <image mode="widthFix" class="privImg" :src="generateImg"></image>
 			<view class="buttonDown" @click="$downloadFile(generateImg,'图片');show=false">保存图片</view>
 		</u-popup>
+		<ai-popup v-model="showPopup">
+			<view class="popupContentMain">
+				<view class="title">
+					{{showDetail.title}}
+				</view>
+				<view class="content">{{showDetail.content}}</view>
+				<view class="button" @click="showPopup=false">知道了</view>
+			</view>
+		</ai-popup>
 	</view>
 </template>
 
@@ -84,45 +91,54 @@
 				isGenerate: false,
 				generateImg: '',
 				progress: 0,
-				typeList:[{
-					name: '自由',
-				}, {
-					name: '赛博朋克',
-				}, {
-					name: '水彩风'
-				}, {
-					name: '水墨风'
-				}, {
-					name: '黑白'
-				}, {
-					name: '油画风'
-				}, {
-					name: '梦幻风'
-				}, {
-					name: '素描'
-				}, {
-					name: '涂鸦'
-				}],
-				stylelist: [{
-					name: '自由',
-				}, {
-					name: '赛博朋克',
-				}, {
-					name: '水彩风'
-				}, {
-					name: '水墨风'
-				}, {
-					name: '黑白'
-				}, {
-					name: '油画风'
-				}, {
-					name: '梦幻风'
-				}, {
-					name: '素描'
-				}, {
-					name: '涂鸦'
-				}],
-				callBack: null
+				typeList:[
+					{
+						name: '自由',
+					}, {
+						name: '赛博朋克',
+					}, {
+						name: '水彩风'
+					}, {
+						name: '水墨风'
+					}, {
+						name: '黑白'
+					}, {
+						name: '油画风'
+					}, {
+						name: '梦幻风'
+					}, {
+						name: '素描'
+					}, {
+						name: '涂鸦'
+					}
+				],
+				stylelist: [
+					{
+						name: '自由',
+					}, {
+						name: '赛博朋克',
+					}, {
+						name: '水彩风'
+					}, {
+						name: '水墨风'
+					}, {
+						name: '黑白'
+					}, {
+						name: '油画风'
+					}, {
+						name: '梦幻风'
+					}, {
+						name: '素描'
+					}, {
+						name: '涂鸦'
+					}
+				],
+				callBack: null,
+				showPopup:false,
+				showDetail:{
+					title:'',
+					content:''
+				},
 			}
 		},
 		onLoad(e) {
@@ -134,6 +150,21 @@
 			}
 		},
 		methods: {
+			showPopupFn(type){
+				this.showPopup=true
+				if(type==1){
+					this.showDetail={
+						title:'模型主题说明',
+						content:'通过模型主题设定，可以设定最终生成出来的画面是什么材质和风格。'
+					}
+				}else{
+					this.showDetail={
+						title:'风格选择说明',
+						content:'包含风格修饰、艺术家、元素魔法'
+					}
+				}
+				
+			},
 			back() {
 				if(this.isGenerate){
 					this.isGenerate=false
@@ -165,6 +196,45 @@
 </script>
 
 <style scoped lang="scss">
+	.popupContentMain{
+		width: 90vw;
+		border-radius: 30rpx;
+		padding: 40rpx 30rpx;
+		box-sizing: border-box;
+		background-color: #fff;
+		.title{
+			    display: flex;
+			    align-items: center;
+			    margin-bottom: 24rpx;
+			    font-size: 32rpx;
+			    color: #333;
+			    font-weight: bold;
+			    justify-content: center;
+		}
+		.content{
+			padding: 30rpx;
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    justify-content: space-between;
+			    margin-top: 30rpx;
+			    margin-bottom: 48rpx;
+			    word-break: break-all;
+				font-size: 28rpx;
+				color: rgba(0,0,0,0.9);
+		}
+		.button{
+			width: 100%;
+			height: 100rpx;
+			background-color: #333333;
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 20rpx;
+		}
+	}
+	
 	page {
 		background-color: #fff;
 		padding-bottom: 20rpx;
