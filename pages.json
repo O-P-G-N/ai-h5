@@ -40,6 +40,13 @@
 			}
 		},
 		{
+			"path": "pages/index/video/videorecord",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "AI合成详情"
+			}
+		},
+		{
 			"path": "pages/market/index",
 			"style": {
 				"navigationBarTitleText": "uni-app",

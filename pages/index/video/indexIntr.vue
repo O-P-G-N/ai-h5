@@ -19,19 +19,58 @@
 
 		<view class="container_nei">
 			<view class="heardSelect">
-				<view class="selectItem" :class="{'activeItem':selectIndex==0}" @click="selectIndex=0">
+				<view class="selectItem" :class="{'activeItem':selectIndex==0}" @click="heardSelectClick(0)">
 					视频营销
 				</view>
-				<view class="selectItem" :class="{'activeItem':selectIndex==1}" @click="selectIndex=1">
+				<view class="selectItem" :class="{'activeItem':selectIndex==1}" @click="heardSelectClick(1)">
 					智能替身
 				</view>
 				<view class="activeBg" :style="{'left':`calc(${selectIndex*50}% ${selectIndex==0?'+':'-'} 14rpx)`}">
 				</view>
 			</view>
-			<view class="tabselect">
-				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
-					:activeStyle="activeStyle" ></u-tabs>
-			</view>
+			<template v-if='selectIndex==0'>
+				<view class="videoevery_wai" v-for='(item,index) in contentList' :key='index'>
+					<view class="videoevery">
+						<template  v-if='!item.isPlay'>
+							<image class="playImg"  @click="playFn(index)" mode="aspectFit" src="~@/static/index/bofangicon.png"></image>
+							<image class="poestImg" mode="aspectFill" src="~@/static/index/videomodel3.webp"></image>
+						</template>
+						<video v-else id='myVideo' @pause="stopFn(index,$event)" @ended="stopFn(index,$event)" :initial-time="item.currentTime?item.currentTime:0" @timeupdate="timeupdateFn(index,$event)" class="contentVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"
+							controls></video>
+					</view>
+					<view class="videoxinxi">
+						<view class="videoxinxi_top">
+							<view>模板编号：THSI234</view>
+							<view class="righttag">Advertisement</view>
+						</view>
+						<view class="videoxinxi_botton">使用此模版创建视频</view>
+					</view>
+				</view>
+			</template>
+			<template v-else>
+				<view class="tabselect">
+					<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
+						:activeStyle="activeStyle" @click="tabSelectClick">
+					</u-tabs>
+				</view>
+				<view class="aiNumPeople">
+					<template v-if='contentList2.length'>
+						<view class="aiNumPeople_list" v-for='(item,index) in contentList2' :key='index'>
+							<image mode="aspectFill" src="~@/static/index/anli.webp"></image>
+							<view class="title">Alex</view>
+						</view>
+					</template>
+					<template v-else>
+						<view class="aiNumPeople_list" v-for='(item,index) in 6' :key='index'>
+							<view class="skeleton" style="width: 100%;height: 100%;"></view>
+						</view>
+					</template>
+
+
+				</view>
+			</template>
+			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
+
 		</view>
 
 	</view>
@@ -41,7 +80,11 @@
 	export default {
 		data() {
 			return {
+				isReachBottom: false,
+				tabIndex: 0,
 				selectIndex: 0,
+				contentList: [],
+				contentList2: [],
 				tabsList: [{
 						name: '全部',
 					},
@@ -53,6 +96,9 @@
 					},
 					{
 						name: '生成AI数字人',
+						badge: {
+							value: 'New'
+						}
 					}
 				],
 			}
@@ -75,14 +121,90 @@
 				}
 			}
 		},
+		onLoad() {
+			this.loadmore()
+		},
+		onReachBottom() {
+			if (this.isReachBottom) {
+				return
+			}
+			this.isReachBottom = true
+			setTimeout(() => {
+				this.loadmore()
+			}, 1000)
+		},
 		methods: {
+			stopFn(){
+				this.contentList=this.contentList.map(n=>{
+					n['isPlay']=false
+					return n
+				})
+			},
+			timeupdateFn(index,e){
+				const {currentTime}=e.detail
+				this.$set(this.contentList[index],'currentTime',currentTime)
+			},
+			playFn(index){
+				this.contentList=this.contentList.map(n=>{
+					n['isPlay']=false
+					return n
+				})
+				this.$set(this.contentList[index],'isPlay',true)
+				this.$nextTick(()=>{
+					uni.createVideoContext('myVideo', this).play()
+				})
+			},
+			heardSelectClick(index) {
+				this.stopFn()
+				this.isReachBottom = true
+				this.selectIndex = index
+				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
+				this.setTimeoutL = setTimeout(() => {
+					this.loadmore('start')
+				}, 1000)
+			},
+			tabSelectClick(e) {
+				this.contentList2 = []
+				this.tabIndex = e.index
+				this.isReachBottom = true
+				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
+				this.setTimeoutL = setTimeout(() => {
+					this.loadmore('start')
+				}, 1000)
+			},
 			back() {
 				uni.navigateBack()
 			},
 			toWorks() {
 				uni.navigateTo({
-					url: '/pages/index/picture/modelworks'
+					url: '/pages/index/video/videorecord'
 				})
+			},
+			loadmore(type) {
+				if (type == 'start') {
+					if ((this.selectIndex == 0 && this.contentList.length > 0) || (this.selectIndex == 1 && this
+							.contentList2.length > 0)) {
+						this.isReachBottom = false
+						return false;
+					}
+				}
+				for (let i = 0; i < 16; i++) {
+					if (this.selectIndex == 0) {
+						this.contentList.push({
+							text: parseInt(Math.random() * 10) + 10
+						})
+					} else {
+						this.contentList2.push({
+							text: parseInt(Math.random() * 10) + 10
+						})
+					}
+				}
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this.isReachBottom = false
+					}, 1000)
+				})
+
 			},
 		}
 	}
@@ -90,8 +212,6 @@
 
 <style scoped lang="scss">
 	.heardSelect {
-		margin: 0 0 20px;
-		width: 100%;
 		padding: 14rpx;
 		height: 80rpx;
 		border-radius: 80rpx;
@@ -99,6 +219,7 @@
 		justify-content: center;
 		background: #f8f8f8;
 		position: relative;
+		margin-bottom: 42rpx;
 
 		.selectItem {
 			position: relative;
@@ -129,23 +250,32 @@
 
 		}
 	}
-	
+
 	.tabselect {
 		margin: 15rpx 0;
-	
+
 		::v-deep .u-tabs__wrapper__nav__item:first-child {
 			padding-left: 0 !important;
 		}
-	
+
 		::v-deep .u-tabs__wrapper__scroll-view {
 			::-webkit-scrollbar {
 				width: 0;
 				height: 0;
+				display: none;
 			}
 		}
+
 		::v-deep.u-tabs__wrapper__nav__item {
-		    padding-right: 15px!important;
-		    padding-left: 0!important;
+			padding-right: 15px !important;
+			padding-left: 0 !important;
+			position: relative;
+		}
+
+		::v-deep .u-badge {
+			position: absolute;
+			right: 10px;
+			top: 0;
 		}
 	}
 
@@ -203,5 +333,111 @@
 				color: #868686;
 			}
 		}
+	}
+
+	.videoevery_wai {
+		margin-top: 54rpx;
+		width: 100%;
+
+		.videoevery {
+			width: 100%;
+			height: 434rpx;
+			border-radius: 42rpx;
+			box-sizing: border-box;
+			position: relative;
+			overflow: hidden;
+			.poestImg{
+				width: 100%;
+				height: 100%;
+				position: relative;
+				z-index: 9;
+			}
+			.playImg{
+				width: 76rpx;
+				height: 96rpx;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				z-index: 999;
+			}
+			.contentVideo{
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.videoxinxi {
+			margin-top: 20rpx;
+			color: rgba(0, 0, 0, 0.9);
+
+			.videoxinxi_top {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.righttag {
+					font-size: 26rpx;
+					padding: 4rpx 20rpx;
+					border: 2rpx solid #bfbfbf;
+					border-radius: 20rpx;
+				}
+			}
+
+			.videoxinxi_botton {
+				width: 100%;
+				background: #fff;
+				height: 108rpx;
+				line-height: 108rpx;
+				color: #333;
+				border: 2rpx solid #bfbfbf !important;
+				margin-top: 20rpx;
+				font-size: 32rpx;
+				border-radius: 108rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	}
+
+	.aiNumPeople {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+
+		.aiNumPeople_list {
+			position: relative;
+			width: 320rpx;
+			height: 400rpx;
+			margin-bottom: 30rpx;
+			background: #333;
+			border-radius: 40rpx;
+			overflow: hidden;
+
+			image {
+				width: 100%;
+				height: 100%;
+			}
+
+			.title {
+				position: absolute;
+				left: 20rpx;
+				top: 20rpx;
+				color: #fff;
+				font-size: 28rpx;
+			}
+		}
+	}
+
+	.loadingTxt {
+		margin-top: 20rpx;
+		width: 100%;
+		height: 100rpx;
+		color: rgb(153, 153, 153);
+		text-align: center;
+		font-size: 30rpx;
+		line-height: 100%;
 	}
 </style>

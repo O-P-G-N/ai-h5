@@ -453,23 +453,28 @@
 		}
 		
 	}
-	.skeleton{
-		background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
-		background-size: 400% 100%;
-		animation: skeletonAm 1.8s ease infinite;
-		&.one{
-			width: 100%;
-			height: 328rpx;
-			border-radius: 40rpx;
-		}
+	.skeleton.one{
+		width: 100%;
+		height: 328rpx;
+		border-radius: 40rpx;
 	}
-	@keyframes skeletonAm{
-		0% {
-		    background-position: 100% 50%;
-		}
-		100% {
-		    background-position: 0 50%;
-		} 
-	}
+	// .skeleton{
+	// 	background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
+	// 	background-size: 400% 100%;
+	// 	animation: skeletonAm 1.8s ease infinite;
+	// 	&.one{
+	// 		width: 100%;
+	// 		height: 328rpx;
+	// 		border-radius: 40rpx;
+	// 	}
+	// }
+	// @keyframes skeletonAm{
+	// 	0% {
+	// 	    background-position: 100% 50%;
+	// 	}
+	// 	100% {
+	// 	    background-position: 0 50%;
+	// 	} 
+	// }
 
 </style>

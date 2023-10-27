@@ -18,3 +18,18 @@
 .cbac{
 	color: black;
 }
+
+// 骨架屏
+.skeleton{
+		background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
+		background-size: 400% 100%;
+		animation: skeletonAm 1.8s ease infinite;
+	}
+	@keyframes skeletonAm{
+		0% {
+		    background-position: 100% 50%;
+		}
+		100% {
+		    background-position: 0 50%;
+		} 
+	}
