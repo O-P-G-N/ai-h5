@@ -35,7 +35,7 @@
 						<image v-if='!item.isPlay' class="playImg" @click="playFn(index)" mode="aspectFit" src="~@/static/index/bofangicon.png">
 						</image>
 					</view>
-					<view class="copy-btn" @click="copyFn">复制视频链接</view>
+					<ai-button   class="copy-btn" @click="copyFn">复制视频链接</ai-button>
 				</view>
 			</template>
 
