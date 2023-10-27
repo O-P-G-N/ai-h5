@@ -117,6 +117,22 @@
 				"navigationBarTitleText" : "资金流水",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path" : "pages/user/recharge",
+			"style" : 
+			{
+				"navigationBarTitleText" : "充值",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/withdrawal",
+			"style" : 
+			{
+				"navigationBarTitleText" : "提现",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {

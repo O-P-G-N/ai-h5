@@ -52,7 +52,7 @@
 			</view>
 		</view>
 		<view class="threebalance">
-			<view class="threebalance_every">
+			<view class="threebalance_every" @click="viewContract">
 				<view class="threebalance_num">
 					<text>$ 61.00</text>
 				</view>
@@ -61,7 +61,7 @@
 				</view>
 			</view>
 			<view class="lines"></view>
-			<view class="threebalance_every">
+			<view class="threebalance_every"  @click="viewCapitalFlow">
 				<view class="threebalance_num">
 					<text>$ 254.00</text>
 				</view>
@@ -70,7 +70,7 @@
 				</view>
 			</view>
 			<view class="lines"></view>
-			<view class="threebalance_every">
+			<view class="threebalance_every" @click="viewCapitalFlow">
 				<view class="threebalance_num">
 					<text>$ 1499.56</text>
 				</view>
@@ -80,8 +80,8 @@
 			</view>
 		</view>
 		<view class="rechargewithdrawal">
-			<button class="everyone" size="default" type="default">充值</button>
-			<button class="everytwo" size="default" type="default">提现</button>
+			<button class="everyone" size="default" type="default" @click="recharge">充值</button>
+			<button class="everytwo" size="default" type="default" @click="withdrawal">提现</button>
 		</view>
 		<view class="justcard">
 			<view class="justcard_bottom">
@@ -195,7 +195,19 @@
 				uni.navigateTo({
 					url: `/pages/user/capital_flow`
 				});
-			}
+			},
+			// 充值
+			recharge(){
+				uni.navigateTo({
+					url: `/pages/user/recharge`
+				});
+			},
+			// 提现
+			withdrawal(){
+				uni.navigateTo({
+					url: `/pages/user/withdrawal`
+				});
+			},
 		},
 		
 	}

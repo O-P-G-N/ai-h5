@@ -45,6 +45,26 @@
 				</view>
 			</view>
 		</view>
+		<u-popup :show="show" mode="center" class="popup_content_center">
+			<view class="mainpopup">
+				<view class="every_list">
+					<text class="titles">起止时间</text>
+					<text class="intro">起止时间为创建订单时间</text>
+					<u-cell-group class="start_time">
+						<u-cell :title="from.startTime" @click="startEndTime('start')" :isLink="true"></u-cell>
+					</u-cell-group>
+					<u-cell-group class="end_time">
+						<u-cell :title="from.endTime" @click="startEndTime('end')" :isLink="true"></u-cell>
+					</u-cell-group>
+				</view>
+				<view class="anniubtn">
+					<view class="chongzhi" @click="reset">重置</view>
+					<view class="queding" @click="determine">确定</view>
+				</view>
+			</view>
+		</u-popup>
+		<u-datetime-picker closeOnClickOverlay @close="closeTime" @cancel="closeTime" @confirm="confirmTime"
+			:show="timeShow" v-model="timeValue" mode="datetime"></u-datetime-picker>
 	</view>
 </template>
 
@@ -52,7 +72,14 @@
 	export default {
 		data() {
 			return {
-
+				show: false, //蒙层状态
+				timeShow: false, //时间选择蒙层状态
+				timeValue: Number(new Date()), //选择的时间
+				from: {
+					startTime: "选择开始时间",
+					endTime: "选择结束时间"
+				},
+				timeFlag: true, //判断类型
 			};
 		},
 		created() {},
@@ -63,11 +90,67 @@
 					url: `/pages/user/index`
 				});
 			},
-			// 查看历史记录
+			// 筛选
 			viewHistory() {
-				uni.navigateTo({
-					url: `/pages/user/history`
-				});
+				this.show = true;
+			},
+			// 选择开始和结束时间
+			startEndTime(val) {
+				if (val == "start") {
+					if(this.from.startTime=="选择开始时间"){
+						this.show = false;
+						this.timeShow = true;
+						this.timeFlag = true;
+					}else{
+						this.show = false;
+						this.timeShow = true;
+						this.timeFlag = true;
+						this.timeValue=this.from.startTime
+					}
+				} else {
+					if(this.from.endTime=="选择结束时间"){
+						this.show = false;
+						this.timeShow = true;
+						this.timeFlag = false;
+					}else{
+						this.show = false;
+						this.timeShow = true;
+						this.timeFlag = false;
+						this.timeValue=this.from.endTime;
+					}
+					
+				}
+			},
+			// 关闭时间选择器
+			closeTime() {
+				this.show = true;
+				this.timeShow = false;
+			},
+			// 确定时间
+			confirmTime(val) {
+				if (this.timeFlag) {
+					this.from.startTime = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.show = true;
+					this.timeShow = false;
+					this.timeValue=Number(new Date());
+				} else {
+					this.from.endTime = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.show = true;
+					this.timeShow = false;
+					this.timeValue=Number(new Date());
+				}
+			},
+			// 重置
+			reset(){
+				this.from={
+					startTime: "选择开始时间",
+					endTime: "选择结束时间"
+				}
+			},
+			// 确定
+			determine(){
+				this.show = false;
+				this.timeShow = false;
 			}
 		},
 	}
@@ -142,45 +225,151 @@
 						-webkit-backdrop-filter: blur(40px);
 						backdrop-filter: blur(40px);
 						background: #f5f6fa;
-						.capital_top{
+
+						.capital_top {
 							font-size: 14px;
-							    font-weight: 600;
-							    color: #000;
-							    margin-bottom: 20px;
-							    display: flex;
-							    justify-content: space-between;
-								.title{
-									font-size: 14px;
-									    font-weight: 400;
-									    color: #333;
-								}
+							font-weight: 600;
+							color: #000;
+							margin-bottom: 20px;
+							display: flex;
+							justify-content: space-between;
+
+							.title {
+								font-size: 14px;
+								font-weight: 400;
+								color: #333;
+							}
 						}
-						.orderhao{
+
+						.orderhao {
 							font-size: 14px;
-							    font-weight: 400;
-							    color: #333;
-							    display: flex;
-							    justify-content: space-between;
-							    margin-top: 20px;
-								.title{
-									font-size: 14px;
-									    font-weight: 400;
-									    color: #333;
-								}
-								.reds{
-									font-size: 14px;
-									    font-weight: 500;
-									    color: #ff1d47!important;
-								}
-								.greens{
-									font-size: 14px;
-									    font-weight: 500;
-									    color: #1ee7a0!important;
-								}
+							font-weight: 400;
+							color: #333;
+							display: flex;
+							justify-content: space-between;
+							margin-top: 20px;
+
+							.title {
+								font-size: 14px;
+								font-weight: 400;
+								color: #333;
+							}
+
+							.reds {
+								font-size: 14px;
+								font-weight: 500;
+								color: #ff1d47 !important;
+							}
+
+							.greens {
+								font-size: 14px;
+								font-weight: 500;
+								color: #1ee7a0 !important;
+							}
 						}
 					}
 				}
 			}
 		}
+
+		.popup_content_center {
+			.u-popup__content {
+				width: 86.33%;
+				border-radius: 20px;
+				padding: 20px;
+				box-sizing: border-box;
+
+				.mainpopup {
+					.every_list {
+						margin-bottom: 20px;
+						display: flex;
+						flex-direction: column;
+
+						.titles {
+							font-size: 18px;
+							font-weight: 600;
+							color: #333;
+							text-align: center;
+						}
+
+						.intro {
+							padding: 0 15px;
+							font-size: 12px;
+							font-weight: 400;
+							text-align: center;
+							color: #a0a0a0;
+							margin-top: 10px;
+						}
+
+						.start_time {
+							background: rgb(245, 246, 250);
+							border: 1px solid rgb(255, 255, 255);
+							border-radius: 20px;
+							padding: 20px 15px;
+							margin-top: 22px;
+
+							.u-line {
+								display: none;
+							}
+
+							.u-cell__body {
+								padding: 0 !important;
+							}
+						}
+
+						.end_time {
+							background: rgb(245, 246, 250);
+							border: 1px solid rgb(255, 255, 255);
+							border-radius: 20px;
+							padding: 20px 15px;
+							margin-top: 8px;
+
+							.u-line {
+								display: none;
+							}
+
+							.u-cell__body {
+								padding: 0 !important;
+							}
+						}
+					}
+
+					.anniubtn {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						.chongzhi {
+							width: calc(50% - 4px - 2px);
+							height: 44px;
+							border-radius: 54px;
+							border: 1px solid #2fa2e3;
+							color: #fff;
+							font-size: 14px;
+							font-weight: 500;
+							color: #2fa2e3;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+						}
+
+						.queding {
+							width: calc(50% - 4px);
+							height: 46px;
+							background: #333;
+							border-radius: 54px;
+							opacity: 1;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							font-size: 14px;
+							font-weight: 500;
+							color: #fff;
+						}
+					}
+				}
+			}
+		}
+
 	}
 </style>
