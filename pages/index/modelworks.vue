@@ -7,24 +7,39 @@
 		</u-navbar>
 		<view class="content-lei">
 			<view class="heardMain">
-				<input class="seachInput" placeholder="搜索画面描述" placeholder-style="color:rgb(192, 196, 204)" v-model="seachTxt" />
+				<input class="seachInput" placeholder="搜索画面描述" placeholder-style="color:rgb(192, 196, 204)"
+					v-model="seachTxt" />
 				<view class="seachBtn">
 					<image class="searchImg" src="~@/static/index/search.png"></image>
 				</view>
 			</view>
-			
+
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
-			<view class="contentMain">
-				<view class="content-item" v-for="(item,index) in contentList" :key='index'>
-					<image mode="widthFix" src="~@/static/index/anli.webp"></image>
+			<template v-if='selectIndex==0'>
+				<view class="contentMain">
+					<view class="content-item" v-for="(item,index) in contentList" :key='index'
+						@click="showFn('@/static/index/anli.webp')">
+						<image mode="widthFix" src="~@/static/index/anli.webp"></image>
+					</view>
+					<!-- <view class="noView" v-for="(item,index) in 10"></view> -->
 				</view>
-				<!-- <view class="noView" v-for="(item,index) in 10"></view> -->
-			</view>
+			</template>
+			<template v-else>
+				<view class="contentItemVideo"  v-for="(item,index) in contentList2" :key='index'>
+					<video class="contentVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"  controls></video>
+					<view class="copy-btn" @click="copyFn">复制视频链接</view>
+				</view>
+			</template>
+
 			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
 		</view>
+		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
+			<image mode="widthFix" class="privImg" :src="showImage"></image>
+			<view class="buttonDown" @click="$downloadFile(showImage,'图片');show=false">保存图片</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -32,17 +47,20 @@
 	export default {
 		data() {
 			return {
+				selectIndex: 0,
+				showImage: '',
+				show: false,
 				seachTxt: '',
 				contentList: [],
-				tabsList:[
-					{
+				contentList2: [],
+				tabsList: [{
 						name: 'AI创作',
 					},
 					{
 						name: '营销创作',
 					}
 				],
-				isReachBottom:false
+				isReachBottom: false
 			}
 		},
 		onLoad() {
@@ -67,29 +85,55 @@
 			}
 		},
 		onReachBottom() {
-			// if (this.isReachBottom) {
-			// 	return
-			// }
-			// this.isReachBottom = true
-			// setTimeout(() => {
-			// 	this.loadmore()
-			// }, 1000)
+			if (this.isReachBottom) {
+				return
+			}
+			this.isReachBottom = true
+			setTimeout(() => {
+				this.loadmore()
+			}, 1000)
 		},
 		methods: {
+			copyFn(){
+				this.$copyToClipboard('复制信息',()=>{
+					uni.showToast({
+						title:'复制成功！',
+						icon:'none'
+					})
+				})
+			},
+			showFn(src) {
+				this.show = true
+				this.showImage = require(`@/static/index/anli.webp`)
+			},
 			tabSelectClick(e) {
+				this.seachInput=''
+				this.selectIndex = e.index
 				this.constenList = []
-				if(this.setTimeoutL)clearTimeout(this.setTimeoutL)
-				this.setTimeoutL= setTimeout(() => {
+				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
+				this.setTimeoutL = setTimeout(() => {
 					this.loadmore()
 				}, 1000)
 			},
 			loadmore() {
+				this.isReachBottom = true
 				for (let i = 0; i < 16; i++) {
-					this.contentList.push({
-						text: parseInt(Math.random() * 10) + 10
-					})
+					if (this.selectIndex == 0) {
+						this.contentList.push({
+							text: parseInt(Math.random() * 10) + 10
+						})
+					} else {
+						this.contentList2.push({
+							text: parseInt(Math.random() * 10) + 10
+						})
+					}
 				}
-				this.isReachBottom = false
+				this.$nextTick(()=>{
+					setTimeout(()=>{
+						this.isReachBottom = false
+					},1000)
+				})
+				
 			},
 			back() {
 				uni.navigateBack()
@@ -111,8 +155,9 @@
 	::v-deep .u-navbar__content__title {
 		font-weight: bold;
 		color: #303133;
-	}
 
+	}
+	
 	.content-lei {
 		padding: 0 40rpx;
 		margin-top: 30rpx;
@@ -136,20 +181,41 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			.searchImg{
+
+			.searchImg {
 				width: 40rpx;
 				height: 40rpx;
 			}
 		}
 	}
 
-	
+	::v-deep .u-popup__content {
+		background-color: transparent;
+	}
+
+	.privImg {
+		width: 80vw;
+	}
+
+	.buttonDown {
+		width: 250rpx;
+		height: 80rpx;
+		background-color: rgb(22, 155, 213);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		border-radius: 20rpx;
+		margin: 20rpx auto;
+	}
+
 	.tabselect {
 		margin: 20rpx 0;
+
 		::v-deep .u-tabs__wrapper__nav__item:first-child {
 			padding-left: 0 !important;
 		}
-		
+
 		::v-deep .u-tabs__wrapper__scroll-view {
 			::-webkit-scrollbar {
 				width: 0;
@@ -157,26 +223,28 @@
 			}
 		}
 	}
-	
-	
-	.contentMain{
+
+
+	.contentMain {
 		margin-top: 10rpx;
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		.content-item{
+
+		.content-item {
 			width: 208rpx;
-			height: 208rpx;	
+			height: 208rpx;
 			margin-bottom: 20rpx;
-			image{
+
+			image {
 				width: 100%;
 				height: 100%;
 				border-radius: 30rpx;
 			}
 		}
 	}
-	
+
 	.loadingTxt {
 		margin-top: 20rpx;
 		width: 100%;
@@ -186,8 +254,35 @@
 		font-size: 30rpx;
 		line-height: 100%;
 	}
-	.noView{
+
+	.noView {
 		width: 0;
 		height: 0;
+	}
+
+	.contentItemVideo {
+		width: 100%;
+		margin-bottom: 80rpx;
+
+		.contentVideo {
+			width: 100% !important;
+			height: 458rpx !important;
+			border-radius: 44rpx;
+			box-sizing: border-box;
+			position: relative;
+		}
+		.copy-btn{
+			width: 100%;
+			height: 124rpx;
+			border-radius: 26rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #fff;
+			font-size: 30rpx;
+			font-weight: bold;
+			background-color: #333333;
+			margin-top: 20rpx;
+		}
 	}
 </style>

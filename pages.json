@@ -1,4 +1,8 @@
 {
+	
+	"easycom": {
+		 "^ai-(.*)": "@/components/ai-$1/index.vue" 
+	},
 	"pages": [
 		{
 			"path": "pages/index/index",
@@ -9,6 +13,13 @@
 		},
 		{
 			"path": "pages/index/dfqaichat",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "AI创作"
+			}
+		},
+		{
+			"path": "pages/index/dfqaichattwo",
 			"style": {
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "AI创作"

@@ -5,7 +5,8 @@
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
 			<view class="u-nav-slot" slot="right">
-				<image mode="aspectFit" @click="toWorks" class="davincupload" src="~@/static/index/davincupload.png"></image>
+				<image mode="aspectFit" @click="toWorks" class="davincupload" src="~@/static/index/davincupload.png">
+				</image>
 			</view>
 		</u-navbar>
 		<view class="content-lei">
@@ -17,16 +18,16 @@
 				</view>
 			</view>
 			<view class="textarea">
-				<textarea v-model="textareaTxt" placeholder="请输入您的描述词" maxlength="1000"></textarea>
-				<view class="textareaLast"><text>{{textareaTxt.length}}/<text class="num">1000</text></text>
-					<view class="click" @click="textareaTxt=''">清空</view>
+				<textarea v-model="parameter.prompt" placeholder="请输入您的描述词" maxlength="1000"></textarea>
+				<view class="textareaLast"><text>{{parameter.prompt.length}}/<text class="num">1000</text></text>
+					<view class="click" @click="parameter.prompt=''">清空</view>
 				</view>
 			</view>
 			<view class="btnMain">
-				<view class="btn" :class="{'btn-active':clickType==1}" @click="clickType=1">1张图 10 积分</view>
-				<view class="btn" :class="{'btn-active':clickType==2}" @click="clickType=2">4张图 30 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.coin==1}" @click="parameter.coin=1">1张图 10 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.coin==2}" @click="parameter.coin=2">4张图 30 积分</view>
 			</view>
-			<view class="next-btn">下一步</view>
+			<view class="next-btn" @click="nextFn">下一步</view>
 		</view>
 	</view>
 </template>
@@ -35,17 +36,26 @@
 	export default {
 		data() {
 			return {
-				textareaTxt: '',
-				clickType: 1,
+				parameter: {
+					"prompt": "",
+					"coin": 1,
+					"width": 1080,
+					"height": 1080
+				}
 			}
 		},
-		methods:{
-			back(){
+		methods: {
+			back() {
 				uni.navigateBack()
 			},
-			toWorks(){
+			toWorks() {
 				uni.navigateTo({
-					url:'/pages/index/modelworks'
+					url: '/pages/index/modelworks'
+				})
+			},
+			nextFn(){
+				uni.navigateTo({
+					url: `/pages/index/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
 				})
 			}
 		}
