@@ -10,6 +10,7 @@ import zhHans from './i18n/zh-Hans.json'
 import zhHant from './i18n/zh-Hant.json'
 import app_config from './common/config.js';
 import app_util from './common/util.js';
+import install from './common/install.js'
 
 const messages = {
 	en,
@@ -25,6 +26,7 @@ App.mpType = 'app'
 Vue.config.productionTip = false
 Vue.use(uView)
 Vue.use(VueI18n)
+Vue.use(install)
 Vue.prototype.$store = store; //挂载在 Vue 实例上
 Vue.prototype._loading = store.getters.loading
 

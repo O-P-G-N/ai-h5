@@ -15,6 +15,13 @@
 			}
 		},
 		{
+			"path": "pages/index/dfqaichattwo",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "AI创作"
+			}
+		},
+		{
 			"path": "pages/index/modelworks",
 			"style": {
 				"navigationStyle":"custom",
