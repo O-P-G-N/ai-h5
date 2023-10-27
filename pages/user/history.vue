@@ -46,7 +46,7 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore :status="nomore" />
+			<u-loadmore status="nomore" />
 		</view>
 	</view>
 </template>
@@ -62,8 +62,8 @@
 		methods: {
 			// 返回积分查看
 			goBackUser() {
-				uni.navigateTo({
-					url: `/pages/user/integral_exchange`
+				uni.navigateBack({
+					delta: 1
 				});
 			},
 

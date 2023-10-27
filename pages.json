@@ -76,6 +76,29 @@
 				"navigationBarTitleText": "兑换记录",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path": "pages/user/contract_amount",
+			"style": {
+				"navigationBarTitleText": "我的合约",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/contract_details",
+			"style" : 
+			{
+				"navigationBarTitleText" : "合约详情",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/capital_flow",
+			"style" : 
+			{
+				"navigationBarTitleText" : "资金流水",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {
