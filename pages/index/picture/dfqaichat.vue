@@ -27,7 +27,7 @@
 				<view class="btn" :class="{'btn-active':parameter.coin==1}" @click="parameter.coin=1">1张图 10 积分</view>
 				<view class="btn" :class="{'btn-active':parameter.coin==2}" @click="parameter.coin=2">4张图 30 积分</view>
 			</view>
-			<view class="next-btn" @click="nextFn">下一步</view>
+			<ai-button  class="next-btn"  @click="nextFn">下一步</ai-button>
 		</view>
 	</view>
 </template>
@@ -50,12 +50,19 @@
 			},
 			toWorks() {
 				uni.navigateTo({
-					url: '/pages/index/modelworks'
+					url: '/pages/index/picture/modelworks'
 				})
 			},
 			nextFn(){
+				if(this.parameter.prompt==''){
+					uni.showToast({
+						title:'请输入描述画面',
+						icon:'none'
+					})
+					return 
+				}
 				uni.navigateTo({
-					url: `/pages/index/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
+					url: `/pages/index/picture/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
 				})
 			}
 		}

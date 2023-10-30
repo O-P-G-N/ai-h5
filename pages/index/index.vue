@@ -13,7 +13,7 @@
 				</view>
 			</view>
 			<view class="twocardfuns">
-				<view class="card-item left" @click="toPage('/pages/index/dfqaichat')">
+				<view class="card-item left" @click="toPage('/pages/index/picture/dfqaichat')">
 					<view class="card-nei">
 						<view class="top">
 							<view class="title">AI创作</view>
@@ -26,7 +26,7 @@
 					</view>
 
 				</view>
-				<view class="card-item right">
+				<view class="card-item right" @click="toPage('/pages/index/video/indexIntr')">
 					<view class="card-nei">
 						<view class="top">
 							<view class="title">视频营销</view>
@@ -57,7 +57,7 @@
 			<vide class="content-mian">
 				<template v-if='constenList.length'>
 					<view class="content-item" v-for='(item,index) in constenList' :key='index'>
-						<image src="@/static/index/png.webp"></image>
+						<image mode="widthFix" src="@/static/index/png.webp"></image>
 						<view class="mian-text">
 							<view class="text">{{item.text}}</view>
 						</view>
@@ -374,10 +374,8 @@
 
 			.content-item {
 				width: calc((100% - 20rpx)/2);
-				height: 328rpx;
 				margin-top: 20rpx;
 				position: relative;
-				padding-bottom: 10rpx;
 
 				&:nth-of-type(even) {
 					margin-left: 20rpx;
@@ -455,23 +453,28 @@
 		}
 		
 	}
-	.skeleton{
-		background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
-		background-size: 400% 100%;
-		animation: skeletonAm 1.8s ease infinite;
-		&.one{
-			width: 100%;
-			height: 328rpx;
-			border-radius: 40rpx;
-		}
+	.skeleton.one{
+		width: 100%;
+		height: 328rpx;
+		border-radius: 40rpx;
 	}
-	@keyframes skeletonAm{
-		0% {
-		    background-position: 100% 50%;
-		}
-		100% {
-		    background-position: 0 50%;
-		} 
-	}
+	// .skeleton{
+	// 	background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
+	// 	background-size: 400% 100%;
+	// 	animation: skeletonAm 1.8s ease infinite;
+	// 	&.one{
+	// 		width: 100%;
+	// 		height: 328rpx;
+	// 		border-radius: 40rpx;
+	// 	}
+	// }
+	// @keyframes skeletonAm{
+	// 	0% {
+	// 	    background-position: 100% 50%;
+	// 	}
+	// 	100% {
+	// 	    background-position: 0 50%;
+	// 	} 
+	// }
 
 </style>
