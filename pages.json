@@ -133,6 +133,30 @@
 				"navigationBarTitleText" : "提现",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path" : "pages/user/about_us",
+			"style" : 
+			{
+				"navigationBarTitleText" : "关于我们",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/portfolio",
+			"style" : 
+			{
+				"navigationBarTitleText" : "作品集",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/asset_details/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "资产明细",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {

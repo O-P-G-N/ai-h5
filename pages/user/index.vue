@@ -15,7 +15,7 @@
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
 		</view>
-		<view class="yuecard">
+		<view class="yuecard" v-if="aa">
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
@@ -50,34 +50,45 @@
 					</view>
 				</view>
 			</view>
+
+		</view>
+		<view v-else class="yuecardskeleton">
+			<u-skeleton :title="false" :rows="1" class="yuecardskeleton" loading rowsWidth="100%"
+				rowsHeight="100%"></u-skeleton>
 		</view>
 		<view class="threebalance">
-			<view class="threebalance_every" @click="viewContract">
-				<view class="threebalance_num">
-					<text>$ 61.00</text>
+			<template v-if="aa">
+				<view class="threebalance_every" @click="viewContract">
+					<view class="threebalance_num">
+						<text>$ 61.00</text>
+					</view>
+					<view class="threebalance_title">
+						今日收益
+					</view>
 				</view>
-				<view class="threebalance_title">
-					今日收益
+				<view class="lines"></view>
+				<view class="threebalance_every" @click="viewCapitalFlow">
+					<view class="threebalance_num">
+						<text>$ 254.00</text>
+					</view>
+					<view class="threebalance_title">
+						本周收益
+					</view>
 				</view>
-			</view>
-			<view class="lines"></view>
-			<view class="threebalance_every"  @click="viewCapitalFlow">
-				<view class="threebalance_num">
-					<text>$ 254.00</text>
+				<view class="lines"></view>
+				<view class="threebalance_every" @click="viewCapitalFlow">
+					<view class="threebalance_num">
+						<text>$ 1499.56</text>
+					</view>
+					<view class="threebalance_title">
+						累计收益
+					</view>
 				</view>
-				<view class="threebalance_title">
-					本周收益
-				</view>
-			</view>
-			<view class="lines"></view>
-			<view class="threebalance_every" @click="viewCapitalFlow">
-				<view class="threebalance_num">
-					<text>$ 1499.56</text>
-				</view>
-				<view class="threebalance_title">
-					累计收益
-				</view>
-			</view>
+			</template>
+			<template v-else>
+				<u-skeleton :title="false" :rows="1" class="threebalance_skeleton" loading rowsWidth="100%"
+					rowsHeight="100%"></u-skeleton>
+			</template>
 		</view>
 		<view class="rechargewithdrawal">
 			<button class="everyone" size="default" type="default" @click="recharge">充值</button>
@@ -89,7 +100,7 @@
 				<image class="justcard_bottom_img" src="@/static/user/homecs1.png" mode=""></image>
 				智岛
 			</view>
-			<button class="justcard_top">
+			<button class="justcard_top" @click="aboutUs">
 				<view class="justcard_left">更多</view>
 				<view class="justcard_right">
 					<image class="justcard_right_img" src="@/static/user/homejiantou.png" mode=""></image>
@@ -97,7 +108,7 @@
 			</button>
 		</view>
 		<view class="funlist">
-			<view>
+			<view @click="viewPortfolio">
 				<view class="funlist_every">
 					<view class="left"><text>作品集</text></view>
 					<view class="right">
@@ -106,7 +117,7 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_every">
+				<view class="funlist_every" @click="viewAssetDetails">
 					<view class="left"><text>资产明细</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
@@ -161,55 +172,73 @@
 		},
 		data() {
 			return {
-
+				aa: true
 			}
 		},
 		created() {},
 		methods: {
 			// 查看通知
-			viewNotice(){
+			viewNotice() {
 				uni.navigateTo({
 					url: `/pages/user/user_notice`
 				});
 			},
 			// 积分兑换
-			integralExchange(){
+			integralExchange() {
 				uni.navigateTo({
 					url: `/pages/user/integral_exchange`
 				});
 			},
 			// 查看历史记录
-			viewHistory(){
+			viewHistory() {
 				uni.navigateTo({
 					url: `/pages/user/history`
 				});
 			},
 			// 查看合约金额
-			viewContract(){
+			viewContract() {
 				uni.navigateTo({
 					url: `/pages/user/contract_amount`
 				});
 			},
 			// 查看资金流水
-			viewCapitalFlow(){
+			viewCapitalFlow() {
 				uni.navigateTo({
 					url: `/pages/user/capital_flow`
 				});
 			},
 			// 充值
-			recharge(){
+			recharge() {
 				uni.navigateTo({
 					url: `/pages/user/recharge`
 				});
 			},
 			// 提现
-			withdrawal(){
+			withdrawal() {
 				uni.navigateTo({
 					url: `/pages/user/withdrawal`
 				});
 			},
+			// 关于我们
+			aboutUs(){
+				uni.navigateTo({
+					url: `/pages/user/about_us`
+				});
+			},
+			// 作品集
+			viewPortfolio(){
+				uni.navigateTo({
+					url: `/pages/user/portfolio`
+				});
+			},
+			// 资产明细
+			viewAssetDetails(){
+				uni.navigateTo({
+					url: `/pages/user/asset_details/index`
+				});
+			},
 		},
-		
+
 	}
 </script>
 
@@ -218,7 +247,7 @@
 		background-color: #fff;
 	}
 
-	.user_index {
+	::v-deep.user_index {
 		width: 100%;
 		height: 100%;
 		padding: 16px;
@@ -305,6 +334,8 @@
 			padding: 20px;
 			position: relative;
 
+			
+
 			.allbalance {
 				margin-top: 0px;
 				display: flex;
@@ -374,13 +405,30 @@
 				}
 			}
 		}
-
+		.yuecardskeleton {
+			height: 128px;
+			width: 100%;
+			border-radius: 21px;
+			margin-top: 26px;
+		
+			.u-skeleton__wrapper__content__rows {
+				width: 100% !important;
+				    height: 128px !important;
+				    margin-top: 0px !important;
+					border-radius: 21px;
+			}
+		}
 		.threebalance {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			margin-top: 25px;
-
+			.u-skeleton__wrapper__content__rows{
+				width: 100% !important;
+				    height: 46px !important;
+				    margin-top: 0px !important;
+					border-radius: 10px;
+			}
 			.threebalance_every {
 				display: flex;
 				flex-direction: column;
