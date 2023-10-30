@@ -1,6 +1,6 @@
 export default {
-	apiUrl: 'https://',
+	apiUrl: 'http://192.168.31.64:8080',
 	sourceUrl: 'https://',
-	socketUrl: 'wss://',
+	socketUrl: 'ws://192.168.31.237:8080/websocket/message',
 	infoLevel: 'debug'
 }

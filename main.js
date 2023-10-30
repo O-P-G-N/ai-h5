@@ -8,7 +8,7 @@ import VueI18n from 'vue-i18n'// v8.x
 import en from './i18n/en.json'
 import zhHans from './i18n/zh-Hans.json'
 import zhHant from './i18n/zh-Hant.json'
-import app_config from './common/config.js';
+import app_config from './common/config';
 import app_util from './common/util.js';
 import install from './common/install.js'
 
@@ -40,13 +40,12 @@ uni.addInterceptor('request', {
 		}else{
 			config.header = (typeof config.header == 'object' ? config.header : {});
 			// URL拼接
-			config.url = app_util.appurl.replace(/([\w\W]+)\/$/,"$1") + config.url;
+			config.url = app_config.apiUrl.replace(/([\w\W]+)\/$/,"$1") + config.url;
 			// 获取缓存Token
 			if (uni.getStorageSync("user")) {
 				config.header.token = uni.getStorageSync("user").token;
 			}
 			// #设置其他的请求头
-			
 			
 		}
 		if(app_config.debug > 2){
@@ -115,6 +114,11 @@ const remoteSource = (url) => {
 	// 可能会动态修改url
 	return app_config.sourceUrl + '/assets/img' + url;
 }
+
+ Vue.prototype._tyy = {
+ 	sysInfo,
+ 	remoteSource
+ }
 
 
 const app = new Vue({
