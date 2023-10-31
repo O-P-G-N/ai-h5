@@ -4,9 +4,6 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
-			uni.request({
-				url: '/test/send'
-			})
 		},
 		onHide: function() {
 

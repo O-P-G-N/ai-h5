@@ -12,6 +12,13 @@ import app_config from './common/config';
 import app_util from './common/util.js';
 import install from './common/install.js'
 
+import VueCountryIntl from 'vue-country-intl';
+// 引入css
+import 'vue-country-intl/lib/vue-country-intl.css'
+// 全局注册组件
+Vue.component(VueCountryIntl.name, VueCountryIntl);
+
+
 const messages = {
 	en,
 	'zh-Hans': zhHans,
@@ -46,7 +53,10 @@ uni.addInterceptor('request', {
 				config.header.token = uni.getStorageSync("user").token;
 			}
 			// #设置其他的请求头
-			
+			// 带语言
+			if (uni.getStorageSync("lang")) {
+				config.header.lang = uni.getStorageSync("lang");
+			}
 		}
 		if(app_config.debug > 2){
 			console.log('invoke-success', config);
@@ -54,8 +64,9 @@ uni.addInterceptor('request', {
 	},
 	success(res) {
 		if(res.statusCode == 200 && res.errMsg == 'request:ok'){
+			console.log(res);
 			res.res = res.data;
-			if (res.data.code == 1) {
+			if (res.data.code == 200) {
 				res.data = res.res.data;
 				res.msg = res.res.msg;
 				return true;

@@ -5,6 +5,13 @@
 	},
 	"pages": [
 		{
+			"path": "pages/loginReg/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle":"custom"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app",
@@ -155,6 +162,78 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "资产明细",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/asset_details/recharge_record",
+			"style" : 
+			{
+				"navigationBarTitleText" : "充值记录",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/asset_details/withdrawal_records",
+			"style" : 
+			{
+				"navigationBarTitleText" : "提现记录",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/phone_login",
+			"style" : 
+			{
+				"navigationBarTitleText" : "手机号",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/email_login",
+			"style" : 
+			{
+				"navigationBarTitleText" : "邮箱登录",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/reg_account",
+			"style" : 
+			{
+				"navigationBarTitleText" : "注册账号",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/phone_reg",
+			"style" : 
+			{
+				"navigationBarTitleText" : "手机号注册",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/email_reg",
+			"style" : 
+			{
+				"navigationBarTitleText" : "邮箱注册",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/phone_asswordRet",
+			"style" : 
+			{
+				"navigationBarTitleText" : "手机找回密码",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/email_asswordRet",
+			"style" : 
+			{
+				"navigationBarTitleText" : "邮箱找回密码",
 				"navigationStyle":"custom"
 			}
 		}
