@@ -5,75 +5,86 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<view class="main">
-			<u--form labelPosition="left" :model="from" :rules="rules" ref="uForm">
-				<u-cell-group :border="false">
-					<u-cell title="邮箱账号">
-						<view slot="value" class="email_content">
-							<view class="email_content_text">buyit714@gmail.com</view>
-							<u-button type="primary" class="email_content_btn" text="获取验证码" size="mini"></u-button>
-						</view>
-					</u-cell>
-					<u-cell title="验证码">
-						<view slot="value" class="code_content">
-							<u-form-item prop="from.code" ref="item1">
-								<input v-model="from.code" class="uni-input" maxlength="10" placeholder="请输入验证码" />
-							</u-form-item>
-						</view>
-					</u-cell>
-					<u-cell title="提现币种" :isLink="true" @click="withdrawalCurrency">
-						<view slot="value" class="withdrawal_currency">
-							<u-form-item prop="from.currency" ref="item2">
-								<input disabled class="uni-input" v-model="from.currency" placeholder="请选择提现币种" />
-							</u-form-item>
-						</view>
-					</u-cell>
-					<u-cell title="提现地址">
-						<view slot="value" class="code_content">
-							<u-form-item prop="from.address" ref="item3">
-								<input v-model="from.address" class="uni-input" maxlength="10" placeholder="请输入提现地址" />
-							</u-form-item>
-						</view>
-					</u-cell>
-					<u-cell title="提币数量">
-						<view slot="value" class="code_content">
-							<u-form-item prop="userInfo.name" ref="item4">
-								<input class="uni-input" maxlength="10" placeholder="请输入提币数量" />
-							</u-form-item>
-						</view>
-					</u-cell>
-					<u-cell title="实际到账">
-						<view slot="value" class="code_content">
-							<input disabled class="uni-input" maxlength="10" placeholder="请输入提币数量" />
-						</view>
-					</u-cell>
-					<u-cell title="资金管理费" value="3.00" label="本金提款金额的3%,收益提款金额的5%"></u-cell>
-					<u-cell title="最小提币数量" value="50.00"></u-cell>
-					<u-cell title="最大提币数量" value="1000000.00"></u-cell>
-					<u-cell title="交易密码">
-						<view slot="value" class="code_content">
-							<u-form-item prop="userInfo.name" ref="item5">
-								<input class="uni-input" password maxlength="10" placeholder="请输入交易密码" />
-							</u-form-item>
-						</view>
-					</u-cell>
-					<u-cell title="密保问题" value="1000000.00"></u-cell>
-					<u-cell title="密保答案">
-						<view slot="value" class="code_content">
-							<u-form-item prop="userInfo.name" ref="item6">
-								<input class="uni-input" maxlength="10" placeholder="请输入密保答案" />
-							</u-form-item>
-						</view>
-					</u-cell>
-				</u-cell-group>
+		<view class="main" v-if="pageIndex==0">
+			<u-cell-group :border="false">
+				<u-cell title="邮箱账号">
+					<view slot="value" class="email_content">
+						<u-input class="email_content_text" v-model="from.name">
+							<button slot="suffix" class="email_content_btn">获取验证码</button>
+						</u-input>
+					</view>
+				</u-cell>
+				<u-cell title="验证码">
+					<view slot="value" class="code_content">
+						<input v-model="from.code" type="number" class="uni-input" maxlength="10"
+							placeholder="请输入验证码" />
+					</view>
+				</u-cell>
+				<u-cell title="提现币种" :isLink="true" @click="withdrawalCurrency">
+					<view slot="value" class="withdrawal_currency">
+						<input disabled class="uni-input" v-model="from.currency" placeholder="请选择提现币种" />
+					</view>
+				</u-cell>
+				<u-cell title="提现地址">
+					<view slot="value" class="code_content">
+						<input v-model="from.address" class="uni-input" placeholder="请输入提现地址" />
 
-			</u--form>
-
+					</view>
+				</u-cell>
+				<u-cell title="提币数量">
+					<view slot="value" class="code_content">
+						<input class="uni-input" type="number" v-model="from.amount" placeholder="请输入提币数量" />
+					</view>
+				</u-cell>
+				<u-cell title="实际到账">
+					<view slot="value" class="code_content">
+						<input disabled class="uni-input" type="number" v-model="from.amounts" placeholder="请输入提币数量" />
+					</view>
+				</u-cell>
+				<u-cell title="资金管理费" value="3.00" label="本金提款金额的3%,收益提款金额的5%"></u-cell>
+				<u-cell title="最小提币数量" value="50.00"></u-cell>
+				<u-cell title="最大提币数量" value="1000000.00"></u-cell>
+				<u-cell title="交易密码">
+					<view slot="value" class="code_content">
+						<input class="uni-input" password maxlength="10" placeholder="请输入交易密码" />
+					</view>
+				</u-cell>
+				<u-cell title="密保问题" value="1000000.00"></u-cell>
+				<u-cell title="密保答案">
+					<view slot="value" class="code_content">
+						<input class="uni-input" maxlength="10" placeholder="请输入密保答案" />
+					</view>
+				</u-cell>
+			</u-cell-group>
 			<button class="editpassbtn">提交</button>
 		</view>
+		<view class="miain" v-else-if="pageIndex==1">
+			<view class="step">
+				<u-steps current="1" direction="column">
+					<u-steps-item  title="发起提现">
+						<view slot="desc" class="desc"></view>
+					</u-steps-item>
+					<u-steps-item title="处理中,预计1-2小时内到账">
+						<view slot="desc" class="desc"></view>
+					</u-steps-item>
+					<u-steps-item title="到账成功">
+						<view slot="desc" class="desc"></view>
+					</u-steps-item>
+				</u-steps>
+			</view>
+			
+			<view class="withdrawal_amount">
+				<view class="withdrawal_amount_title">提现金额：</view>
+				<view class="withdrawal_amount_text"></view>
+			</view>
+			<view class="withdrawal_add">
+				<view class="withdrawal_add_title">提现地址：</view>
+				<view class="withdrawal_add_text"></view>
+			</view>
+			<button>完成</button>
+		</view>
 		<u-modal title="温馨提示" :show="tipsShow" :content="content" closeOnClickOverlay>
-			<u-button class="tips_btn" slot="confirmButton" text="确定" type="success" shape="circle"
-				@click="tipsShow = false"></u-button>
+			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">确定</button>
 		</u-modal>
 		<u-picker closeOnClickOverlay @cancel="close" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
@@ -86,13 +97,20 @@
 			return {
 				from: {
 					currency: "", //币种
+					name: "", //用户名
+					address: "", //提现地址
+					code: "", //验证码
+					amount: "", //提币数量
+					amounts: "", //实际数量
+
 				}, //表单验证
 				show: false, //选择币种状态
 				columns: [
 					['红包-TRC20', '红包-ERC20']
 				],
 				tipsShow: true, //温馨提示弹窗状态
-				rules: {}, //验证规则
+				content: "", //弹窗内容
+				pageIndex: 0, //页面索引
 			}
 		},
 		methods: {
@@ -192,13 +210,17 @@
 				display: flex;
 				align-items: center;
 
-				.email_content_text {}
+				.email_content_text {
+					padding: 0 !important;
+				}
 
 				.email_content_btn {
-					margin-left: 5px;
+					padding: 2px 5px;
 					border-radius: 10px;
-					padding: 15px 10px;
+					font-size: 12px;
+					box-sizing: border-box;
 					background: #00bfff;
+					color: #fff;
 				}
 
 				uni-button:after {
@@ -266,6 +288,25 @@
 			background: #333;
 			border-radius: 56px;
 			border: unset !important;
+		}
+		.miain{
+			.step{
+				height: 300px;
+				.desc{
+					width: 100%;
+					height: 70px !important;
+				}
+			}
+			.withdrawal_amount{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.withdrawal_add{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 		}
 	}
 </style>

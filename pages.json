@@ -236,6 +236,46 @@
 				"navigationBarTitleText" : "邮箱找回密码",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path" : "pages/user/starpay",
+			"style" : 
+			{
+				"navigationBarTitleText" : "充值",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/islands/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "岛屿",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/islands/invite",
+			"style" : 
+			{
+				"navigationBarTitleText" : "分享",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/islands/myteam",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的岛屿",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/islands/certificate",
+			"style" : 
+			{
+				"navigationBarTitleText" : "卡券",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {

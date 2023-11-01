@@ -118,13 +118,18 @@
 						method:"POST",
 						data: this.from,
 						success: (res) => {
+							// uni.$u.toast('注册成功');
 							uni.showToast({
 								title: "注册成功",
-								success: function(res) {},
+								success: function(res) {
+									let time = setTimeout(() => {
+										clearTimeout(time)
+										uni.redirectTo({
+											url: `/pages/loginReg/login`
+										});
+									}, 1000)
+								},
 							})
-							uni.redirectTo({
-								url: `/pages/loginReg/login`
-							});
 						}
 					});
 				}

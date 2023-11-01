@@ -12,6 +12,7 @@ import app_config from './common/config';
 import app_util from './common/util.js';
 import install from './common/install.js'
 
+
 import VueCountryIntl from 'vue-country-intl';
 // 引入css
 import 'vue-country-intl/lib/vue-country-intl.css'
@@ -50,7 +51,7 @@ uni.addInterceptor('request', {
 			config.url = app_config.apiUrl.replace(/([\w\W]+)\/$/,"$1") + config.url;
 			// 获取缓存Token
 			if (uni.getStorageSync("user")) {
-				config.header.token = uni.getStorageSync("user").token;
+				config.header.Authorization = uni.getStorageSync("user").token;
 			}
 			// #设置其他的请求头
 			// 带语言

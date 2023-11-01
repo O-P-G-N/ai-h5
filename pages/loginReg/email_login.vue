@@ -87,7 +87,7 @@
 			},
 			// 登录
 			loginBtn() {
-				let that=this
+				let that = this
 				let passwordPatrn =
 					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
 				let emailPattern =
@@ -132,12 +132,16 @@
 							}
 							uni.showToast({
 								title: "登陆成功",
-								success: function(res) {},
+								success: function() {
+									let time = setTimeout(() => {
+										clearTimeout(time)
+										uni.setStorageSync("user", res.data)
+										uni.switchTab({
+											url: `/pages/index/index`
+										});
+									}, 1000)
+								},
 							})
-							uni.setStorageSync("user", res.data)
-							uni.switchTab({
-								url: `/pages/user/index`
-							});
 						}
 					});
 				}

@@ -42,6 +42,7 @@
 				</view>
 			</view>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -143,12 +144,18 @@
 							}
 							uni.showToast({
 								title: "登陆成功",
-								success: function(res) {},
+								success: function() {
+									 let time=setTimeout(()=>{
+										 clearTimeout(time)
+										 console.log(res);
+										uni.setStorageSync("user",res.data)
+										uni.switchTab({
+											url: `/pages/index/index`
+										});
+									},1000)
+								},
 							})
-							uni.setStorageSync("user",res.data)
-							uni.switchTab({
-								url: `/pages/user/index`
-							});
+							
 						}
 					});
 				}

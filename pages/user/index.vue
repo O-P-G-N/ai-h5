@@ -4,8 +4,9 @@
 			<view class="user_head_left">
 				<view class="name">ks</view>
 				<view class="account_level">
-					<view class="account_num">buyit714@gmail.com</view>
-					<image class="account_img" src="../../static/user/hide.png"></image>
+					<u--text class="account_num" mode="name" text="张三三" :format="eyeShow?'':'encrypt'"></u--text>
+					<!-- <view >buyit714@gmail.com</view> -->
+					<image class="account_img" :show="true" @click="showHidden" :src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
 					<image class="level_img" src="../../static/user/level.png"></image>
 				</view>
 			</view>
@@ -125,7 +126,7 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_every">
+				<view class="funlist_every" @click="viewIslands">
 					<view class="left"><text>岛屿</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
@@ -172,7 +173,8 @@
 		},
 		data() {
 			return {
-				aa: true
+				aa: true,
+				eyeShow:false,//用户名展示
 			}
 		},
 		created() {},
@@ -182,6 +184,10 @@
 				uni.navigateTo({
 					url: `/pages/user/user_notice`
 				});
+			},
+			// 展示隐藏
+			showHidden(){
+				this.eyeShow=!this.eyeShow
 			},
 			// 积分兑换
 			integralExchange() {
@@ -237,6 +243,12 @@
 					url: `/pages/user/asset_details/index`
 				});
 			},
+			// 岛屿
+			viewIslands(){
+				uni.navigateTo({
+					url: `/pages/user/islands/index`
+				});
+			},
 		},
 
 	}
@@ -277,7 +289,9 @@
 					.account_num {
 						font-weight: bold;
 						overflow-wrap: normal;
+						width: fit-content;
 						font-size: 12px;
+						flex: none;
 						color: rgb(48, 49, 51);
 					}
 

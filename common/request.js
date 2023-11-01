@@ -1,5 +1,4 @@
 
-
 // 接口
 export const myRequest = (options) => {
 	return new Promise((resolve, reject) => {
@@ -9,7 +8,7 @@ export const myRequest = (options) => {
 			data: options.data || {}, //传递参数：传入的参数或者默认传递空集合
 			timeout: 600000,
 			header: {
-				'token': uni.getStorageSync('token') //自定义请求头信息
+				'token': uni.getStorageSync('user') //自定义请求头信息
 			},
 			success: (res) => {
 				// console.log(res.data);

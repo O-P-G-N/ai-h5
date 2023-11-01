@@ -13,38 +13,42 @@
 						<text class="top_jm_text">加密货币</text>
 					</view>
 					<view class="border_bt"></view>
-					<view class="rc_item">
+					<view class="rc_item" @click="checkEthBtn(1)">
 						<view class="left_img">
 							<image class="left_img_content" src="@/static/user/eth.png" mode=""></image>
 						</view>
 						<view class="names">
-							<view class="n_title">USDT-TRC20</view>
+							<view class="n_title">红包-TRC20</view>
 							<view class="n_del">TRON</view>
 						</view>
-						<view class="left_border"></view>
+						<view class="left_border" :class="from.type==1?'active':''"></view>
 						<view class="select_op">
-							<image class="tyes" src="@/static/user/tick.png" mode=""></image>
+							<image class="tyes"
+								:src="from.type==1?'../../static/user/tick.png':'../../static/user/ty.png'" mode="">
+							</image>
 						</view>
 					</view>
-					<view class="rc_item">
+					<view class="rc_item" @click="checkEthBtn(2)">
 						<view class="left_img">
 							<image class="left_img_content" src="@/static/user/eth2.png" mode=""></image>
 						</view>
 						<view class="names">
-							<view class="n_title">USDT-ERC20</view>
+							<view class="n_title">红包-ERC20</view>
 							<view class="n_del">Ethereum</view>
 						</view>
-						<view class="left_border"></view>
+						<view class="left_border" :class="from.type==2?'active':''"></view>
 						<view class="select_op">
-							<image class="tyes" src="@/static/user/ty.png" mode=""></image>
+							<image class="tyes"
+								:src="from.type==2?'../../static/user/tick.png':'../../static/user/ty.png'" mode="">
+							</image>
 						</view>
 					</view>
 				</view>
 				<view class="ctitle">储值金额</view>
 				<view class="czj_sss">
-					<input class="uni-input" min placeholder="10.00 USD起" />
+					<input type="number" v-model="from.amount" class="uni-input" placeholder="10.00 USD起" />
 				</view>
-				<button class="chuangjian">下一步</button>
+				<button class="chuangjian" @click="nextStep">下一步</button>
 			</view>
 		</view>
 		<u-modal :show="show" title="温馨提示">
@@ -66,17 +70,49 @@
 			return {
 				show: true,
 				content: "", //富文本内容
+				from: {
+					type: 1, //选择的货币
+					amount: "", //输入的金额
+				}
 			};
 		},
-		methods:{
+		methods: {
 			// 返回个人中心
 			goBackUser() {
 				uni.switchTab({
 					url: `/pages/user/index`
 				});
 			},
-			determine(){
-				this.show=false
+			// 选择货币
+			checkEthBtn(num) {
+				this.from.type = num;
+			},
+			// 关闭弹窗
+			determine() {
+				this.show = false
+			},
+			// 下一步
+			nextStep() {
+				if (!this.from.amount) {
+					uni.$u.toast('请输入充值数量');
+					return
+				} else if (this.from.amount < 10) {
+					uni.$u.toast('最小充值数量为10.00');
+					return
+				} else {
+					uni.request({
+						url: '/recharge/getPayinfo',
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							// console.log(res.data);
+							uni.navigateTo({
+								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${this.from.amount}&type=${this.from.type==1?'红包-TRC20':'红包-ERC20'}`
+							});
+						}
+					});
+
+				}
 			}
 		}
 	}
@@ -201,6 +237,10 @@
 							border-radius: 15px;
 						}
 
+						.active {
+							background: #1fa0b3;
+						}
+
 						.select_op {
 							position: absolute;
 							right: 10px;
@@ -257,6 +297,7 @@
 				color: rgba(51, 51, 51, .6);
 			}
 		}
+
 		.zhuiaddbtn {
 			margin-top: 25px;
 			width: 100%;
