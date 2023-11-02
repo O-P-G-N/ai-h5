@@ -113,8 +113,8 @@
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
+				uni.navigateBack({
+					delta: 1
 				});
 			},
 			// 查看更多

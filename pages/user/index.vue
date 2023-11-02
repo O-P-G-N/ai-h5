@@ -6,7 +6,8 @@
 				<view class="account_level">
 					<u--text class="account_num" mode="name" text="张三三" :format="eyeShow?'':'encrypt'"></u--text>
 					<!-- <view >buyit714@gmail.com</view> -->
-					<image class="account_img" :show="true" @click="showHidden" :src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
+					<image class="account_img" :show="true" @click="showHidden"
+						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
 					<image class="level_img" src="../../static/user/level.png"></image>
 				</view>
 			</view>
@@ -134,7 +135,7 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_every">
+				<view class="funlist_every" @click="securityCenter">
 					<view class="left"><text>安全中心</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
@@ -158,10 +159,15 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_exit">退出登录</view>
+				<view class="funlist_exit" @click="outLogin">退出登录</view>
 			</view>
 		</view>
 		<Footer pageName='user'></Footer>
+		<u-modal :show="outLoginShow" @confirm="confirm" @cancel="cancel" width="300px" showCancelButton title="温馨提示">
+			<view class="slot-content">
+				您确定要退出登录吗？
+			</view>
+		</u-modal>
 	</view>
 </template>
 
@@ -174,7 +180,8 @@
 		data() {
 			return {
 				aa: true,
-				eyeShow:false,//用户名展示
+				eyeShow: false, //用户名展示
+				outLoginShow: false, //确定退出弹窗
 			}
 		},
 		created() {},
@@ -186,8 +193,8 @@
 				});
 			},
 			// 展示隐藏
-			showHidden(){
-				this.eyeShow=!this.eyeShow
+			showHidden() {
+				this.eyeShow = !this.eyeShow
 			},
 			// 积分兑换
 			integralExchange() {
@@ -226,29 +233,51 @@
 				});
 			},
 			// 关于我们
-			aboutUs(){
+			aboutUs() {
 				uni.navigateTo({
 					url: `/pages/user/about_us`
 				});
 			},
 			// 作品集
-			viewPortfolio(){
+			viewPortfolio() {
 				uni.navigateTo({
 					url: `/pages/user/portfolio`
 				});
 			},
 			// 资产明细
-			viewAssetDetails(){
+			viewAssetDetails() {
 				uni.navigateTo({
 					url: `/pages/user/asset_details/index`
 				});
 			},
 			// 岛屿
-			viewIslands(){
+			viewIslands() {
 				uni.navigateTo({
 					url: `/pages/user/islands/index`
 				});
 			},
+			// 退出登录
+			outLogin() {
+				this.outLoginShow = true;
+			},
+			// 弹窗取消
+			cancel(){
+				this.outLoginShow = false;
+			},
+			// 弹窗确定
+			confirm(){
+				this.outLoginShow = false;
+				uni.removeStorageSync("user");
+				uni.navigateTo({
+					url: `/pages/loginReg/login`
+				});
+			},
+			// 安全中心
+			securityCenter(){
+				uni.navigateTo({
+					url: `/pages/user/securitycenter/index`
+				});
+			}
 		},
 
 	}
@@ -348,7 +377,7 @@
 			padding: 20px;
 			position: relative;
 
-			
+
 
 			.allbalance {
 				margin-top: 0px;
@@ -419,30 +448,34 @@
 				}
 			}
 		}
+
 		.yuecardskeleton {
 			height: 128px;
 			width: 100%;
 			border-radius: 21px;
 			margin-top: 26px;
-		
+
 			.u-skeleton__wrapper__content__rows {
 				width: 100% !important;
-				    height: 128px !important;
-				    margin-top: 0px !important;
-					border-radius: 21px;
+				height: 128px !important;
+				margin-top: 0px !important;
+				border-radius: 21px;
 			}
 		}
+
 		.threebalance {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			margin-top: 25px;
-			.u-skeleton__wrapper__content__rows{
+
+			.u-skeleton__wrapper__content__rows {
 				width: 100% !important;
-				    height: 46px !important;
-				    margin-top: 0px !important;
-					border-radius: 10px;
+				height: 46px !important;
+				margin-top: 0px !important;
+				border-radius: 10px;
 			}
+
 			.threebalance_every {
 				display: flex;
 				flex-direction: column;
@@ -635,5 +668,15 @@
 			}
 		}
 
+		.slot-content {
+
+			min-height: 40px;
+			font-size: 15px;
+			line-height: 40px;
+			color: #999;
+			max-height: 400px;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
 	}
 </style>

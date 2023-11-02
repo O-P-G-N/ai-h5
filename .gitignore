@@ -8,8 +8,7 @@
 # JavaScript
 node_modules/
 .node_modules/
-uni_modules/
-.uni_modules/
+
 .eslintcache
 unpackage/dist/build/
 unpackage/dist/dev/

@@ -276,6 +276,38 @@
 				"navigationBarTitleText" : "卡券",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path" : "pages/market/activationcode",
+			"style" : 
+			{
+				"navigationBarTitleText" : "激活码",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/market/startcreat",
+			"style" : 
+			{
+				"navigationBarTitleText" : "创建合约",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/securitycenter/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "安全中心",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/user/securitycenter/editpass",
+			"style" : 
+			{
+				"navigationBarTitleText" : "登录密码",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {
