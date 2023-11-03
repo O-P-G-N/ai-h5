@@ -30,7 +30,7 @@
 						{{item.name}}
 					</view>
 				</view>
-				<ai-button  class="clickView"  @click="generateFn">立即生成</ai-button>
+				<ai-button :btnHeight="'64px'"  class="clickView"  @click="generateFn">立即生成</ai-button>
 
 
 			</template>

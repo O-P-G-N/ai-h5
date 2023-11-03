@@ -11,7 +11,7 @@
 		<view class="mains">
 			<view class="bili">
 				兑换比例：
-				<text>1 USD=100积分</text>
+				<text>1 红包=100积分</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -19,7 +19,7 @@
 						<view class="iconImgs">
 							<image src="@/static/user/bbji.png" mode=""></image>
 						</view>
-						<view class="">USDT</view>
+						<view class="">红包</view>
 						<view class="fdTitle">消耗</view>
 					</view>
 					<view class="right">

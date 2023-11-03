@@ -1,6 +1,6 @@
 <template>
 	<view class="editpass">
-		<u-navbar height="53px" @leftClick="goBackUser" title="登录密码" :safeAreaInsetTop="false">
+		<u-navbar height="53px" @leftClick="goBackUser" title="交易密码" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>

@@ -21,7 +21,7 @@
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
-						<text class="cbac">总资产</text>/ USDT
+						<text class="cbac">总资产</text>/ 红包
 					</view>
 					<view class="balancenum">
 						<text>5780.5600</text>
@@ -43,7 +43,7 @@
 				</view>
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewCapitalFlow">
-						<text>USDT余额:</text>
+						<text>红包余额:</text>
 						<text class="texta">640.5600</text>
 					</view>
 					<view class="yuecardtopevery">
@@ -143,7 +143,7 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_every">
+				<view class="funlist_every" @click="helpCenter">
 					<view class="left"><text>帮助中心</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
@@ -151,7 +151,7 @@
 				</view>
 			</view>
 			<view>
-				<view class="funlist_every">
+				<view class="funlist_every" @click="viewNotice">
 					<view class="left"><text>公告</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
@@ -276,6 +276,18 @@
 			securityCenter(){
 				uni.navigateTo({
 					url: `/pages/user/securitycenter/index`
+				});
+			},
+			// 查看公告
+			viewNotice(){
+				uni.navigateTo({
+					url: `/pages/user/notice`
+				});
+			},
+			// 帮助中心
+			helpCenter(){
+				uni.navigateTo({
+					url: `/pages/user/helpcenter/index`
 				});
 			}
 		},

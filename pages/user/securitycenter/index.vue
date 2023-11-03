@@ -13,7 +13,7 @@
 					<u-cell-group :border="false">
 						<u-cell title="登录密码" :is-link="true" @click="loginPassword">
 						</u-cell>
-						<u-cell title="交易密码" :is-link="true" @click="withdrawalRecords">
+						<u-cell title="交易密码" :is-link="true" @click="tradePassword">
 						</u-cell>
 						<u-cell title="密保设置" :is-link="true" @click="capitalFlow">
 						</u-cell>
@@ -47,16 +47,16 @@
 					url: `/pages/user/securitycenter/editpass`
 				});
 			},
-			// 提现记录
-			withdrawalRecords(){
+			// 交易密码
+			tradePassword(){
 				uni.navigateTo({
-					url: `/pages/user/asset_details/withdrawal_records`
+					url: `/pages/user/securitycenter/fundeditpass`
 				});
 			},
 			//资金流水
 			capitalFlow(){
 				uni.navigateTo({
-					url: `/pages/user/capital_flow`
+					url: ``
 				});
 			}
 			

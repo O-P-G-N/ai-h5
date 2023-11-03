@@ -27,7 +27,7 @@
 				<view class="btn" :class="{'btn-active':parameter.coin==1}" @click="parameter.coin=1">1张图 10 积分</view>
 				<view class="btn" :class="{'btn-active':parameter.coin==2}" @click="parameter.coin=2">4张图 30 积分</view>
 			</view>
-			<ai-button  class="next-btn"  @click="nextFn">下一步</ai-button>
+			<ai-button :btnHeight="'53px'"  class="next-btn"  @click="nextFn">下一步</ai-button>
 		</view>
 	</view>
 </template>

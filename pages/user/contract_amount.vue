@@ -7,51 +7,54 @@
 		</u-navbar>
 		<view class="main">
 			<view class="mymodelmain">
-				<view class="mymodellist">
-					<view class="modeltop">
-						<view class="modeltitle">
-							<image class="modeltitle_img" src="../../static/user/up.png" mode=""></image>
-							<view class="in">
-								<view class="title">证券</view>
+				<u-list @scrolltolower="scrolltolower">
+					<u-list-item v-for="(item, index) in contractList" :key="index">
+						<view class="mymodellist">
+							<view class="modeltop">
+								<view class="modeltitle">
+									<image class="modeltitle_img" src="../../static/user/up.png" mode=""></image>
+									<view class="in">
+										<view class="title">证券</view>
+									</view>
+								</view>
+								<view class="modelshouyi">
+									<view class="modelshouyi_every">
+										<view class="leijiprice">$0.00</view>
+										<view class="">累计收益</view>
+									</view>
+									<view class="modelshouyi_every">
+										<view class="shouyilvprice"><text>0.50%</text></view>
+										<view class="">收益率</view>
+									</view>
+								</view>
 							</view>
-						</view>
-						<view class="modelshouyi">
-							<view class="modelshouyi_every">
-								<view class="leijiprice">$0.00</view>
-								<view class="">累计收益</view>
+							<view class="contractthree">
+								<view class="contract_every">
+									<view class="intro">1份</view>
+									<view class="titles">合约份数</view>
+								</view>
+								<view class="contract_every">
+									<view class="intro">0天</view>
+									<view class="titles">已运行</view>
+								</view>
+								<view class="contract_every">
+									<view class="intro">0次</view>
+									<view class="titles">交易次数</view>
+								</view>
 							</view>
-							<view class="modelshouyi_every">
-								<view class="shouyilvprice"><text>0.50%</text></view>
-								<view class="">收益率</view>
+							<view class="order_sn">
+								Order ID：CN-202310261741470039273
 							</view>
+							<view class="modelbtns">
+								<button class="zhongzhibtn">终止合约</button>
+							</view>
+							<button class="lookmore" @click="seeMore">
+								查看更多交易详情
+								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
+							</button>
 						</view>
-					</view>
-					<view class="contractthree">
-						<view class="contract_every">
-							<view class="intro">1份</view>
-							<view class="titles">合约份数</view>
-						</view>
-						<view class="contract_every">
-							<view class="intro">0天</view>
-							<view class="titles">已运行</view>
-						</view>
-						<view class="contract_every">
-							<view class="intro">0次</view>
-							<view class="titles">交易次数</view>
-						</view>
-					</view>
-					<view class="order_sn">
-						Order ID：CN-202310261741470039273
-					</view>
-					<view class="modelbtns">
-						<button class="zhongzhibtn">终止合约</button>
-					</view>
-					<button class="lookmore" @click="seeMore">
-						查看更多交易详情
-						<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
-					</button>
-				</view>
-				
+					</u-list-item>
+				</u-list>
 				<view class="mymodellist">
 					<view class="modeltop">
 						<view class="modeltitle">
@@ -106,8 +109,14 @@
 	export default {
 		data() {
 			return {
-
+				from:{
+					page:1,//页数
+				},//请求数据
+				contractList:[{nmae:1}],//合约列表
 			};
+		},
+		onShow() {
+			this.getContractList()
 		},
 		created() {},
 		methods: {
@@ -117,8 +126,18 @@
 					delta: 1
 				});
 			},
+			// 获取合约列表
+			getContractList(){
+				uni.request({
+					url: `/island/contracts/${this.from.page}`,
+					method: "GET",
+					success: (res) => {
+						console.log(res);
+					}
+				});
+			},
 			// 查看更多
-			seeMore(){
+			seeMore() {
 				uni.navigateTo({
 					url: `/pages/user/contract_details`
 				});
