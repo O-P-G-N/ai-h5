@@ -2,7 +2,7 @@
 <template>
 	<view :ref='refName' :id='refName' class="button-main" :style="{'--width':`${widthPx}px`,'--waterColor':waterColor}"
 		@click="butonClick">
-		<button :disabled="disabled" :style="{backgroundColor:bg,height:btnHeight}" class="button-content">
+		<button :disabled="disabled" :style="{backgroundColor:bg,height:btnHeight,fontSize:fontSize}" class="button-content">
 			<slot></slot>
 		</button>
 		<view class="waterView" v-if='showWater' :style="{left:XY.left,top:XY.top}">
@@ -32,7 +32,11 @@
 			btnHeight: {
 				type: String,
 				default: "46px"
-			}
+			},
+			fontSize: {
+				type: String,
+				default: ""
+			},
 		},
 		data() {
 			return {

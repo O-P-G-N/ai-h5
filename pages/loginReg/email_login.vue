@@ -296,7 +296,7 @@
 					}
 
 					.loginbtn {
-						width: 357px;
+						width: 100%;
 						background: #94b0ff;
 						border-radius: 12px 12px 12px 12px;
 						color: #fff;

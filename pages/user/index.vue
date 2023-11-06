@@ -2,9 +2,9 @@
 	<view class="user_index">
 		<view class="user_head">
 			<view class="user_head_left">
-				<view class="name">ks</view>
+				<view class="name">{{myInfo.nickName}}</view>
 				<view class="account_level">
-					<u--text class="account_num" mode="name" text="张三三" :format="eyeShow?'':'encrypt'"></u--text>
+					<u--text class="account_num" mode="name" :text="myUserName" :format="eyeShow?'':'encrypt'"></u--text>
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
@@ -17,14 +17,14 @@
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
 		</view>
-		<view class="yuecard" v-if="aa">
+		<view class="yuecard" v-if="myInfo.total">
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
 						<text class="cbac">总资产</text>/ 红包
 					</view>
 					<view class="balancenum">
-						<text>5780.5600</text>
+						<text>{{myInfo.total}}</text>
 						<image class="balancenum_img" src="../../static/user/eye.png" mode=""></image>
 					</view>
 				</view>
@@ -34,21 +34,21 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewContract">
 						<text>合约金额:</text>
-						<text class="texta">5200.00</text>
+						<text class="texta">{{myInfo.contract}}</text>
 					</view>
 					<view class="yuecardtopevery" @click="viewHistory">
 						<text>积分余额:</text>
-						<text class="texta">22860.00</text>
+						<text class="texta">{{myInfo.score}}</text>
 					</view>
 				</view>
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewCapitalFlow">
 						<text>红包余额:</text>
-						<text class="texta">640.5600</text>
+						<text class="texta">{{myInfo.hongbao}}</text>
 					</view>
 					<view class="yuecardtopevery">
 						<text>信用分:</text>
-						<text class="texta">504.00</text>
+						<text class="texta">{{myInfo.creditScore}}</text>
 					</view>
 				</view>
 			</view>
@@ -56,13 +56,13 @@
 		</view>
 		<view v-else class="yuecardskeleton">
 			<u-skeleton :title="false" :rows="1" class="yuecardskeleton" loading rowsWidth="100%"
-				rowsHeight="100%"></u-skeleton>
+				></u-skeleton>
 		</view>
 		<view class="threebalance">
-			<template v-if="aa">
+			<template v-if="myInfo.total">
 				<view class="threebalance_every" @click="viewContract">
 					<view class="threebalance_num">
-						<text>$ 61.00</text>
+						<text>${{myInfo.todayIncome}}</text>
 					</view>
 					<view class="threebalance_title">
 						今日收益
@@ -71,7 +71,7 @@
 				<view class="lines"></view>
 				<view class="threebalance_every" @click="viewCapitalFlow">
 					<view class="threebalance_num">
-						<text>$ 254.00</text>
+						<text>${{myInfo.weekIncome}}</text>
 					</view>
 					<view class="threebalance_title">
 						本周收益
@@ -80,7 +80,7 @@
 				<view class="lines"></view>
 				<view class="threebalance_every" @click="viewCapitalFlow">
 					<view class="threebalance_num">
-						<text>$ 1499.56</text>
+						<text>${{myInfo.totalIncome}}</text>
 					</view>
 					<view class="threebalance_title">
 						累计收益
@@ -89,7 +89,7 @@
 			</template>
 			<template v-else>
 				<u-skeleton :title="false" :rows="1" class="threebalance_skeleton" loading rowsWidth="100%"
-					rowsHeight="100%"></u-skeleton>
+					></u-skeleton>
 			</template>
 		</view>
 		<view class="rechargewithdrawal">
@@ -179,13 +179,33 @@
 		},
 		data() {
 			return {
-				aa: true,
 				eyeShow: false, //用户名展示
 				outLoginShow: false, //确定退出弹窗
+				myInfo:{},//我的信息
+				myUserName:"",//我的用户名
 			}
 		},
 		created() {},
+		onShow() {
+			this.getMyInfo();
+		},
 		methods: {
+			// 获取我的信息
+			getMyInfo(){
+				if(uni.getStorageSync("user").phone){
+					this.myUserName=uni.getStorageSync("user").phone
+				}else{
+					this.myUserName=uni.getStorageSync("user").email
+				}
+				uni.request({
+					url: '/member/myWallet',
+					method: "GET",
+					success: (res) => {
+						this.myInfo=res.data;
+						console.log(res);
+					}
+				});
+			},
 			// 查看通知
 			viewNotice() {
 				uni.navigateTo({
@@ -261,31 +281,37 @@
 				this.outLoginShow = true;
 			},
 			// 弹窗取消
-			cancel(){
+			cancel() {
 				this.outLoginShow = false;
 			},
 			// 弹窗确定
-			confirm(){
+			confirm() {
 				this.outLoginShow = false;
-				uni.removeStorageSync("user");
-				uni.navigateTo({
-					url: `/pages/loginReg/login`
-				});
+				uni.request({
+					url: '/member/logout',
+					method: "GET",
+					success: (res) => {
+						uni.removeStorageSync("user");
+						uni.navigateTo({
+							url: `/pages/loginReg/login`
+						});
+					},
+				})
 			},
 			// 安全中心
-			securityCenter(){
+			securityCenter() {
 				uni.navigateTo({
 					url: `/pages/user/securitycenter/index`
 				});
 			},
 			// 查看公告
-			viewNotice(){
+			viewNotice() {
 				uni.navigateTo({
 					url: `/pages/user/notice`
 				});
 			},
 			// 帮助中心
-			helpCenter(){
+			helpCenter() {
 				uni.navigateTo({
 					url: `/pages/user/helpcenter/index`
 				});

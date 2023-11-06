@@ -7,10 +7,10 @@
 		</u-navbar>
 		<view class="main" v-if="pageIndex==0">
 			<u-cell-group :border="false">
-				<u-cell title="邮箱账号">
+				<u-cell :title="userType==1?'手机号':'邮箱账号'">
 					<view slot="value" class="email_content">
-						<u-input class="email_content_text" v-model="from.name">
-							<button slot="suffix" class="email_content_btn">获取验证码</button>
+						<u-input class="email_content_text" v-model="userName">
+							<button slot="suffix" class="email_content_btn" @click="getCode">获取验证码</button>
 						</u-input>
 					</view>
 				</u-cell>
@@ -22,46 +22,52 @@
 				</u-cell>
 				<u-cell title="提现币种" :isLink="true" @click="withdrawalCurrency">
 					<view slot="value" class="withdrawal_currency">
-						<input disabled class="uni-input" v-model="from.currency" placeholder="请选择提现币种" />
+						<input disabled class="uni-input" v-model="currencyType" placeholder="请选择提现币种" />
 					</view>
 				</u-cell>
 				<u-cell title="提现地址">
 					<view slot="value" class="code_content">
-						<input v-model="from.address" class="uni-input" placeholder="请输入提现地址" />
+						<input v-model="from.payAddress" class="uni-input" placeholder="请输入提现地址" />
 
 					</view>
 				</u-cell>
 				<u-cell title="提币数量">
 					<view slot="value" class="code_content">
-						<input class="uni-input" type="number" v-model="from.amount" placeholder="请输入提币数量" />
+						<input class="uni-input" type="number" @input="calculateAmount" v-model="from.amount"
+							placeholder="请输入提币数量" />
 					</view>
 				</u-cell>
 				<u-cell title="实际到账">
 					<view slot="value" class="code_content">
-						<input disabled class="uni-input" type="number" v-model="from.amounts" placeholder="请输入提币数量" />
+						<input disabled class="uni-input" type="number" v-model="realityAmount" placeholder="请输入提币数量" />
 					</view>
 				</u-cell>
-				<u-cell title="资金管理费" value="3.00" label="本金提款金额的3%,收益提款金额的5%"></u-cell>
-				<u-cell title="最小提币数量" value="50.00"></u-cell>
-				<u-cell title="最大提币数量" value="1000000.00"></u-cell>
+				<u-cell title="资金管理费" :value="commissionRate" label="本金提款金额的3%,收益提款金额的5%"></u-cell>
+				<u-cell title="最小提币数量" :value="withdrawalInfo.withdrawMin"></u-cell>
+				<u-cell title="最大提币数量" :value="withdrawalInfo.withdrawMax"></u-cell>
 				<u-cell title="交易密码">
 					<view slot="value" class="code_content">
-						<input class="uni-input" password maxlength="10" placeholder="请输入交易密码" />
+						<u-input v-model="from.withdrawPassword" placeholder="密码" :password="eyeShow">
+							<image @click="showHidden" slot="suffix" class="eye"
+								:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode="">
+							</image>
+						</u-input>
 					</view>
 				</u-cell>
-				<u-cell title="密保问题" value="1000000.00"></u-cell>
+				<u-cell title="密保问题"
+					:value="withdrawalInfo.questionList.length>0?withdrawalInfo.questionList[0].value:''"></u-cell>
 				<u-cell title="密保答案">
 					<view slot="value" class="code_content">
-						<input class="uni-input" maxlength="10" placeholder="请输入密保答案" />
+						<input v-model="from.answer" class="uni-input" maxlength="10" placeholder="请输入密保答案" />
 					</view>
 				</u-cell>
 			</u-cell-group>
-			<button class="editpassbtn">提交</button>
+			<button class="editpassbtn" @click="subApplication">提交</button>
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
 			<view class="step">
 				<u-steps current="1" direction="column">
-					<u-steps-item  title="发起提现">
+					<u-steps-item title="发起提现">
 						<view slot="desc" class="desc"></view>
 					</u-steps-item>
 					<u-steps-item title="处理中,预计1-2小时内到账">
@@ -72,7 +78,7 @@
 					</u-steps-item>
 				</u-steps>
 			</view>
-			
+
 			<view class="withdrawal_amount">
 				<view class="withdrawal_amount_title">提现金额：</view>
 				<view class="withdrawal_amount_text"></view>
@@ -86,7 +92,7 @@
 		<u-modal title="温馨提示" :show="tipsShow" :content="content" closeOnClickOverlay>
 			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">确定</button>
 		</u-modal>
-		<u-picker closeOnClickOverlay @cancel="close" @confirm="confirm" @close="close" :show="show"
+		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
 	</view>
 </template>
@@ -95,25 +101,101 @@
 	export default {
 		data() {
 			return {
+				userName: "", //用户名
+				currencyType:"红包-TRC20",//币种名称
+				realityAmount:"",//实际提现金额
 				from: {
-					currency: "", //币种
-					name: "", //用户名
-					address: "", //提现地址
+					type: "1", //币种
+					payAddress: "", //提现地址
 					code: "", //验证码
 					amount: "", //提币数量
-					amounts: "", //实际数量
-
+					questionKey: "", //密保Key
+					withdrawPassword: "", //交易密码
+					answer: "", //密保答案
 				}, //表单验证
 				show: false, //选择币种状态
 				columns: [
-					['红包-TRC20', '红包-ERC20']
+					[{
+						type: "1",
+						name: '红包-TRC20'
+					}, {
+						type:"2",
+						name: '红包-ERC20'
+					}]
 				],
 				tipsShow: true, //温馨提示弹窗状态
 				content: "", //弹窗内容
-				pageIndex: 0, //页面索引
+				userType: "", //用户类型
+				pageIndex: 0, //页面索引,
+				withdrawalInfo: {
+					questionList: []
+				}, //提现相关信息
+				commissionRate: "", //提现手续费
+				eyeShow: true, //密码状态
 			}
 		},
+		onShow() {
+			this.getUserName();
+			this.getWithdrawalInfo()
+		},
 		methods: {
+			// 获取账号
+			getUserName() {
+				if (uni.getStorageSync("user").phone) {
+					this.userName = uni.getStorageSync("user").phone;
+					this.userType = 1;
+				} else {
+					this.userName = uni.getStorageSync("user").email;
+					this.userType = 2;
+				}
+			},
+			// 获取提现相关信息
+			getWithdrawalInfo() {
+				uni.request({
+					url: `/withdraw/getWithdrawInfo`,
+					method: "GET",
+					success: (res) => {
+						this.withdrawalInfo = res.data;
+					}
+				});
+				uni.request({
+					url: `/aicommon/getDict`,
+					method: "GET",
+					data: {
+						dictType: 'fee'
+					},
+					success: (res) => {
+						this.commissionRate = res.data[0].dictValue;
+					}
+				});
+			},
+			// 计算金额
+			calculateAmount(val) {
+				if (Number(val.detail.value) - Number(this.commissionRate) < 0) {
+					this.realityAmount = 0
+				} else {
+					this.realityAmount = Number(val.detail.value) - Number(this.commissionRate)
+				}
+			},
+			// 获取验证码
+			getCode() {
+				uni.request({
+					url: `/aicommon/sendCodeMustToken`,
+					method: "GET",
+					data: {
+						type: this.userType
+					},
+					success: (res) => {
+						if (res.res.code == 200) {
+							uni.$u.toast('验证码发送成功');
+						}
+					}
+				});
+			},
+			// 显示隐藏
+			showHidden() {
+				this.eyeShow = !this.eyeShow
+			},
 			// 返回个人中心
 			goBackUser() {
 				uni.switchTab({
@@ -128,10 +210,39 @@
 			close() {
 				this.show = false;
 			},
-			// 确定按钮
+			// 确定选择币种按钮
 			confirm(val) {
 				this.show = false;
-				this.from.currency = val.value[0];
+				this.from.type = val.value[0].type;
+				this.currencyType=val.value[0].name;
+			},
+			// 提交提现申请
+			subApplication(){
+				if(this.from.code==""){
+					uni.$u.toast('请输入验证码');
+					return
+				}else if(this.from.payAddress==""){
+					uni.$u.toast('请输入提现地址');
+					return
+				}else if(this.from.amount==""){
+					uni.$u.toast('请输入提现数量');
+					return
+				}else if(this.from.withdrawPassword==""){
+					uni.$u.toast('请输入交易密码');
+					return
+				}else if(this.from.answer==""){
+					uni.$u.toast('答案不能为空');
+					return
+				}else{
+					uni.request({
+						url: `/withdraw/withdrawApply`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							console.log(res);
+						}
+					});
+				}
 			}
 		}
 	}
@@ -238,8 +349,13 @@
 					padding: 0;
 				}
 
-				.uni-input {
+				.uni-input-input {
 					text-align: right;
+				}
+
+				.eye {
+					width: 21px;
+					height: 21px;
 				}
 			}
 
@@ -289,20 +405,24 @@
 			border-radius: 56px;
 			border: unset !important;
 		}
-		.miain{
-			.step{
+
+		.miain {
+			.step {
 				height: 300px;
-				.desc{
+
+				.desc {
 					width: 100%;
 					height: 70px !important;
 				}
 			}
-			.withdrawal_amount{
+
+			.withdrawal_amount {
 				display: flex;
 				align-items: center;
 				justify-content: center;
 			}
-			.withdrawal_add{
+
+			.withdrawal_add {
 				display: flex;
 				align-items: center;
 				justify-content: center;

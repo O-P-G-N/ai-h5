@@ -7,34 +7,36 @@
 		</u-navbar>
 		<view class="main">
 			<view class="mymodelmain">
-				<u-list @scrolltolower="scrolltolower">
-					<u-list-item v-for="(item, index) in contractList" :key="index">
+				<u-list @scrolltolower="scrolltolower" lowerThreshold="70">
+					<u-list-item v-for="(v, i) in contractList" :key="i">
 						<view class="mymodellist">
 							<view class="modeltop">
 								<view class="modeltitle">
-									<image class="modeltitle_img" src="../../static/user/up.png" mode=""></image>
+									<image class="modeltitle_img"
+										:src="v.type==1?'../../static/user/up.png':'../../static/user/encryption.png'"
+										mode=""></image>
 									<view class="in">
-										<view class="title">证券</view>
+										<view class="title">{{v.type==1?'证券':'加密货币'}}</view>
 									</view>
 								</view>
 								<view class="modelshouyi">
 									<view class="modelshouyi_every">
-										<view class="leijiprice">$0.00</view>
+										<view class="leijiprice">${{v.incomeHongbao}}</view>
 										<view class="">累计收益</view>
 									</view>
 									<view class="modelshouyi_every">
-										<view class="shouyilvprice"><text>0.50%</text></view>
+										<view class="shouyilvprice"><text>{{Number(v.bili)*100}}%</text></view>
 										<view class="">收益率</view>
 									</view>
 								</view>
 							</view>
 							<view class="contractthree">
 								<view class="contract_every">
-									<view class="intro">1份</view>
+									<view class="intro">{{v.payNum}}份</view>
 									<view class="titles">合约份数</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">0天</view>
+									<view class="intro">{{v.runday}}天</view>
 									<view class="titles">已运行</view>
 								</view>
 								<view class="contract_every">
@@ -43,82 +45,56 @@
 								</view>
 							</view>
 							<view class="order_sn">
-								Order ID：CN-202310261741470039273
+								Order ID：{{v.orderSn}}
 							</view>
-							<view class="modelbtns">
-								<button class="zhongzhibtn">终止合约</button>
+							<view class="modelbtns" v-if="v.status!=2">
+								<button class="zhongzhibtn"
+									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":"取消终止"}}合约</button>
 							</view>
-							<button class="lookmore" @click="seeMore">
+							<view class="modelendtime" v-if="v.status==1">
+								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
+							</view>
+							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2">
 								查看更多交易详情
 								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
 							</button>
 						</view>
 					</u-list-item>
 				</u-list>
-				<view class="mymodellist">
-					<view class="modeltop">
-						<view class="modeltitle">
-							<image class="modeltitle_img" src="@/static/user/encryption.png" mode=""></image>
-							<view class="in">
-								<view class="title">加密货币</view>
-							</view>
-						</view>
-						<view class="modelshouyi">
-							<view class="modelshouyi_every">
-								<view class="leijiprice">$0.00</view>
-								<view class="">累计收益</view>
-							</view>
-							<view class="modelshouyi_every">
-								<view class="shouyilvprice"><text>0.50%</text></view>
-								<view class="">收益率</view>
-							</view>
-						</view>
-					</view>
-					<view class="contractthree">
-						<view class="contract_every">
-							<view class="intro">1份</view>
-							<view class="titles">合约份数</view>
-						</view>
-						<view class="contract_every">
-							<view class="intro">0天</view>
-							<view class="titles">已运行</view>
-						</view>
-						<view class="contract_every">
-							<view class="intro">0次</view>
-							<view class="titles">交易次数</view>
-						</view>
-					</view>
-					<view class="order_sn">
-						Order ID：BTC-202310261727400023548
-					</view>
-					<view class="modelbtns">
-						<button class="zhongzhibtn">终止合约</button>
-					</view>
-					<button class="lookmore">
-						查看更多交易详情
-						<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
-					</button>
-				</view>
-				<u-loadmore status="nomore" />
+				<u-loadmore :status="status" />
+				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" title="温馨提示"
+					:content='modalContent'></u-modal>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		data
+	} from '../../uni_modules/uview-ui/libs/mixin/mixin';
 	export default {
 		data() {
 			return {
-				from:{
-					page:1,//页数
-				},//请求数据
-				contractList:[{nmae:1}],//合约列表
+				from: {
+					page: 1, //页数
+				}, //请求数据
+				contractList: [], //合约列表
+				total: 0, //总条数
+				status: "", //状态
+				show: false, //暂停弹窗
+				modalContent: "", //模态框提示语
+				id: "", //选择暂停的合约id
+				status: "", //选择暂停的合约状态
 			};
 		},
 		onShow() {
 			this.getContractList()
 		},
-		created() {},
+		onHide() {
+			this.from.page = 1;
+			this.contractList = []
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
@@ -127,21 +103,123 @@
 				});
 			},
 			// 获取合约列表
-			getContractList(){
+			getContractList() {
 				uni.request({
 					url: `/island/contracts/${this.from.page}`,
 					method: "GET",
 					success: (res) => {
-						console.log(res);
+						res.data.rows.map((v) => {
+							v.runday = this.getDaysDiff(v.createTime, Date.now())
+							if (v.status == 1) {
+								v.countdown = this.getCountDown(v.updateTime)
+							}
+						})
+						this.contractList = res.data.rows;
+						this.status = "loadmore";
+						this.total = res.data.total;
 					}
 				});
 			},
+			// 设置合约
+			contractSet(id, status) {
+				this.show = true
+				this.id = id;
+				if (status == 0) {
+					this.modalContent = "您确定要终止该合约吗？"
+				} else {
+					this.modalContent = "您确定要取消终止该合约吗？"
+				}
+				this.status = status;
+
+			},
+			// 倒计时
+			getCountDown(startDate) {
+				const oneDay = 24 * 60 * 60 * 1000;
+				let start = new Date(startDate).getTime() + oneDay;
+				const diffDays = start - Date.now();
+				return diffDays;
+			},
+			// 计算天数
+			getDaysDiff(startDate, endDate) {
+				const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+				const start = new Date(startDate);
+				const end = new Date(endDate);
+				const diffDays = Math.round(Math.abs((end - start) / oneDay));
+				return diffDays;
+			},
 			// 查看更多
-			seeMore() {
+			seeMore(id) {
 				uni.navigateTo({
-					url: `/pages/user/contract_details`
+					url: `/pages/user/contract_details?id=${id}`
+				});
+			},
+			// 上划加载
+			scrolltolower() {
+				this.status = "loading"
+				if (this.from.page < (this.total / 10)) {
+					this.from.page++;
+					uni.request({
+						url: `/island/contracts/${this.from.page}`,
+						method: "GET",
+						success: (res) => {
+							res.data.rows.map((v) => {
+								v.runday = this.getDaysDiff(v.createTime, Date.now())
+								if (v.status == 1) {
+									v.countdown = this.getCountDown(v.updateTime)
+								}
+							})
+							this.contractList.push(res.data.rows);
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
+
+			},
+			// 模态框取消
+			cancel() {
+				this.show = false
+			},
+			// 模态框确认按钮
+			confirm() {
+				let that = this
+				let expectOver = null
+				that.show = false;
+				if (that.status == 0) {
+					expectOver = 1
+				} else {
+					expectOver = 0
+				}
+				uni.request({
+					url: `/island/contract/${that.id}`,
+					method: "GET",
+					data: {
+						over: expectOver
+					},
+					success: (res) => {
+						if (that.status == 0) {
+							uni.showToast({
+								title: "合约已终止",
+								success: function(res) {
+									that.from.page = 1;
+									that.getContractList();
+								}
+
+							})
+						} else {
+							uni.showToast({
+								title: "合约已取消终止",
+								success: function(res) {
+									that.from.page = 1;
+									that.getContractList();
+								}
+
+							})
+						}
+					}
 				});
 			}
+
 		},
 	}
 </script>
@@ -310,6 +388,13 @@
 						}
 					}
 
+					.modelendtime {
+						text-align: center;
+						font-size: 19px;
+						letter-spacing: 1px;
+						margin-top: 16px;
+					}
+
 					.lookmore {
 						width: 100%;
 						height: 50px;
@@ -337,5 +422,20 @@
 				}
 			}
 		}
+
+		.u-popup__content {
+			border-radius: 21px !important;
+
+			.u-modal__content {
+				text-align: center;
+				font-size: 16px;
+				color: #000;
+			}
+
+			.u-modal__button-group__wrapper__text {
+				color: rgb(0, 0, 0) !important;
+			}
+		}
+
 	}
 </style>

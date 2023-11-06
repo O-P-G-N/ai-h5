@@ -1,24 +1,24 @@
 <template>
 	<view class="Confidentiality">
-		<u-navbar @leftClick="goBackUser" title="设置昵称" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" title="密保设置" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="main">
 			<view class="cell">
-				<view v-if="!from.problem" @click="selectProblem" class="placeholderClass">点击选择密保问题</view>
-				<view v-else class="confvalue" @click="selectProblem">{{from.problem}}</view>
+				<view v-if="!problem" @click="selectProblem" class="placeholderClass">点击选择密保问题</view>
+				<view v-else class="confvalue" @click="selectProblem">{{problem}}</view>
 			</view>
 			<view class="cell">
-				<input class="uni-input" maxlength="20" placeholder="请输入密保答案" />
+				<input v-model="from.content" class="uni-input" maxlength="20" placeholder="请输入密保答案" />
 			</view>
 			<view class="tip">请牢记密保问题，请勿透露给第三方</view>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" class="next-btn editpassbtn"
 				@click="ConfirmSet">确认设置</ai-button>
 		</view>
 		<u-picker closeOnClickOverlay @close="closeShow" @cancel="closeShow" @confirm="confirmBtn" :show="show"
-			:columns="columns"></u-picker>
+			:columns="columns" keyName="value"></u-picker>
 	</view>
 </template>
 
@@ -26,14 +26,17 @@
 	export default {
 		data() {
 			return {
+				problem: "", //页面展示问题
 				from: {
-					problem: "",
+					key: "", //问题的key
+					content: "", //答案
 				},
 				show: false, //问题弹窗
-				columns: [
-					['中国', '美国', '日本']
-				],
+				columns: [],
 			};
+		},
+		onShow() {
+			this.getSecurityQuestion()
 		},
 		methods: {
 			// 返回
@@ -42,9 +45,45 @@
 					url: `/pages/index/index`
 				});
 			},
+			// 获取所有问题
+			getSecurityQuestion() {
+				this.columns = []
+				uni.request({
+					url: '/member/getSecurityQuestionList',
+					method: "GET",
+					success: (res) => {
+						this.columns.push(res.data);
+					}
+				});
+			},
 			// 确认绑定
-			ConfirmBind() {
-
+			ConfirmSet() {
+				if (this.from.key == "") {
+					uni.$u.toast('请选择密保问题');
+					return
+				} else if (this.from.content == "") {
+					uni.$u.toast('内容不能为空');
+					return
+				} else {
+					uni.request({
+						url: '/member/saveSecurityQuestion',
+						method: "POST",
+						data: [this.from],
+						success: (res) => {
+							uni.showToast({
+								title: "设置成功",
+								success: function() {
+									let time = setTimeout(() => {
+										clearTimeout(time)
+										uni.navigateTo({
+											url: `/pages/user/securitycenter/index`
+										});
+									}, 1000)
+								},
+							})
+						}
+					});
+				}
 			},
 			// 选择问题
 			selectProblem() {
@@ -55,9 +94,10 @@
 				this.show = false;
 			},
 			// 确定问题选择
-			confirmBtn(val){
+			confirmBtn(val) {
 				this.show = false;
-				this.from.problem=val.value[0];
+				this.problem = val.value[0].value;
+				this.from.key = val.value[0].key;
 			}
 		}
 

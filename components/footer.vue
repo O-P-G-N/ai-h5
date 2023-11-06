@@ -10,7 +10,7 @@
 				<image v-else class="icon" src="~@/static/tabbar/two.png"></image>
 			</view>
 			<view style="width: 28%;">
-				<view class="footer_every" @click="toPath(null)"
+				<view class="footer_every" @click="toPath('partner')"
 					style="position: absolute; bottom: 32rpx; width: 28%;left: 50%;margin-left: -14%;">
 					<view class="tx_main">
 						<image class="tx_png" src="~@/static/tabbar/tx.webp"></image>

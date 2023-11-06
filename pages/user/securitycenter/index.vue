@@ -15,7 +15,7 @@
 						</u-cell>
 						<u-cell title="交易密码" :is-link="true" @click="tradePassword">
 						</u-cell>
-						<u-cell title="密保设置" :is-link="true" @click="capitalFlow">
+						<u-cell title="密保设置" :is-link="true" @click="securitySet">
 						</u-cell>
 						<u-cell title="设置昵称" :is-link="true" @click="capitalFlow">
 						</u-cell>
@@ -53,10 +53,10 @@
 					url: `/pages/user/securitycenter/fundeditpass`
 				});
 			},
-			//资金流水
-			capitalFlow(){
+			//密保设置
+			securitySet(){
 				uni.navigateTo({
-					url: ``
+					url: `/pages/user/securitycenter/Confidentiality`
 				});
 			}
 			

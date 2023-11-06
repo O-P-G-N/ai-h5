@@ -48,7 +48,7 @@
 			// 邀请好友
 			withdrawalRecords(){
 				uni.navigateTo({
-					url: `/pages/user/islands/invite`
+					url: `/pages/user/islands/identity_judge`
 				});
 			},
 			//我的卡券

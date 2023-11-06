@@ -356,6 +356,30 @@
 				"navigationBarTitleText" : "密保设置",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "pages/user/islands/identity_judge",
+			"style" : 
+			{
+				"navigationBarTitleText" : "身份判定",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/partner/index",
+			"style" : 
+			{
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/partner/upgrade_train",
+			"style" : 
+			{
+				"navigationBarTitleText" : "升级训练",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {
@@ -370,14 +394,17 @@
 			}, {
 				"pagePath": "pages/market/index",
 				"text": "页面2"
-			},
-			{
-				"pagePath": "pages/community/index",
+			}, {
+				"pagePath": "pages/partner/index",
 				"text": "页面3"
 			},
 			{
-				"pagePath": "pages/user/index",
+				"pagePath": "pages/community/index",
 				"text": "页面4"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "页面5"
 			}
 		]
 	},
