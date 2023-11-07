@@ -41,8 +41,8 @@
 		methods: {
 			// 返回
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/index/index`
+				uni.redirectTo({
+					url: `/pages/user/securitycenter/index`
 				});
 			},
 			// 获取所有问题
@@ -75,7 +75,7 @@
 								success: function() {
 									let time = setTimeout(() => {
 										clearTimeout(time)
-										uni.navigateTo({
+										uni.redirectTo({
 											url: `/pages/user/securitycenter/index`
 										});
 									}, 1000)

@@ -10,8 +10,8 @@
 				<u-cell-group :border="false">
 					<u-cell :title="titleShow?'手机号':'邮箱账号'">
 						<view slot="value" class="email_content">
-							<u-input class="email_content_text" v-model="from.name">
-								<button slot="suffix" class="email_content_btn">获取验证码</button>
+							<u-input class="email_content_text" v-model="name">
+								<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
 							</u-input>
 						</view>
 					</u-cell>
@@ -24,7 +24,7 @@
 					</u-cell>
 					<u-cell title="新密码">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.password" placeholder="请输入新密码" :password="eyeShow">
+							<u-input v-model="from.newPassword" placeholder="请输入新密码" :password="eyeShow">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -33,7 +33,7 @@
 					</u-cell>
 					<u-cell title="确认新密码">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.confirmPassword" placeholder="请确认新密码" :password="eyeShows">
+							<u-input v-model="confirmPassword" placeholder="请确认新密码" :password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -66,15 +66,17 @@
 	export default {
 		data() {
 			return {
+				name: "", //用户名
 				from: {
-					name: "", //用户名
+					email: "", //邮箱号
+					phone: "", //手机号
 					code: "", //验证码
-					password: "", //新密码
-					confirmPassword: "", //确认新密码
+					newPassword: "", //新密码
 				}, //表单验证
+				confirmPassword: "", //确认新密码
 				eyeShow: true, //密码显示
 				eyeShows: true, //密码显示
-				titleShow: false, //判断标题
+				titleShow: 1, //判断标题
 			};
 		},
 		created() {},
@@ -88,66 +90,89 @@
 					url: `/pages/user/securitycenter/index`
 				});
 			},
+			// 获取验证码
+			getCode() {
+				uni.request({
+					url: `/aicommon/sendCodeMustToken`,
+					method: "GET",
+					data: {
+						type: this.titleShow
+					},
+					success: (res) => {
+						if (res.res.code == 200) {
+							uni.$u.toast('验证码发送成功');
+						}
+					}
+				});
+			},
 			// 判断标题
 			determineTitle() {
 				if (uni.getStorageSync("user").phone) {
-					this.titleShow = true
+					this.titleShow = 1;
+					this.name = uni.getStorageSync("user").phone;
+					this.from.phone = uni.getStorageSync("user").phone;
 				} else {
-					this.titleShow = false
+					this.titleShow = 2;
+					this.name = uni.getStorageSync("user").email;
+					this.from.email = uni.getStorageSync("user").email;
 				}
 			},
 			// 显示隐藏
 			showHidden() {
-				this.eyeShow = !this.eyeShow
+				this.eyeShow = !this.eyeShow;
 			},
 			// 显示隐藏
 			showHiddens() {
-				this.eyeShows = !this.eyeShows
+				this.eyeShows = !this.eyeShows;
 			},
 			// 确认修改
 			ConfMod() {
+				let that=this
 				let num = /[0-9]/im
 				let patrn =
 					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
-				if(this.from.code==""){
+				if (that.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
-				}else if (this.from.password.length < 8) {
+				} else if (that.from.newPassword.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
-				} else if (!patrn.test(this.from.password)) {
+				} else if (!patrn.test(that.from.newPassword)) {
 					uni.$u.toast('有一个大写字母和字符');
 					return
-				} else if (!num.test(this.from.password)) {
+				} else if (!num.test(that.from.newPassword)) {
 					uni.$u.toast('包含数字');
 					return
-				} else if (this.from.password != this.from.confirmPassword) {
+				} else if (that.from.newPassword != that.confirmPassword) {
 					uni.$u.toast('两次输入密码不一致');
 					return
 				} else {
-					// uni.request({
-					// 	url: '/nt/updatePasswordForPhone',
-					// 	method: "POST",
-					// 	data: {
-					// 		code: this.from.code,
-					// 		phone: this.from.name,
-					// 		newPassword: this.from.password,
-					// 	},
-					// 	success: (res) => {
-					// 		uni.showToast({
-					// 			title: "修改成功",
-					// 			success: function(res) {
-					// 				uni.removeStorageSync("user")
-					// 				let time = setTimeout(() => {
-					// 					clearTimeout(time)
-					// 					uni.redirectTo({
-					// 						url: `/pages/loginReg/login`
-					// 					});
-					// 				}, 1000)
-					// 			},
-					// 		})
-					// 	}
-					// });
+					uni.request({
+						url: '/member/updatePassword',
+						method: "POST",
+						data: that.from,
+						success: (res) => {
+							uni.showToast({
+								title: "修改成功",
+								success: function(res) {
+									uni.removeStorageSync("user")
+									if (that.titleShow == 1) {
+										uni.removeStorageSync("phoneCheck")
+										uni.removeStorageSync("phone")
+									} else {
+										uni.removeStorageSync("emailCheck")
+										uni.removeStorageSync("email")
+									}
+									let time = setTimeout(() => {
+										clearTimeout(time)
+										uni.redirectTo({
+											url: `/pages/loginReg/login`
+										});
+									}, 1000)
+								},
+							})
+						}
+					});
 				}
 			}
 		}

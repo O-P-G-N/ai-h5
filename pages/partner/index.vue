@@ -11,7 +11,8 @@
 			</view>
 			<view class="right_avatar">
 				<text class="right_avatar_top">nike</text>
-				<ai-button @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'" class="next-btn btn-view">升级训练</ai-button>
+				<ai-button @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'"
+					class="next-btn btn-view">升级训练</ai-button>
 			</view>
 		</view>
 		<view class="chat-view">
@@ -36,10 +37,13 @@
 				});
 			},
 			// 升级训练
-			upTrain(){
-				uni.navigateTo({
-					url: `/pages/partner/upgrade_train`
-				});
+			upTrain() {
+				let time = setTimeout(() => {
+					clearTimeout(time)
+					uni.navigateTo({
+						url: `/pages/partner/upgrade_train`
+					});
+				}, 500)
 			}
 		}
 	}

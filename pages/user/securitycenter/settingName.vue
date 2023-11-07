@@ -7,13 +7,14 @@
 		</u-navbar>
 		<view class="main">
 			<view class="cell">
-				<input class="uni-input" maxlength="20" placeholder="请输入昵称" />
+				<input class="uni-input" v-model="nickName" maxlength="20" placeholder="请输入昵称" />
 			</view>
 			<view class="tip">
 				<view class="">温馨提示：</view>
 				<view class="">设置后默认不允许修改，请认真给自己取名哦！</view>
 			</view>
-			<ai-button :btnHeight="'53px'" :bg="'#333'" class="next-btn editpassbtn" @click="ConfirmBind">确认绑定</ai-button>
+			<ai-button :btnHeight="'53px'" :bg="'#333'" class="next-btn editpassbtn"
+				@click="ConfirmSet">确认绑定</ai-button>
 		</view>
 	</view>
 </template>
@@ -22,19 +23,36 @@
 	export default {
 		data() {
 			return {
-
+				nickName: "", //昵称
 			};
 		},
-		methods:{
+		methods: {
 			// 返回
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/index/index`
+				uni.redirectTo({
+					url: `/pages/user/securitycenter/index`
 				});
 			},
 			// 确认设置
-			ConfirmSet(){
-				
+			ConfirmSet() {
+				uni.request({
+					url: '/member/setNickName',
+					method: "POST",
+					data:{nickName:this.nickName},
+					success: (res) => {
+						uni.showToast({
+							title: "设置成功",
+							success: function(res) {
+								let time = setTimeout(() => {
+									clearTimeout(time)
+									uni.redirectTo({
+										url: `/pages/user/securitycenter/index`
+									});
+								}, 1000)
+							},
+						})
+					}
+				});
 			},
 		}
 	}
@@ -93,7 +111,8 @@
 				.uni-input {
 					width: 100%;
 				}
-				.uni-input-placeholder{
+
+				.uni-input-placeholder {
 					color: rgb(192, 196, 204);
 					font-size: 16px;
 				}

@@ -1,6 +1,7 @@
 <template>
 	<view class="integral_exchange">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" title="积分兑换" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" title="积分兑换"
+			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -11,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				兑换比例：
-				<text>1 红包=100积分</text>
+				<text>1 红包={{exchangeNum}}积分</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -27,12 +28,13 @@
 							style="background-color: rgb(245, 246, 250);color: rgb(127, 127, 127);top: -36px;">余额: 40.56
 						</view>
 						<view class="intCs">
-							<input class="uni-input" type="number" maxlength="140" placeholder="请输入金额" />
+							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"
+								placeholder="请输入金额" />
 						</view>
 					</view>
 				</view>
 				<view class="jiaohuan">
-					<image src="@/static/user/jiaohuan.png" mode=""></image>
+					<image @click="exchange" src="@/static/user/jiaohuan.png" mode=""></image>
 				</view>
 				<view class="content " style="top: 20px;">
 					<view class="left">
@@ -43,15 +45,15 @@
 						<view class="fdTitle">获得</view>
 					</view>
 					<view class="right">
-						<view class="pfdz">B+: 赠 15%</view>
+						<view class="pfdz">B+: 赠{{bonusRatio}}%</view>
 						<view class="intCs">
-							<text class="intCs_text">0</text>
+							<text class="intCs_text">{{integralAmount}}</text>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<button class="ljdh">立即兑换</button>
+		<button class="ljdh" @click="redeemNow">立即兑换</button>
 		<view class="tuiguang">
 			<view>
 				<view class="title">推广收益(积分)</view>
@@ -70,10 +72,15 @@
 	export default {
 		data() {
 			return {
-
+				integralAmount: "0", //转换积分
+				exchangeNum: "", //兑换数量
+				bonusRatio: "", //加赠比例
+				redPacket: "", //消耗的红包数量
 			};
 		},
-		created() {},
+		onShow() {
+			this.getExchangeInfo()
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
@@ -81,11 +88,57 @@
 					url: `/pages/user/index`
 				});
 			},
+			// 获取兑换信息
+			getExchangeInfo() {
+				uni.request({
+					url: `/aicommon/getDict`,
+					method: "GET",
+					data: {
+						dictType: 'score'
+					},
+					success: (res) => {
+						console.log(res);
+						this.exchangeNum = res.data[0].dictValue;
+						this.bonusRatio = res.data[1].dictValue;
+					}
+				});
+			},
 			// 查看历史记录
-			viewHistory(){
+			viewHistory() {
 				uni.navigateTo({
 					url: `/pages/user/history`
 				});
+			},
+			// 交换
+			exchange() {
+				uni.$u.toast('暂未开放');
+			},
+			// 计算金额
+			calculateAmount(val) {
+				this.redPacket = val.detail.value;
+				this.integralAmount = Number(val.detail.value) * (Number(this.exchangeNum) + (Number(this.exchangeNum) * (
+					Number(this.bonusRatio) / 100)))
+			},
+			// 确定兑换
+			redeemNow() {
+				if (this.redPacket == "") {
+					uni.$u.toast('请输入要兑换的积分或者余额');
+					return
+				} else if (this.redPacket > 0) {
+					uni.$u.toast('兑换数量不得大于余额');
+					return
+				} else {
+					uni.request({
+						url: `/member/scoreConvert`,
+						method: "POST",
+						data: {
+							hongbao: this.redPacket
+						},
+						success: (res) => {
+
+						}
+					});
+				}
 			}
 		},
 	}
@@ -307,14 +360,15 @@
 					height: 40px;
 				}
 			}
-			.zwkf{
-				color: rgba(51,51,51,.6);
-				    position: absolute;
-				    bottom: 25px;
-				    text-align: center;
-				    width: 100%;
-				    left: 0;
-				    font-size: 19px;
+
+			.zwkf {
+				color: rgba(51, 51, 51, .6);
+				position: absolute;
+				bottom: 25px;
+				text-align: center;
+				width: 100%;
+				left: 0;
+				font-size: 19px;
 			}
 		}
 	}

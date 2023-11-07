@@ -17,7 +17,7 @@
 						</u-cell>
 						<u-cell title="密保设置" :is-link="true" @click="securitySet">
 						</u-cell>
-						<u-cell title="设置昵称" :is-link="true" @click="capitalFlow">
+						<u-cell title="设置昵称" :is-link="true" @click="setNickName">
 						</u-cell>
 					</u-cell-group>
 				</view>
@@ -58,9 +58,13 @@
 				uni.navigateTo({
 					url: `/pages/user/securitycenter/Confidentiality`
 				});
+			},
+			// 设置昵称
+			setNickName(){
+				uni.navigateTo({
+					url: `/pages/user/securitycenter/settingName`
+				});
 			}
-			
-			
 		}
 	}
 </script>

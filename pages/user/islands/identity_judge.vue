@@ -118,7 +118,7 @@
 		<view class="activate_popup" v-if="activateShow">
 			<view class="activate_popup_box">
 				
-			<!-- <image class="activate_popup_" src="@/static/user/HTXE4.png" mode=""></image> -->
+			<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode=""></image>
 			<image class="activate_popup_box_del" @click.stop="activateShow=false" src="@/static/user/del.png" mode=""></image>
 			</view>
 		</view>
@@ -148,6 +148,12 @@
 			copyBtn(){
 				uni.navigateTo({
 					url: `/pages/user/islands/invite`
+				});
+			},
+			// 充值激活
+			rechargeActive(){
+				uni.navigateTo({
+					url: `/pages/user/recharge`
 				});
 			}
 		}
@@ -270,11 +276,10 @@
 			box-sizing: border-box;
 			.info_body{
 				width: 100%;
-				background: #FFFFFF;
-				border-radius: 10px 10px 10px 10px;
-				opacity: 1;
-				border: 1px solid #707070;
-				padding: 20px;
+				padding: 16px 21px;
+				border-radius: 21px;
+				color: #000;
+				background: #f5f6fa;
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
@@ -313,11 +318,10 @@
 			.info_body{
 				margin-top: 10px;
 				width: 100%;
-				background: #FFFFFF;
-				border-radius: 10px 10px 10px 10px;
-				opacity: 1;
-				border: 1px solid #707070;
-				padding: 20px;
+				padding: 16px 21px;
+				border-radius: 21px;
+				color: #000;
+				background: #f5f6fa;
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
@@ -364,6 +368,13 @@
 				background: url("@/static/user/HTXE4.png") no-repeat;
 				background-size: 100% 100%;
 				position: relative;
+				.activate_popup_box_open{
+					width: 210px;
+					height: 80px;
+					position: absolute;
+					bottom: 52px;
+					left: 20%;
+				}
 				.activate_popup_box_del{
 					width: 30px;
 					height: 30px;

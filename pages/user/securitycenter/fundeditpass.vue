@@ -148,7 +148,7 @@
 				} else {
 					uni.request({
 						url: '/member/updatePayPassword',
-						method: "GET",
+						method: "POST",
 						data: this.from,
 						success: (res) => {
 							uni.showToast({
@@ -157,7 +157,7 @@
 									let time = setTimeout(() => {
 										clearTimeout(time)
 										uni.redirectTo({
-											url: `/pages/securitycenter/index`
+											url: `/pages/user/securitycenter/index`
 										});
 									}, 1000)
 								},
