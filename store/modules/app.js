@@ -1,5 +1,6 @@
 // 记录一些系统设置
 export default {
+	namespaced: true,
 	state: {
 		init: false,
 		user: null,
