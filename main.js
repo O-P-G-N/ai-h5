@@ -129,7 +129,8 @@ const remoteSource = (url) => {
 
  Vue.prototype._tyy = {
  	sysInfo,
- 	remoteSource
+ 	remoteSource,
+	wsURL: app_config.socketUrl
  }
 
 
