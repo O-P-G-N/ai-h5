@@ -20,7 +20,7 @@
 							可用余额<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
 						</view>
 						<view class="blancenum">
-							<u--text mode="name" text="481.96" :format="eyeShow?'encrypt':''"></u--text><text class="blancenum_text">USDT</text>
+							<u--text mode="name" text="481.96" :format="eyeShow?'encrypt':''"></u--text><text class="blancenum_text">红包</text>
 						</view>
 					</view>
 					<view class="justcard_right">
@@ -40,7 +40,7 @@
 				</view>
 				<view class="marketeverytitle">AI智能+量化交易</view>
 				<view class="modellist">
-					<view class="modellist_every" @click="createContract">
+					<view class="modellist_every" @click="createContract(1)">
 						<view class="modeltop">
 							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
 							<view class="titles">证券</view>
@@ -56,7 +56,7 @@
 						</view>
 						<button class="creatmodel">创建合约</button>
 					</view>
-					<view class="modellist_every" @click="createContract">
+					<view class="modellist_every" @click="createContract(2)">
 						<view class="modeltop">
 							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
 							<view class="titles">加密货币</view>
@@ -288,9 +288,9 @@
 				});
 			},
 			// 创建合约
-			createContract(){
+			createContract(val){
 				uni.navigateTo({
-					url: `/pages/market/startcreat`
+					url: `/pages/market/startcreat?type=${val}`
 				});
 			}
 		}

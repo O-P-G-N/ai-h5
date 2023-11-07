@@ -10,29 +10,29 @@
 				<view class="mymodellist">
 					<view class="modeltop">
 						<view class="modeltitle">
-							<image class="modeltitle_img" src="@/static/user/up.png" mode=""></image>
+							<image class="modeltitle_img" :src="contractDetails.type==1?'../../static/user/up.png':'../../static/user/encryption.png'" mode=""></image>
 							<view class="in">
-								<view class="title">证券</view>
+								<view class="title">{{contractDetails.type==1?'证券':'加密货币'}}</view>
 							</view>
 						</view>
 						<view class="modelshouyi">
 							<view class="modelshouyi_every">
-								<view class="leijiprice">$0.00</view>
+								<view class="leijiprice">${{contractDetails.incomeHongbao}}</view>
 								<view class="">累计收益</view>
 							</view>
 							<view class="modelshouyi_every">
-								<view class="shouyilvprice"><text>0.50%</text></view>
+								<view class="shouyilvprice"><text>{{Number(contractDetails.bili)*100}}%</text></view>
 								<view class="">收益率</view>
 							</view>
 						</view>
 					</view>
 					<view class="contractthree">
 						<view class="contract_every">
-							<view class="intro">1份</view>
+							<view class="intro">{{contractDetails.payNum}}份</view>
 							<view class="titles">合约份数</view>
 						</view>
 						<view class="contract_every">
-							<view class="intro">0天</view>
+							<view class="intro">{{contractDetails.runday}}天</view>
 							<view class="titles">已运行</view>
 						</view>
 						<view class="contract_every">
@@ -48,7 +48,7 @@
 						<view class="">Stock：Aptos |（Symbol：APT）| US</view>
 						<view class="tablemain_body_content">
 							<view class="redactivebgcolor">
-							Buy
+								Buy
 							</view>
 							<view class="">Price：6.43 | Floating P/L：0%</view>
 						</view>
@@ -58,7 +58,7 @@
 						<view class="">Stock：Zcash |（Symbol：ZEC）| US</view>
 						<view class="tablemain_body_content">
 							<view class="redactivebgcolor">
-							Sell
+								Sell
 							</view>
 							<view class="">Price：30.27 | Floating P/L：17.59%</view>
 						</view>
@@ -73,10 +73,12 @@
 	export default {
 		data() {
 			return {
-
+				contractDetails: {}, //交易详情
 			};
 		},
-		created() {},
+		onLoad(option) {
+			this.getContractDetails(option.id)
+		},
 		methods: {
 			// 返回合约金额
 			goBackUser() {
@@ -84,7 +86,24 @@
 					url: `/pages/user/contract_amount`
 				});
 			},
-
+			getContractDetails(id) {
+				uni.request({
+					url: `/island/contract/${id}`,
+					method: "POST",
+					success: (res) => {
+						res.data.runday = this.getDaysDiff(res.data.createTime, Date.now())
+						this.contractDetails=res.data;
+					}
+				});
+			},
+			// 计算天数
+			getDaysDiff(startDate, endDate) {
+				const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+				const start = new Date(startDate);
+				const end = new Date(endDate);
+				const diffDays = Math.round(Math.abs((end - start) / oneDay));
+				return diffDays;
+			},
 		},
 	}
 </script>
@@ -260,13 +279,14 @@
 								text-align: center;
 								margin-right: 10px;
 							}
-							.greenactivebgcolor{
+
+							.greenactivebgcolor {
 								background: #5ead24;
-								    color: #fff;
-								    width: 31px;
-								    text-align: center;
-								    margin-right: 10px;
-									height: 30px;
+								color: #fff;
+								width: 31px;
+								text-align: center;
+								margin-right: 10px;
+								height: 30px;
 							}
 						}
 					}

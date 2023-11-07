@@ -17,7 +17,7 @@
 					</view>
 					<view class="invitebottom">
 						<view class="inviteleft">邀请码</view>
-						<view class="inviteright">{{from.value}}
+						<view class="inviteright">{{invitationCode}}
 							<image @click="copyInvite" class="inviteright_img" src="@/static/islands/copywhite.png" mode=""></image>
 						</view>
 					</view>
@@ -37,13 +37,11 @@
 	export default {
 		data() {
 			return {
-				from:{
-					value:"627121",//邀请码
-				}
+				invitationCode:"",//邀请码
 			};
 		},
 		onShow() {
-			this.make()
+			this.getInvitationCode();
 		},
 		methods: {
 			// 返回我的岛屿
@@ -52,8 +50,19 @@
 					url: `/pages/user/islands/index`
 				});
 			},
+			// 获取邀请码
+			getInvitationCode(){
+				uni.request({
+					url: `/island/invite-code`,
+					method: "GET",
+					success: (res) => {
+						this.invitationCode=res.data;
+						this.make(res.data)
+					}
+				});
+			},
 			// 生成二维码
-			make() {
+			make(data) {
 				uni.showLoading({
 					title: '二维码生成中',
 					mask: true
@@ -61,7 +70,7 @@
 			
 				uQRCode.make({
 					canvasId: 'qrcode',
-					text: "627121",
+					text: data,
 					size: 160,
 					margin: 10,
 					success: res => {
@@ -75,12 +84,11 @@
 			// 复制邀请码
 			copyInvite(){
 				uni.setClipboardData({
-					data: this.from.value,
+					data: this.invitationCode,
 					success: function() {
 						uni.showToast({
 							title: "复制成功!",
 							success: function(res) {
-								that.bigImg = false;
 							}
 						})
 					}

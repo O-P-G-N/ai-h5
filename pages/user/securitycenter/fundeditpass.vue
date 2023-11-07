@@ -1,6 +1,6 @@
 <template>
 	<view class="editpass">
-		<u-navbar height="53px" @leftClick="goBackUser" title="登录密码" :safeAreaInsetTop="false">
+		<u-navbar height="53px" @leftClick="goBackUser" title="交易密码" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -8,10 +8,10 @@
 		<view class="container_nei">
 			<view class="main">
 				<u-cell-group :border="false">
-					<u-cell :title="titleShow?'手机号':'邮箱账号'">
+					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
-								<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
+								<button slot="suffix" class="email_content_btn" @click="getCode">获取验证码</button>
 							</u-input>
 						</view>
 					</u-cell>
@@ -33,7 +33,7 @@
 					</u-cell>
 					<u-cell title="确认新密码">
 						<view slot="value" class="code_content">
-							<u-input v-model="confirmPassword" placeholder="请确认新密码" :password="eyeShows">
+							<u-input v-model="from.confirmPassword" placeholder="请确认新密码" :password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -68,12 +68,12 @@
 			return {
 				name: "", //用户名
 				from: {
-					email: "", //邮箱号
-					phone: "", //手机号
+					email:"",//邮箱号
+					phone:"",//手机号
 					code: "", //验证码
 					newPassword: "", //新密码
+					confirmPassword: "", //确认新密码
 				}, //表单验证
-				confirmPassword: "", //确认新密码
 				eyeShow: true, //密码显示
 				eyeShows: true, //密码显示
 				titleShow: 1, //判断标题
@@ -90,6 +90,26 @@
 					url: `/pages/user/securitycenter/index`
 				});
 			},
+			// 判断标题
+			determineTitle() {
+				if (uni.getStorageSync("user").phone) {
+					this.titleShow = 1;
+					this.from.phone=uni.getStorageSync("user").phone;
+					this.name=uni.getStorageSync("user").phone;
+				} else {
+					this.titleShow = 2;
+					this.from.email=uni.getStorageSync("user").email;
+					this.name=uni.getStorageSync("user").email;
+				}
+			},
+			// 显示隐藏
+			showHidden() {
+				this.eyeShow = !this.eyeShow
+			},
+			// 显示隐藏
+			showHiddens() {
+				this.eyeShows = !this.eyeShows
+			},
 			// 获取验证码
 			getCode() {
 				uni.request({
@@ -105,68 +125,39 @@
 					}
 				});
 			},
-			// 判断标题
-			determineTitle() {
-				if (uni.getStorageSync("user").phone) {
-					this.titleShow = 1;
-					this.name = uni.getStorageSync("user").phone;
-					this.from.phone = uni.getStorageSync("user").phone;
-				} else {
-					this.titleShow = 2;
-					this.name = uni.getStorageSync("user").email;
-					this.from.email = uni.getStorageSync("user").email;
-				}
-			},
-			// 显示隐藏
-			showHidden() {
-				this.eyeShow = !this.eyeShow;
-			},
-			// 显示隐藏
-			showHiddens() {
-				this.eyeShows = !this.eyeShows;
-			},
 			// 确认修改
 			ConfMod() {
-				let that=this
 				let num = /[0-9]/im
 				let patrn =
 					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
-				if (that.from.code == "") {
+				if(this.from.code==""){
 					uni.$u.toast('请输入验证码');
 					return
-				} else if (that.from.newPassword.length < 8) {
+				}else if (this.from.newPassword.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
-				} else if (!patrn.test(that.from.newPassword)) {
+				} else if (!patrn.test(this.from.newPassword)) {
 					uni.$u.toast('有一个大写字母和字符');
 					return
-				} else if (!num.test(that.from.newPassword)) {
+				} else if (!num.test(this.from.newPassword)) {
 					uni.$u.toast('包含数字');
 					return
-				} else if (that.from.newPassword != that.confirmPassword) {
+				} else if (this.from.newPassword != this.from.confirmPassword) {
 					uni.$u.toast('两次输入密码不一致');
 					return
 				} else {
 					uni.request({
-						url: '/member/updatePassword',
+						url: '/member/updatePayPassword',
 						method: "POST",
-						data: that.from,
+						data: this.from,
 						success: (res) => {
 							uni.showToast({
 								title: "修改成功",
 								success: function(res) {
-									uni.removeStorageSync("user")
-									if (that.titleShow == 1) {
-										uni.removeStorageSync("phoneCheck")
-										uni.removeStorageSync("phone")
-									} else {
-										uni.removeStorageSync("emailCheck")
-										uni.removeStorageSync("email")
-									}
 									let time = setTimeout(() => {
 										clearTimeout(time)
 										uni.redirectTo({
-											url: `/pages/loginReg/login`
+											url: `/pages/user/securitycenter/index`
 										});
 									}, 1000)
 								},
