@@ -6,59 +6,43 @@
 			</view>
 		</u-navbar>
 		<view class="content">
-			<view class="list-body">
+			<view class="list-body" v-for="(v,i) in lists" :key="i">
 				<view class="capital">
 					<view class="capital_top">
 						<text>兑换类型</text>
 						<text>积分兑换</text>
 					</view>
 					<view class="orderhao">
-						<text>兑换USDT金额</text>
-						<text>10.00</text>
+						<text>兑换红包金额</text>
+						<text>{{v.hongbao}}</text>
 					</view>
 					<view class="orderhao">
 						<text>兑换积分数量</text>
-						<text>1150.00</text>
+						<text>{{v.useScore}}</text>
 					</view>
 					<view class="orderhao">
 						<text>兑换时间</text>
-						<text>2023-10-26 11:14:04</text>
+						<text>{{v.updateTime}}</text>
 					</view>
 				</view>
 			</view>
-			<view class="list-body">
-				<view class="capital">
-					<view class="capital_top">
-						<text>兑换类型</text>
-						<text>积分兑换</text>
-					</view>
-					<view class="orderhao">
-						<text>兑换USDT金额</text>
-						<text>10.00</text>
-					</view>
-					<view class="orderhao">
-						<text>兑换积分数量</text>
-						<text>1150.00</text>
-					</view>
-					<view class="orderhao">
-						<text>兑换时间</text>
-						<text>2023-10-26 11:14:04</text>
-					</view>
-				</view>
-			</view>
-			<u-loadmore status="nomore" />
+			<u-loadmore :status="loadStatus" />
 		</view>
 	</view>
 </template>
 
 <script>
+	import {listMixin} from "@/mixin/page.js"
 	export default {
+		mixins: [listMixin],
 		data() {
 			return {
-
+				pageUrl: `/withdraw/list`,
 			};
 		},
-		created() {},
+		onLoad() {
+			this.getList(1);
+		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
@@ -132,12 +116,13 @@
 						display: flex;
 						justify-content: space-between;
 					}
-					.orderhao{
-						    font-size: 15px;
-						    color: #333;
-						    display: flex;
-						    justify-content: space-between;
-						    line-height: 3;
+
+					.orderhao {
+						font-size: 15px;
+						color: #333;
+						display: flex;
+						justify-content: space-between;
+						line-height: 3;
 					}
 				}
 			}

@@ -20,7 +20,7 @@
 							可用余额<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
 						</view>
 						<view class="blancenum">
-							<u--text mode="name" text="481.96" :format="eyeShow?'encrypt':''"></u--text><text class="blancenum_text">红包</text>
+							<u--text mode="name" :text="accountBalance" :format="eyeShow?'encrypt':''"></u--text><text class="blancenum_text">红包</text>
 						</view>
 					</view>
 					<view class="justcard_right">
@@ -240,11 +240,12 @@
 					},
 				],
 				eyeShow:false,//隐藏
-				
+				accountBalance:"",//红包余额
 			}
 		},
 		onReady() {
 			this.getServerData();
+			this.getAccount();
 		},
 		created() {},
 		methods: {
@@ -270,6 +271,16 @@
 			},
 			listBtn(i) {
 				this.listIndex = i
+			},
+			// 获取红包余额
+			getAccount(){
+				uni.request({
+					url: `/member/getAccount`,
+					method: "GET",
+					success: (res) => {
+						this.accountBalance = res.data.hongbao.toString();
+					}
+				});
 			},
 			// 隐藏
 			lockBtn(){

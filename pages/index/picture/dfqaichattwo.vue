@@ -15,9 +15,9 @@
 					<image @click="showPopupFn(1)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="typeList">
-					<view class="type-item" v-for="(item,index) in typeList" :key='index' @click="typeIndex=index">
+					<view class="type-item" v-for="(item,index) in typeList" :key='index' @click="themeSelect(index,item.name)">
 						<view class="activeItem" v-if='typeIndex==index'></view>
-						<image class="item-image" src="~@/static/index/anli.webp"></image>
+						<image class="item-image" :src="item.imgUrl"></image>
 						<view class="typeTitle">{{item.name}}</view>
 					</view>
 				</view>
@@ -25,19 +25,17 @@
 					<image  @click="showPopupFn(2)"class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="stylelist">
-					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index' @click='styleIndex=index'
+					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index' @click='styleSelect(index,item.name)'
 						:class="{'activeItem':styleIndex==index}">
 						{{item.name}}
 					</view>
 				</view>
 				<ai-button :btnHeight="'64px'"  class="clickView"  @click="generateFn">立即生成</ai-button>
-
-
 			</template>
 			<template v-else>
 				<view class="generateDiv">
 					<template v-if='generateImg!=""'>
-						<image @click="showFn" @longpress="$downloadFile(generateImg,'图片')" mode="aspectFill" class="generateImg" :src="generateImg"></image>
+						<image @click="showFn"  mode="aspectFill" class="generateImg" :src="generateImg"></image>
 					</template>
 					<template v-else>
 						<view class="progress-title">{{progress}}%</view>
@@ -47,7 +45,7 @@
 						</view>
 					</template>
 				</view>
-				<view class="hint" v-if='generateImg!=""'>长安图片保存到本地</view>
+				<view class="hint" v-if='generateImg!=""'>长按图片保存到本地</view>
 				<view class="content-title" style="margin-top: 30rpx;"><text>画面描述</text></view>
 				<view class="detail-content">{{parameter.prompt}}</view>
 
@@ -59,14 +57,60 @@
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">尺寸</view>
-						<view class="detail-right">{{parameter.width}}*{{parameter.height}}</view>
+						<view class="detail-right">1024*1024</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">风格选择</view>
+						<view class="detail-right">{{parameter.topic}}</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">采样模式</view>
+						<view class="detail-right">DPM++ 2M Karras</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">提示性相关词</view>
+						<view class="detail-right">7</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">Clip skip</view>
+						<view class="detail-right">敬请期待...</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">ENSD</view>
+						<view class="detail-right">敬请期待...</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">角色同人</view>
+						<view class="detail-right">敬请期待...</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">融合模型</view>
+						<view class="detail-right">敬请期待...</view>
+					</view>
+					<view class="detail-item">
+						<view class="detail-left">参考图</view>
+						<view class="detail-right">敬请期待...</view>
 					</view>
 				</view>
+				<view class="miaoshu">
+					<view class="content-title"><text>精绘</text></view>
+					<view class="detail-content1">
+						<view class="detail-item">
+							<view class="detail-left">精绘倍数</view>
+							<view class="detail-right">1.5</view>
+						</view>
+						<view class="detail-item">
+							<view class="detail-left">强度</view>
+							<view class="detail-right">80%</view>
+						</view>
+					</view>
+				</view>
+				
 			</template>
 		</view>
 		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
 		    <image mode="widthFix" class="privImg" :src="generateImg"></image>
-			<view class="buttonDown" @click="$downloadFile(generateImg,'图片');show=false">保存图片</view>
+			<view class="buttonDown" @click="copyBtn">复制链接</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -81,6 +125,7 @@
 </template>
 
 <script>
+	import app_config from '../../../common/config.js';
 	export default {
 		data() {
 			return {
@@ -93,23 +138,32 @@
 				progress: 0,
 				typeList:[
 					{
-						name: '自由',
+						name: '通用',
+						imgUrl:require('@/static/index/preempt5.webp'),
 					}, {
-						name: '赛博朋克',
+						name: '科幻',
+						imgUrl:require('@/static/index/model8.webp'),
 					}, {
-						name: '水彩风'
+						name: '儿童3D',
+						imgUrl:require('@/static/index/model4.webp'),
 					}, {
-						name: '水墨风'
+						name: '建筑设计',
+						imgUrl:require('@/static/index/model7.webp'),
 					}, {
-						name: '黑白'
+						name: '2.5D动漫',
+						imgUrl:require('@/static/index/model1.webp'),
 					}, {
-						name: '油画风'
+						name: '电影写实',
+						imgUrl:require('@/static/index/model10.webp'),
 					}, {
-						name: '梦幻风'
+						name: '人物写真',
+						imgUrl:require('@/static/index/model11.webp'),
 					}, {
-						name: '素描'
+						name: '3D日漫',
+						imgUrl:require('@/static/index/model9.webp'),
 					}, {
-						name: '涂鸦'
+						name: 'CG写真',
+						imgUrl:require('@/static/index/model5.webp'),
 					}
 				],
 				stylelist: [
@@ -139,13 +193,16 @@
 					title:'',
 					content:''
 				},
+				imgUrl:"",//图片地址
 			}
 		},
 		onLoad(e) {
-			this.parameter = JSON.parse(e.parameter)
+			this.parameter = JSON.parse(e.parameter);
+			this.parameter.style = "通用";
+			this.parameter.topic = "自由";
 			this.callBack = (res) => {
 				if (res) {
-					this.generateImg = require(`@/static/index/anli.webp`)
+					this.generateImg = app_config.apiUrl+"/"+this.imgUrl
 				}
 			}
 		},
@@ -180,7 +237,25 @@
 			showFn(src){
 				this.show=true
 			},
+			// 主题选择
+			themeSelect(index,name){
+				 this.typeIndex=index;
+				 this.parameter.style=name
+			},
+			// 风格选择
+			styleSelect(index,name){
+				this.styleIndex=index
+				this.parameter.topic=name
+			},
 			generateFn() {
+				uni.request({
+					url: `/workImage/generate`,
+					method: "POST",
+					data:this.parameter,
+					success: (res) => {
+						this.imgUrl=res.data[0]
+					}
+				});
 				this.isGenerate = true
 				if (this.setIntervalL) clearInterval(this.setIntervalL)
 				this.setIntervalL = setInterval(() => {
@@ -190,6 +265,22 @@
 						if (this.callBack) this.callBack(true)
 					}
 				}, 100)
+			},
+			copyBtn(){
+				// $downloadFile(generateImg,'图片');show=false
+				// @longpress="$downloadFile(generateImg,'图片')"
+				let that = this
+				uni.setClipboardData({
+					data: this.generateImg,
+					success: function() {
+						uni.showToast({
+							title: "复制成功,请在浏览器打开!",
+							success: function(res) {
+								that.show=false
+							}
+						})
+					}
+				});
 			}
 		}
 	}
@@ -451,7 +542,6 @@
 	.detail-content1 {
 		width: calc(100% - 60rpx);
 		border: 2rpx solid #9f9f9f;
-		height: 200rpx;
 		border-radius: 30rpx;
 		padding: 0 30rpx;
 		margin-top: 20rpx;
@@ -474,6 +564,9 @@
 			}
 		}
 	}
+	.miaoshu{
+		margin-top: 20px;
+	}
 	
 	::v-deep .u-popup__content{
 		background-color: transparent;
@@ -483,14 +576,13 @@
 	}
 	
 	.buttonDown{
-		width: 250rpx;
-		height: 80rpx;
-		background-color:rgb(22, 155, 213);
+		padding: 6px 14px;
+		background: #133eff;
+		    border-radius: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		color: #fff;
-		border-radius: 20rpx;
-		margin: 20rpx auto;
+		margin: 16rpx auto;
 	}
 </style>

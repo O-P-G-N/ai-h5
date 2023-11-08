@@ -12,8 +12,8 @@
 			</view>
 			<view class="content">
 				<u-collapse accordion v-if="noticeList.length>0">
-					<u-collapse-item :border="false" title="APP更新" name="Docs guide">
-						<text class="u-collapse-content">涵盖uniapp各个方面，给开发者方向指导和设计理念，让您茅塞顿开，一马平川</text>
+					<u-collapse-item v-for="(v,i) in noticeList" :border="false" :title="v.noticeTitle" name="Docs guide">
+						<text class="u-collapse-content">{{v.noticeContent}}</text>
 					</u-collapse-item>
 
 				</u-collapse>
@@ -31,13 +31,20 @@
 			return {
 				tabList: [{
 					name: '系统公告',
+					value:"1"
 				}, {
 					name: '交易公告',
+					value:"2"
 				}, {
-					name: '活动公告'
+					name: '活动公告',
+					value:"3"
 				}, ],
 				noticeList:[],//公告列表
+				tabIndex:"1",//tab索引
 			};
+		},
+		onShow() {
+			this.getNoticeList()
 		},
 		methods: {
 			// 返回个人中心
@@ -46,9 +53,21 @@
 					url: `/pages/user/index`
 				});
 			},
+			// 获取公告信息
+			getNoticeList(){
+				uni.request({
+					url: `/info/list`,
+					method: "GET",
+					data: {noticeType:this.tabIndex},
+					success: (res) => {
+						this.noticeList=res.data;
+					}
+				});
+			},
 			// tab切换
-			tabClick() {
-
+			tabClick(val) {
+				this.tabIndex=val.value;
+				this.getNoticeList();
 			},
 		}
 	}

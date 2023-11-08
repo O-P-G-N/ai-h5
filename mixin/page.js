@@ -25,31 +25,31 @@ export const listMixin = {
         this.extra = {}
       }
     },
-    getList() {
+    getList(type) {
       if (this.loadStatus == 'nomore') {
         return
       }
 	  this.loadStatus == 'loading'
       uni.request({
-		url: this.pagedUrl
+		url: this.pageUrl,
         data: {
           ...this.extra,
           page: this.page,
           pageNum: this.page,
+		  type:type,
           pageSize: this.pageSize || 10
         },
         method: this.method || null,
-        success: data => {
+        success: res => {
           this.loadStatus = 'loadmore'
-          if (data.lists && data.lists.length > 0) {
-            const pageData = data.pageData || data.meta
-            this.totalPage = Math.ceil(pageData.total / pageData.size)
-
+          if (res.data.rows && res.data.rows.length > 0) {
+            const pageData = res.data || res.meta
+            this.totalPage = Math.ceil(pageData.total / pageData.pageSize)
             if (this.selfDataHander) {
 			  //使用者自定义数据处理方法，需要自己concat
-              this.selfDataHander(data.lists,data.meta)
+              this.selfDataHander(pageData.rows,res.meta)
             } else {
-              this.lists = this.lists.concat(data.lists)
+              this.lists = this.lists.concat(pageData.rows)
             }
 
             if (this.page == this.totalPage) {
@@ -60,7 +60,10 @@ export const listMixin = {
           } else {
             this.loadStatus = 'nomore'
           }
-        }
+        },
+		fail(e) {
+			console.log("SDCF",e);
+		}
       })
     }
   }

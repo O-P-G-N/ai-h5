@@ -8,9 +8,9 @@
 		<view class="content-lei">
 			<view class="heardMain">
 				<input class="seachInput" placeholder="搜索画面描述" placeholder-style="color:rgb(192, 196, 204)"
-					v-model="seachTxt" />
+					v-model="from.keyword" />
 				<view class="seachBtn">
-					<image class="searchImg" src="~@/static/index/search.png"></image>
+					<image class="searchImg" @click="seachBtn" src="~@/static/index/search.png"></image>
 				</view>
 			</view>
 
@@ -21,8 +21,8 @@
 			<template v-if='selectIndex==0'>
 				<view class="contentMain">
 					<view class="content-item" v-for="(item,index) in contentList" :key='index'
-						@click="showFn('@/static/index/anli.webp')">
-						<image mode="widthFix" src="~@/static/index/anli.webp"></image>
+						@click="showFn(item.address)">
+						<image mode="widthFix" :src="item.address"></image>
 					</view>
 					<!-- <view class="noView" v-for="(item,index) in 10"></view> -->
 				</view>
@@ -30,32 +30,33 @@
 			<template v-else>
 				<view class="contentItemVideo" v-for="(item,index) in contentList2" :key='index'>
 					<view class="contentVideoMain">
-						<video  @pause="stopFn(index,$event)" @ended="stopFn(index,$event)" :class="{'playVideo':item.isPlay}" class="contentVideo" :id='`video_${index}`' :show-center-play-btn='false'
+						<video @pause="stopFn(index,$event)" @ended="stopFn(index,$event)"
+							:class="{'playVideo':item.isPlay}" class="contentVideo" :id='`video_${index}`'
+							:show-center-play-btn='false'
 							src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" controls></video>
-						<image v-if='!item.isPlay' class="playImg" @click="playFn(index)" mode="aspectFit" src="~@/static/index/bofangicon.png">
+						<image v-if='!item.isPlay' class="playImg" @click="playFn(index)" mode="aspectFit"
+							src="~@/static/index/bofangicon.png">
 						</image>
 					</view>
-					<ai-button   class="copy-btn" @click="copyFn">复制视频链接</ai-button>
+					<ai-button  class="copy-btn" @click="copyFn">复制视频链接</ai-button>
 				</view>
 			</template>
-
-			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
 		</view>
-		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
+		<u-popup :show="show" @close="show=false" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="showImage"></image>
-			<view class="buttonDown" @click="$downloadFile(showImage,'图片');show=false">保存图片</view>
+			<view class="buttonDown" @click.stop="copyBtn(showImage)">复制链接</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
+	import app_config from '../../../common/config.js';
 	export default {
 		data() {
 			return {
 				selectIndex: 0,
 				showImage: '',
 				show: false,
-				seachTxt: '',
 				contentList: [],
 				contentList2: [],
 				tabsList: [{
@@ -65,7 +66,11 @@
 						name: '营销创作',
 					}
 				],
-				isReachBottom: false
+				from: {
+					pageNum: 1, //页数
+					pageSize: 10, //每页条数
+					keyword: "", //搜索描述
+				},
 			}
 		},
 		onLoad() {
@@ -90,32 +95,32 @@
 			}
 		},
 		onReachBottom() {
-			if (this.isReachBottom) {
-				return
+			if (this.selectIndex == 0) {
+				this.upstrokeRef()
 			}
-			this.isReachBottom = true
-			setTimeout(() => {
-				this.loadmore()
-			}, 1000)
+		},
+		onHide() {
+			this.from.pageNum = 1;
+			this.contentList = [];
 		},
 		methods: {
-			stopFn(){
-				this.contentList2=this.contentList2.map(n=>{
-					n['isPlay']=false
+			stopFn() {
+				this.contentList2 = this.contentList2.map(n => {
+					n['isPlay'] = false
 					return n
 				})
 			},
 			playFn(index) {
-				document.querySelectorAll('.playVideo').forEach(item=>{
+				document.querySelectorAll('.playVideo').forEach(item => {
 					item.querySelector('.uni-video-video').pause()
 				})
-				this.contentList2=this.contentList2.map(n=>{
-					n['isPlay']=false
+				this.contentList2 = this.contentList2.map(n => {
+					n['isPlay'] = false
 					return n
 				})
-				this.$set(this.contentList2[index],'isPlay',true)
-				const playMainDom=document.getElementById(`video_${index}`)
-				const videoPlay=playMainDom.querySelector('.uni-video-video')
+				this.$set(this.contentList2[index], 'isPlay', true)
+				const playMainDom = document.getElementById(`video_${index}`)
+				const videoPlay = playMainDom.querySelector('.uni-video-video')
 				videoPlay.play()
 			},
 			copyFn() {
@@ -128,37 +133,71 @@
 			},
 			showFn(src) {
 				this.show = true
-				this.showImage = require(`@/static/index/anli.webp`)
+				this.showImage = src
 			},
 			tabSelectClick(e) {
-				this.stopFn()
-				this.isReachBottom = true
-				this.seachInput = ''
-				this.selectIndex = e.index
-				this.constenList = []
-				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
-				this.setTimeoutL = setTimeout(() => {
+				this.stopFn();
+				this.from.pageNum = 1;
+				this.contentList=[];
+				this.contentList2=[];
+				if(e.index==0){
 					this.loadmore()
-				}, 1000)
+				}
+				this.from.keyword = "";
+				this.selectIndex = e.index;
 			},
-			loadmore() {
-				for (let i = 0; i < 16; i++) {
-					if (this.selectIndex == 0) {
-						this.contentList.push({
-							text: parseInt(Math.random() * 10) + 10
+			// 上划加载
+			upstrokeRef() {
+				this.from.pageNum++
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
 						})
-					} else {
-						this.contentList2.push({
-							text: parseInt(Math.random() * 10) + 10
+						this.contentList.push(...res.data.rows);
+					}
+				});
+			},
+			// 搜索
+			seachBtn() {
+				if (this.selectIndex == 0) {
+					this.from.pageNum = 1
+					this.loadmore()
+				}else{
+					
+				}
+			},
+			// 查询ai图片创作
+			loadmore() {
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
+						})
+						this.contentList = res.data.rows;
+					}
+				});
+			},
+			// 复制图片链接
+			copyBtn(val) {
+				let that = this
+				uni.setClipboardData({
+					data: val,
+					success: function() {
+						uni.showToast({
+							title: "复制成功,请在浏览器打开!",
+							success: function(res) {
+								that.show = false;
+							}
 						})
 					}
-				}
-				this.$nextTick(() => {
-					setTimeout(() => {
-						this.isReachBottom = false
-					}, 1000)
-				})
-
+				});
 			},
 			back() {
 				uni.navigateBack()
@@ -223,15 +262,15 @@
 	}
 
 	.buttonDown {
-		width: 250rpx;
-		height: 80rpx;
-		background-color: rgb(22, 155, 213);
+		padding: 6px 14px;
+		background: #133eff;
+		border-radius: 8px;
+		color: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #fff;
-		border-radius: 20rpx;
-		margin: 20rpx auto;
+
+		margin: 16px auto;
 	}
 
 	.tabselect {
@@ -295,15 +334,15 @@
 			height: 458rpx;
 			border-radius: 44rpx;
 			overflow: hidden;
-		
+
 			.contentVideo {
 				width: 100% !important;
 				height: 100% !important;
 				box-sizing: border-box;
 				position: relative;
-		
+
 			}
-		
+
 			.playImg {
 				width: 76rpx;
 				height: 96rpx;
@@ -329,7 +368,8 @@
 			margin-top: 20rpx;
 		}
 	}
-	::v-deep .uni-video-bar{
+
+	::v-deep .uni-video-bar {
 		display: block !important;
 	}
 </style>

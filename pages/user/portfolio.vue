@@ -7,7 +7,7 @@
 		</u-navbar>
 		<view class="searchselect">
 			<view class="inputsearch">
-				<u--input placeholder="搜索画面描述" border="surround" shape="circle" v-model="value"></u--input>
+				<u--input v-model="from.keyword" placeholder="搜索画面描述" border="surround" shape="circle"></u--input>
 			</view>
 			<view class="rightshaixuan" @click="searchBtn">
 				<image class="searchicon" src="@/static/user/search.png" mode=""></image>
@@ -20,10 +20,10 @@
 		<view class="works">
 			<view class="" v-if="pageIndex==0">
 				<view class="workslist">
-					<view class="mb10">
+					<view class="mb10" v-for="(v,i) in contentList" :key="i">
 						<u-transition :show="true">
-							<u--image @click="viewLargeImage('https://cdn.uviewui.com/uview/album/1.jpg')"
-								src="https://cdn.uviewui.com/uview/album/1.jpg" width="110px" height="110px" radius="16"
+							<u--image @click="viewLargeImage(v.address)"
+								:src="v.address" width="110px" height="110px" radius="16"
 								shape="square"></u--image>
 						</u-transition>
 					</view>
@@ -51,25 +51,44 @@
 				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">复制链接</view>
 			</view>
 		</view>
+		<u-loadmore :status="status" />
 	</view>
 </template>
 
 <script>
+	import app_config from '../../common/config.js';
 	export default {
 		data() {
 			return {
-				value: "",
+				from: {
+					keyword:"",
+					pageNum:1,
+					pageSize:10
+				},
 				list: [{
 					name: 'AI创作',
 				}, {
 					name: '视频营销',
 				}, ],
+				contentList:[],//ai作品合集
 				pageIndex: 0, //页面索引
 				bigImg: false, //大图状态
 				bigImgRoute: "", //大图路径
+				pagenum:0,//总共页数
+				status: "loadmore",
 			}
 		},
-		created() {},
+		onShow() {
+			if(this.pageIndex==0){
+				this.getWorkCollection()
+			}
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
@@ -80,11 +99,48 @@
 			// 菜单点击
 			tabsClick(val) {
 				this.pageIndex = val.index;
+				this.from.pageNum = 1;
 			},
 			// 查看大图
 			viewLargeImage(val) {
 				this.bigImg = true;
 				this.bigImgRoute = val
+			},
+			//获取作品合集
+			getWorkCollection(){
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
+						})
+						this.contentList = res.data.rows;
+						this.pagenum = Math.ceil(res.data.total / 10);
+					}
+				});
+			},
+			// 上划加载
+			loadMore() {
+				if (this.from.pageNum < this.pagenum) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/workImage/list`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							res.data.rows.map((v) => {
+								v.address = app_config.apiUrl + "/" + v.address
+							})
+							this.status = "loadmore"
+							this.contentList.push(...res.data.rows);
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
 			},
 			// 复制图片链接
 			copyLink(val) {

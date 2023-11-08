@@ -6,7 +6,7 @@
 		<view class="container">
 			<view class="justcard">
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
-				<view class="button">
+				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
 					<text>1423</text>
 					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
@@ -55,11 +55,11 @@
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
 			<vide class="content-mian">
-				<template v-if='constenList.length'>
-					<view class="content-item" v-for='(item,index) in constenList' :key='index'>
-						<image mode="widthFix" src="@/static/index/png.webp"></image>
+				<template v-if='constenList.length>0'>
+					<view class="content-item" v-for='(v,index) in constenList' :key='index'>
+						<image mode="widthFix" :src="v.address"></image>
 						<view class="mian-text">
-							<view class="text">{{item.text}}</view>
+							<view class="text">{{v.worksStyle}}</view>
 						</view>
 					</view>
 				</template>
@@ -78,11 +78,8 @@
 						<view class="skeleton four"></view>
 					</view>
 				</template>
-				
-
 			</vide>
-
-			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
+			<u-loadmore :status="status" />
 			<Footer pageName='index'></Footer>
 		</view>
 	</view>
@@ -90,6 +87,7 @@
 
 
 <script>
+	import app_config from '../../common/config.js';
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue')
@@ -116,7 +114,13 @@
 					name: '涂鸦'
 				}],
 				constenList: [],
-				isReachBottom: false,
+				from: {
+					style: "自由",
+					pageNum: 1,
+					pageSize: 10,
+				},
+				status: "loadmore",
+				pagenum: 0, //总共页数
 			}
 		},
 		computed: {
@@ -137,37 +141,66 @@
 				}
 			}
 		},
-		onLoad() {
-			this.loadmore()
+
+		onShow() {
+			this.getImgList()
 		},
 		onReachBottom() {
-			if (this.isReachBottom) {
-				return
-			}
-			this.isReachBottom = true
-			setTimeout(() => {
-				this.loadmore()
-			}, 1000)
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
 		},
 		methods: {
 			tabSelectClick(e) {
-				this.constenList = []
-				if(this.setTimeoutL)clearTimeout(this.setTimeoutL)
-				this.setTimeoutL= setTimeout(() => {
-					this.loadmore()
-				}, 1000)
+				this.from.style=e.name
+				this.from.pageNum = 1;
+				this.getImgList();
 			},
-			loadmore() {
-				for (let i = 0; i < 10; i++) {
-					this.constenList.push({
-						text: parseInt(Math.random() * 10) + 10
-					})
+			// 社区
+			communityBtn() {
+				uni.$u.toast('社区功能暂未开放');
+			},
+			getImgList() {
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
+						})
+
+						this.pagenum = Math.ceil(res.data.total / 10);
+						console.log(this.pagenum);
+						this.constenList = res.data.rows;
+					}
+				});
+			},
+			loadMore() {
+				if (this.from.pageNum < this.pagenum) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/workImage/list`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+
+							res.data.rows.map((v) => {
+								v.address = app_config.apiUrl + "/" + v.address
+							})
+							this.status = "loadmore"
+							this.constenList.push(...res.data.rows);
+						}
+					});
+				} else {
+					this.status = "nomore"
 				}
-				this.isReachBottom = false
 			},
-			toPage(e){
+			toPage(e) {
 				uni.navigateTo({
-					url:e
+					url: e
 				})
 			}
 		}
@@ -203,6 +236,7 @@
 	.container {
 		padding: 40rpx;
 		position: relative;
+
 		.justcard {
 			width: 100%;
 			height: 250rpx;
@@ -427,37 +461,43 @@
 			height: 0;
 		}
 	}
-	.skeletonLi{
+
+	.skeletonLi {
 		width: 100%;
 		height: 660rpx;
 		margin: 20rpx 0;
-		.two{
+
+		.two {
 			width: calc((100% - 20rpx) /2);
 			height: 660rpx;
 			margin-right: 20rpx;
 			float: left;
 			border-radius: 40rpx;
 		}
-		.three{
+
+		.three {
 			width: calc((100% - 20rpx) /2);
 			height: 320rpx;
 			float: right;
 			border-radius: 40rpx;
 		}
-		.four{
+
+		.four {
 			width: calc((100% - 20rpx) /2);
 			height: 320rpx;
 			margin-top: 20rpx;
 			float: right;
 			border-radius: 40rpx;
 		}
-		
+
 	}
-	.skeleton.one{
+
+	.skeleton.one {
 		width: 100%;
 		height: 328rpx;
 		border-radius: 40rpx;
 	}
+
 	// .skeleton{
 	// 	background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
 	// 	background-size: 400% 100%;
@@ -476,5 +516,4 @@
 	// 	    background-position: 0 50%;
 	// 	} 
 	// }
-
 </style>

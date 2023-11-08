@@ -15,7 +15,21 @@
 
 			};
 		},
+		onLoad(option) {
+			this.getHelpDetail(option.id);
+		},
 		methods: {
+			// 获取信息详情
+			getHelpDetail(id){
+				uni.request({
+					url: `/help/get`,
+					method: "GET",
+					success: (res) => {
+						
+						console.log(res);
+					}
+				});
+			},
 			// 返回帮助中心
 			goBackUser() {
 				uni.navigateTo({

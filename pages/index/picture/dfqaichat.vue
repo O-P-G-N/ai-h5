@@ -14,7 +14,7 @@
 				<view class="left">· 画面描述</view>
 				<view class="right">
 					<image mode="aspectFit" class="davincupload" src="~@/static/index/jifen.png"></image>
-					<view>22860 积分</view>
+					<view>{{accountBalance}}积分</view>
 				</view>
 			</view>
 			<view class="textarea">
@@ -24,10 +24,10 @@
 				</view>
 			</view>
 			<view class="btnMain">
-				<view class="btn" :class="{'btn-active':parameter.coin==1}" @click="parameter.coin=1">1张图 10 积分</view>
-				<view class="btn" :class="{'btn-active':parameter.coin==2}" @click="parameter.coin=2">4张图 30 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张图 10 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.n==3}" @click="parameter.n=3">4张图 30 积分</view>
 			</view>
-			<ai-button :btnHeight="'53px'"  class="next-btn"  @click="nextFn">下一步</ai-button>
+			<ai-button :btnHeight="'53px'" class="next-btn" @click="nextFn">下一步</ai-button>
 		</view>
 	</view>
 </template>
@@ -37,12 +37,15 @@
 		data() {
 			return {
 				parameter: {
-					"prompt": "",
-					"coin": 1,
-					"width": 1080,
-					"height": 1080
-				}
+					prompt: "",
+					n: 1,
+					size: "1024x1024",
+				},
+				accountBalance: "", //账户余额
 			}
+		},
+		onShow() {
+			this.getAccountBalance()
 		},
 		methods: {
 			back() {
@@ -53,17 +56,41 @@
 					url: '/pages/index/picture/modelworks'
 				})
 			},
-			nextFn(){
-				if(this.parameter.prompt==''){
-					uni.showToast({
-						title:'请输入描述画面',
-						icon:'none'
-					})
-					return 
+			// 获取账户余额
+			getAccountBalance() {
+				uni.request({
+					url: `/member/getAccount`,
+					method: "GET",
+					success: (res) => {
+						this.accountBalance = res.data.score;
+						console.log(res);
+					}
+				});
+			},
+			nextFn() {
+				let num = null
+				if (this.parameter.coin == 1) {
+					num = 10
+				} else {
+					num = 30
 				}
-				uni.navigateTo({
-					url: `/pages/index/picture/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
-				})
+				if (this.parameter.coin == '') {
+					uni.showToast({
+						title: '请输入描述画面',
+						icon: 'none'
+					})
+					return
+				} else if (this.accountBalance < num) {
+					uni.showToast({
+						title: '积分余额不足',
+						icon: 'none'
+					})
+					return
+				} else {
+					uni.navigateTo({
+						url: `/pages/index/picture/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
+					})
+				}
 			}
 		}
 	}

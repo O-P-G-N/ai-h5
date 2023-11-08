@@ -68,26 +68,29 @@
 			<view class="step">
 				<u-steps current="1" direction="column">
 					<u-steps-item title="发起提现">
+						<image class="slot-icon" slot="icon" src="@/static/user/startIcon.png"></image>
 						<view slot="desc" class="desc"></view>
 					</u-steps-item>
-					<u-steps-item title="处理中,预计1-2小时内到账">
-						<view slot="desc" class="desc"></view>
+					<u-steps-item class="active" iconSize="30" title="处理中">
+						<image class="slot-icon" slot="icon" src="@/static/user/wait.png"></image>
+						<view slot="desc" class="desc">预计1-2小时内到账</view>
 					</u-steps-item>
 					<u-steps-item title="到账成功">
+						<text class="end_icon" slot="icon"></text>
 						<view slot="desc" class="desc"></view>
 					</u-steps-item>
 				</u-steps>
 			</view>
-
+			<view class="divider"></view>
 			<view class="withdrawal_amount">
 				<view class="withdrawal_amount_title">提现金额：</view>
-				<view class="withdrawal_amount_text"></view>
+				<view class="withdrawal_amount_text">{{from.amount}}</view>
 			</view>
 			<view class="withdrawal_add">
 				<view class="withdrawal_add_title">提现地址：</view>
-				<view class="withdrawal_add_text"></view>
+				<view class="withdrawal_add_text">{{from.payAddress}}</view>
 			</view>
-			<button>完成</button>
+			<button class="complete_btn" @click="completeBtn">完成</button>
 		</view>
 		<u-modal title="温馨提示" :show="tipsShow" :content="content" closeOnClickOverlay>
 			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">确定</button>
@@ -102,8 +105,8 @@
 		data() {
 			return {
 				userName: "", //用户名
-				currencyType:"红包-TRC20",//币种名称
-				realityAmount:"",//实际提现金额
+				currencyType: "红包-TRC20", //币种名称
+				realityAmount: "", //实际提现金额
 				from: {
 					type: "1", //币种
 					payAddress: "", //提现地址
@@ -119,7 +122,7 @@
 						type: "1",
 						name: '红包-TRC20'
 					}, {
-						type:"2",
+						type: "2",
 						name: '红包-ERC20'
 					}]
 				],
@@ -156,6 +159,7 @@
 					method: "GET",
 					success: (res) => {
 						this.withdrawalInfo = res.data;
+						this.from.questionKey = res.data.questionList[0].key;
 					}
 				});
 				uni.request({
@@ -214,35 +218,48 @@
 			confirm(val) {
 				this.show = false;
 				this.from.type = val.value[0].type;
-				this.currencyType=val.value[0].name;
+				this.currencyType = val.value[0].name;
 			},
 			// 提交提现申请
-			subApplication(){
-				if(this.from.code==""){
+			subApplication() {
+				if (this.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
-				}else if(this.from.payAddress==""){
+				} else if (this.from.payAddress == "") {
 					uni.$u.toast('请输入提现地址');
 					return
-				}else if(this.from.amount==""){
+				} else if (this.from.amount == "") {
 					uni.$u.toast('请输入提现数量');
 					return
-				}else if(this.from.withdrawPassword==""){
+				} else if (this.from.withdrawPassword == "") {
 					uni.$u.toast('请输入交易密码');
 					return
-				}else if(this.from.answer==""){
+				} else if (this.from.answer == "") {
 					uni.$u.toast('答案不能为空');
 					return
-				}else{
+				} else if (this.from.amount < this.withdrawalInfo.withdrawMin) {
+					uni.$u.toast(`最小提币数量为：${this.withdrawalInfo.withdrawMin}`);
+					return
+				} else if (this.from.amount > this.withdrawalInfo.withdrawMax) {
+					uni.$u.toast(`最大提币数量为：${this.withdrawalInfo.withdrawMax}`);
+					return
+				} else {
 					uni.request({
 						url: `/withdraw/withdrawApply`,
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							console.log(res);
+							uni.$u.toast('提现已申请');
+							this.pageIndex = 1;
 						}
 					});
 				}
+			},
+			// 完成按钮
+			completeBtn() {
+				uni.switchTab({
+					url: `/pages/user/index`
+				});
 			}
 		}
 	}
@@ -413,19 +430,92 @@
 				.desc {
 					width: 100%;
 					height: 70px !important;
+					font-size: 15px;
+					font-family: PingFang SC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #7D7D7D;
+				}
+				.slot-icon {
+					width: 20px;
+					height: 20px;
+				}
+
+				.u-text__value {
+					font-size: 15px !important;
+					font-family: PingFang SC-Regular, PingFang SC;
+					font-weight: 400 !important;
+					color: #7D7D7D;
+				}
+
+				.active {
+					.u-text__value {
+						font-size: 16px !important;
+						font-family: PingFang SC-Regular, PingFang SC;
+						font-weight: 400 !important;
+						color: #1D1D1D;
+					}
+				}
+
+				.end_icon {
+					width: 14px;
+					height: 14px;
+					background: #E5E5E5;
+					border-radius: 50%;
 				}
 			}
-
+			.divider{
+				width: 100%;
+				height: 1px;
+				background-color: #E5E5E5;
+				margin-bottom: 30px;
+			}
 			.withdrawal_amount {
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				justify-content: space-between;
+
+				.withdrawal_amount_title {
+					font-size: 14px;
+					font-family: PingFang SC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #7D7D7D;
+				}
+
+				.withdrawal_amount_text {
+					font-size: 14px;
+					font-family: PingFang SC-Bold, PingFang SC;
+					font-weight: bold;
+					color: #1D1D1D;
+				}
 			}
 
 			.withdrawal_add {
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				justify-content: space-between;
+
+				.withdrawal_add_title {
+					font-size: 14px;
+					font-family: PingFang SC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #7D7D7D;
+				}
+
+				.withdrawal_add_text {
+					font-size: 14px;
+					font-family: PingFang SC-Bold, PingFang SC;
+					font-weight: bold;
+					color: #1D1D1D;
+				}
+			}
+
+			.complete_btn {
+				margin-top: 150px;
+				font-size: 16px;
+				font-family: PingFang SC-Bold, PingFang SC;
+				font-weight: bold;
+				color: #1D1D1D;
+				width: 176px;
 			}
 		}
 	}

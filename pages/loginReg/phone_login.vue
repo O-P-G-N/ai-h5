@@ -33,7 +33,7 @@
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">忘记密码？</view>
-					<ai-button :disabled="from.username&&from.password?false:true" class="next-btn loginbtn"
+					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading" class="next-btn loginbtn"
 						@click="loginBtn">登录</ai-button>
 					<view class="register">
 						还没有账户？
@@ -58,7 +58,9 @@
 					password: "", //密码
 					countryCode: "", //国家编码
 					type:1,//类型
-				}
+				},
+				loading:false,//等待
+				forbidden:true,//是否禁用按钮
 			};
 		},
 		onShow() {
@@ -133,6 +135,8 @@
 					})
 					return
 				} else {
+					this.loading=true
+					this.forbidden=false
 					uni.request({
 						url: '/nt/login',
 						method: "POST",
@@ -146,8 +150,9 @@
 								title: "登陆成功",
 								success: function() {
 									 let time=setTimeout(()=>{
+										 that.loading=false;
+										 that.forbidden=true;
 										 clearTimeout(time)
-										 console.log(res);
 										uni.setStorageSync("user",res.data)
 										uni.switchTab({
 											url: `/pages/index/index`

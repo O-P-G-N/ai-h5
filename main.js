@@ -43,6 +43,7 @@ let req_handler = function(){
 	let this_url = ''
 	return {
 		invoke(config) {
+			console.log(config);
 			// 关闭证书验证
 			config.sslVerify = false;
 			// request 触发前拼接 url
@@ -79,12 +80,13 @@ let req_handler = function(){
 			}
 		},
 		complete(res) {
+			
+		},
+		success(res) {
 			store.commit('app/SET_LOADING',{
 				effect: this_url,
 				on: false
 			})
-		},
-		success(res) {
 			if(res.statusCode == 200 && res.errMsg == 'request:ok'){
 				res.res = res.data;
 				if (res.data.code == 200) {

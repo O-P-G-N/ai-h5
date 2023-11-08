@@ -25,7 +25,8 @@
 					</view>
 					<view class="right">
 						<view class="pfdz"
-							style="background-color: rgb(245, 246, 250);color: rgb(127, 127, 127);top: -36px;">余额: 40.56
+							style="background-color: rgb(245, 246, 250);color: rgb(127, 127, 127);top: -36px;">
+							余额:{{accountBalance}}
 						</view>
 						<view class="intCs">
 							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"
@@ -76,6 +77,7 @@
 				exchangeNum: "", //兑换数量
 				bonusRatio: "", //加赠比例
 				redPacket: "", //消耗的红包数量
+				accountBalance: "", //账户余额
 			};
 		},
 		onShow() {
@@ -102,6 +104,13 @@
 						this.bonusRatio = res.data[1].dictValue;
 					}
 				});
+				uni.request({
+					url: `/member/getAccount`,
+					method: "GET",
+					success: (res) => {
+						this.accountBalance = res.data.hongbao;
+					}
+				});
 			},
 			// 查看历史记录
 			viewHistory() {
@@ -124,7 +133,7 @@
 				if (this.redPacket == "") {
 					uni.$u.toast('请输入要兑换的积分或者余额');
 					return
-				} else if (this.redPacket > 0) {
+				} else if (this.redPacket > this.redPacket) {
 					uni.$u.toast('兑换数量不得大于余额');
 					return
 				} else {
@@ -135,7 +144,17 @@
 							hongbao: this.redPacket
 						},
 						success: (res) => {
-
+							uni.showToast({
+								title: "兑换成功",
+								success: function() {
+									let time = setTimeout(() => {
+										clearTimeout(time)
+										uni.switchTab({
+											url: `/pages/user/index`
+										});
+									}, 1000)
+								},
+							})
 						}
 					});
 				}

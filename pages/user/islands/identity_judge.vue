@@ -134,6 +134,9 @@
 				activateShow:true
 			};
 		},
+		onShow() {
+			this.getTotalRechargeAmount()
+		},
 		methods:{
 			dyShowBtn(val){
 				this.dyShow=val
@@ -142,6 +145,16 @@
 			goBackUser(){
 				uni.navigateTo({
 					url: `/pages/user/islands/index`
+				});
+			},
+			// 获取总的充值金额
+			getTotalRechargeAmount(){
+				uni.request({
+					url: `/island/rechargeRecord`,
+					method: "GET",
+					success: (res) => {
+						console.log(res);
+					}
 				});
 			},
 			// 复制链接

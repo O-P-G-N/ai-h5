@@ -12,7 +12,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="user_head_right" @click="viewNotice">
+		<view class="user_head_right" @click="viewNotices">
 			<view class="user_head_right_content">
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
@@ -24,8 +24,9 @@
 						<text class="cbac">总资产</text>/ 红包
 					</view>
 					<view class="balancenum">
-						<text>{{myInfo.total}}</text>
-						<image class="balancenum_img" src="../../static/user/eye.png" mode=""></image>
+						<text v-if="eyeShows">{{myInfo.total}}</text>
+						<text v-else>******</text>
+						<image class="balancenum_img" @click="eyeShows=!eyeShows" :src="eyeShows?'../../static/user/eye.png':'../../static/user/hide.png'" mode=""></image>
 					</view>
 				</view>
 				<button class="right_btn" size="default" type="default" @click="integralExchange">积分兑换</button>
@@ -34,21 +35,25 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewContract">
 						<text>合约金额:</text>
-						<text class="texta">{{myInfo.contract}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.contract}}</text>
+						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery" @click="viewHistory">
 						<text>积分余额:</text>
-						<text class="texta">{{myInfo.score}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.score}}</text>
+						<text v-else class="texta">******</text>
 					</view>
 				</view>
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewCapitalFlow">
 						<text>红包余额:</text>
-						<text class="texta">{{myInfo.hongbao}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.hongbao}}</text>
+						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery">
 						<text>信用分:</text>
-						<text class="texta">{{myInfo.creditScore}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.creditScore}}</text>
+						<text v-else class="texta">******</text>
 					</view>
 				</view>
 			</view>
@@ -62,7 +67,8 @@
 			<template v-if="myInfo.total">
 				<view class="threebalance_every" @click="viewContract">
 					<view class="threebalance_num">
-						<text>${{myInfo.todayIncome}}</text>
+						<text v-if="eyeShows">${{myInfo.todayIncome}}</text>
+						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
 						今日收益
@@ -71,7 +77,8 @@
 				<view class="lines"></view>
 				<view class="threebalance_every" @click="viewCapitalFlow">
 					<view class="threebalance_num">
-						<text>${{myInfo.weekIncome}}</text>
+						<text v-if="eyeShows">${{myInfo.weekIncome}}</text>
+						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
 						本周收益
@@ -80,7 +87,8 @@
 				<view class="lines"></view>
 				<view class="threebalance_every" @click="viewCapitalFlow">
 					<view class="threebalance_num">
-						<text>${{myInfo.totalIncome}}</text>
+						<text v-if="eyeShows">${{myInfo.totalIncome}}</text>
+						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
 						累计收益
@@ -180,6 +188,7 @@
 		data() {
 			return {
 				eyeShow: false, //用户名展示
+				eyeShows:true,//金额展示
 				outLoginShow: false, //确定退出弹窗
 				myInfo:{},//我的信息
 				myUserName:"",//我的用户名
@@ -207,7 +216,7 @@
 				});
 			},
 			// 查看通知
-			viewNotice() {
+			viewNotices() {
 				uni.navigateTo({
 					url: `/pages/user/user_notice`
 				});
@@ -643,7 +652,7 @@
 		.funlist {
 			background: #fff;
 			margin-top: 25px;
-			margin-bottom: 50px;
+			margin-bottom: 90px;
 			width: 100%;
 
 			.funlist_every {

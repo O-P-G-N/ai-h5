@@ -43,7 +43,7 @@
 							<view>模板编号：THSI234</view>
 							<view class="righttag">Advertisement</view>
 						</view>
-						<view class="videoxinxi_botton">使用此模版创建视频</view>
+						<view class="videoxinxi_botton" @click="createVideo">使用此模版创建视频</view>
 					</view>
 				</view>
 			</template>
@@ -55,9 +55,9 @@
 				</view>
 				<view class="aiNumPeople">
 					<template v-if='contentList2.length'>
-						<view class="aiNumPeople_list" v-for='(item,index) in contentList2' :key='index'>
-							<image mode="aspectFill" src="~@/static/index/anli.webp"></image>
-							<view class="title">Alex</view>
+						<view  @click="createCopy(item.id,item.gender)" class="aiNumPeople_list" v-for='(item,index) in contentList2' :key='index'>
+							<image mode="aspectFill" :src="item.imageUrl"></image>
+							<view class="title">{{item.name}}</view>
 						</view>
 					</template>
 					<template v-else>
@@ -87,20 +87,25 @@
 				contentList2: [],
 				tabsList: [{
 						name: '全部',
+						value:""
 					},
 					{
 						name: '男性',
+						value:"1"
 					},
 					{
 						name: '女性',
+						value:"0"
 					},
 					{
 						name: '生成AI数字人',
 						badge: {
 							value: 'New'
-						}
+						},
+						value:"new"
 					}
 				],
+				roleType:"",//角色类型
 			}
 		},
 		computed: {
@@ -134,6 +139,29 @@
 			}, 1000)
 		},
 		methods: {
+			// 创建视频
+			createVideo(){
+				uni.navigateTo({
+					url: `/pages/index/video/videocreatthree`
+				});
+			},
+			// 创建文案
+			createCopy(id,gender){
+				uni.navigateTo({
+					url: `/pages/index/video/videocreattwocopy?id=${id}&gender=${gender}`
+				});
+			},
+			// 获取角色
+			getStanding(){
+				uni.request({
+					url: '/video/voicesPeople',
+					method: "GET",
+					data: {sex:this.roleType},
+					success: (res) => {
+						this.contentList2=res.data;
+					}
+				});
+			},
 			stopFn(){
 				this.contentList=this.contentList.map(n=>{
 					n['isPlay']=false
@@ -155,22 +183,26 @@
 				})
 			},
 			heardSelectClick(index) {
-				this.stopFn()
-				this.isReachBottom = true
-				this.selectIndex = index
-				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
-				this.setTimeoutL = setTimeout(() => {
-					this.loadmore('start')
-				}, 1000)
+				// this.stopFn()
+				// this.isReachBottom = true
+				this.selectIndex = index;
+				if(this.selectIndex==1){
+					this.getStanding()
+				}
 			},
 			tabSelectClick(e) {
+				if(e.value=="new"){
+					uni.$u.toast('敬请期待');
+					this.contentList2 = []
+					return
+				}else{
+					this.roleType=e.value;
+					this.getStanding()
+				}
 				this.contentList2 = []
 				this.tabIndex = e.index
 				this.isReachBottom = true
-				if (this.setTimeoutL) clearTimeout(this.setTimeoutL)
-				this.setTimeoutL = setTimeout(() => {
-					this.loadmore('start')
-				}, 1000)
+				
 			},
 			back() {
 				uni.navigateBack()

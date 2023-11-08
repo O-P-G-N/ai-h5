@@ -380,6 +380,46 @@
 				"navigationBarTitleText" : "升级训练",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path" : "pages/index/video/videocreatthree",
+			"style" : 
+			{
+				"navigationBarTitleText" : "创作中心",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/index/video/ainumpeople",
+			"style" : 
+			{
+				"navigationBarTitleText" : "视频营销",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/index/video/videocreattwo",
+			"style" : 
+			{
+				"navigationBarTitleText" : "创作中心",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path" : "pages/index/video/fundrecords",
+			"style" : 
+			{
+				"navigationBarTitleText" : "AI合成详情",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/index/video/videocreattwocopy",
+			"style" : 
+			{
+				"navigationBarTitleText" : "创作中心副本",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

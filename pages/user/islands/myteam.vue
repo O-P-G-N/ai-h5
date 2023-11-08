@@ -26,10 +26,10 @@
 			<view class="dyselect">
 				<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">
 					内岛
-					<text class="nd_text">1</text>人
+					<text class="nd_text">{{myTeamInfo.in}}</text>人
 				</view>
 				<view class="wd" :class="dyShow==0?'dyactive':''" @click="dyShowBtn(0)">外岛
-					<text class="wd_text">2</text>人
+					<text class="wd_text">{{myTeamInfo.out}}</text>人
 				</view>
 			</view>
 			<view class="people">
@@ -40,8 +40,8 @@
 			</view>
 			<view class="tabs">
 				<view class="listmain">
-					<view class="" v-if="recordList.length>0">
-						<view class="list-body" v-for="(v,i) in recordList">
+					<view class="" v-if="myTeamInfo.data.length>0">
+						<view class="list-body" v-for="(v,i) in myTeamInfo.data" :key="i">
 							<view class="capital">
 								<view class="orderhao">
 									<text>账号</text>
@@ -100,7 +100,9 @@
 				dyShow: 1, //内外岛索引
 				recordList:[],//记录
 				selectDate:"all",//选择的日期
-				myTeamInfo:{},//我的岛屿信息
+				myTeamInfo:{
+					data:[]
+				},//我的岛屿信息
 			};
 		},
 		onShow() {
@@ -119,17 +121,20 @@
 					url: `/island/resident/${this.dyShow}/${this.selectDate}`,
 					method: "GET",
 					success: (res) => {
-						
+						this.myTeamInfo=res.data;
 					}
 				});
 			},
 			// 标签切换
 			tabClick(val) {
+				this.selectDate=val.value;
+				this.getIslandData()
 				console.log(val.value);
 			},
 			// 切换内外岛
 			dyShowBtn(val) {
 				this.dyShow = val;
+				this.getIslandData()
 			}
 		}
 	}
