@@ -62,11 +62,16 @@
 		data() {
 			return {
 				langShow:false,//选择语言
-				
+				invitationCode:"",//邀请码
 			};
 		},
 		created() {
 
+		},
+		onLoad(option) {
+			if(option.code){
+				this.invitationCode=option.code
+			}
 		},
 		methods: {
 			// 返回登录首页
@@ -77,9 +82,15 @@
 			},
 			//手机注册
 			mobileLogin() {
-				uni.navigateTo({
-					url: `/pages/loginReg/phone_reg`
-				});
+				if(this.invitationCode){
+					uni.navigateTo({
+						url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
+					});
+				}else{
+					uni.navigateTo({
+						url: `/pages/loginReg/phone_reg`
+					});
+				}
 			},
 			// 选择语言
 			selectLang(){
@@ -91,9 +102,16 @@
 			},
 			// 邮箱注册
 			emailLogin() {
-				uni.navigateTo({
-					url: `/pages/loginReg/email_reg`
-				});
+				if(this.invitationCode){
+					uni.navigateTo({
+						url: `/pages/loginReg/email_reg?invitationCode=${this.invitationCode}`
+					});
+				}else{
+					uni.navigateTo({
+						url: `/pages/loginReg/email_reg`
+					});
+				}
+				
 			},
 			// 立即登录
 			logNow(){

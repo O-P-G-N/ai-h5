@@ -11,7 +11,7 @@
 					<image class="title_img" src="@/static/islands/people_num.png" mode=""></image>
 					岛民总数
 				</view>
-				<view class="content">3</view>
+				<view class="content">{{myTeamInfo.sum?myTeamInfo.sum:0}}</view>
 				<view class="dy">
 					<view class="gx">
 						岛屿贡献值

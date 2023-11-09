@@ -7,33 +7,35 @@
 		</u-navbar>
 		<view class="main">
 			<image class="jihuoimg" src="@/static/market/jihuomapage.png" mode=""></image>
-			<button class="editpassbtn">
-				<view class="justcard_left">获取激活码</view>
+			<button class="editpassbtn" @click="getInvitationCode">
+				<view class="justcard_left" >获取激活码</view>
 				<view class="justcard_right">
 					<image class="justcard_right_img" src="@/static/user/homejiantou.png" mode=""></image>
 				</view>
 			</button>
 		</view>
 		<view class="content">
-			<view class="list-body">
+			<view class="list-body" v-for="(v,i) in invitationCodeList" :key="i">
 				<view class="capital">
 					<view class="orderhao">
 						<text>激活码</text>
 						<view class="jihuoma">
-							<text>WlKTfEnn</text>
-							<image @click="copyBtn('WlKTfEnn')" class="jihuoma_img" src="@/static/market/copy.png" mode=""></image>
+							<text>{{v.code}}</text>
+							<image @click="copyBtn(v.code)" class="jihuoma_img" src="@/static/market/copy.png" mode="">
+							</image>
 						</view>
 					</view>
 					<view class="orderhao">
 						<text>使用状态</text>
-						<text>待使用</text>
+						<text>{{v.status==1?'已使用':'未使用'}}</text>
 					</view>
 					<view class="orderhao">
 						<text>获取时间</text>
-						<text>2023-11-02 09:09:19</text>
+						<text>{{v.createTime}}</text>
 					</view>
 				</view>
 			</view>
+			<u-loadmore :status="status" />
 		</view>
 	</view>
 </template>
@@ -42,10 +44,52 @@
 	export default {
 		data() {
 			return {
-
+				from: {
+					pageNum: 1,
+					pageSize: 10
+				},
+				invitationCodeList: [], //激活码列表
+				PageCount: 0, //总页数
+				status: "loadmore",
 			};
 		},
+		onShow() {
+			this.getInvitationCodeList();
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
 		methods: {
+			// 获取邀请码列表
+			getInvitationCodeList() {
+				uni.request({
+					url: `/island/act-codes/${1}`,
+					method: "GET",
+					success: (res) => {
+						this.invitationCodeList = res.data.rows
+						this.PageCount = Math.ceil(res.data.total / 10);
+					}
+				});
+			},
+			// 获取新的邀请码
+			getInvitationCode() {
+				this.from.pageNum=1
+				uni.request({
+					url: `/island/act-code`,
+					method: "POST",
+					data: {
+						pageNum: 1,
+						pageSize: 10
+					},
+					success: (res) => {
+						this.invitationCodeList = res.data.rows
+						this.PageCount = Math.ceil(res.data.total / 10);
+					}
+				});
+			},
 			// 复制邀请码
 			copyBtn(val) {
 				uni.setClipboardData({
@@ -54,14 +98,30 @@
 						uni.showToast({
 							title: "复制成功!",
 							succesvals: function(res) {
-
 							}
 						})
 					}
 				});
 			},
+			loadMore() {
+				if (this.from.pageNum < this.PageCount) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/island/act-codes/${this.from.pageNum}`,
+						method: "GET",
+						data: this.from,
+						success: (res) => {
+							this.invitationCodeList.push(...res.data.rows)
+							this.PageCount = Math.ceil(res.data.total / 10);
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
+			},
 			// 返回
-			goBackUser(){
+			goBackUser() {
 				uni.switchTab({
 					url: `/pages/market/index`
 				});
@@ -86,7 +146,8 @@
 				height: 53px !important;
 
 				.u-navbar__content__left {
-				padding-left: 0;
+					padding-left: 0;
+
 					.u-nav-slot {
 						width: 17px;
 						height: 15px;

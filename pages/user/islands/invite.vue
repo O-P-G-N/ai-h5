@@ -33,6 +33,7 @@
 </template>
 
 <script>
+	import app_config from '../../../common/config.js';
 	import uQRCode from '@/uni_modules/cc-defineQRCode/components/cc-defineQRCode/common/uqrcode.js'
 	export default {
 		data() {
@@ -81,10 +82,10 @@
 					}
 				})
 			},
-			// 复制邀请码
+			// 复制链接
 			copyInvite(){
 				uni.setClipboardData({
-					data: this.invitationCode,
+					data: app_config.apiUrl+`/#/pages/loginReg/reg_account?code=${this.invitationCode}`,
 					success: function() {
 						uni.showToast({
 							title: "复制成功!",

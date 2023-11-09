@@ -434,17 +434,14 @@
 			}, {
 				"pagePath": "pages/market/index",
 				"text": "页面2"
-			}, {
-				"pagePath": "pages/partner/index",
-				"text": "页面3"
 			},
 			{
 				"pagePath": "pages/community/index",
-				"text": "页面4"
+				"text": "页面3"
 			},
 			{
 				"pagePath": "pages/user/index",
-				"text": "页面5"
+				"text": "页面4"
 			}
 		]
 	},

@@ -3,7 +3,7 @@
 		<view class="container_nei">
 			<view class="navbers">
 				<view class="navbers_headers">
-					<view class="mailright">
+					<view class="mailright" @click="viewNotices">
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
 				</view>
@@ -296,6 +296,12 @@
 			viewContract() {
 				uni.navigateTo({
 					url: `/pages/user/contract_amount`
+				});
+			},
+			// 查看通知
+			viewNotices() {
+				uni.navigateTo({
+					url: `/pages/user/user_notice`
 				});
 			},
 			// 创建合约

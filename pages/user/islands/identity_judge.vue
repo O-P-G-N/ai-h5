@@ -1,10 +1,11 @@
 <template>
 	<view class="identity_judge">
-		<u-navbar @leftClick="goBackUser" title="岛屿" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" title="" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
-				<image slot="center" class="head_center_img" src="@/static/user/HTXE1.png" mode=""></image>
+			<image v-if="rechargeAmount>=500" slot="center" class="head_center_img" src="@/static/user/HTXE1.png"
+				mode=""></image>
 		</u-navbar>
 		<view class="banana_bg">
 			<view class="banana_bg_first">分享给你的朋友</view>
@@ -59,7 +60,7 @@
 						<text></text>
 					</view>
 				</view>
-				
+
 			</view>
 		</view>
 		<view class="share_box" v-else-if="dyShow==0">
@@ -108,18 +109,20 @@
 						<text></text>
 					</view>
 				</view>
-				
+
 			</view>
 			<view class="info_body_img">
-				
-			<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
+
+				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
 		</view>
 		<view class="activate_popup" v-if="activateShow">
 			<view class="activate_popup_box">
-				
-			<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode=""></image>
-			<image class="activate_popup_box_del" @click.stop="activateShow=false" src="@/static/user/del.png" mode=""></image>
+
+				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode="">
+				</image>
+				<image class="activate_popup_box_del" @click.stop="activateShow=false" src="@/static/user/del.png"
+					mode=""></image>
 			</view>
 		</view>
 	</view>
@@ -129,42 +132,58 @@
 	export default {
 		data() {
 			return {
-				dyShow:1,//索引
-				aa:false,
-				activateShow:true
+				dyShow: 1, //索引
+				aa: false,
+				activateShow: false,
+				rechargeAmount: 0, //充值总额
 			};
 		},
 		onShow() {
-			this.getTotalRechargeAmount()
+			this.getTotalRechargeAmount();
+			this.getSupSub();
 		},
-		methods:{
-			dyShowBtn(val){
-				this.dyShow=val
+		methods: {
+			dyShowBtn(val) {
+				this.dyShow = val
 			},
 			// 返回
-			goBackUser(){
+			goBackUser() {
 				uni.navigateTo({
 					url: `/pages/user/islands/index`
 				});
 			},
-			// 获取总的充值金额
-			getTotalRechargeAmount(){
+			//获取上下级
+			getSupSub() {
 				uni.request({
-					url: `/island/rechargeRecord`,
+					url: `/island/relations`,
 					method: "GET",
 					success: (res) => {
 						console.log(res);
 					}
 				});
 			},
+			// 获取总的充值金额
+			getTotalRechargeAmount() {
+				uni.request({
+					url: `/island/rechargeRecord`,
+					method: "GET",
+					success: (res) => {
+						this.rechargeAmount = res.data
+						if (res.data < 500) {
+							this.activateShow = true;
+						}
+						console.log(res);
+					}
+				});
+			},
 			// 复制链接
-			copyBtn(){
+			copyBtn() {
 				uni.navigateTo({
 					url: `/pages/user/islands/invite`
 				});
 			},
 			// 充值激活
-			rechargeActive(){
+			rechargeActive() {
 				uni.navigateTo({
 					url: `/pages/user/recharge`
 				});
@@ -209,21 +228,24 @@
 
 			}
 		}
-		.banana_bg{
-			background:url("@/static/user/HTXE3.png") no-repeat;
+
+		.banana_bg {
+			background: url("@/static/user/HTXE3.png") no-repeat;
 			background-size: 100% 100%;
 			width: 100%;
 			height: 346px;
 			padding-top: 275px;
 			box-sizing: border-box;
-			.banana_bg_first{
+
+			.banana_bg_first {
 				text-align: center;
 				font-size: 14px;
 				font-family: PingFang SC-Bold, PingFang SC;
 				font-weight: bold;
 				color: #0D0050;
 			}
-			.banana_bg_last{
+
+			.banana_bg_last {
 				margin-top: 5px;
 				text-align: center;
 				font-size: 14px;
@@ -232,11 +254,13 @@
 				color: #0D0050;
 			}
 		}
-		.copy_box{
+
+		.copy_box {
 			width: 100%;
 			height: 50px;
 			margin-top: 15px;
-			.copy_btn{
+
+			.copy_btn {
 				width: 144px;
 				height: 50px;
 				line-height: 50px;
@@ -248,6 +272,7 @@
 				font-weight: bold;
 			}
 		}
+
 		.dyselect {
 			margin: 10px auto;
 			width: 85%;
@@ -260,34 +285,36 @@
 			justify-content: space-around;
 			transition: all .3s;
 			padding: 0 3px;
-		
+
 			.nd {
 				width: 48%;
 				text-align: center;
-		
-				
+
+
 			}
-		
+
 			.wd {
 				width: 48%;
 				text-align: center;
-				
+
 			}
-		
+
 			.dyactive {
 				width: 55%;
 				height: 36px;
 				line-height: 36px;
 				background: #FFFFFF;
-				box-shadow: 0px 0px 6px 1px rgba(68,54,160,0.18);
+				box-shadow: 0px 0px 6px 1px rgba(68, 54, 160, 0.18);
 				border-radius: 18px 18px 18px 18px;
 				color: #4537A0;
 			}
 		}
-		.info_box{
+
+		.info_box {
 			padding: 20px;
 			box-sizing: border-box;
-			.info_body{
+
+			.info_body {
 				width: 100%;
 				padding: 16px 21px;
 				border-radius: 21px;
@@ -296,7 +323,8 @@
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
-				.info_body_item{
+
+				.info_body_item {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -305,6 +333,7 @@
 					display: flex;
 					justify-content: space-between;
 					line-height: 2;
+
 					.bluephone {
 						color: #2fa2e3;
 						letter-spacing: 1px;
@@ -312,23 +341,24 @@
 				}
 			}
 		}
-		.share_box{
-			padding:0 20px;
+
+		.share_box {
+			padding: 0 20px;
 			box-sizing: border-box;
-			.share_info{
+
+			.share_info {
 				display: flex;
 				align-items: center;
 				justify-content: space-around;
-				.share_info-left{
-					
-				}
-				.share_info_right{
-					.share_info_right_text{
-						
-					}
+
+				.share_info-left {}
+
+				.share_info_right {
+					.share_info_right_text {}
 				}
 			}
-			.info_body{
+
+			.info_body {
 				margin-top: 10px;
 				width: 100%;
 				padding: 16px 21px;
@@ -338,7 +368,8 @@
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
-				.info_body_item{
+
+				.info_body_item {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -347,23 +378,27 @@
 					display: flex;
 					justify-content: space-between;
 					line-height: 2;
+
 					.bluephone {
 						color: #2fa2e3;
 						letter-spacing: 1px;
 					}
 				}
 			}
-			.info_body_img{
+
+			.info_body_img {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				.info_body_img_htxe{
+
+				.info_body_img_htxe {
 					width: 268px;
 					height: 200px;
 				}
 			}
 		}
-		.activate_popup{
+
+		.activate_popup {
 			position: fixed;
 			width: 100%;
 			height: 100%;
@@ -374,21 +409,24 @@
 			z-index: 999999;
 			background-color: rgba(0, 0, 0, 0.6);
 			padding-top: 70px;
-			.activate_popup_box{
+
+			.activate_popup_box {
 				margin: 0 auto;
 				width: 372px;
 				height: 438px;
 				background: url("@/static/user/HTXE4.png") no-repeat;
 				background-size: 100% 100%;
 				position: relative;
-				.activate_popup_box_open{
+
+				.activate_popup_box_open {
 					width: 210px;
 					height: 80px;
 					position: absolute;
 					bottom: 52px;
 					left: 20%;
 				}
-				.activate_popup_box_del{
+
+				.activate_popup_box_del {
 					width: 30px;
 					height: 30px;
 					position: absolute;

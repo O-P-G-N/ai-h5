@@ -18,7 +18,7 @@
 		</view>
 
 		<view class="container_nei">
-			<view class="heardSelect">
+			<!-- <view class="heardSelect">
 				<view class="selectItem" :class="{'activeItem':selectIndex==0}" @click="heardSelectClick(0)">
 					视频营销
 				</view>
@@ -27,8 +27,8 @@
 				</view>
 				<view class="activeBg" :style="{'left':`calc(${selectIndex*50}% ${selectIndex==0?'+':'-'} 14rpx)`}">
 				</view>
-			</view>
-			<template v-if='selectIndex==0'>
+			</view> -->
+			<!-- <template v-if='selectIndex==0'>
 				<view class="videoevery_wai" v-for='(item,index) in contentList' :key='index'>
 					<view class="videoevery">
 						<template  v-if='!item.isPlay'>
@@ -48,64 +48,69 @@
 				</view>
 			</template>
 			<template v-else>
-				<view class="tabselect">
-					<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
-						:activeStyle="activeStyle" @click="tabSelectClick">
-					</u-tabs>
-				</view>
-				<view class="aiNumPeople">
-					<template v-if='contentList2.length'>
-						<view  @click="createCopy(item.id,item.gender)" class="aiNumPeople_list" v-for='(item,index) in contentList2' :key='index'>
-							<image mode="aspectFill" :src="item.imageUrl"></image>
-							<view class="title">{{item.name}}</view>
-						</view>
-					</template>
-					<template v-else>
-						<view class="aiNumPeople_list" v-for='(item,index) in 6' :key='index'>
-							<view class="skeleton" style="width: 100%;height: 100%;"></view>
-						</view>
-					</template>
-
-
-				</view>
+				
 			</template>
-			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view>
-
+			<view class="loadingTxt" v-if='isReachBottom'>数据加载中</view> -->
+			<view class="tabselect">
+				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
+					:activeStyle="activeStyle" @click="tabSelectClick">
+				</u-tabs>
+			</view>
+			<view class="aiNumPeople">
+				<template v-if='timbreList.length>0'>
+					<view class="voiceevery" @click="createCopy(v)"
+						v-for="(v, i) in timbreList" :key="i">
+						<view class="everyone">
+							<image class="guoqi" :src="v.imageUrl" mode=""></image>
+							<view @click.stop="playAudio(v.soundUrl,i)">
+								<u-icon :name="playFlag&&audioIndex==i?'pause':'play-right-fill'"
+									color="rgb(41, 121, 255)" size="14"></u-icon>
+							</view>
+						</view>
+						<view class="everyone_bottom">
+							<view class="labels">{{v.lang}}</view>
+						</view>
+					</view>
+				</template>
+				<template v-else>
+					<view class="aiNumPeople_list" v-for='(item,index) in 6' :key='index'>
+						<view class="skeleton" style="width: 100%;height: 100%;"></view>
+					</view>
+				</template>
+			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
+	import app_config from '../../../common/config.js';
+	const innerAudioContext = uni.createInnerAudioContext();
 	export default {
 		data() {
 			return {
 				isReachBottom: false,
 				tabIndex: 0,
 				selectIndex: 0,
-				contentList: [],
+				timbreList: [], //音色列表
+				playFlag: false, //音乐播放判断
+				audioIndex: 0, //播放索引
+				// contentList: [],
 				contentList2: [],
 				tabsList: [{
 						name: '全部',
-						value:""
+						value: ""
 					},
 					{
 						name: '男性',
-						value:"1"
+						value: "1"
 					},
 					{
 						name: '女性',
-						value:"0"
+						value: "0"
 					},
-					{
-						name: '生成AI数字人',
-						badge: {
-							value: 'New'
-						},
-						value:"new"
-					}
+			
 				],
-				roleType:"",//角色类型
+				roleType: "", //角色类型
 			}
 		},
 		computed: {
@@ -127,58 +132,94 @@
 			}
 		},
 		onLoad() {
-			this.loadmore()
+			this.gettimbre()
 		},
 		onReachBottom() {
-			if (this.isReachBottom) {
-				return
-			}
-			this.isReachBottom = true
-			setTimeout(() => {
-				this.loadmore()
-			}, 1000)
+			
 		},
 		methods: {
 			// 创建视频
-			createVideo(){
+			/* createVideo(v) {
 				uni.navigateTo({
-					url: `/pages/index/video/videocreatthree`
+					url: `/pages/index/video/videocreatthree?from=${JSON.stringify(v)}`
 				});
-			},
+			}, */
 			// 创建文案
-			createCopy(id,gender){
+			createCopy(v) {
 				uni.navigateTo({
-					url: `/pages/index/video/videocreattwocopy?id=${id}&gender=${gender}`
+					url: `/pages/index/video/videocreattwocopy?from=${JSON.stringify(v)}`
 				});
 			},
-			// 获取角色
-			getStanding(){
+			// 获取音色
+			gettimbre(gender) {
 				uni.request({
-					url: '/video/voicesPeople',
+					url: '/video/voices',
 					method: "GET",
-					data: {sex:this.roleType},
+					data: {
+						sex: this.roleType
+					},
 					success: (res) => {
-						this.contentList2=res.data;
+						res.data.map((v)=>{
+							v.imageUrl=app_config.apiUrl+"/"+v.imageUrl
+						})
+						this.timbreList = res.data;
 					}
 				});
 			},
-			stopFn(){
-				this.contentList=this.contentList.map(n=>{
-					n['isPlay']=false
+			// 播放语音
+			playAudio(src, i) {
+				if (innerAudioContext.src != src) {
+					innerAudioContext.stop();
+					innerAudioContext.src = src;
+					innerAudioContext.play();
+					this.playFlag = true
+				} else {
+					if (innerAudioContext.paused) {
+						innerAudioContext.src = src;
+						innerAudioContext.play();
+						this.playFlag = true
+					} else {
+						innerAudioContext.stop();
+						this.playFlag = false;
+					}
+				}
+				this.audioIndex = i;
+				innerAudioContext.onEnded(() => {
+					this.playFlag = false
+				})
+			},
+			// 获取角色
+			getStanding() {
+				uni.request({
+					url: '/video/voicesPeople',
+					method: "GET",
+					data: {
+						sex: this.roleType
+					},
+					success: (res) => {
+						this.contentList2 = res.data;
+					}
+				});
+			},
+			stopFn() {
+				this.contentList = this.contentList.map(n => {
+					n['isPlay'] = false
 					return n
 				})
 			},
-			timeupdateFn(index,e){
-				const {currentTime}=e.detail
-				this.$set(this.contentList[index],'currentTime',currentTime)
+			timeupdateFn(index, e) {
+				const {
+					currentTime
+				} = e.detail
+				this.$set(this.contentList[index], 'currentTime', currentTime)
 			},
-			playFn(index){
-				this.contentList=this.contentList.map(n=>{
-					n['isPlay']=false
+			playFn(index) {
+				this.contentList = this.contentList.map(n => {
+					n['isPlay'] = false
 					return n
 				})
-				this.$set(this.contentList[index],'isPlay',true)
-				this.$nextTick(()=>{
+				this.$set(this.contentList[index], 'isPlay', true)
+				this.$nextTick(() => {
 					uni.createVideoContext('myVideo', this).play()
 				})
 			},
@@ -186,23 +227,23 @@
 				// this.stopFn()
 				// this.isReachBottom = true
 				this.selectIndex = index;
-				if(this.selectIndex==1){
+				if (this.selectIndex == 1) {
 					this.getStanding()
 				}
 			},
 			tabSelectClick(e) {
-				if(e.value=="new"){
+				this.timbreList = []
+				if (e.value == "new") {
 					uni.$u.toast('敬请期待');
 					this.contentList2 = []
 					return
-				}else{
-					this.roleType=e.value;
-					this.getStanding()
+				} else {
+					this.roleType = e.value;
+					this.gettimbre()
 				}
-				this.contentList2 = []
-				this.tabIndex = e.index
-				this.isReachBottom = true
 				
+				this.tabIndex = e.index;
+
 			},
 			back() {
 				uni.navigateBack()
@@ -212,32 +253,7 @@
 					url: '/pages/index/video/videorecord'
 				})
 			},
-			loadmore(type) {
-				if (type == 'start') {
-					if ((this.selectIndex == 0 && this.contentList.length > 0) || (this.selectIndex == 1 && this
-							.contentList2.length > 0)) {
-						this.isReachBottom = false
-						return false;
-					}
-				}
-				for (let i = 0; i < 16; i++) {
-					if (this.selectIndex == 0) {
-						this.contentList.push({
-							text: parseInt(Math.random() * 10) + 10
-						})
-					} else {
-						this.contentList2.push({
-							text: parseInt(Math.random() * 10) + 10
-						})
-					}
-				}
-				this.$nextTick(() => {
-					setTimeout(() => {
-						this.isReachBottom = false
-					}, 1000)
-				})
-
-			},
+			
 		}
 	}
 </script>
@@ -378,22 +394,25 @@
 			box-sizing: border-box;
 			position: relative;
 			overflow: hidden;
-			.poestImg{
+
+			.poestImg {
 				width: 100%;
 				height: 100%;
 				position: relative;
 				z-index: 9;
 			}
-			.playImg{
+
+			.playImg {
 				width: 76rpx;
 				height: 96rpx;
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				transform: translate(-50%,-50%);
+				transform: translate(-50%, -50%);
 				z-index: 999;
 			}
-			.contentVideo{
+
+			.contentVideo {
 				width: 100%;
 				height: 100%;
 			}
@@ -438,6 +457,41 @@
 		align-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		.voiceevery {
+			width: 42%;
+			margin-bottom: 16px;
+			padding: 10px;
+			border-radius: 16px;
+			border: 1px solid #e8e8e8;
+			min-height: 85px;
+		
+			.everyone {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+		
+				.guoqi {
+					width: 24px;
+					height: 17px;
+				}
+			}
+		
+			.everyone_bottom {
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				margin-top: 10px;
+		
+				.labels {
+					margin-right: 5px;
+				}
+			}
+		}
+		
+		.voiceevery_active {
+			border: 2px solid #2979ff;
+			width: 41.5%;
+		}
 
 		.aiNumPeople_list {
 			position: relative;

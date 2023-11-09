@@ -46,9 +46,16 @@
 		methods: {
 			toPath(name) {
 				if (name) {
-					uni.switchTab({
-						url: `/pages/${name}/index`
-					})
+					if(name!="partner"){
+						uni.switchTab({
+							url: `/pages/${name}/index`
+						})
+					}else{
+						uni.navigateTo({
+							url: `/pages/${name}/index`
+						});
+					}
+					
 				}
 			}
 		}

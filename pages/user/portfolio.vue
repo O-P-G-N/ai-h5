@@ -92,8 +92,8 @@
 		methods: {
 			// 返回积分查看
 			goBackUser() {
-				uni.navigateBack({
-					delta: 1
+				uni.switchTab({
+					url: `/pages/user/index`
 				});
 			},
 			// 菜单点击

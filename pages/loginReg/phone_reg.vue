@@ -57,6 +57,11 @@
 				}
 			};
 		},
+		onLoad(option) {
+			if(option.invitationCode){
+				this.from.invitationCode=option.invitationCode;
+			}
+		}, 
 		methods: {
 			// 返回注册首页
 			goBackUser() {

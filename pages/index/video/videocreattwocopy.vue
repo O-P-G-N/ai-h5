@@ -129,6 +129,7 @@
 </template>
 
 <script>
+	import app_config from '../../../common/config.js';
 	const innerAudioContext = uni.createInnerAudioContext();
 	export default {
 		data() {
@@ -157,7 +158,12 @@
 
 		},
 		onLoad(option) {
-			this.gettimbre(option.gender)
+			if(option.text){
+				this.from.content=JSON.parse(option.text).content;
+			};
+			this.displayedTimbre=JSON.parse(option.from);
+			this.from.voiceId=this.displayedTimbre.voiceId;
+			this.gettimbre(JSON.parse(option.from).sex)
 		},
 		methods: {
 			back() {
@@ -171,12 +177,13 @@
 					url: '/video/voices',
 					method: "GET",
 					data: {
-						gender: gender
+						sex: gender
 					},
 					success: (res) => {
+						res.data.map((v)=>{
+							v.imageUrl=app_config.apiUrl+"/"+v.imageUrl
+						})
 						this.timbreList = res.data;
-						this.from.voiceId=res.data[0].voiceId;
-						this.displayedTimbre=res.data[0];
 					}
 				});
 			},

@@ -82,8 +82,8 @@
 			};
 		},
 		onLoad(option) {
-			this.from = option.from;
-			this.displayedTimbre = option.displayedTimbre;
+			this.from = JSON.parse(option.from);
+			this.displayedTimbre = JSON.parse(option.displayedTimbre);
 		},
 		methods: {
 			// 返回
@@ -95,7 +95,7 @@
 			// 更换音色
 			changeVoice() {
 				uni.navigateTo({
-					url: `/pages/index/video/videocreattwocopy`
+					url: `/pages/index/video/videocreattwocopy?from=${JSON.stringify(this.displayedTimbre)}&text=${JSON.stringify(this.from)}`
 				});
 			},
 			playBtn() {

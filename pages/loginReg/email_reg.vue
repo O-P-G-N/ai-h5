@@ -48,6 +48,11 @@
 
 			};
 		},
+		onLoad(option) {
+			if(option.invitationCode){
+				this.from.invitationCode=option.invitationCode;
+			}
+		},
 		methods: {
 			// 返回登录首页
 			goBackUser() {

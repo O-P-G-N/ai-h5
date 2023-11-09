@@ -18,74 +18,26 @@
 		<view class="chat-view">
 			<view class="chat">
 				<view class="chat_show">
-					<view class="css-7feio9">
-						<view class="css-18ak0yj">
+					<view class="">
+
+					</view>
+					<view :class="i% 2 == 0?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
+						<view class="css-18ak0yj" v-if="i% 2 == 0">
 							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
 						</view>
-						<view class="chakra-card">455555555555湖广会馆规划化工辉煌国际个会很尴尬哈哈哈55555hjkhjkhjkhjkjhkjhkjhkjkh</view>
-					</view>
-					<view class="css-p92e7h">
-						<view class="css-v5t6b3">
+						<view class="css-v5t6b3" v-else>
 							<view class="css-f2diyg">
 								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
 							</view>
 						</view>
-						<view class="css-1b3trlo">
-							<view class="chakra-card">hjhjhhhhkl即可拉伸动环监控拉德季考拉很大合计登记好啦黄金卡手动滑稽卡仕达酱好卡啊四大皆空哈手动滑稽快回家k</view>
-						</view>
-					</view>
-					<view class="css-7feio9">
-						<view class="css-18ak0yj">
-							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
-						</view>
-						<view class="chakra-card">455555555555湖广会馆规划化工辉煌国际个会很尴尬哈哈哈55555hjkhjkhjkhjkjhkjhkjhkjkh</view>
-					</view>
-					<view class="css-p92e7h">
-						<view class="css-v5t6b3">
-							<view class="css-f2diyg">
-								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
-							</view>
-						</view>
-						<view class="css-1b3trlo">
-							<view class="chakra-card">hjhjhhhhkl即可拉伸动环监控拉德季考拉很大合计登记好啦黄金卡手动滑稽卡仕达酱好卡啊四大皆空哈手动滑稽快回家k</view>
-						</view>
-					</view>
-					<view class="css-7feio9">
-						<view class="css-18ak0yj">
-							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
-						</view>
-						<view class="chakra-card">455555555555湖广会馆规划化工辉煌国际个会很尴尬哈哈哈55555hjkhjkhjkhjkjhkjhkjhkjkh</view>
-					</view>
-					<view class="css-p92e7h">
-						<view class="css-v5t6b3">
-							<view class="css-f2diyg">
-								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
-							</view>
-						</view>
-						<view class="css-1b3trlo">
-							<view class="chakra-card">hjhjhhhhkl即可拉伸动环监控拉德季考拉很大合计登记好啦黄金卡手动滑稽卡仕达酱好卡啊四大皆空哈手动滑稽快回家k</view>
-						</view>
-					</view>
-					<view class="css-7feio9">
-						<view class="css-18ak0yj">
-							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
-						</view>
-						<view class="chakra-card">455555555555湖广会馆规划化工辉煌国际个会很尴尬哈哈哈55555hjkhjkhjkhjkjhkjhkjhkjkh</view>
-					</view>
-					<view class="css-p92e7h">
-						<view class="css-v5t6b3">
-							<view class="css-f2diyg">
-								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
-							</view>
-						</view>
-						<view class="css-1b3trlo">
-							<view class="chakra-card">hjhjhhhhkl即可拉伸动环监控拉德季考拉很大合计登记好啦黄金卡手动滑稽卡仕达酱好卡啊四大皆空哈手动滑稽快回家k</view>
-						</view>
+						<view :class="i% 2 == 0?'chakra-card':'chakra-cards'">{{v.reply}}</view>
 					</view>
 				</view>
 				<view class="chat_text">
-					<textarea class="chat_text_trea" placeholder-style="color:#24282C" placeholder="Enter..."/>
-					<image class="chat_text_btn" src="@/static/market/PaperAirplane.png" mode=""></image>
+					<textarea class="chat_text_trea" v-model="question" placeholder-style="color:#24282C"
+						placeholder="Enter..." />
+					<image @click="getChat" class="chat_text_btn" src="@/static/market/PaperAirplane.png" mode="">
+					</image>
 				</view>
 			</view>
 		</view>
@@ -97,7 +49,10 @@
 
 		data() {
 			return {
-
+				chatList: [{
+					reply: "我是您的专属伴侣nike,为你效劳。我可以回答问题、提供信息，甚至与你闲聊，请随时向我询问"
+				}],
+				question: "", //提问
 			};
 		},
 		methods: {
@@ -115,6 +70,31 @@
 						url: `/pages/partner/upgrade_train`
 					});
 				}, 500)
+			},
+			// 获取聊天
+			getChat() {
+				if (this.question == "") {
+					uni.$u.toast("请输入您要询问的话")
+					return
+				} else {
+					uni.request({
+						url: `/chat/quiz`,
+						method: "GET",
+						data: {
+							question: this.question
+						},
+						success: (res) => {
+							
+							this.chatList.push(res.data)
+							console.log(this.chatList);
+						}
+					});
+					this.chatList.push({
+						reply: this.question
+					})
+					this.question = ""
+				}
+
 			}
 		}
 	}
@@ -286,19 +266,16 @@
 							}
 						}
 
-						.css-1b3trlo {
+						.chakra-cards {
 							max-width: calc(100% - 65px);
 							margin-top: 6px;
-
-							.chakra-card {
-								border-radius: 8px 0px 8px 8px;
-								box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-								background: #d6e8ff;
-								max-width: calc(100% - 25px);
-								font-size: 14px;
-								margin-top: 0.5rem;
-								padding: 0.75rem;
-							}
+							border-radius: 8px 0px 8px 8px;
+							box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
+							background: #d6e8ff;
+							max-width: calc(100% - 25px);
+							font-size: 14px;
+							margin-top: 0.5rem;
+							padding: 0.75rem;
 						}
 					}
 				}
@@ -310,11 +287,13 @@
 					padding-right: 55px;
 					box-sizing: border-box;
 					position: relative;
-					.chat_text_trea{
+
+					.chat_text_trea {
 						width: 100%;
 						height: 100%;
 					}
-					.chat_text_btn{
+
+					.chat_text_btn {
 						width: 25px;
 						height: 25px;
 						position: absolute;
