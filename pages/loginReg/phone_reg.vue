@@ -13,7 +13,11 @@
 				<view class="inputevery">
 					<u-input v-model="from.phone" placeholder="请输入手机号">
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
+						<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
 					</u-input>
+				</view>
+				<view class="inputevery">
+					<u-input class="email_content_text" type="number" placeholder="请输入验证码" v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.password" placeholder="请输入密码" :password="eyeShow">
@@ -30,7 +34,7 @@
 				</view>
 				<view class="btns">
 					<view class="rightforget">忘记密码？</view>
-					<ai-button  class="next-btn loginbtn" @click="regBtn">注册</ai-button>
+					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn" @click="regBtn">注册</ai-button>
 					<!-- <button class="loginbtn" ></button> -->
 					<view class="register">
 						已有账户？
@@ -51,10 +55,13 @@
 				checkboxValue: "", //是否记住密码
 				from: {
 					phone: "", //手机号码
+					code:"",//验证码
 					password: "", //密码
 					invitationCode: "", //邀请码
 					countryCode: "", //国家编码
-				}
+				},
+				forbidden:false,//是否禁用
+				loading:false,//等待状态
 			};
 		},
 		onLoad(option) {
@@ -78,6 +85,32 @@
 			showHidden() {
 				this.eyeShow = !this.eyeShow
 			},
+			// 获取验证码
+			getCode() {
+				if(this.from.countryCode==""){
+					uni.$u.toast('请选择国家');
+					return
+				}else if(this.from.phone==""){
+					uni.$u.toast('请输入手机号');
+					return
+				}else{
+					uni.request({
+						url: `/aicommon/sendCode`,
+						method: "GET",
+						data: {
+							countryCode:this.from.countryCode,
+							to:this.from.phone,
+							type: 1
+						},
+						success: (res) => {
+							if (res.res.code == 200) {
+								uni.$u.toast('验证码发送成功');
+							}
+						}
+					});
+				}
+				
+			},
 			// 注册
 			regBtn() {
 				let patrn =
@@ -92,6 +125,13 @@
 				} else if (this.from.phone == "") {
 					uni.showToast({
 						title: "请输入正确的手机号",
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				} else if (this.from.code == "") {
+					uni.showToast({
+						title: "请输入验证码",
 						icon: "none",
 						success: function(res) {},
 					})
@@ -118,12 +158,16 @@
 					})
 					return
 				} else {
+					this.forbidden=true;
+					this.loading=true
 					uni.request({
 						url: '/nt/registerPhone',
 						method:"POST",
 						data: this.from,
 						success: (res) => {
 							// uni.$u.toast('注册成功');
+							this.forbidden=false;
+							this.loading=false;
 							uni.showToast({
 								title: "注册成功",
 								success: function(res) {
@@ -155,8 +199,8 @@
 	}
 
 	::v-deep.phone_reg {
-		width: 100wh;
-		height: 100vh;
+		min-width: 100wh;
+		min-height: 100vh;
 		display: flex;
 		align-items: center;
 
@@ -193,6 +237,18 @@
 					border-radius: 12px 12px 12px 12px;
 					display: flex;
 					align-items: center;
+					.email_content_btn {
+						padding: 2px 5px;
+						border-radius: 10px;
+						font-size: 12px;
+						height: 32px;
+						box-sizing: border-box;
+						background: #00bfff;
+						color: #fff;
+					}
+					uni-button:after {
+						border: none;
+					}
 
 					.u-input {
 						background: #eff3fa;

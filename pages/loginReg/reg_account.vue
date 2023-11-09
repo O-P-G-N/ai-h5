@@ -14,12 +14,12 @@
 		</view>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
-			<view class="title_h3">欢迎来到EXGPT</view>
+			<view class="title_h3">注册专属于您的EXGPT账号</view>
 			<view class="subsectiontwo">
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						手机号注册
+						手机号注册(暂未开通)
 					</view>
 				</button>
 				<view class="line">
@@ -34,7 +34,7 @@
 				</button>
 			</view>
 			<view class="inputmain">
-				<view class="quicklogin">
+				<!-- <view class="quicklogin">
 					<view class="login_item">
 						<image class="google" src="@/static/login/Google.png" mode=""></image>
 					</view>
@@ -44,7 +44,7 @@
 					<view class="login_item">
 						<image class="google" src="@/static/login/gd.png" mode=""></image>
 					</view>
-				</view>
+				</view> -->
 				<view class="privacy">
 					注册即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
 				</view>
@@ -82,19 +82,21 @@
 			},
 			//手机注册
 			mobileLogin() {
-				if(this.invitationCode){
-					uni.navigateTo({
-						url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
-					});
-				}else{
-					uni.navigateTo({
-						url: `/pages/loginReg/phone_reg`
-					});
-				}
+				uni.$u.toast('手机注册暂未开通');
+				// if(this.invitationCode){
+				// 	uni.navigateTo({
+				// 		url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
+				// 	});
+				// }else{
+				// 	uni.navigateTo({
+				// 		url: `/pages/loginReg/phone_reg`
+				// 	});
+				// }
 			},
 			// 选择语言
 			selectLang(){
-				this.langShow=true
+				uni.$u.toast('暂未开放');
+				// this.langShow=true
 			},
 			// 关闭语言选择框
 			closeLang(){

@@ -92,6 +92,11 @@
 					url: `/pages/index/index`
 				});
 			},
+			toWorks() {
+				uni.navigateTo({
+					url: `/pages/index/video/videorecord`
+				});
+			},
 			// 更换音色
 			changeVoice() {
 				uni.navigateTo({

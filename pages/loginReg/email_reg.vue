@@ -7,7 +7,11 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<u-input v-model="from.email" placeholder="请输入邮箱">
+						<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
 					</u-input>
+				</view>
+				<view class="inputevery">
+					<u-input class="email_content_text" type="number" placeholder="请输入验证码" v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.password" placeholder="请输入密码" :password="eyeShow">
@@ -24,7 +28,7 @@
 				</view>
 				<view class="btns">
 					<view class="rightforget">忘记密码？</view>
-					<ai-button class="next-btn loginbtn" @click="regBtn">注册</ai-button>
+					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn" @click="regBtn">注册</ai-button>
 					<view class="register">
 						已有账户？
 						<text class="blur" @click="loginNow">立即登录</text>
@@ -42,10 +46,12 @@
 				from: {
 					email: "", //邮箱号
 					password: "", //密码
+					code:"",//验证码
 					invitationCode: "", //邀请码
 				},
 				eyeShow: true, //密码显示
-
+				forbidden:false,//是否禁用
+				loading:false,//等待状态
 			};
 		},
 		onLoad(option) {
@@ -64,6 +70,27 @@
 			showHidden() {
 				this.eyeShow = !this.eyeShow
 			},
+			// 获取验证码
+			getCode() {
+				if(this.from.email==""){
+					uni.$u.toast('请输入邮箱号');
+					return
+				}else{
+					uni.request({
+						url: `/aicommon/sendCode`,
+						method: "GET",
+						data: {
+							to:this.from.email,
+							type: 2
+						},
+						success: (res) => {
+							if (res.res.code == 200) {
+								uni.$u.toast('验证码发送成功');
+							}
+						}
+					});
+				}
+			},
 			// 邮箱注册
 			regBtn() {
 				let passwordPatrn =
@@ -72,6 +99,13 @@
 				if (!emailPattern.test(this.from.email)) {
 					uni.showToast({
 						title: "请输入正确的邮箱",
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				}else if (this.from.code == "") {
+					uni.showToast({
+						title: "请输入验证码",
 						icon: "none",
 						success: function(res) {},
 					})
@@ -98,12 +132,16 @@
 					})
 					return
 				}else{
+					this.forbidden=true;
+					this.loading=true
 					uni.request({
 						url: '/nt/registerEmail',
 						method:"POST",
 						data: this.from,
 						success: (res) => {
 							// uni.$u.toast('注册成功');
+							this.forbidden=false;
+							this.loading=false;
 							uni.showToast({
 								title: "注册成功",
 								success: function(res) {
@@ -173,6 +211,18 @@
 					border-radius: 12px 12px 12px 12px;
 					display: flex;
 					align-items: center;
+					.email_content_btn {
+						padding: 2px 5px;
+						border-radius: 10px;
+						font-size: 12px;
+						height: 32px;
+						box-sizing: border-box;
+						background: #00bfff;
+						color: #fff;
+					}
+					uni-button:after {
+						border: none;
+					}
 
 					.u-input {
 						background: #eff3fa;

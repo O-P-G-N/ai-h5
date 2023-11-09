@@ -52,6 +52,7 @@
 									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":"取消终止"}}合约</button>
 							</view>
 							<view class="modelendtime" v-if="v.status==1">
+								<text>终止合约后将不再有任何收益 倒计时:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
 							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2">
@@ -389,8 +390,10 @@
 					}
 
 					.modelendtime {
-						text-align: center;
-						font-size: 19px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 13px;
 						letter-spacing: 1px;
 						margin-top: 16px;
 					}

@@ -22,25 +22,25 @@
 				<view class="workslist">
 					<view class="mb10" v-for="(v,i) in contentList" :key="i">
 						<u-transition :show="true">
-							<u--image @click="viewLargeImage(v.address)"
-								:src="v.address" width="110px" height="110px" radius="16"
-								shape="square"></u--image>
+							<u--image @click="viewLargeImage(v.address)" :src="v.address" width="110px" height="110px"
+								radius="16" shape="square"></u--image>
 						</u-transition>
 					</view>
 				</view>
 			</view>
 			<view class="" v-else-if="pageIndex==1">
-				<view class="videoevery_wai">
+				<view class="videoevery_wai" v-for="(v,i) in videoList" :key="i">
 					<view class="videoevery">
-						<video class="my_video" id="myVideo"
-							src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" controls></video>
-						<view class="videoevery_nei">
-							<view class="bofangbtn">
+						<view class="videoevery_nei" v-if="playFlag!=i&&playIndex!=i">
+							<view class="bofangbtn" @click="playBtn(i)">
 								<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
 							</view>
 						</view>
+						<video v-else-if="playFlag==i&&playIndex==i" class="my_video" :show-center-play-btn="false" id="myVideo" autoplay
+							@pause="ended" @ended="ended" :src="v.address" controls></video>
 					</view>
-					<ai-button class="next-btn startBtn" @click="copyVideoLink">复制视频链接</ai-button>
+
+					<ai-button :btnHeight="'57px'" class="next-btn startBtn" @click="copyVideoLink(v.address)">复制视频链接</ai-button>
 					<!-- <button class="startBtn" >复制视频链接</button> -->
 				</view>
 			</view>
@@ -61,26 +61,31 @@
 		data() {
 			return {
 				from: {
-					keyword:"",
-					pageNum:1,
-					pageSize:10
+					keyword: "",
+					pageNum: 1,
+					pageSize: 10
 				},
 				list: [{
 					name: 'AI创作',
 				}, {
 					name: '视频营销',
 				}, ],
-				contentList:[],//ai作品合集
+				contentList: [], //ai作品合集
+				videoList: [], //ai视频合集
 				pageIndex: 0, //页面索引
 				bigImg: false, //大图状态
 				bigImgRoute: "", //大图路径
-				pagenum:0,//总共页数
+				pagenum: 0, //总共页数
 				status: "loadmore",
+				playFlag: null, //是否播放
+				playIndex:null,//播放索引
 			}
 		},
 		onShow() {
-			if(this.pageIndex==0){
+			if (this.pageIndex == 0) {
 				this.getWorkCollection()
+			} else {
+				this.getVideoCollection()
 			}
 		},
 		onReachBottom() {
@@ -100,16 +105,21 @@
 			tabsClick(val) {
 				this.pageIndex = val.index;
 				this.from.pageNum = 1;
+				if (this.pageIndex == 0) {
+					this.getWorkCollection()
+				} else {
+					this.getVideoCollection()
+				}
 			},
 			// 查看大图
 			viewLargeImage(val) {
 				this.bigImg = true;
 				this.bigImgRoute = val
 			},
-			//获取作品合集
-			getWorkCollection(){
+			//获取图片作品合集
+			getWorkCollection() {
 				uni.request({
-					url: `/workImage/list`,
+					url: `/workImage/listForUser`,
 					method: "POST",
 					data: this.from,
 					success: (res) => {
@@ -118,6 +128,31 @@
 						})
 						this.contentList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
+						if (this.pagenum <= this.contentList.length) {
+							this.status = "nomore"
+						}
+					}
+				});
+			},
+			playBtn(i) {
+				this.playIndex=i;
+				this.playFlag = i;
+			},
+			// 获取视频作品集
+			getVideoCollection() {
+				uni.request({
+					url: `/video/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
+						})
+						this.videoList = res.data.rows;
+						this.pagenum = Math.ceil(res.data.total / 10);
+						if (this.pagenum <= this.videoList.length) {
+							this.status = "nomore"
+						}
 					}
 				});
 			},
@@ -126,21 +161,43 @@
 				if (this.from.pageNum < this.pagenum) {
 					this.status = "loading"
 					this.from.pageNum++;
-					uni.request({
-						url: `/workImage/list`,
-						method: "POST",
-						data: this.from,
-						success: (res) => {
-							res.data.rows.map((v) => {
-								v.address = app_config.apiUrl + "/" + v.address
-							})
-							this.status = "loadmore"
-							this.contentList.push(...res.data.rows);
-						}
-					});
+					if (this.pageIndex == 0) {
+						uni.request({
+							url: `/workImage/list`,
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								res.data.rows.map((v) => {
+									v.address = app_config.apiUrl + "/" + v.address
+								})
+								this.status = "loadmore"
+								this.contentList.push(...res.data.rows);
+							}
+						});
+					} else {
+						console.log(777);
+						uni.request({
+							url: `/video/list`,
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								res.data.rows.map((v) => {
+									v.address = app_config.apiUrl + "/" + v.address
+								})
+								this.status = "loadmore"
+								this.videoList.push(...res.data.rows);
+							}
+						});
+					}
+
 				} else {
 					this.status = "nomore"
 				}
+			},
+			// 结束视频播放
+			ended() {
+				this.playFlag =null;
+				this.playIndex=null;
 			},
 			// 复制图片链接
 			copyLink(val) {
@@ -159,12 +216,21 @@
 			},
 			// 搜索
 			searchBtn() {
-
+				if (this.from.keyword == "") {
+					uni.$u.toast("请输入您要查询的内容")
+				} else {
+					this.from.pageNum = 1;
+					if (this.pageIndex == 0) {
+						this.getWorkCollection()
+					} else {
+						this.getVideoCollection()
+					}
+				}
 			},
 			// 复制视频链接
 			copyVideoLink(val) {
 				uni.setClipboardData({
-					data: "https://cdn.uviewui.com/uview/album/1.jpg",
+					data: val,
 					showToast: true,
 					success: function() {
 						uni.showToast({

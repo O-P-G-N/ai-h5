@@ -54,7 +54,8 @@
 				</view>
 			</view>
 		</view>
-		<button class="ljdh" @click="redeemNow">立即兑换</button>
+		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">立即兑换</ai-button>
+		<!-- <button class="ljdh" @click="redeemNow"></button> -->
 		<view class="tuiguang">
 			<view>
 				<view class="title">推广收益(积分)</view>
@@ -78,6 +79,8 @@
 				bonusRatio: "", //加赠比例
 				redPacket: "", //消耗的红包数量
 				accountBalance: "", //账户余额
+				forbidden:false,//是否禁用
+				loading:false,//加载状态
 			};
 		},
 		onShow() {
@@ -137,6 +140,8 @@
 					uni.$u.toast('兑换数量不得大于余额');
 					return
 				} else {
+					this.forbidden=true;
+					this.loading=true;
 					uni.request({
 						url: `/member/scoreConvert`,
 						method: "POST",
@@ -144,6 +149,8 @@
 							hongbao: this.redPacket
 						},
 						success: (res) => {
+							this.forbidden=false;
+							this.loading=false;
 							uni.showToast({
 								title: "兑换成功",
 								success: function() {

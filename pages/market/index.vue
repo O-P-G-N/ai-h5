@@ -20,7 +20,7 @@
 							可用余额<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
 						</view>
 						<view class="blancenum">
-							<u--text mode="name" :text="accountBalance" :format="eyeShow?'encrypt':''"></u--text><text class="blancenum_text">红包</text>
+							<text v-if="eyeShow">{{accountBalance}}</text><text v-else>******</text><text class="blancenum_text">红包</text>
 						</view>
 					</view>
 					<view class="justcard_right">
@@ -600,7 +600,7 @@
 
 								.title {
 									position: absolute;
-									top: 12%;
+									top: 18%;
 									left: 5px;
 									padding-left: 37px;
 									font-size: 10px;

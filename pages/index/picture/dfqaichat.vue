@@ -69,12 +69,12 @@
 			},
 			nextFn() {
 				let num = null
-				if (this.parameter.coin == 1) {
+				if (this.parameter.prompt == 1) {
 					num = 10
 				} else {
 					num = 30
 				}
-				if (this.parameter.coin == '') {
+				if (this.parameter.prompt == '') {
 					uni.showToast({
 						title: '请输入描述画面',
 						icon: 'none'

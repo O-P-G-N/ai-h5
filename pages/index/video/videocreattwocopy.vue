@@ -215,9 +215,9 @@
 				this.selectedVoice = v;
 			},
 			toWorks() {
-				// uni.navigateTo({
-				// 	url: `/pages/index/video/indexIntr`
-				// });
+				uni.navigateTo({
+					url: `/pages/index/video/videorecord`
+				});
 			},
 			// 文本域字数
 			inputTextarea(val) {

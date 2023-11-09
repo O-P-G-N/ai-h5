@@ -90,7 +90,8 @@
 
 		</view>
 		<view class="createbtn">
-			<button class="chuangjian" @click="createContract">创建合约</button>
+			<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="createContract">创建合约</ai-button>
+			<!-- <button class="chuangjian" @click="createContract"></button> -->
 		</view>
 	</view>
 </template>
@@ -106,12 +107,14 @@
 					type:null,//购买类型
 					payHongbao:"",//购买红包数量
 				},
-
+				forbidden:false,//是否禁用
+				loading:false,//加载状态
 				revenueList: [], //每日收益显示
 				userVip: "", //用户等级
 				pageData: {}, //页面展示数据
 				balanceMax:"",//余额最大购买份数
 				gradeMax:"",//等级最大购买份数
+				
 			};
 		},
 		onLoad(option) {
@@ -177,11 +180,15 @@
 					uni.$u.toast(`请选择需要购买的合约运行天数`);
 					return
 				}else{
+					this.forbidden=true;
+					this.loading=true;
 					uni.request({
 						url: '/island/contract',
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							this.forbidden=false;
+							this.loading=false;
 							uni.showToast({
 								title: "购买成功",
 								success: function() {

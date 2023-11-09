@@ -1,51 +1,57 @@
 <template>
-	<view>
-		<u-navbar title="作品集" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+	<view class="portfolio">
+		<u-navbar @leftClick="goBackUser" leftText="返回" title="作品集" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
-				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
+				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<view class="content-lei">
-			<view class="heardMain">
-				<input class="seachInput" placeholder="搜索画面描述" placeholder-style="color:rgb(192, 196, 204)"
-					v-model="from.keyword" />
-				<view class="seachBtn">
-					<image class="searchImg" @click="seachBtn" src="~@/static/index/search.png"></image>
-				</view>
+		<view class="searchselect">
+			<view class="inputsearch">
+				<u--input v-model="from.keyword" placeholder="搜索画面描述" border="surround" shape="circle"></u--input>
 			</view>
-
-			<view class="tabselect">
-				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
-					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
+			<view class="rightshaixuan" @click="searchBtn">
+				<image class="searchicon" src="@/static/user/search.png" mode=""></image>
 			</view>
-			<template v-if='selectIndex==0'>
-				<view class="contentMain">
-					<view class="content-item" v-for="(item,index) in contentList" :key='index'
-						@click="showFn(item.address)">
-						<image mode="widthFix" :src="item.address"></image>
-					</view>
-					<!-- <view class="noView" v-for="(item,index) in 10"></view> -->
-				</view>
-			</template>
-			<template v-else>
-				<view class="contentItemVideo" v-for="(item,index) in contentList2" :key='index'>
-					<view class="contentVideoMain">
-						<video @pause="stopFn(index,$event)" @ended="stopFn(index,$event)"
-							:class="{'playVideo':item.isPlay}" class="contentVideo" :id='`video_${index}`'
-							:show-center-play-btn='false'
-							src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" controls></video>
-						<image v-if='!item.isPlay' class="playImg" @click="playFn(index)" mode="aspectFit"
-							src="~@/static/index/bofangicon.png">
-						</image>
-					</view>
-					<ai-button  class="copy-btn" @click="copyFn">复制视频链接</ai-button>
-				</view>
-			</template>
 		</view>
-		<u-popup :show="show" @close="show=false" mode="center" customStyle="{'background-color':'transparent'}">
-			<image mode="widthFix" class="privImg" :src="showImage"></image>
-			<view class="buttonDown" @click.stop="copyBtn(showImage)">复制链接</view>
-		</u-popup>
+		<u-tabs class="mt10"
+			:activeStyle="{color:'#fff',background: 'rgb(0, 0, 0)',padding: '2px 12px',borderRadius: '16px'}"
+			:inactiveStyle="{color:'rgb(153, 153, 153)',border: '1px solid rgb(153, 153, 153)',padding: '2px 12px',borderRadius: '16px'}"
+			:list="list" @click="tabsClick"></u-tabs>
+		<view class="works">
+			<view class="" v-if="pageIndex==0">
+				<view class="workslist">
+					<view class="mb10" v-for="(v,i) in contentList" :key="i">
+						<u-transition :show="true">
+							<u--image @click="viewLargeImage(v.address)" :src="v.address" width="110px" height="110px"
+								radius="16" shape="square"></u--image>
+						</u-transition>
+					</view>
+				</view>
+			</view>
+			<view class="" v-else-if="pageIndex==1">
+				<view class="videoevery_wai" v-for="(v,i) in videoList" :key="i">
+					<view class="videoevery">
+						<view class="videoevery_nei" v-if="playFlag!=i&&playIndex!=i">
+							<view class="bofangbtn" @click="playBtn(i)">
+								<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
+							</view>
+						</view>
+						<video v-else-if="playFlag==i&&playIndex==i" class="my_video" :show-center-play-btn="false" id="myVideo" autoplay
+							@pause="ended" @ended="ended" :src="v.address" controls></video>
+					</view>
+
+					<ai-button :btnHeight="'57px'" class="next-btn startBtn" @click="copyVideoLink(v.address)">复制视频链接</ai-button>
+					<!-- <button class="startBtn" >复制视频链接</button> -->
+				</view>
+			</view>
+		</view>
+		<view v-if="bigImg" class="image_mask" @click.stop="bigImg=false">
+			<view class="image_box">
+				<image class="big_img" @click.native.stop :src="bigImgRoute" mode=""></image>
+				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">复制链接</view>
+			</view>
+		</view>
+		<u-loadmore :status="status" />
 	</view>
 </template>
 
@@ -54,126 +60,64 @@
 	export default {
 		data() {
 			return {
-				selectIndex: 0,
-				showImage: '',
-				show: false,
-				contentList: [],
-				contentList2: [],
-				tabsList: [{
-						name: 'AI创作',
-					},
-					{
-						name: '营销创作',
-					}
-				],
 				from: {
-					pageNum: 1, //页数
-					pageSize: 10, //每页条数
-					keyword: "", //搜索描述
+					keyword: "",
+					pageNum: 1,
+					pageSize: 10
 				},
+				list: [{
+					name: 'AI创作',
+				}, {
+					name: '视频营销',
+				}, ],
+				contentList: [], //ai作品合集
+				videoList: [], //ai视频合集
+				pageIndex: 0, //页面索引
+				bigImg: false, //大图状态
+				bigImgRoute: "", //大图路径
+				pagenum: 0, //总共页数
+				status: "loadmore",
+				playFlag: null, //是否播放
+				playIndex:null,//播放索引
 			}
 		},
-		onLoad() {
-			this.loadmore()
-		},
-		computed: {
-			activeStyle() {
-				return {
-					"background": "rgb(0, 0, 0)",
-					"padding": "4rpx 24rpx",
-					"border-radius": " 30rpx",
-					"color": "rgb(255, 255, 255)",
-				}
-			},
-			inactiveStyle() {
-				return {
-					"color": "rgb(153, 153, 153)",
-					"border": "1px solid rgb(153, 153, 153)",
-					"padding": "4rpx 24rpx",
-					"border-radius": " 30rpx",
-				}
+		onShow() {
+			if (this.pageIndex == 0) {
+				this.getWorkCollection()
+			} else {
+				this.getVideoCollection()
 			}
 		},
 		onReachBottom() {
-			if (this.selectIndex == 0) {
-				this.upstrokeRef()
-			}
+			this.loadMore()
 		},
 		onHide() {
 			this.from.pageNum = 1;
-			this.contentList = [];
 		},
 		methods: {
-			stopFn() {
-				this.contentList2 = this.contentList2.map(n => {
-					n['isPlay'] = false
-					return n
-				})
+			// 返回积分查看
+			goBackUser() {
+				uni.navigateBack()
 			},
-			playFn(index) {
-				document.querySelectorAll('.playVideo').forEach(item => {
-					item.querySelector('.uni-video-video').pause()
-				})
-				this.contentList2 = this.contentList2.map(n => {
-					n['isPlay'] = false
-					return n
-				})
-				this.$set(this.contentList2[index], 'isPlay', true)
-				const playMainDom = document.getElementById(`video_${index}`)
-				const videoPlay = playMainDom.querySelector('.uni-video-video')
-				videoPlay.play()
-			},
-			copyFn() {
-				this.$copyToClipboard('复制信息', () => {
-					uni.showToast({
-						title: '复制成功！',
-						icon: 'none'
-					})
-				})
-			},
-			showFn(src) {
-				this.show = true
-				this.showImage = src
-			},
-			tabSelectClick(e) {
-				this.stopFn();
+			// 菜单点击
+			tabsClick(val) {
+				this.pageIndex = val.index;
 				this.from.pageNum = 1;
-				this.contentList=[];
-				this.contentList2=[];
-				if(e.index==0){
-					this.loadmore()
-				}
-				this.from.keyword = "";
-				this.selectIndex = e.index;
-			},
-			// 上划加载
-			upstrokeRef() {
-				this.from.pageNum++
-				uni.request({
-					url: `/workImage/list`,
-					method: "POST",
-					data: this.from,
-					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
-						this.contentList.push(...res.data.rows);
-					}
-				});
-			},
-			// 搜索
-			seachBtn() {
-				if (this.selectIndex == 0) {
-					this.from.pageNum = 1
-					this.loadmore()
-				}else{
-					
+				if (this.pageIndex == 0) {
+					this.getWorkCollection()
+				} else {
+					this.getVideoCollection()
 				}
 			},
-			// 查询ai图片创作
-			loadmore() {
+			// 查看大图
+			viewLargeImage(val) {
+				this.bigImg = true;
+				this.bigImgRoute = val
+			},
+			//获取图片作品合集
+			getWorkCollection() {
 				uni.request({
-					url: `/workImage/list`,
+					url: `/workImage/listForUser`,
 					method: "POST",
 					data: this.from,
 					success: (res) => {
@@ -181,11 +125,80 @@
 							v.address = app_config.apiUrl + "/" + v.address
 						})
 						this.contentList = res.data.rows;
+						this.pagenum = Math.ceil(res.data.total / 10);
+						if (this.pagenum <= this.contentList.length) {
+							this.status = "nomore"
+						}
 					}
 				});
 			},
+			playBtn(i) {
+				this.playIndex=i;
+				this.playFlag = i;
+			},
+			// 获取视频作品集
+			getVideoCollection() {
+				uni.request({
+					url: `/video/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.address = app_config.apiUrl + "/" + v.address
+						})
+						this.videoList = res.data.rows;
+						this.pagenum = Math.ceil(res.data.total / 10);
+						if (this.pagenum <= this.videoList.length) {
+							this.status = "nomore"
+						}
+					}
+				});
+			},
+			// 上划加载
+			loadMore() {
+				if (this.from.pageNum < this.pagenum) {
+					this.status = "loading"
+					this.from.pageNum++;
+					if (this.pageIndex == 0) {
+						uni.request({
+							url: `/workImage/list`,
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								res.data.rows.map((v) => {
+									v.address = app_config.apiUrl + "/" + v.address
+								})
+								this.status = "loadmore"
+								this.contentList.push(...res.data.rows);
+							}
+						});
+					} else {
+						console.log(777);
+						uni.request({
+							url: `/video/list`,
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								res.data.rows.map((v) => {
+									v.address = app_config.apiUrl + "/" + v.address
+								})
+								this.status = "loadmore"
+								this.videoList.push(...res.data.rows);
+							}
+						});
+					}
+
+				} else {
+					this.status = "nomore"
+				}
+			},
+			// 结束视频播放
+			ended() {
+				this.playFlag =null;
+				this.playIndex=null;
+			},
 			// 复制图片链接
-			copyBtn(val) {
+			copyLink(val) {
 				let that = this
 				uni.setClipboardData({
 					data: val,
@@ -193,183 +206,219 @@
 						uni.showToast({
 							title: "复制成功,请在浏览器打开!",
 							success: function(res) {
-								that.show = false;
+								that.bigImg = false;
 							}
 						})
 					}
 				});
 			},
-			back() {
-				uni.navigateBack()
+			// 搜索
+			searchBtn() {
+				if (this.from.keyword == "") {
+					uni.$u.toast("请输入您要查询的内容")
+				} else {
+					this.from.pageNum = 1;
+					if (this.pageIndex == 0) {
+						this.getWorkCollection()
+					} else {
+						this.getVideoCollection()
+					}
+				}
+			},
+			// 复制视频链接
+			copyVideoLink(val) {
+				uni.setClipboardData({
+					data: val,
+					showToast: true,
+					success: function() {
+						uni.showToast({
+							title: "复制成功",
+							success: function(res) {}
+						})
+					}
+				});
 			}
-		}
+		},
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 	page {
 		background-color: #fff;
 	}
 
-	.back {
-		width: 54rpx;
-		height: 30rpx;
-	}
+	::v-deep.portfolio {
+		width: 100%;
+		height: 100%;
+		padding: 20px 20px;
+		box-sizing: border-box;
 
-	::v-deep .u-navbar__content__title {
-		font-weight: bold;
-		color: #303133;
+		.u-navbar {
+			height: 53px;
 
-	}
+			.u-navbar__content {
+				height: 53px !important;
 
-	.content-lei {
-		padding: 0 40rpx;
-		margin-top: 30rpx;
-	}
+				.u-navbar__content__left {
+					padding-left: 18px;
 
-	.heardMain {
-		display: flex;
-		justify-content: space-between;
+					.u-nav-slot {
+						width: 17px;
+						height: 15px;
+					}
 
-		.seachInput {
-			width: 470rpx;
-			background: #f5f6fa;
-			padding: 30rpx !important;
-			border-radius: 200rpx;
+					.head_back_img {
+						width: 100%;
+						height: 100%;
+					}
+				}
+
+				.u-navbar__content__title {
+					font-weight: 600;
+					font-size: 17px;
+				}
+
+			}
 		}
 
-		.seachBtn {
-			padding: 30rpx;
-			background: #f5f6fa;
-			border-radius: 50%;
+		.searchselect {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.inputsearch {
+				width: 282px;
+
+				.u-input {
+					background: #f5f6fa;
+					padding: 16px 16px !important;
+				}
+			}
+
+			.rightshaixuan {
+				padding: 16px;
+				background: #f5f6fa;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.searchicon {
+					width: 21px;
+					height: 21px;
+				}
+			}
+		}
+
+		.u-tabs {
+			.u-tabs__wrapper__nav__line {
+				background-color: transparent !important;
+			}
+		}
+
+		.works {
+			margin-top: 21px;
+
+			.workslist {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				flex-wrap: wrap;
+			}
+
+			.videoevery_wai {
+				margin-bottom: 32px;
+
+				.videoevery {
+					width: 100%;
+					height: 213px;
+					border-radius: 21px;
+					box-sizing: border-box;
+					position: relative;
+
+					.my_video {
+						width: 100%;
+						height: 100%;
+						border-radius: 21px;
+					}
+
+					.videoevery_nei {
+						position: absolute;
+						z-index: 9;
+						width: 100%;
+						height: 213px;
+						border-radius: 21px;
+						background-image: url(https://imgeom.oss-ap-southeast-1.aliyuncs.com/static/image/videoanli1.png);
+						background-size: cover;
+						background-position: 50%;
+						background-repeat: no-repeat;
+						left: 0;
+						top: 0;
+
+						.bofangbtn {
+							height: 100%;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							.bofangbtn_img {
+								width: 37px;
+								height: 48px;
+							}
+						}
+					}
+				}
+
+				.startBtn {
+					height: 57px;
+					background: #333;
+					border-radius: 12px 12px 12px 12px;
+					margin-top: 12px;
+					line-height: 57px;
+					font-size: 17px;
+					font-weight: 600;
+					color: #fff;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+		}
+
+		.image_mask {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0, .5);
+			z-index: 99;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 
-			.searchImg {
-				width: 40rpx;
-				height: 40rpx;
+			.image_box {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+
+				.big_img {
+					width: 373px;
+					height: 374px;
+				}
+
+				.copy_btn {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					padding: 6px 14px;
+					background: #133eff;
+					border-radius: 8px;
+					color: #fff;
+					margin-top: 16px;
+				}
 			}
 		}
-	}
-
-	::v-deep .u-popup__content {
-		background-color: transparent;
-	}
-
-	.privImg {
-		width: 80vw;
-	}
-
-	.buttonDown {
-		padding: 6px 14px;
-		background: #133eff;
-		border-radius: 8px;
-		color: #fff;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		margin: 16px auto;
-	}
-
-	.tabselect {
-		margin: 20rpx 0;
-
-		::v-deep .u-tabs__wrapper__nav__item:first-child {
-			padding-left: 0 !important;
-		}
-
-		::v-deep .u-tabs__wrapper__scroll-view {
-			::-webkit-scrollbar {
-				width: 0;
-				height: 0;
-			}
-		}
-	}
-
-
-	.contentMain {
-		margin-top: 10rpx;
-		width: 100%;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-
-		.content-item {
-			width: 208rpx;
-			height: 208rpx;
-			margin-bottom: 20rpx;
-
-			image {
-				width: 100%;
-				height: 100%;
-				border-radius: 30rpx;
-			}
-		}
-	}
-
-	.loadingTxt {
-		margin-top: 20rpx;
-		width: 100%;
-		height: 100rpx;
-		color: rgb(153, 153, 153);
-		text-align: center;
-		font-size: 30rpx;
-		line-height: 100%;
-	}
-
-	.noView {
-		width: 0;
-		height: 0;
-	}
-
-	.contentItemVideo {
-		width: 100%;
-		margin-bottom: 80rpx;
-
-		.contentVideoMain {
-			position: relative;
-			width: 100%;
-			height: 458rpx;
-			border-radius: 44rpx;
-			overflow: hidden;
-
-			.contentVideo {
-				width: 100% !important;
-				height: 100% !important;
-				box-sizing: border-box;
-				position: relative;
-
-			}
-
-			.playImg {
-				width: 76rpx;
-				height: 96rpx;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				z-index: 999;
-			}
-		}
-
-		.copy-btn {
-			width: 100%;
-			height: 124rpx;
-			border-radius: 26rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: #fff;
-			font-size: 30rpx;
-			font-weight: bold;
-			background-color: #333333;
-			margin-top: 20rpx;
-		}
-	}
-
-	::v-deep .uni-video-bar {
-		display: block !important;
 	}
 </style>

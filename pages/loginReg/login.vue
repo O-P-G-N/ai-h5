@@ -17,7 +17,7 @@
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						手机登录
+						手机登录(暂未开通)
 					</view>
 				</button>
 				<view class="line">
@@ -33,13 +33,13 @@
 			</view>
 			<view class="inputmain">
 				<view class="quicklogin">
-					<view class="login_item">
+					<view class="login_item" @click="loginItem">
 						<image class="google" src="@/static/login/Google.png" mode=""></image>
 					</view>
-					<view class="login_item">
+					<view class="login_item" @click="loginItem">
 						<image class="google" src="@/static/login/window.png" mode=""></image>
 					</view>
-					<view class="login_item">
+					<view class="login_item" @click="loginItem">
 						<image class="google" src="@/static/login/gd.png" mode=""></image>
 					</view>
 				</view>
@@ -68,17 +68,23 @@
 		methods: {
 			//手机登录
 			mobileLogin() {
-				uni.navigateTo({
-					url: `/pages/loginReg/phone_login`
-				});
+				uni.$u.toast('手机登录暂未开通');
+				// uni.navigateTo({
+				// 	url: `/pages/loginReg/phone_login`
+				// });
 			},
 			// 选择语言
 			selectLang(){
-				this.langShow=true
+				// this.langShow=true
+				uni.$u.toast('暂未开放');
 			},
 			// 关闭语言选择框
 			closeLang(){
 				this.langShow=false
+			},
+			// 提示
+			loginItem(){
+				uni.$u.toast('当前地区暂未开放');
 			},
 			// 邮箱登录
 			emailLogin() {

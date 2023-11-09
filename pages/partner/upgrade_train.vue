@@ -62,7 +62,7 @@
 		methods:{
 			// 返回积分查看
 			goBackUser() {
-				uni.switchTab({
+				uni.navigateTo({
 					url: `/pages/partner/index`
 				});
 			},

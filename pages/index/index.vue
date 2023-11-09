@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="globalMian">
-			<image class="global" src="~@/static/index/global.png"></image>
+			<image class="global" @click="selectLang" src="~@/static/index/global.png"></image>
 		</view>
 		<view class="container">
 			<view class="justcard">
@@ -177,6 +177,11 @@
 					}
 				});
 			},
+			// 选择语言
+			selectLang(){
+				// this.langShow=true
+				uni.$u.toast('暂未开放');
+			},
 			loadMore() {
 				if (this.from.pageNum < this.pagenum) {
 					this.status = "loading"
@@ -219,6 +224,7 @@
 		display: flex;
 		justify-content: flex-end;
 		position: absolute;
+		z-index: 7888;
 		left: 50%;
 		transform: translateX(-50%);
 		margin-top: 40rpx;

@@ -48,7 +48,8 @@
 				<view class="czj_sss">
 					<input type="number" v-model="from.amount" class="uni-input" placeholder="10.00 USD起" />
 				</view>
-				<button class="chuangjian" @click="nextStep">下一步</button>
+				<ai-button :btnHeight="'51px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="nextStep">下一步</ai-button>
+				<!-- <button class="chuangjian" @click="nextStep">下一步</button> -->
 			</view>
 		</view>
 		<u-modal :show="show" title="温馨提示">
@@ -73,7 +74,9 @@
 				from: {
 					type: 1, //选择的货币
 					amount: "", //输入的金额
-				}
+				},
+				forbidden:false,//是否禁用
+				loading:false,//加载状态
 			};
 		},
 		methods: {
@@ -100,11 +103,15 @@
 					uni.$u.toast('最小充值数量为10.00');
 					return
 				} else {
+					this.forbidden=true;
+					this.loading=true;
 					uni.request({
 						url: '/recharge/getPayinfo',
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							this.forbidden=false;
+							this.loading=false;
 							// console.log(res.data);
 							uni.navigateTo({
 								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${this.from.amount}&type=${this.from.type==1?'红包-TRC20':'红包-ERC20'}`

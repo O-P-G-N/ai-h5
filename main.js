@@ -19,7 +19,7 @@ import 'vue-country-intl/lib/vue-country-intl.css'
 // 全局注册组件
 Vue.component(VueCountryIntl.name, VueCountryIntl);
 
-
+// window["console"]["log"] = function () {};
 const messages = {
 	en,
 	'zh-Hans': zhHans,

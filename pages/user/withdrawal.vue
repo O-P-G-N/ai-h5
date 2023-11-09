@@ -62,7 +62,8 @@
 					</view>
 				</u-cell>
 			</u-cell-group>
-			<button class="editpassbtn" @click="subApplication">提交</button>
+			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn" @click="subApplication">提交</ai-button>
+			<!-- <button class="editpassbtn" @click="subApplication">提交</button> -->
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
 			<view class="step">
@@ -244,11 +245,15 @@
 					uni.$u.toast(`最大提币数量为：${this.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
+					this.forbidden=true;
+					this.loading=true;
 					uni.request({
 						url: `/withdraw/withdrawApply`,
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							this.forbidden=false;
+							this.loading=false;
 							uni.$u.toast('提现已申请');
 							this.pageIndex = 1;
 						}
