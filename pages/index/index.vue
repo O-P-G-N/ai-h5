@@ -54,7 +54,7 @@
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
-			<vide class="content-mian">
+			<view class="content-mian">
 				<template v-if='constenList.length>0'>
 					<view class="content-item" v-for='(v,index) in constenList' :key='index'>
 						<image mode="widthFix" :src="v.address"></image>
@@ -78,7 +78,7 @@
 						<view class="skeleton four"></view>
 					</view>
 				</template>
-			</vide>
+			</view>
 			<u-loadmore :status="status" />
 			<Footer pageName='index'></Footer>
 		</view>

@@ -17,12 +17,9 @@
 		</view>
 		<view class="chat-view">
 			<view class="chat">
-				<view class="chat_show">
-					<view class="">
-
-					</view>
-					<view :class="i% 2 == 0?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
-						<view class="css-18ak0yj" v-if="i% 2 == 0">
+				<scroll-view class="chat_show" :scroll-y="true" :scroll-top="scrollTop">
+					<view :class="i% 2 == 0 && !v.who ?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
+						<view class="css-18ak0yj" v-if="i% 2 == 0 && !v.who ">
 							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
 						</view>
 						<view class="css-v5t6b3" v-else>
@@ -30,9 +27,9 @@
 								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
 							</view>
 						</view>
-						<view :class="i% 2 == 0?'chakra-card':'chakra-cards'">{{v.reply}}</view>
+						<view :class="i% 2 == 0 && !v.who?'chakra-card':'chakra-cards'">{{v.reply}}</view>
 					</view>
-				</view>
+				</scroll-view>
 				<view class="chat_text">
 					<textarea class="chat_text_trea" v-model="question" placeholder-style="color:#24282C"
 						placeholder="Enter..." />
@@ -53,6 +50,7 @@
 					reply: "我是您的专属伴侣nike,为你效劳。我可以回答问题、提供信息，甚至与你闲聊，请随时向我询问"
 				}],
 				question: "", //提问
+				scrollTop: 5000
 			};
 		},
 		methods: {
@@ -77,30 +75,53 @@
 					uni.$u.toast("请输入您要询问的话")
 					return
 				} else {
-					uni.request({
-						url: `/chat/quiz`,
-						method: "GET",
-						data: {
-							question: this.question
-						},
-						success: (res) => {
-							
-							this.chatList.push(res.data)
-							console.log(this.chatList);
-						}
-					});
+					try{
+						uni.request({
+							url: `/chat/quiz`,
+							method: "GET",
+							data: {
+								question: this.question
+							},
+							success: (res) => {
+								res.who = 0
+								this.chatList.push(res.data)
+								console.log(this.chatList);
+							},
+							fail() {
+								this.chatList.push({
+									reply: ""
+								})
+							}
+						});
+					} catch{
+						
+					}
+					
 					this.chatList.push({
-						reply: this.question
+						reply: this.question,
+						who:1
 					})
 					this.question = ""
 				}
 
 			}
+		},
+		watch:{
+			chatList:{
+				deep:true,
+				handler(){
+					this.$nextTick(() =>
+						this.scrollTop = this.scrollTop + 100
+					)
+				}
+			}
 		}
+		
 	}
 </script>
 
 <style lang="scss" scoped>
+	
 	::v-deep.partner {
 		display: flex;
 		flex-direction: column;

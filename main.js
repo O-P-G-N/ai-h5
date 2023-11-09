@@ -87,6 +87,7 @@ let req_handler = function(){
 				effect: this_url,
 				on: false
 			})
+			console.log('test',res);
 			if(res.statusCode == 200 && res.errMsg == 'request:ok'){
 				res.res = res.data;
 				if (res.data.code == 200) {
@@ -97,7 +98,13 @@ let req_handler = function(){
 					return false;
 				} else if(res.data.status == 0 || res.data.status == 1){
 					// 屏蔽其他第三方报错
-				} else { 
+				}else if(res.data.code == 401){
+					uni.showToast({title: "登录过期失效",icon: 'error',position: true,});
+					uni.redirectTo({
+						url: '/pages/loginReg/login'
+					})
+					return false;
+				}else { 
 					uni.showToast({title: res.data.msg,icon: 'error',position: true});
 					return false;
 				}
@@ -108,6 +115,7 @@ let req_handler = function(){
 				if(res.statusCode == 401){
 					uni.showToast({title: res.data.msg,icon: 'error',position: true});
 					// 约定401未登录请求
+					
 					
 				}else if(res.statusCode == 404){
 					uni.showToast({title: 'API 接口不存在',icon: 'error',position: true});

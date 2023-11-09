@@ -8,7 +8,7 @@
 		<view class="container_nei">
 			<view class="main">
 				<u-cell-group :border="false">
-					<u-cell :title="titleShow?'手机号':'邮箱账号'">
+					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
 								<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>

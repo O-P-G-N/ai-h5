@@ -17,7 +17,7 @@
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
 		</view>
-		<view class="yuecard" v-if="myInfo.total">
+		<view class="yuecard" v-if="infoShow">
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
@@ -64,7 +64,7 @@
 				></u-skeleton>
 		</view>
 		<view class="threebalance">
-			<template v-if="myInfo.total">
+			<template v-if="infoShow">
 				<view class="threebalance_every" @click="viewContract">
 					<view class="threebalance_num">
 						<text v-if="eyeShows">${{myInfo.todayIncome}}</text>
@@ -191,6 +191,7 @@
 				eyeShows:true,//金额展示
 				outLoginShow: false, //确定退出弹窗
 				myInfo:{},//我的信息
+				infoShow:false,//是否显示
 				myUserName:"",//我的用户名
 			}
 		},
@@ -210,6 +211,7 @@
 					url: '/member/myWallet',
 					method: "GET",
 					success: (res) => {
+						this.infoShow=true;
 						this.myInfo=res.data;
 						console.log(res);
 					}
