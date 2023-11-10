@@ -20,7 +20,7 @@
 		<view class="works">
 			<view class="" v-if="pageIndex==0">
 				<view class="workslist">
-					<view class="mb10" v-for="(v,i) in contentList" :key="i">
+					<view class="mb10 workslist_img" v-for="(v,i) in contentList" :key="i">
 						<u-transition :show="true">
 							<u--image @click="viewLargeImage(v.address)" :src="v.address" width="110px" height="110px"
 								radius="16" shape="square"></u--image>
@@ -287,7 +287,8 @@
 			justify-content: space-between;
 
 			.inputsearch {
-				width: 282px;
+				flex: 1;
+				margin-right: 10px;
 
 				.u-input {
 					background: #f5f6fa;
@@ -320,10 +321,14 @@
 			margin-top: 21px;
 
 			.workslist {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				flex-wrap: wrap;
+				display: grid;
+				justify-content: space-around;
+				grid-template-columns: repeat(auto-fill, 110px);
+				grid-gap: 10px;
+				.workslist_img {
+					margin-left: 10px;
+					margin-right: 10px;
+				}
 			}
 
 			.videoevery_wai {

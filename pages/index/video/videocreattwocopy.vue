@@ -254,6 +254,12 @@
 							this.loading = false
 						}
 					});
+					let time=setTimeout(()=>{
+						clearTimeout(time)
+						uni.$u.toast('网络超时，请重试!');
+						this.btnDisabled = false
+						this.loading = false
+					},30000)
 				}
 			},
 			// 使用ai文案

@@ -15,27 +15,31 @@
 					<image @click="showPopupFn(1)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="typeList">
-					<view class="type-item" v-for="(item,index) in typeList" :key='index' @click="themeSelect(index,item.name)">
+					<view class="type-item" v-for="(item,index) in typeList" :key='index'
+						@click="themeSelect(index,item.name)">
 						<view class="activeItem" v-if='typeIndex==index'></view>
 						<image class="item-image" :src="item.imgUrl"></image>
 						<view class="typeTitle">{{item.name}}</view>
 					</view>
 				</view>
 				<view class="content-title"><text>· 风格选择</text>
-					<image  @click="showPopupFn(2)"class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
+					<image @click="showPopupFn(2)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="stylelist">
-					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index' @click='styleSelect(index,item.name)'
-						:class="{'activeItem':styleIndex==index}">
+					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index'
+						@click='styleSelect(index,item.name)' :class="{'activeItem':styleIndex==index}">
 						{{item.name}}
 					</view>
 				</view>
-				<ai-button :btnHeight="'64px'"  class="clickView"  @click="generateFn">立即生成</ai-button>
+				<ai-button :btnHeight="'72px'" class="clickView" @click="generateFn">立即生成</ai-button>
 			</template>
 			<template v-else>
 				<view class="generateDiv">
-					<template v-if='generateImg!=""'>
-						<image @click="showFn"  mode="aspectFill" class="generateImg" :src="generateImg"></image>
+					<template v-if="generateImg!=''">
+						<u--image :showLoading="true" class="generateImg" @load="load" :src="generateImg" width="80px"
+							height="80px" @click="showFn"></u--image>
+							<view class="img_load" v-if="!loadComplete"><u-loading-icon :show="!loadComplete"></u-loading-icon>正在为您加载中...</view>
+						<!-- <image @click="showFn" mode="aspectFill" class="generateImg" :src="generateImg" @error="t1" @load="lo1"></image> -->
 					</template>
 					<template v-else>
 						<view class="progress-title">{{progress}}%</view>
@@ -105,11 +109,11 @@
 						</view>
 					</view>
 				</view>
-				
+
 			</template>
 		</view>
 		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
-		    <image mode="widthFix" class="privImg" :src="generateImg"></image>
+			<image mode="widthFix" class="privImg" :src="generateImg"></image>
 			<view class="buttonDown" @click="copyBtn">复制链接</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
@@ -129,104 +133,100 @@
 	export default {
 		data() {
 			return {
-				show:false,
+				show: false,
 				parameter: {},
 				typeIndex: 0,
 				styleIndex: 0,
 				isGenerate: false,
 				generateImg: '',
 				progress: 0,
-				typeList:[
-					{
-						name: '通用',
-						imgUrl:require('@/static/index/preempt5.webp'),
-					}, {
-						name: '科幻',
-						imgUrl:require('@/static/index/model8.webp'),
-					}, {
-						name: '儿童3D',
-						imgUrl:require('@/static/index/model4.webp'),
-					}, {
-						name: '建筑设计',
-						imgUrl:require('@/static/index/model7.webp'),
-					}, {
-						name: '2.5D动漫',
-						imgUrl:require('@/static/index/model1.webp'),
-					}, {
-						name: '电影写实',
-						imgUrl:require('@/static/index/model10.webp'),
-					}, {
-						name: '人物写真',
-						imgUrl:require('@/static/index/model11.webp'),
-					}, {
-						name: '3D日漫',
-						imgUrl:require('@/static/index/model9.webp'),
-					}, {
-						name: 'CG写真',
-						imgUrl:require('@/static/index/model5.webp'),
-					}
-				],
-				stylelist: [
-					{
-						name: '自由',
-					}, {
-						name: '赛博朋克',
-					}, {
-						name: '水彩风'
-					}, {
-						name: '水墨风'
-					}, {
-						name: '黑白'
-					}, {
-						name: '油画风'
-					}, {
-						name: '梦幻风'
-					}, {
-						name: '素描'
-					}, {
-						name: '涂鸦'
-					}
-				],
-				callBack: null,
-				showPopup:false,
-				showDetail:{
-					title:'',
-					content:''
+				typeList: [{
+					name: '通用',
+					imgUrl: require('@/static/index/preempt5.png'),
+				}, {
+					name: '科幻',
+					imgUrl: require('@/static/index/model8.webp'),
+				}, {
+					name: '儿童3D',
+					imgUrl: require('@/static/index/model4.webp'),
+				}, {
+					name: '建筑设计',
+					imgUrl: require('@/static/index/model7.webp'),
+				}, {
+					name: '2.5D动漫',
+					imgUrl: require('@/static/index/model1.webp'),
+				}, {
+					name: '电影写实',
+					imgUrl: require('@/static/index/model10.webp'),
+				}, {
+					name: '人物写真',
+					imgUrl: require('@/static/index/model11.webp'),
+				}, {
+					name: '3D日漫',
+					imgUrl: require('@/static/index/model9.webp'),
+				}, {
+					name: 'CG写真',
+					imgUrl: require('@/static/index/model5.webp'),
+				}],
+				stylelist: [{
+					name: '自由',
+				}, {
+					name: '赛博朋克',
+				}, {
+					name: '水彩风'
+				}, {
+					name: '水墨风'
+				}, {
+					name: '黑白'
+				}, {
+					name: '油画风'
+				}, {
+					name: '梦幻风'
+				}, {
+					name: '素描'
+				}, {
+					name: '涂鸦'
+				}],
+				showPopup: false,
+				showDetail: {
+					title: '',
+					content: ''
 				},
-				imgUrl:"",//图片地址
+				imgUrl: "", //图片地址
+				loadComplete: false, //图片加载完成
 			}
 		},
 		onLoad(e) {
 			this.parameter = JSON.parse(e.parameter);
 			this.parameter.style = "通用";
 			this.parameter.topic = "自由";
-			this.callBack = (res) => {
-				if (res) {
-					this.generateImg = app_config.apiUrl+"/"+this.imgUrl
-				}
-			}
 		},
 		methods: {
-			showPopupFn(type){
-				this.showPopup=true
-				if(type==1){
-					this.showDetail={
-						title:'模型主题说明',
-						content:'通过模型主题设定，可以设定最终生成出来的画面是什么材质和风格。'
+			load() {
+				console.log(777);
+				this.loadComplete = true;
+			},
+			showPopupFn(type) {
+				this.showPopup = true
+				if (type == 1) {
+					this.showDetail = {
+						title: '模型主题说明',
+						content: '通过模型主题设定，可以设定最终生成出来的画面是什么材质和风格。'
 					}
-				}else{
-					this.showDetail={
-						title:'风格选择说明',
-						content:'包含风格修饰、艺术家、元素魔法'
+				} else {
+					this.showDetail = {
+						title: '风格选择说明',
+						content: '包含风格修饰、艺术家、元素魔法'
 					}
 				}
-				
+
 			},
 			back() {
-				if(this.isGenerate){
-					this.isGenerate=false
-				}else{
+				if (this.isGenerate) {
+					this.isGenerate = false
+				} else {
 					uni.navigateBack()
+
 				}
 			},
 			toWorks() {
@@ -234,39 +234,54 @@
 					url: '/pages/index/picture/modelworks'
 				})
 			},
-			showFn(src){
-				this.show=true
+			showFn(src) {
+				this.show = true
 			},
 			// 主题选择
-			themeSelect(index,name){
-				 this.typeIndex=index;
-				 this.parameter.style=name
+			themeSelect(index, name) {
+				this.typeIndex = index;
+				this.parameter.style = name
 			},
 			// 风格选择
-			styleSelect(index,name){
-				this.styleIndex=index
-				this.parameter.topic=name
+			styleSelect(index, name) {
+				this.styleIndex = index
+				this.parameter.topic = name
 			},
 			generateFn() {
+				this.generateImg = "";
+				this.progress = 0;
+				this.imgUrl = "";
+				this.loadComplete = false;
 				uni.request({
 					url: `/workImage/generate`,
 					method: "POST",
-					data:this.parameter,
+					data: this.parameter,
 					success: (res) => {
-						this.imgUrl=res.data[0]
+						this.imgUrl = res.data[0]
+					},
+					fail: (err) => {
+						this.isGenerate = false;
+						if (this.setIntervalL) clearInterval(this.setIntervalL)
+						uni.$u.toast('网络超时，请重试!');
 					}
 				});
 				this.isGenerate = true
 				if (this.setIntervalL) clearInterval(this.setIntervalL)
 				this.setIntervalL = setInterval(() => {
-					this.progress = parseInt((this.progress + 1) * 100) / 100
-					if (this.progress >= 100) {
+					if (this.imgUrl == "") {
+						if (this.progress <= 95) {
+							this.progress = parseInt((this.progress + 1) * 100) / 100
+						} else if (this.progress > 96) {
+							this.progress = 99
+						}
+					} else {
+						this.progress = 100;
 						if (this.setIntervalL) clearInterval(this.setIntervalL)
-						if (this.callBack) this.callBack(true)
+						this.generateImg = app_config.apiUrl + "/" + this.imgUrl
 					}
-				}, 100)
+				}, 600)
 			},
-			copyBtn(){
+			copyBtn() {
 				// $downloadFile(generateImg,'图片');show=false
 				// @longpress="$downloadFile(generateImg,'图片')"
 				let that = this
@@ -276,7 +291,7 @@
 						uni.showToast({
 							title: "复制成功,请在浏览器打开!",
 							success: function(res) {
-								that.show=false
+								that.show = false
 							}
 						})
 					}
@@ -287,34 +302,37 @@
 </script>
 
 <style scoped lang="scss">
-	.popupContentMain{
+	.popupContentMain {
 		width: 90vw;
 		border-radius: 30rpx;
 		padding: 40rpx 30rpx;
 		box-sizing: border-box;
 		background-color: #fff;
-		.title{
-			    display: flex;
-			    align-items: center;
-			    margin-bottom: 24rpx;
-			    font-size: 32rpx;
-			    color: #333;
-			    font-weight: bold;
-			    justify-content: center;
+
+		.title {
+			display: flex;
+			align-items: center;
+			margin-bottom: 24rpx;
+			font-size: 32rpx;
+			color: #333;
+			font-weight: bold;
+			justify-content: center;
 		}
-		.content{
+
+		.content {
 			padding: 30rpx;
-			    display: flex;
-			    flex-direction: column;
-			    align-items: center;
-			    justify-content: space-between;
-			    margin-top: 30rpx;
-			    margin-bottom: 48rpx;
-			    word-break: break-all;
-				font-size: 28rpx;
-				color: rgba(0,0,0,0.9);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 30rpx;
+			margin-bottom: 48rpx;
+			word-break: break-all;
+			font-size: 28rpx;
+			color: rgba(0, 0, 0, 0.9);
 		}
-		.button{
+
+		.button {
 			width: 100%;
 			height: 100rpx;
 			background-color: #333333;
@@ -325,7 +343,7 @@
 			border-radius: 20rpx;
 		}
 	}
-	
+
 	page {
 		background-color: #fff;
 		padding-bottom: 20rpx;
@@ -386,13 +404,14 @@
 				height: 100%;
 				border-radius: 40rpx;
 			}
-			.typeTitle{
+
+			.typeTitle {
 				color: #fff;
 				font-weight: bold;
 				position: absolute;
 				z-index: 999;
 				font-size: 28rpx;
-				top:20rpx;
+				top: 20rpx;
 				left: 20rpx;
 			}
 
@@ -401,8 +420,8 @@
 				top: 0;
 				left: 0;
 				z-index: 9;
-				width: 202rpx;
-				height: 202rpx;
+				width: calc(100% - 16rpx);
+				height: calc(100% - 16rpx);
 				border: 8rpx solid #2fa2e3;
 				border-radius: 40rpx;
 
@@ -476,7 +495,7 @@
 	}
 
 
-	.generateDiv {
+	::v-deep.generateDiv {
 		width: 100%;
 		height: 650rpx;
 		background-color: rgb(246, 247, 251);
@@ -486,9 +505,34 @@
 		justify-content: center;
 		flex-direction: column;
 		overflow: hidden;
-		.generateImg{
+		position: relative;
+
+		.generateImg {
 			width: 100%;
 			height: 100%;
+
+			.u-image {
+				width: 100% !important;
+				height: 100% !important;
+
+				.u-image__image {
+					width: 100% !important;
+					height: 100% !important;
+				}
+			}
+		}
+		.img_load{
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+			background-color: rgb(246, 247, 251);
 		}
 
 		.progress-title {
@@ -564,21 +608,23 @@
 			}
 		}
 	}
-	.miaoshu{
+
+	.miaoshu {
 		margin-top: 20px;
 	}
-	
-	::v-deep .u-popup__content{
+
+	::v-deep .u-popup__content {
 		background-color: transparent;
 	}
-	.privImg{
+
+	.privImg {
 		width: 80vw;
 	}
-	
-	.buttonDown{
+
+	.buttonDown {
 		padding: 6px 14px;
 		background: #133eff;
-		    border-radius: 8px;
+		border-radius: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;

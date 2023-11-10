@@ -7,34 +7,35 @@
 		</u-navbar>
 		<view class="container_nei">
 			<view class="content">
-				<view class="list-body">
+				<view class="list-body" v-for="(v,i) in contentList" :key="i">
 					<view class="capital">
 						<view class="capital_top">
 							<text>充值类型</text>
-							<text>红包-TRC20</text>
+							<text>{{v.type==1?'红包-TRC20':'红包-ERC20'}}</text>
 						</view>
 						<view class="orderhao">
 							<text>订单号</text>
-							<text>202310271625350022498</text>
+							<text>{{v.orderNo}}</text>
 						</view>
 						<view class="orderhao">
 							<text>充值状态</text>
-							<text class="rechargetype">待支付</text>
+							<text class="rechargetype">{{v.status==0?'待支付':'已支付'}}</text>
 						</view>
 						<view class="orderhao">
 							<text>充值金额</text>
-							<text>10.00</text>
+							<text>{{v.hongbao}}</text>
 						</view>
 						<view class="orderhao">
 							<text>实际到账金额</text>
-							<text>0.00</text>
+							<text>{{v.hongbao}}</text>
 						</view>
 						<view class="orderhao">
 							<text>充值时间</text>
-							<text>2023-10-27 16:25:35</text>
+							<text>{{v.updateTime}}</text>
 						</view>
 					</view>
 				</view>
+				<u-loadmore :status="status" />
 			</view>
 		</view>
 	</view>
@@ -44,10 +45,24 @@
 	export default {
 		data() {
 			return {
-
+				from: {
+					pageNum: 1,
+					pageSize: 10
+				},
+				PageCount: 0, //总页数
+				contentList: [], //记录列表
+				status: "loadmore",
 			};
 		},
-		created() {},
+		onShow() {
+			this.getRechargeRecord()
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
@@ -55,6 +70,40 @@
 					url: `/pages/user/asset_details/index`
 				});
 			},
+			// 获取充值记录
+			getRechargeRecord() {
+				uni.request({
+					url: `/recharge/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.contentList = res.data.rows;
+						this.PageCount = Math.ceil(res.data.total / 10);
+						if (this.PageCount <= this.contentList.length) {
+							this.status = "nomore"
+						}
+						console.log(res);
+					}
+				});
+			},
+			// 上划加载
+			loadMore() {
+				if (this.from.pageNum < this.PageCount) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/recharge/list`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							this.contentList.push(...res.data.rows);
+
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
+			}
 		}
 	}
 </script>
@@ -119,15 +168,17 @@
 							display: flex;
 							justify-content: space-between;
 						}
-						.orderhao{
+
+						.orderhao {
 							font-size: 16px;
-							    color: #333;
-							    display: flex;
-							    justify-content: space-between;
-							    line-height: 3;
-								.rechargetype{
-									color: #2fa2e3;
-								}
+							color: #333;
+							display: flex;
+							justify-content: space-between;
+							line-height: 3;
+
+							.rechargetype {
+								color: #2fa2e3;
+							}
 						}
 					}
 				}

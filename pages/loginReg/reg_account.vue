@@ -5,11 +5,8 @@
 		<view class="navbar">
 			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
 			<view class="lang-down-menu" v-if="langShow">
-				<view class="extend-link" @click.stop="closeLang">English</view>
-				<view class="extend-link" @click.stop="closeLang">简体中文</view>
-				<view class="extend-link" @click.stop="closeLang">日本語</view>
-				<view class="extend-link" @click.stop="closeLang">Việt Nam</view>
-				<view class="extend-link" @click.stop="closeLang">Korean</view>
+				<view class="extend-link"  v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">{{item.text}}</view>
+				
 			</view>
 		</view>
 		<view class="container_nei">
@@ -72,6 +69,29 @@
 			if(option.code){
 				this.invitationCode=option.code
 			}
+			let systemInfo = uni.getSystemInfoSync();
+			this.systemLocale = systemInfo.language;
+			this.applicationLocale = uni.getLocale();
+			uni.onLocaleChange((e) => {
+				this.applicationLocale = e.locale;
+			})
+		},
+		computed: {
+			locales() {
+				return [{
+						text: this.$t('locale.en'),
+						code: 'en'
+					},
+					{
+						text: this.$t('locale.zh-hans'),
+						code: 'zh-Hans'
+					},
+					{
+						text: this.$t('locale.zh-hant'),
+						code: 'zh-Hant'
+					}
+				]
+			}
 		},
 		methods: {
 			// 返回登录首页
@@ -95,12 +115,11 @@
 			},
 			// 选择语言
 			selectLang(){
-				uni.$u.toast('暂未开放');
-				// this.langShow=true
+				this.langShow=true;
 			},
 			// 关闭语言选择框
 			closeLang(){
-				this.langShow=false
+				this.langShow=false;
 			},
 			// 邮箱注册
 			emailLogin() {

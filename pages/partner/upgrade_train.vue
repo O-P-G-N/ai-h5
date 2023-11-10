@@ -17,8 +17,8 @@
 						<text>nike</text>
 						<image class="levelIcon" src="@/static/user/B.png" mode=""></image>
 					</view>
-					<view class="a_balance_title">技能点余额</view>
-					<view class="a_balance">0</view>
+					<view class="a_balance_title">积分余额</view>
+					<view class="a_balance">{{pointsBalance}}</view>
 				</view>
 			</view>
 		</view>
@@ -28,16 +28,16 @@
 		</view>
 		<view class="menu-title">可选技能包:</view>
 		<view class="menu_content">
-			<view class="menu_item waves" @click="butonClick" :ref='refName' :id='refName' :style="{'--width':`${widthPx}px`,'--waterColor':waterColor}">
-				<view class="menu_item_title">心脏疾病诊断数据集</view>
-				<view class="menu_item_detail">包括心电图、超声波图像和病人病史等，用于辅助AI进行心脏疾病的早期诊断和风险评估。</view>
+			<view class="menu_item waves" v-for="(v,i) in contentList" :key="i"
+				@click="e => butonClick(e,'buttonMain_'+i,i)" :ref='refName' :id=" 'buttonMain_'+i"
+				:style="{'--width':`${widthPx}px`,'--waterColor':waterColor}">
+				<view class="menu_item_detail">{{v.content}}</view>
 				<view class="menu_item_menus">
-					<text class="menu_item_menus_text">百万案例</text>
-					<text class="menu_item_menus_text">生物医学</text>
+					<text class="menu_item_menus_text" v-for="(item,index) in v.word" :key="index">{{item}}</text>
 				</view>
-				<view class="menu_item_points">1000技能点</view>
-				<u-button type="info" text="兑换"></u-button>
-				<view class="waterView" v-if='showWater' :style="{left:XY.left,top:XY.top}">
+				<view class="menu_item_points">{{v.price}}技能点</view>
+				<u-button type="info" text="兑换" @click="exchange(v.id)"></u-button>
+				<view class="waterView" v-if='showWater&&clickIndex == i' :style="{left:XY.left,top:XY.top}">
 					<view class="point"></view>
 					<view class="wave1" @animationend='animationendFn'></view>
 					<view class="wave2" @animationend='animationendFn'></view>
@@ -45,6 +45,7 @@
 				</view>
 			</view>
 		</view>
+		<u-loadmore :status="status" />
 	</view>
 </template>
 
@@ -56,10 +57,28 @@
 				widthPx: 0,
 				showWater: false,
 				XY: {},
-				waterColor:"rgb(89, 89, 89)"
+				waterColor: "rgb(89, 89, 89)",
+				from: {
+					pageNum: 1,
+					pageSize: 10
+				},
+				pointsBalance: "", //积分余额
+				PageCount: 0, //总页数
+				contentList: [], //记录列表
+				status: "loadmore",
+				clickIndex: null,
 			};
 		},
-		methods:{
+		onShow() {
+			this.getSkillPack()
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
+		methods: {
 			// 返回积分查看
 			goBackUser() {
 				uni.navigateTo({
@@ -69,9 +88,10 @@
 			animationendFn() {
 				this.showWater = false
 			},
-			butonClick(e) {
+			butonClick(e, i, index) {
+				this.clickIndex = index
 				const query = uni.createSelectorQuery().in(this);
-				query.select('#' + this.refName).boundingClientRect()
+				query.select('#' + i).boundingClientRect();
 				query.exec((res) => {
 					const dataInfo = res[0]
 					// 计算需要显示的水波纹在button内的位置
@@ -86,15 +106,65 @@
 					const arrayPx = [clickX, widthPx - clickX, clickY, heightPX - clickY]
 					// 获取生成圆最大的宽度
 					const maxPx = Math.max(...arrayPx)
-					this.widthPx = maxPx * 2
-					this.showWater = true
-					this.$emit('click', e)
+					this.widthPx = maxPx * 2;
+					this.showWater = true;
 				});
 			},
 			// 自主训练
-			autonomousBtn(){
+			autonomousBtn() {
 				uni.$u.toast('暂未开放!');
-			}
+			},
+			// 获取技能包及积分余额
+			getSkillPack() {
+				uni.request({
+					url: '/member/getAccount',
+					method: "GET",
+					success: (res) => {
+						this.pointsBalance = res.data.point;
+						console.log(res);
+					}
+				});
+				uni.request({
+					url: `/skill/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						res.data.rows.map((v) => {
+							v.word = v.word.split(",")
+						})
+						this.contentList = res.data.rows
+						this.PageCount = Math.ceil(res.data.total / 10);
+						if (this.PageCount <= this.contentList.length) {
+							this.status = "nomore"
+						}
+					}
+				});
+			},
+			// 上划加载
+			loadMore() {
+				if (this.from.pageNum < this.PageCount) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/skill/list`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							res.data.rows.map((v) => {
+								v.word = v.word.split(",")
+							})
+							this.contentList.push(...res.data.rows);
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
+			},
+			// 兑换
+			exchange(id) {
+				uni.$u.toast('积分余额不足!');
+				console.log(id);
+			},
 		}
 	}
 </script>
@@ -271,18 +341,21 @@
 						font-size: 14px;
 					}
 				}
-				.menu_item_points{
+
+				.menu_item_points {
 					margin-top: 5px;
-					    color: #a3690f;
-					    font-weight: 600;
+					color: #a3690f;
+					font-weight: 600;
 				}
+
 				.u-button {
 					border-radius: 20px !important;
 				}
-				
+
 				.u-reset-button::after {
 					border: none;
 				}
+
 				// 水波纹外层
 				.waterView {
 					width: 100%;
@@ -291,7 +364,7 @@
 					transform: translate(-50%, -50%);
 					position: absolute;
 				}
-				
+
 				// 中心点
 				.point {
 					width: 10px;
@@ -304,7 +377,7 @@
 					transform: translate(-50%, -50%);
 					opacity: 0.1;
 				}
-				
+
 				// 波纹
 				.wave1,
 				.wave2,
@@ -320,16 +393,16 @@
 					transform: translate(-50%, -50%);
 					animation: wave 0.5s;
 					transform-origin: center center;
-				
+
 				}
-				
+
 				@keyframes wave {
 					0% {
 						width: 0;
 						height: 0;
 						opacity: 1;
 					}
-				
+
 					100% {
 						width: var(--width);
 						height: var(--width);
@@ -344,7 +417,7 @@
 				padding: 4px 10px;
 				outline: none;
 			}
-			
+
 		}
 	}
 </style>

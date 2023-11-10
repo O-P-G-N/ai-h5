@@ -1,12 +1,11 @@
 <template>
-	<view>
-
-			<view v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
-			  <text>{{item.text}}</text>
-			</view>
-
+	<view @click="closeLang">
 		<view class="globalMian">
-			<image class="global" @click="selectLang" src="~@/static/index/global.png"></image>
+			<image class="global" @click.stop="selectLang" src="~@/static/index/global.png"></image>
+			<view class="lang-down-menu" v-if="langShow">
+				<view class="extend-link"  v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">{{item.text}}</view>
+				
+			</view>
 		</view>
 		
 		<view class="container">
@@ -108,6 +107,7 @@
 				},
 				status: "loadmore",
 				pagenum: 0, //总共页数
+				langShow:false,//选择语言
 			}
 		},
 		computed: {
@@ -150,9 +150,6 @@
 			},
 			locales() {
 				return [{
-						text: this.$t('locale.auto'),
-						code: 'auto'
-					}, {
 						text: this.$t('locale.en'),
 						code: 'en'
 					},
@@ -189,6 +186,14 @@
 				this.from.style = e.name
 				this.from.pageNum = 1;
 				this.getImgList();
+			},
+			// 选择语言
+			selectLang(){
+				this.langShow=true
+			},
+			// 关闭语言选择框
+			closeLang(){
+				this.langShow=false
 			},
 			// 社区
 			communityBtn() {
@@ -267,6 +272,30 @@
 			position: relative;
 			top: -10rpx;
 			right: -10rpx;
+		}
+		.lang-down-menu{
+			position: absolute;
+			    right: 10px;
+			    top: 26px;
+			    z-index: 10!important;
+			    text-align: center;
+			    background-color: #242424;
+			    color: #fff;
+			    left: unset;
+			    right: 0;
+			    min-width: 120px;
+			    padding: 8px 0;
+			    border: none;
+			    border-radius: 6px;
+			    box-shadow: 0 5px 10px 0 rgba(3,6,18,.5);
+			    transition: all .3s;
+				.extend-link{
+					line-height: 20px;
+					    padding: 12px 16px;
+					    display: block;
+					    font-size: 14px;
+					    font-weight: 500;
+				}
 		}
 
 	}

@@ -11,19 +11,19 @@
 		</u-navbar>
 		<view class="container_nei">
 			<view class="content">
-				<view class="list-body">
+				<view class="list-body" v-for="(v,i) in contentList" :key="i">
 					<view class="capital">
 						<view class="capital_top">
 							<text class="title">类型</text>
-							<text>邀请分佣</text>
+							<text>{{v.typeStr}}</text>
 						</view>
 						<view class="orderhao">
 							<text class="title">金额</text>
-							<text class="reds">+6.0000</text>
+							<text :class="v.type==6||v.type==1?'greens':'reds'">{{v.type==6||v.type==1?'':'+'}}{{v.useHongbao}}</text>
 						</view>
 						<view class="orderhao">
 							<text class="title">时间</text>
-							<text>2023-10-26 23:23:28</text>
+							<text>{{v.updateTime}}</text>
 						</view>
 					</view>
 				</view>
@@ -43,6 +43,7 @@
 						</view>
 					</view>
 				</view>
+				<u-loadmore :status="status" />
 			</view>
 		</view>
 		<u-popup :show="show" mode="center" class="popup_content_center">
@@ -51,10 +52,10 @@
 					<text class="titles">起止时间</text>
 					<text class="intro">起止时间为创建订单时间</text>
 					<u-cell-group class="start_time">
-						<u-cell :title="from.startTime" @click="startEndTime('start')" :isLink="true"></u-cell>
+						<u-cell :title="from.begin?from.begin:'选择开始时间'" @click="startEndTime('start')" :isLink="true"></u-cell>
 					</u-cell-group>
 					<u-cell-group class="end_time">
-						<u-cell :title="from.endTime" @click="startEndTime('end')" :isLink="true"></u-cell>
+						<u-cell :title="from.end?from.end:'选择结束时间'" @click="startEndTime('end')" :isLink="true"></u-cell>
 					</u-cell-group>
 				</view>
 				<view class="anniubtn">
@@ -76,13 +77,27 @@
 				timeShow: false, //时间选择蒙层状态
 				timeValue: Number(new Date()), //选择的时间
 				from: {
-					startTime: "选择开始时间",
-					endTime: "选择结束时间"
+					begin: "",
+					end: "",
+					pageNum: 1,
+					pageSize: 10
 				},
 				timeFlag: true, //判断类型
+				PageCount: 0, //总页数
+				contentList: [], //记录列表
+				status: "loadmore",
 			};
 		},
-		created() {},
+		
+		onShow() {
+			this.getCapitalFlow()
+		},
+		onReachBottom() {
+			this.loadMore()
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
@@ -97,7 +112,7 @@
 			// 选择开始和结束时间
 			startEndTime(val) {
 				if (val == "start") {
-					if(this.from.startTime=="选择开始时间"){
+					if(this.from.begin=="选择开始时间"){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
@@ -105,10 +120,10 @@
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
-						this.timeValue=this.from.startTime
+						this.timeValue=this.from.begin
 					}
 				} else {
-					if(this.from.endTime=="选择结束时间"){
+					if(this.from.end=="选择结束时间"){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
@@ -116,7 +131,7 @@
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
-						this.timeValue=this.from.endTime;
+						this.timeValue=this.from.end;
 					}
 					
 				}
@@ -129,12 +144,12 @@
 			// 确定时间
 			confirmTime(val) {
 				if (this.timeFlag) {
-					this.from.startTime = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue=Number(new Date());
 				} else {
-					this.from.endTime = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue=Number(new Date());
@@ -143,14 +158,53 @@
 			// 重置
 			reset(){
 				this.from={
-					startTime: "选择开始时间",
-					endTime: "选择结束时间"
+					begin: "",
+					end: "",
 				}
 			},
 			// 确定
 			determine(){
 				this.show = false;
 				this.timeShow = false;
+				this.from.pageNum = 1;
+				this.getCapitalFlow();
+				this.from.begin="";
+				this.from.end="";
+					
+			},
+			// 获取提现记录
+			getCapitalFlow() {
+				uni.request({
+					url: `/hongbaoLog/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.contentList = res.data.rows;
+						this.PageCount = Math.ceil(res.data.total / 10);
+						if (this.PageCount <= this.contentList.length) {
+							this.status = "nomore"
+						}
+						console.log(res);
+					}
+				});
+			},
+			// 上划加载
+			loadMore() {
+				if (this.from.pageNum < this.PageCount) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: `/hongbaoLog/list`,
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							this.contentList.push(...res.data.rows);
+			
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
 			}
 		},
 	}

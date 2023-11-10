@@ -170,11 +170,12 @@
 							this.loading=false;
 							uni.showToast({
 								title: "注册成功",
-								success: function(res) {
+								success: function(res1) {
 									let time = setTimeout(() => {
 										clearTimeout(time)
-										uni.redirectTo({
-											url: `/pages/loginReg/login`
+										uni.setStorageSync("user", res.data)
+										uni.switchTab({
+											url: `/pages/index/index`
 										});
 									}, 1000)
 								},

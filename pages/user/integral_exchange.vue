@@ -26,7 +26,7 @@
 					<view class="right">
 						<view class="pfdz"
 							style="background-color: rgb(245, 246, 250);color: rgb(127, 127, 127);top: -36px;">
-							余额:{{accountBalance}}
+							余额:{{accountBalance?accountBalance:0}}
 						</view>
 						<view class="intCs">
 							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"

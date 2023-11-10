@@ -12,7 +12,7 @@
 		<view class="content-lei">
 			<view class="miaoshumain">
 				<view class="left">· 画面描述</view>
-				<view class="right">
+				<view class="right" @click="exchangePoints">
 					<image mode="aspectFit" class="davincupload" src="~@/static/index/jifen.png"></image>
 					<view>{{accountBalance}}积分</view>
 				</view>
@@ -27,7 +27,7 @@
 				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张图 10 积分</view>
 				<view class="btn" :class="{'btn-active':parameter.n==3}" @click="parameter.n=3">4张图 30 积分</view>
 			</view>
-			<ai-button :btnHeight="'53px'" class="next-btn" @click="nextFn">下一步</ai-button>
+			<ai-button :btnHeight="'60px'" class="next-btn" @click="nextFn">下一步</ai-button>
 		</view>
 	</view>
 </template>
@@ -91,6 +91,12 @@
 						url: `/pages/index/picture/dfqaichattwo?parameter=${JSON.stringify(this.parameter)}`
 					})
 				}
+			},
+			// 积分兑换
+			exchangePoints(){
+				uni.navigateTo({
+					url: `/pages/user/integral_exchange`
+				});
 			}
 		}
 	}

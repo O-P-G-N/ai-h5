@@ -20,7 +20,7 @@
 		<view class="works">
 			<view class="" v-if="pageIndex==0">
 				<view class="workslist">
-					<view class="mb10" v-for="(v,i) in contentList" :key="i">
+					<view class="mb10 workslist_img" v-for="(v,i) in contentList" :key="i">
 						<u-transition :show="true">
 							<u--image @click="viewLargeImage(v.address)" :src="v.address" width="110px" height="110px"
 								radius="16" shape="square"></u--image>
@@ -36,11 +36,12 @@
 								<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
 							</view>
 						</view>
-						<video v-else-if="playFlag==i&&playIndex==i" class="my_video" :show-center-play-btn="false" id="myVideo" autoplay
-							@pause="ended" @ended="ended" :src="v.address" controls></video>
+						<video v-else-if="playFlag==i&&playIndex==i" class="my_video" :show-center-play-btn="false"
+							id="myVideo" autoplay @pause="ended" @ended="ended" :src="v.address" controls></video>
 					</view>
 
-					<ai-button :btnHeight="'57px'" class="next-btn startBtn" @click="copyVideoLink(v.address)">复制视频链接</ai-button>
+					<ai-button :btnHeight="'57px'" class="next-btn startBtn"
+						@click="copyVideoLink(v.address)">复制视频链接</ai-button>
 					<!-- <button class="startBtn" >复制视频链接</button> -->
 				</view>
 			</view>
@@ -78,7 +79,7 @@
 				pagenum: 0, //总共页数
 				status: "loadmore",
 				playFlag: null, //是否播放
-				playIndex:null,//播放索引
+				playIndex: null, //播放索引
 			}
 		},
 		onShow() {
@@ -135,7 +136,7 @@
 				});
 			},
 			playBtn(i) {
-				this.playIndex=i;
+				this.playIndex = i;
 				this.playFlag = i;
 			},
 			// 获取视频作品集
@@ -196,8 +197,8 @@
 			},
 			// 结束视频播放
 			ended() {
-				this.playFlag =null;
-				this.playIndex=null;
+				this.playFlag = null;
+				this.playIndex = null;
 			},
 			// 复制图片链接
 			copyLink(val) {
@@ -289,7 +290,8 @@
 			justify-content: space-between;
 
 			.inputsearch {
-				width: 282px;
+				flex: 1;
+				margin-right: 10px;
 
 				.u-input {
 					background: #f5f6fa;
@@ -322,11 +324,17 @@
 			margin-top: 21px;
 
 			.workslist {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				flex-wrap: wrap;
+				display: grid;
+				justify-content: space-around;
+				grid-template-columns: repeat(auto-fill, 110px);
+				grid-gap: 10px;
+				.workslist_img {
+					margin-left: 10px;
+					margin-right: 10px;
+				}
+
 			}
+
 
 			.videoevery_wai {
 				margin-bottom: 32px;
