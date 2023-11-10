@@ -5,14 +5,11 @@ import uView from '@/uni_modules/uview-ui'
 import store from '@/store/index.js'
 import md5Libs from './common/md5'
 import VueI18n from 'vue-i18n'// v8.x
-import en from './i18n/en.json'
-import zhHans from './i18n/zh-Hans.json'
-import zhHant from './i18n/zh-Hant.json'
 import app_config from './common/config'
 import app_util from './common/util.js'
 import install from './common/install.js'
 import req_handler from './common/request.js'
-
+import messages from './locale/index'
 
 import VueCountryIntl from 'vue-country-intl';
 // 引入css
@@ -21,11 +18,7 @@ import 'vue-country-intl/lib/vue-country-intl.css'
 Vue.component(VueCountryIntl.name, VueCountryIntl);
 
 // window["console"]["log"] = function () {};
-const messages = {
-	en,
-	'zh-Hans': zhHans,
-	'zh-Hant': zhHant
-}
+
 let i18nConfig = {
   locale: uni.getLocale(),// 获取已设置的语言
   messages

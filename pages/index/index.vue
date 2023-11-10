@@ -1,8 +1,14 @@
 <template>
 	<view>
+
+			<view v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
+			  <text>{{item.text}}</text>
+			</view>
+
 		<view class="globalMian">
 			<image class="global" @click="selectLang" src="~@/static/index/global.png"></image>
 		</view>
+		
 		<view class="container">
 			<view class="justcard">
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
@@ -139,9 +145,34 @@
 					"padding": "4rpx 24rpx",
 					"border-radius": " 30rpx",
 				}
+			},
+			locales() {
+				return [{
+						text: this.$t('locale.auto'),
+						code: 'auto'
+					}, {
+						text: this.$t('locale.en'),
+						code: 'en'
+					},
+					{
+						text: this.$t('locale.zh-hans'),
+						code: 'zh-Hans'
+					},
+					{
+						text: this.$t('locale.zh-hant'),
+						code: 'zh-Hant'
+					}
+				]
 			}
 		},
-
+		onLoad() {
+			let systemInfo = uni.getSystemInfoSync();
+			this.systemLocale = systemInfo.language;
+			this.applicationLocale = uni.getLocale();
+			uni.onLocaleChange((e) => {
+				this.applicationLocale = e.locale;
+			})
+		},
 		onShow() {
 			this.getImgList()
 		},
@@ -153,7 +184,7 @@
 		},
 		methods: {
 			tabSelectClick(e) {
-				this.from.style=e.name
+				this.from.style = e.name
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
@@ -177,10 +208,9 @@
 					}
 				});
 			},
-			// 选择语言
-			selectLang(){
-				// this.langShow=true
-				uni.$u.toast('暂未开放');
+			onLocaleChange(e) {
+				uni.setLocale(e.code);
+				this.$i18n.locale = e.code;
 			},
 			loadMore() {
 				if (this.from.pageNum < this.pagenum) {
@@ -503,6 +533,7 @@
 		height: 328rpx;
 		border-radius: 40rpx;
 	}
+	
 
 	// .skeleton{
 	// 	background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);
