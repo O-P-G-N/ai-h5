@@ -21,7 +21,7 @@
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
-						<text class="cbac">总资产</text>/ 红包
+						<text class="cbac">{{$t('home.asset.total')}}</text>/ {{$t('home.asset.unit')}}
 					</view>
 					<view class="balancenum">
 						<text v-if="eyeShows">{{myInfo.total}}</text>
@@ -29,29 +29,29 @@
 						<image class="balancenum_img" @click="eyeShows=!eyeShows" :src="eyeShows?'../../static/user/eye.png':'../../static/user/hide.png'" mode=""></image>
 					</view>
 				</view>
-				<button class="right_btn" size="default" type="default" @click="integralExchange">积分兑换</button>
+				<button class="right_btn" size="default" type="default" @click="integralExchange">{{$t('home.asset.exchange_point')}}</button>
 			</view>
 			<view class="yuecard_nei">
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewContract">
-						<text>合约金额:</text>
+						<text>{{$t('home.asset.in_contract')}}:</text>
 						<text v-if="eyeShows" class="texta">{{myInfo.contract}}</text>
 						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery" @click="viewHistory">
-						<text>积分余额:</text>
+						<text>{{$t('home.asset.point')}}:</text>
 						<text v-if="eyeShows" class="texta">{{myInfo.score}}</text>
 						<text v-else class="texta">******</text>
 					</view>
 				</view>
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewCapitalFlow">
-						<text>红包余额:</text>
+						<text>{{$t('home.asset.hongbao_balance')}}:</text>
 						<text v-if="eyeShows" class="texta">{{myInfo.hongbao}}</text>
 						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery">
-						<text>信用分:</text>
+						<text>{{$t('home.asset.credit')}}:</text>
 						<text v-if="eyeShows" class="texta">{{myInfo.creditScore}}</text>
 						<text v-else class="texta">******</text>
 					</view>
@@ -71,7 +71,7 @@
 						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
-						今日收益
+						{{$t('home.today_earnings')}}
 					</view>
 				</view>
 				<view class="lines"></view>
@@ -81,7 +81,7 @@
 						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
-						本周收益
+						{{$t('home.earnings_this_week')}}
 					</view>
 				</view>
 				<view class="lines"></view>
@@ -91,7 +91,7 @@
 						<text v-else>******</text>
 					</view>
 					<view class="threebalance_title">
-						累计收益
+						{{$t('home.total_earnings')}}
 					</view>
 				</view>
 			</template>
@@ -101,17 +101,17 @@
 			</template>
 		</view>
 		<view class="rechargewithdrawal">
-			<button class="everyone" size="default" type="default" @click="recharge">充值</button>
-			<button class="everytwo" size="default" type="default" @click="withdrawal">提现</button>
+			<button class="everyone" size="default" type="default" @click="recharge">{{$t('home.charge')}}</button>
+			<button class="everytwo" size="default" type="default" @click="withdrawal">{{$t('home.withdraw')}}</button>
 		</view>
 		<view class="justcard">
 			<view class="justcard_bottom">
-				关于
+				{{$t('home.pic.about')}}
 				<image class="justcard_bottom_img" src="@/static/user/homecs1.png" mode=""></image>
-				智岛
+				
 			</view>
 			<button class="justcard_top" @click="aboutUs">
-				<view class="justcard_left">更多</view>
+				<view class="justcard_left">{{$t('home.pic.more')}}</view>
 				<view class="justcard_right">
 					<image class="justcard_right_img" src="@/static/user/homejiantou.png" mode=""></image>
 				</view>
@@ -120,7 +120,7 @@
 		<view class="funlist">
 			<view @click="viewPortfolio">
 				<view class="funlist_every">
-					<view class="left"><text>作品集</text></view>
+					<view class="left"><text>{{$t('home.menu.showreel')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
@@ -128,7 +128,7 @@
 			</view>
 			<view>
 				<view class="funlist_every" @click="viewAssetDetails">
-					<view class="left"><text>资产明细</text></view>
+					<view class="left"><text>{{$t('home.menu.asset_record')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
@@ -136,7 +136,7 @@
 			</view>
 			<view>
 				<view class="funlist_every" @click="viewIslands">
-					<view class="left"><text>岛屿</text></view>
+					<view class="left"><text>{{$t('home.menu.islande')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
@@ -144,7 +144,7 @@
 			</view>
 			<view>
 				<view class="funlist_every" @click="securityCenter">
-					<view class="left"><text>安全中心</text></view>
+					<view class="left"><text>{{$t('home.menu.security')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
@@ -152,7 +152,7 @@
 			</view>
 			<view>
 				<view class="funlist_every" @click="helpCenter">
-					<view class="left"><text>帮助中心</text></view>
+					<view class="left"><text>{{$t('home.menu.assist')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
@@ -160,20 +160,20 @@
 			</view>
 			<view>
 				<view class="funlist_every" @click="viewNotice">
-					<view class="left"><text>公告</text></view>
+					<view class="left"><text>{{$t('home.menu.notice')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
 			</view>
 			<view>
-				<view class="funlist_exit" @click="outLogin">退出登录</view>
+				<view class="funlist_exit" @click="outLogin">{{$t('home.menu.logout')}}</view>
 			</view>
 		</view>
 		<Footer pageName='user'></Footer>
-		<u-modal :show="outLoginShow" @confirm="confirm" @cancel="cancel" width="300px" showCancelButton title="温馨提示">
+		<u-modal :show="outLoginShow" @confirm="confirm" @cancel="cancel" width="300px" showCancelButton >
 			<view class="slot-content">
-				您确定要退出登录吗？
+				{{$t('home.confirm.logout')}}
 			</view>
 		</u-modal>
 	</view>

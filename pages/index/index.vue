@@ -22,12 +22,12 @@
 				<view class="card-item left" @click="toPage('/pages/index/picture/dfqaichat')">
 					<view class="card-nei">
 						<view class="top">
-							<view class="title">AI创作</view>
-							<view class="intro">创意画廊</view>
+							<view class="title">AI{{$t('index.ai.creation')}}</view>
+							<view class="intro">{{$t('index.ai.creatioin.text')}}</view>
 						</view>
 						<view class="bottom">
 							<image src="~@/static/index/tiyanjt.webp"></image>
-							<view>体验</view>
+							<view>{{$t('index.ai.experience')}}</view>
 						</view>
 					</view>
 
@@ -35,12 +35,12 @@
 				<view class="card-item right" @click="toPage('/pages/index/video/indexIntr')">
 					<view class="card-nei">
 						<view class="top">
-							<view class="title">视频营销</view>
-							<view class="intro">数字人</view>
+							<view class="title">{{$t('index.ai.video')}}</view>
+							<view class="intro">{{$t('index.ai.video.text')}}</view>
 						</view>
 						<view class="bottom">
 							<image src="~@/static/index/tiyanjt.webp"></image>
-							<view>体验</view>
+							<view>{{$t('index.ai.experience')}}</view>
 						</view>
 					</view>
 
@@ -50,9 +50,9 @@
 			<view class="aicreate">
 				<view class="heard">
 					<image class="homecs" src="~@/static/index/homecs.webp"></image>
-					<text>创作</text>
+					<text>{{$t('index.ai.creation')}}</text>
 					<view class="rightyishu">
-						<view class="text"><text>· 人人都是大艺术家</text></view>
+						<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
 					</view>
 				</view>
 			</view>
@@ -100,25 +100,6 @@
 		},
 		data() {
 			return {
-				tabsList: [{
-					name: '自由',
-				}, {
-					name: '赛博朋克',
-				}, {
-					name: '水彩风'
-				}, {
-					name: '水墨风'
-				}, {
-					name: '黑白'
-				}, {
-					name: '油画风'
-				}, {
-					name: '梦幻风'
-				}, {
-					name: '素描'
-				}, {
-					name: '涂鸦'
-				}],
 				constenList: [],
 				from: {
 					style: "自由",
@@ -130,6 +111,27 @@
 			}
 		},
 		computed: {
+			tabsList() {
+				return [{
+					name: this.$t('index.ai.creationstyle.freedom')
+				}, {
+					name: this.$t('index.ai.creationstyle.cyberpunk')
+				}, {
+					name: this.$t('index.ai.creationstyle.watercolor')
+				}, {
+					name: this.$t('index.ai.creationstyle.chinese_ink')
+				}, {
+					name: this.$t('index.ai.creationstyle.black_and_white')
+				}, {
+					name: this.$t('index.ai.creationstyle.oil_painting')
+				}, {
+					name: this.$t('index.ai.creationstyle.dreamlike')
+				}, {
+					name: this.$t('index.ai.creationstyle.sketch')
+				}, {
+					name: this.$t('index.ai.creationstyle.graffiti')
+				}]
+			},
 			activeStyle() {
 				return {
 					"background": "rgb(0, 0, 0)",

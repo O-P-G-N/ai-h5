@@ -17,10 +17,10 @@
 				<view class="justcard">
 					<view class="justcard_left">
 						<view class="blancetext">
-							可用余额<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
+							{{$t('ac.avb')}}<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
 						</view>
 						<view class="blancenum">
-							<text v-if="eyeShow">{{accountBalance}}</text><text v-else>******</text><text class="blancenum_text">红包</text>
+							<text v-if="eyeShow">{{accountBalance}}</text><text v-else>******</text><text class="blancenum_text">{{$t('ac.hongbao')}}</text>
 						</view>
 					</view>
 					<view class="justcard_right">
@@ -28,54 +28,54 @@
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/code.png" mode=""></image>
 							</view>
-							<view class="justcard_text">激活码</view>
+							<view class="justcard_text">{{$t('ac.actc')}}</view>
 						</button>
 						<button class="justcard_right_btn" @click="viewContract">
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/marketheyue.png" mode=""></image>
 							</view>
-							<view class="justcard_text">我的合约</view>
+							<view class="justcard_text">{{$t('ac.myac')}}</view>
 						</button>
 					</view>
 				</view>
-				<view class="marketeverytitle">AI智能+量化交易</view>
+				<view class="marketeverytitle">AI{{$t('ac.int')}}+{{$t('ac.lht')}}</view>
 				<view class="modellist">
 					<view class="modellist_every" @click="createContract(1)">
 						<view class="modeltop">
 							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
-							<view class="titles">证券</view>
+							<view class="titles">{{$t('ac.share')}}</view>
 						</view>
 						<view class="intro">
-							22天工作日交易
+							{{$t('ac.s1')}}
 							<br>
-							高精度毫秒级数据
+							{{$t('ac.s2')}}
 							<br>
-							多维度行情监测
+							{{$t('ac.s3')}}
 							<br>
-							冰山委托大引擎
+							{{$t('ac.s4')}}
 						</view>
-						<button class="creatmodel">创建合约</button>
+						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
 					<view class="modellist_every" @click="createContract(2)">
 						<view class="modeltop">
 							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
-							<view class="titles">加密货币</view>
+							<view class="titles">{{$t('ac.crypt')}}</view>
 						</view>
 						<view class="intro">
-							7*24小时智能交易
+							{{$t('ac.c1')}}
 							<br>
-							高精度毫秒级数据
+							{{$t('ac.c2')}}
 							<br>
-							多维度行情监测
+							{{$t('ac.c3')}}
 							<br>
-							灯塔风控决策
+							{{$t('ac.c4')}}
 						</view>
-						<button class="creatmodel">创建合约</button>
+						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
 				</view>
 				<view class="widgtthree">
 					<view class="newwidgtthree">
-						<view class="shouyilv">实时累计收益率:</view>
+						<view class="shouyilv">{{$t('ac.pic1')}}:</view>
 						<view class="redbfb">525.43% <image class="redbfb_img" src="@/static/market/marketqushi.png">
 							</image>
 						</view>
@@ -98,7 +98,7 @@
 					</view>
 				</view>
 				<view class="marketeverytitle">
-					<image class="marketeverytitle" src="@/static/market/marketexgpt.png" mode=""></image>行情监测
+					<image class="marketeverytitle" src="@/static/market/marketexgpt.png" mode=""></image>{{$t('ac.pic2')}}
 				</view>
 				<view class="widgttwo">
 					<view class="flexcenter">
