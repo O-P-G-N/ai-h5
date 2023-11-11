@@ -146,10 +146,7 @@
 						data: this.from,
 						success: (res) => {
 							// uni.$u.toast('注册成功');
-							if(res.data.code == 500) {
-								this.forbidden=false;
-								this.loading=false;
-							}else{
+							if(res.code == 200){
 								this.forbidden=false;
 								this.loading=false;
 								uni.showToast({
@@ -164,7 +161,10 @@
 										}, 1000)
 									},
 								})
-							}
+							}else if(res.code == 500) {
+								this.forbidden=false;
+								this.loading=false;
+							} 
 							
 						}
 					});

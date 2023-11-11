@@ -27,8 +27,8 @@
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">忘记密码？</view>
-					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading" class="next-btn loginbtn"
-						@click="loginBtn">登录</ai-button>
+					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading"
+						class="next-btn loginbtn" @click="loginBtn">登录</ai-button>
 					<view class="register">
 						还没有账户？
 						<text class="blur" @click="regAccount">立即注册</text>
@@ -50,8 +50,8 @@
 					password: "", //密码
 					type: 2, //类型
 				},
-				loading:false,//等待
-				forbidden:true,//是否禁用按钮
+				loading: false, //等待
+				forbidden: true, //是否禁用按钮
 			};
 		},
 		onShow() {
@@ -123,31 +123,38 @@
 					})
 					return
 				} else {
-					this.loading=true
-					this.forbidden=false
+					this.loading = true
+					this.forbidden = false
 					uni.request({
 						url: '/nt/login',
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							if (that.checkboxValue[0] == 1) {
-								uni.setStorageSync("emailCheck", that.checkboxValue[0])
-								uni.setStorageSync("email", this.from)
+							if (res.code == 200) {
+								if (that.checkboxValue[0] == 1) {
+									uni.setStorageSync("emailCheck", that.checkboxValue[0])
+									uni.setStorageSync("email", this.from)
+								}
+								uni.showToast({
+									title: "登陆成功",
+									success: function() {
+										let time = setTimeout(() => {
+											that.loading = false;
+											that.forbidden = true;
+											clearTimeout(time)
+											uni.setStorageSync("user", res.data)
+											uni.switchTab({
+												url: `/pages/index/index`
+											});
+										}, 1000)
+									},
+								})
+							} else if(res.code == 500) {
+								that.loading = false;
+								that.forbidden = true;
+
 							}
-							uni.showToast({
-								title: "登陆成功",
-								success: function() {
-									let time = setTimeout(() => {
-										that.loading=false;
-										that.forbidden=true;
-										clearTimeout(time)
-										uni.setStorageSync("user", res.data)
-										uni.switchTab({
-											url: `/pages/index/index`
-										});
-									}, 1000)
-								},
-							})
+
 						}
 					});
 				}

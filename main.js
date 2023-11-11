@@ -81,6 +81,7 @@ let req_handler = function(){
 						res.res = res.data;
 						if (res.data.code == 200) {
 							res.data = res.res.data;
+							res.code=res.res.code;
 							res.msg = res.res.msg;
 							return true;
 						}else if(res.data.code == 4){

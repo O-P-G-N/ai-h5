@@ -109,14 +109,22 @@
 						method: "GET",
 						data: that.from,
 						success: (res) => {
-							uni.showLoading({
-								title: '验证码发送中'
-							})
-							that.timer = setTimeout(() => {
-								uni.hideLoading();
-								uni.$u.toast('验证码已发送');
-								that.pageIndex = 1;
-							}, 2000);
+							if(res.code == 200) {
+								uni.showLoading({
+									title: '验证码发送中'
+								})
+								this.timer = setTimeout(() => {
+									uni.hideLoading();
+									this.loading = false
+									this.forbidden = false
+									uni.$u.toast('验证码已发送');
+									this.pageIndex = 1;
+								}, 2000);
+								
+							} else if(res.code == 500) {
+								this.loading = false
+								this.forbidden = false
+							}
 						}
 					});
 				}

@@ -166,20 +166,26 @@
 						data: this.from,
 						success: (res) => {
 							// uni.$u.toast('注册成功');
-							this.forbidden=false;
-							this.loading=false;
-							uni.showToast({
-								title: "注册成功",
-								success: function(res1) {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.setStorageSync("user", res.data)
-										uni.switchTab({
-											url: `/pages/index/index`
-										});
-									}, 1000)
-								},
-							})
+							if(res.code==200){
+								this.forbidden=false;
+								this.loading=false;
+								uni.showToast({
+									title: "注册成功",
+									success: function(res1) {
+										let time = setTimeout(() => {
+											clearTimeout(time)
+											uni.setStorageSync("user", res.data)
+											uni.switchTab({
+												url: `/pages/index/index`
+											});
+										}, 1000)
+									},
+								})
+							}else if(res.code==500){
+								this.forbidden=false;
+								this.loading=false;
+							}
+							
 						}
 					});
 				}

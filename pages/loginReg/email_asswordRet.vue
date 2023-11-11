@@ -98,10 +98,8 @@
 						method: "GET",
 						data: this.from,
 						success: (res) => {
-							if(res.data.code == 500) {
-								this.loading = false
-								this.forbidden = false
-							} else {
+							console.log("res",res);
+							if(res.code == 200) {
 								uni.showLoading({
 									title: '验证码发送中'
 								})
@@ -112,6 +110,10 @@
 									uni.$u.toast('验证码已发送');
 									this.pageIndex = 1;
 								}, 2000);
+								
+							} else if(res.code == 500) {
+								this.loading = false
+								this.forbidden = false
 							}
 						},
 						fail: (err) => {
