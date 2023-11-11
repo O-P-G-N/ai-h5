@@ -43,16 +43,16 @@
 								placeholder="自定义买入份额" />
 						</view>
 					</view>
-					<view class="meifen">每份等于{{pageData.remark}}美元</view>
+					<view class="meifen">每份等于{{pageData.remark}}红包</view>
 				</view>
 				<view class="yujimain" v-if="pageData.dictSort">
 					<view class="buymoney">
 						<view class="">买入金额</view>
-						<text class="buymoney_num">{{from.payHongbao}} 美元</text>
+						<text class="buymoney_num">{{from.payHongbao}} 红包</text>
 					</view>
 					<view class="buymoney">
 						<view class="">当前余额最大可购买份数</view>
-						<text class="buymoney_text">{{Number(balanceMax)/Number(pageData.remark)}}份</text>
+						<text class="buymoney_text">{{Math.floor(Number(balanceMax)/Number(pageData.remark))}}份</text>
 					</view>
 					<view class="buymoney">
 						<view class="">当前等级最大可购买份数</view>
@@ -80,7 +80,7 @@
 					<view class="bg-purple purple_first" :class="v.days==from.payDays?'active':''">{{v.days}}</view>
 				</u-col>
 				<u-col span="4">
-					<view class="bg-purple" :class="v.days==from.payDays?'active':''">{{v.vip}}</view>
+					<view class="bg-purple" :class="v.days==from.payDays?'active':''">{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</view>
 				</u-col>
 				<u-col span="4">
 					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">{{Number(v.bili)*100}}%

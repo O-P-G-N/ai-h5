@@ -52,9 +52,8 @@ let req_handler = function(){
 						}
 						// #设置其他的请求头
 						// 带语言
-						if (uni.getStorageSync("lang")) {
-							config.header.lang = uni.getStorageSync("lang");
-						}
+						config.url = config.url+"?"+uni.getStorageSync("UNI_LOCALE")
+						
 					}
 					
 					this_url = config.url
@@ -94,6 +93,10 @@ let req_handler = function(){
 								url: '/pages/loginReg/login'
 							})
 							return false;
+							
+						}else if(res.data.code == 500){
+							uni.showToast({title:res.data.msg,icon: 'error',position: true,});
+							return true;
 						}else { 
 							uni.showToast({title: res.data.msg,icon: 'error',position: true});
 							return false;

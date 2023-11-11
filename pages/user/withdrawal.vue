@@ -62,7 +62,8 @@
 					</view>
 				</u-cell>
 			</u-cell-group>
-			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn" @click="subApplication">提交</ai-button>
+			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn"
+				@click="subApplication">提交</ai-button>
 			<!-- <button class="editpassbtn" @click="subApplication">提交</button> -->
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
@@ -127,20 +128,25 @@
 						name: '红包-ERC20'
 					}]
 				],
-				tipsShow: true, //温馨提示弹窗状态
+				tipsShow: false, //温馨提示弹窗状态
 				content: "", //弹窗内容
 				userType: "", //用户类型
-				pageIndex: 0, //页面索引,
+				pageIndex:0, //页面索引,
 				withdrawalInfo: {
 					questionList: []
 				}, //提现相关信息
 				commissionRate: "", //提现手续费
 				eyeShow: true, //密码状态
+				loading: false, //按钮等待状态
+				forbidden: false, //是否禁用按钮
 			}
 		},
 		onShow() {
 			this.getUserName();
 			this.getWithdrawalInfo()
+		},
+		onReady() {
+			this.tipsShow = true;
 		},
 		methods: {
 			// 获取账号
@@ -245,17 +251,24 @@
 					uni.$u.toast(`最大提币数量为：${this.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
-					this.forbidden=true;
-					this.loading=true;
+					this.forbidden = true;
+					this.loading = true;
 					uni.request({
 						url: `/withdraw/withdrawApply`,
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							this.forbidden=false;
-							this.loading=false;
-							uni.$u.toast('提现已申请');
-							this.pageIndex = 1;
+							if (res.data.code == 200) {
+								this.forbidden = false;
+								this.loading = false;
+								uni.$u.toast('提现已申请');
+								this.pageIndex = 1;
+							} else {
+								this.forbidden = false;
+								this.loading = false;
+								
+							}
+
 						}
 					});
 				}
@@ -440,6 +453,7 @@
 					font-weight: 400;
 					color: #7D7D7D;
 				}
+
 				.slot-icon {
 					width: 20px;
 					height: 20px;
@@ -468,12 +482,14 @@
 					border-radius: 50%;
 				}
 			}
-			.divider{
+
+			.divider {
 				width: 100%;
 				height: 1px;
 				background-color: #E5E5E5;
 				margin-bottom: 30px;
 			}
+
 			.withdrawal_amount {
 				display: flex;
 				align-items: center;

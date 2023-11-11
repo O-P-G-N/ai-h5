@@ -75,23 +75,28 @@
 					uni.$u.toast("请输入您要询问的话")
 					return
 				} else {
-					uni.request({
-						url: `/chat/quiz`,
-						method: "GET",
-						data: {
-							question: this.question
-						},
-						success: (res) => {
-							res.who = 0
-							this.chatList.push(res.data)
-							console.log(this.chatList);
-						},
-						fail() {
-							this.chatList.push({
-								reply: ""
-							})
-						}
-					});
+					try{
+						uni.request({
+							url: `/chat/quiz`,
+							method: "GET",
+							data: {
+								question: this.question
+							},
+							success: (res) => {
+								res.data.who = 0
+								this.chatList.push(res.data)
+								console.log(this.chatList);
+							},
+							fail() {
+								this.chatList.push({
+									reply: ""
+								})
+							}
+						});
+					}catch{
+						
+					}
+					
 					this.chatList.push({
 						reply: this.question,
 						who:1

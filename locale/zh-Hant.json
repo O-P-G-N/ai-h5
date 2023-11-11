@@ -63,5 +63,8 @@
 	"ac.pic1": "實時纍計收益率",
 	"ac.pic2": "行情監測",
 	
-	"login.email_LOG": "郵箱登錄"
+	"login.type.email": "郵箱登錄",
+	"login.type.phone":"手機登錄",
+	"login.agreement1":"登錄即表示您同意我們的"
+	
 }

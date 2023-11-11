@@ -63,5 +63,6 @@
 	"ac.pic1": "Real-time cumulative return",
 	"ac.pic2": "Market monitoring",
 	
-	"login.email_LOG": "login by email"
+	"login.type.email": "Email login",
+	"":"Don't have an account yet?"
 }

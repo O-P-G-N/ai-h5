@@ -48,7 +48,8 @@
 				<view class="czj_sss">
 					<input type="number" v-model="from.amount" class="uni-input" placeholder="10.00 USD起" />
 				</view>
-				<ai-button :btnHeight="'51px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="nextStep">下一步</ai-button>
+				<ai-button :btnHeight="'51px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian"
+					@click="nextStep">下一步</ai-button>
 				<!-- <button class="chuangjian" @click="nextStep">下一步</button> -->
 			</view>
 		</view>
@@ -56,7 +57,16 @@
 			<view>
 				<view class="footercontent">
 					<text class="text">
-
+						尊敬的客户:
+						<br />
+						为了一直致力于为您提供安全、高效的服务,在您进行储值时，请务必注意以下事项:
+						<br />
+						<br />
+						①平台仅支持 ERC-20 和TRC-20 类型的区块链数字货币收款，为了确保您的充值顺畅请在转账前核对好所选择的渠道，并确保您的转账类型正确.对于转错其他类型的情况，我们将无法负责处理
+						<br />
+						②为避免造成金额损失请您切勿保存收款地址错误地址将导致您的存款无法到账等
+						<br />
+						③储值时间7X24小时.但订单只存在60分钟,请
 					</text>
 				</view>
 			</view>
@@ -69,15 +79,23 @@
 	export default {
 		data() {
 			return {
-				show: true,
+				show: false,
 				content: "", //富文本内容
 				from: {
 					type: 1, //选择的货币
 					amount: "", //输入的金额
 				},
-				forbidden:false,//是否禁用
-				loading:false,//加载状态
+				forbidden: false, //是否禁用
+				loading: false, //加载状态
 			};
+		},
+		onLoad(option) {
+			if (option.show==1) {
+				this.show = false;
+			} else {
+
+				this.show = true;
+			}
 		},
 		methods: {
 			// 返回个人中心
@@ -103,15 +121,15 @@
 					uni.$u.toast('最小充值数量为10.00');
 					return
 				} else {
-					this.forbidden=true;
-					this.loading=true;
+					this.forbidden = true;
+					this.loading = true;
 					uni.request({
 						url: '/recharge/getPayinfo',
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							this.forbidden=false;
-							this.loading=false;
+							this.forbidden = false;
+							this.loading = false;
 							// console.log(res.data);
 							uni.navigateTo({
 								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${this.from.amount}&type=${this.from.type==1?'红包-TRC20':'红包-ERC20'}`

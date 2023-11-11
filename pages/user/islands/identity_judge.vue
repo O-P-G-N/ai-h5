@@ -23,95 +23,100 @@
 			</view>
 		</view>
 		<view class="info_box" v-if="dyShow==1">
-			<view class="info_body">
+			<view class="info_body" v-if="SupSub.above[0].memberName">
 				<view class="info_body_item">
 					<view class="info_body_item_left">账号</view>
 					<view class="info_body_item_right">
-						<text class="bluephone"></text>
+						<text class="bluephone">{{SupSub.above[0].memberName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">昵称</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{SupSub.above[0].nickName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">等级名称</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{SupSub.above[0].vip==1?"E":SupSub.above[0].vip==2?"D":SupSub.above[0].vip==3?"C":SupSub.above[0].vip==4?"B":SupSub.above[0].vip==5?"A":SupSub.above[0].vip==6?"S":""}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">激活状态</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{SupSub.above[0].isActive==1?"未激活":"已激活"}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">活约份数</view>
+					<view class="info_body_item_left">合约份数</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{SupSub.above[0].contractCount?SupSub.above[0].contractCount:0}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">邀请时间</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{SupSub.above[0].createTime}}</text>
 					</view>
 				</view>
-
+			</view>
+			<view class="info_body_img" v-else>
+				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
 		</view>
 		<view class="share_box" v-else-if="dyShow==0">
-			<view class="share_info">
+			<!-- <view class="share_info">
 				<view class="share_info-left">
 					人数：XXXX
 				</view>
 				<view class="share_info_right">
 					今日收益：<text class="share_info_right_text">XXXX</text>
 				</view>
-			</view>
-			<view class="info_body" v-if="aa">
+			</view> -->
+			<view class="" v-if="SupSub.below.length>0">
+			<view class="info_body" v-for="(v,i) in SupSub.below" :key="i">
 				<view class="info_body_item">
 					<view class="info_body_item_left">账号</view>
 					<view class="info_body_item_right">
-						<text class="bluephone"></text>
+						<text class="bluephone">{{v.memberName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">昵称</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{v.nickName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">等级名称</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">激活状态</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{v.isActive==1?"未激活":"已激活"}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">活约份数</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{v.contractCount}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
 					<view class="info_body_item_left">邀请时间</view>
 					<view class="info_body_item_right">
-						<text></text>
+						<text>{{v.createTime}}</text>
 					</view>
 				</view>
-
+			
 			</view>
-			<view class="info_body_img">
+			</view>
+			
+			<view class="info_body_img" v-else>
 
 				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
@@ -136,6 +141,10 @@
 				aa: false,
 				activateShow: false,
 				rechargeAmount: 0, //充值总额
+				SupSub:{
+					above:[{memberName:""}],//上级
+					below:[],//上级
+				},//上下级
 			};
 		},
 		onShow() {
@@ -158,7 +167,8 @@
 					url: `/island/relations`,
 					method: "GET",
 					success: (res) => {
-						console.log(res);
+						this.SupSub=res.data;
+						// console.log(res);
 					}
 				});
 			},
@@ -313,6 +323,16 @@
 		.info_box {
 			padding: 20px;
 			box-sizing: border-box;
+			.info_body_img {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			
+				.info_body_img_htxe {
+					width: 268px;
+					height: 200px;
+				}
+			}
 
 			.info_body {
 				width: 100%;

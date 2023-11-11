@@ -5,7 +5,7 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<view class="main">
+		<view class="main" v-if="contractList.length>0">
 			<view class="mymodelmain">
 				<u-list @scrolltolower="scrolltolower" lowerThreshold="70">
 					<u-list-item v-for="(v, i) in contractList" :key="i">
@@ -47,6 +47,9 @@
 							<view class="order_sn">
 								Order ID：{{v.orderSn}}
 							</view>
+							<view class="order_sn">
+								创建时间：{{v.createTime}}
+							</view>
 							<view class="modelbtns" v-if="v.status!=2">
 								<button class="zhongzhibtn"
 									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":"取消终止"}}合约</button>
@@ -62,10 +65,15 @@
 						</view>
 					</u-list-item>
 				</u-list>
+
 				<u-loadmore :status="status" />
 				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" title="温馨提示"
 					:content='modalContent'></u-modal>
 			</view>
+		</view>
+		<view class="default_page" v-else>
+			<image class="default_page_img" src="@/static/user/defaultPage.png" mode=""></image>
+			<view class="default_page_text">还没有合约，快去创建合约吧~</view>
 		</view>
 	</view>
 </template>
@@ -232,7 +240,7 @@
 
 	::v-deep.contract_amount {
 		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 		padding: 0 20px;
 		box-sizing: border-box;
 
@@ -423,6 +431,31 @@
 						border: none !important;
 					}
 				}
+			}
+		}
+
+		.default_page {
+			width: 100%;
+			min-height: calc(100% - 51px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			// height: 100%;
+			padding: 20px;
+			box-sizing: border-box;
+
+			.default_page_img {
+				width: 304px;
+				height: 304px;
+			}
+
+			.default_page_text {
+				font-size: 15px;
+				font-family: PingFang SC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #535353;
+
 			}
 		}
 

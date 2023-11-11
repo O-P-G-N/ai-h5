@@ -55,15 +55,36 @@
 			},
 			//密保设置
 			securitySet(){
-				uni.navigateTo({
-					url: `/pages/user/securitycenter/Confidentiality`
-				});
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if(res.data.question){
+							uni.$u.toast("密保问题已设置")
+						}else{
+							uni.navigateTo({
+								url: `/pages/user/securitycenter/Confidentiality`
+							});
+						}
+					},
+				})
+				
 			},
 			// 设置昵称
 			setNickName(){
-				uni.navigateTo({
-					url: `/pages/user/securitycenter/settingName`
-				});
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if(res.data.question){
+							uni.$u.toast("昵称已设置")
+						}else{
+							uni.navigateTo({
+								url: `/pages/user/securitycenter/settingName`
+							});
+						}
+					},
+				})
 			}
 		}
 	}
