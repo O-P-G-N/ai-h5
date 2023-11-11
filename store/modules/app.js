@@ -7,6 +7,7 @@ export default {
 		token: null,
 		loading: [],
 		version: '',
+		unread_msg_amount: 0,
 	},
 
 	mutations: {
@@ -24,5 +25,17 @@ export default {
 		}
 	},
 
-	actions: {}
+	actions: {
+		getUnread({state, dispatch, rootState}){
+			setTimeout(()=> {
+				uni.request({
+					url: '/member/message/unread',
+					method: 'GET',
+					success: res => {
+						state.unread_msg_amount = res
+					}
+				});
+			}, 1000);
+		}
+	}
 }

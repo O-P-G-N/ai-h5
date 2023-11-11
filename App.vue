@@ -4,6 +4,16 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
+			
+			this.$store.dispatch('app/getUnread')
+			uni.request({
+				url: '/member/messages/1',
+				method:'GET',
+				success(res) {
+					console.log(res);
+				}
+			})
+			
 		},
 		onHide: function() {
 
