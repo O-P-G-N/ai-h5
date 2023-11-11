@@ -245,9 +245,15 @@
 							text: this.modelText
 						},
 						success: (res) => {
-							this.aiModelText = res.data;
-							this.btnDisabled = false
-							this.loading = false
+							if(res.code==500){
+								this.btnDisabled = false
+								this.loading = false
+							}else if(res.code==200){
+								this.aiModelText = res.data;
+								this.btnDisabled = false
+								this.loading = false
+							}
+							
 						},
 						fail: (err) => {
 							this.btnDisabled = false

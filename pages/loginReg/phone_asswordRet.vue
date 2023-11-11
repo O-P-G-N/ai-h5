@@ -32,7 +32,7 @@
 					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
 				</view>
 				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">下一步</ai-button>
-				<view class="register">没有收到?<u-code ref="uCode" @change="codeChange" keep-running start-text="重新获取"
+				<view class="register">没有收到?<u-code ref="uCode" @change="codeChange" unique-key="phone_asswordRet" keep-running start-text="重新获取"
 						changeText="X秒重新获取"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text></view>
 			</view>
 		</view>

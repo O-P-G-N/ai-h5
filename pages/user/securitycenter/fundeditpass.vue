@@ -5,13 +5,18 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
+		<u-code ref="uCodes" unique-key="editpass" @change="codeChange" keep-running start-text="获取验证码" changeText="X秒重新获取"></u-code><text
+			class="retrieve_btn" @click="getCode">{{tips}}</text>
 		<view class="container_nei">
 			<view class="main">
+
 				<u-cell-group :border="false">
 					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
-								<button slot="suffix" class="email_content_btn" @click="getCode">获取验证码</button>
+								<view slot="suffix" class="email_content_btn">
+
+								</view>
 							</u-input>
 						</view>
 					</u-cell>
@@ -68,8 +73,8 @@
 			return {
 				name: "", //用户名
 				from: {
-					email:"",//邮箱号
-					phone:"",//手机号
+					email: "", //邮箱号
+					phone: "", //手机号
 					code: "", //验证码
 					newPassword: "", //新密码
 					confirmPassword: "", //确认新密码
@@ -77,6 +82,7 @@
 				eyeShow: true, //密码显示
 				eyeShows: true, //密码显示
 				titleShow: 1, //判断标题
+				tips: "", //提示语
 			};
 		},
 		created() {},
@@ -94,12 +100,12 @@
 			determineTitle() {
 				if (uni.getStorageSync("user").phone) {
 					this.titleShow = 1;
-					this.from.phone=uni.getStorageSync("user").phone;
-					this.name=uni.getStorageSync("user").phone;
+					this.from.phone = uni.getStorageSync("user").phone;
+					this.name = uni.getStorageSync("user").phone;
 				} else {
 					this.titleShow = 2;
-					this.from.email=uni.getStorageSync("user").email;
-					this.name=uni.getStorageSync("user").email;
+					this.from.email = uni.getStorageSync("user").email;
+					this.name = uni.getStorageSync("user").email;
 				}
 			},
 			// 显示隐藏
@@ -112,28 +118,38 @@
 			},
 			// 获取验证码
 			getCode() {
-				uni.request({
-					url: `/aicommon/sendCodeMustToken`,
-					method: "GET",
-					data: {
-						type: this.titleShow
-					},
-					success: (res) => {
-						if (res.res.code == 200) {
-							uni.$u.toast('验证码发送成功');
+				if (this.$refs.uCodes.canGetCode) {
+					uni.request({
+						url: `/aicommon/sendCodeMustToken`,
+						method: "GET",
+						data: {
+							type: this.titleShow
+						},
+						success: (res) => {
+							if (res.res.code == 200) {
+								uni.$u.toast('验证码发送成功');
+							}
 						}
-					}
-				});
+					});
+				} else {
+					uni.$u.toast('倒计时结束后再发送');
+				}
+
+			},
+			// 提示语
+			codeChange(text) {
+				this.tips = text;
+				console.log(this.tips);
 			},
 			// 确认修改
 			ConfMod() {
 				let num = /[0-9]/im
 				let patrn =
 					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
-				if(this.from.code==""){
+				if (this.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
-				}else if (this.from.newPassword.length < 8) {
+				} else if (this.from.newPassword.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
 				} else if (!patrn.test(this.from.newPassword)) {

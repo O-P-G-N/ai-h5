@@ -54,14 +54,17 @@
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/settingName`
 					});
 				} else if (this.setIndex == 1) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/Confidentiality`
 					});
 				} else if (this.setIndex == 2) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/fundeditpass`
 					});
