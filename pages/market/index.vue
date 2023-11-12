@@ -545,6 +545,7 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: stretch;
+					margin-top: 12px;
 
 					.modellist_every {
 						background-image: url("@/static/market/marketusdtbg.png");

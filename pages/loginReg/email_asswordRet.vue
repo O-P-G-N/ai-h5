@@ -27,7 +27,7 @@
 					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
 				</view>
 				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">下一步</ai-button>
-				<view class="register">没有收到?<u-code ref="uCode" @change="codeChange" unique-key="email_asswordRet" keep-running start-text="重新获取"
+				<view class="register">没有收到?<u-code unique-key="email_asswordRet" ref="uCode" @change="codeChange" keep-running start-text="重新获取"
 						changeText="X秒重新获取"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text></view>
 			</view>
 		</view>
@@ -174,45 +174,81 @@
 			// 重置
 			reset() {
 				let num = /[0-9]/im
-				let patrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.formData.password.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
-				} else if (!patrn.test(this.formData.password)) {
-					uni.$u.toast('有一个大写字母和字符');
-					return
-				} else if (!num.test(this.formData.password)) {
-					uni.$u.toast('包含数字');
-					return
-				} else if (this.formData.password != this.formData.confirmPassword) {
-					uni.$u.toast('两次输入密码不一致');
-					return
-				} else {
-					uni.request({
-						url: '/nt/updatePasswordForEmail',
-						method: "POST",
-						data: {
-							code: this.value,
-							email: this.from.to,
-							newPassword: this.formData.password,
-						},
-						success: (res) => {
-							uni.showToast({
-								title: "重置成功",
-								success: function(res) {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.redirectTo({
-											url: `/pages/loginReg/login`
-										});
-									}, 1000)
+				} else{
+					if (patrn.test(this.formData.password)) {
+						if (!num.test(this.formData.password)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (this.formData.password != this.formData.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							uni.request({
+								url: '/nt/updatePasswordForEmail',
+								method: "POST",
+								data: {
+									code: this.value,
+									email: this.from.to,
+									newPassword: this.formData.password,
 								},
-							})
-
+								success: (res) => {
+									uni.showToast({
+										title: "重置成功",
+										success: function(res) {
+											let time = setTimeout(() => {
+												clearTimeout(time)
+												uni.redirectTo({
+													url: `/pages/loginReg/login`
+												});
+											}, 1000)
+										},
+									})
+						
+								}
+							});
 						}
-					});
-				}
+					}else if(patrns.test(this.formData.password)){
+						if (!num.test(this.formData.password)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (this.formData.password != this.formData.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							uni.request({
+								url: '/nt/updatePasswordForEmail',
+								method: "POST",
+								data: {
+									code: this.value,
+									email: this.from.to,
+									newPassword: this.formData.password,
+								},
+								success: (res) => {
+									uni.showToast({
+										title: "重置成功",
+										success: function(res) {
+											let times = setTimeout(() => {
+												clearTimeout(times)
+												uni.redirectTo({
+													url: `/pages/loginReg/login`
+												});
+											}, 1000)
+										},
+									})
+						
+								}
+							});
+						}
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
+				} 
 			}
 		}
 	}

@@ -62,10 +62,10 @@
 			</view>
 			<view class="content-mian">
 				<template v-if='constenList.length>0'>
-					<view class="content-item" v-for='(v,index) in constenList' :key='index'>
+					<view @click="viewImg(v)" class="content-item" v-for='(v,index) in constenList' :key='index'>
 						<image mode="widthFix" :src="v.address"></image>
 						<view class="mian-text">
-							<view class="text">{{v.worksStyle}}</view>
+							<view class="text">{{v.topicStr}}</view>
 						</view>
 					</view>
 				</template>
@@ -95,7 +95,6 @@
 
 
 <script>
-	import app_config from '../../common/config.js';
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue')
@@ -104,7 +103,7 @@
 			return {
 				constenList: [],
 				from: {
-					style: "自由",
+					style:1,
 					pageNum: 1,
 					pageSize: 10,
 				},
@@ -119,23 +118,32 @@
 		computed: {
 			tabsList() {
 				return [{
-					name: this.$t('index.ai.creationstyle.freedom')
+					name: this.$t('index.ai.creationstyle.freedom'),
+					style:1,
 				}, {
-					name: this.$t('index.ai.creationstyle.cyberpunk')
+					name: this.$t('index.ai.creationstyle.cyberpunk'),
+					style:2,
 				}, {
-					name: this.$t('index.ai.creationstyle.watercolor')
+					name: this.$t('index.ai.creationstyle.watercolor'),
+					style:3,
 				}, {
-					name: this.$t('index.ai.creationstyle.chinese_ink')
+					name: this.$t('index.ai.creationstyle.chinese_ink'),
+					style:4,
 				}, {
-					name: this.$t('index.ai.creationstyle.black_and_white')
+					name: this.$t('index.ai.creationstyle.black_and_white'),
+					style:5,
 				}, {
-					name: this.$t('index.ai.creationstyle.oil_painting')
+					name: this.$t('index.ai.creationstyle.oil_painting'),
+					style:6,
 				}, {
-					name: this.$t('index.ai.creationstyle.dreamlike')
+					name: this.$t('index.ai.creationstyle.dreamlike'),
+					style:7,
 				}, {
-					name: this.$t('index.ai.creationstyle.sketch')
+					name: this.$t('index.ai.creationstyle.sketch'),
+					style:8,
 				}, {
-					name: this.$t('index.ai.creationstyle.graffiti')
+					name: this.$t('index.ai.creationstyle.graffiti'),
+					style:9,
 				}]
 			},
 			activeStyle() {
@@ -190,7 +198,7 @@
 		},
 		methods: {
 			tabSelectClick(e) {
-				this.from.style = e.name
+				this.from.style = e.style
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
@@ -214,6 +222,12 @@
 							this.content = "您的交易密码未设置,请设置您的交易密码"
 						}
 					}
+				});
+			},
+			// 查看详情
+			viewImg(val){
+				uni.navigateTo({
+					url: `/pages/index/picture/dfqaichattwocopy?imgInfo=${JSON.stringify(val)}`
 				});
 			},
 			// 设置完整性判断
@@ -253,10 +267,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
-
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -276,10 +286,6 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-
-							res.data.rows.map((v) => {
-								v.address = app_config.apiUrl + "/" + v.address
-							})
 							this.status = "loadmore"
 							this.constenList.push(...res.data.rows);
 						}

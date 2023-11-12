@@ -24,7 +24,8 @@
 						</view>
 					</template>
 					<template v-else>
-						<video id="myVideo" :show-center-play-btn="false" class="myVideo" autoplay @pause="ended" @ended="ended" :src="videoInfo.address" controls></video>
+						<video id="myVideo" :show-center-play-btn="false" class="myVideo" autoplay @pause="ended"
+							@ended="ended" :src="videoInfo.address" controls></video>
 					</template>
 				</view>
 				<!-- <ai-button :btnHeight="'57px'" :bg="'#f5f6fa'" :color="'#333'" class="ghszrBtn">更换数字人</ai-button> -->
@@ -63,7 +64,6 @@
 </template>
 
 <script>
-	import app_config from '../../../common/config.js';
 	export default {
 		data() {
 			return {
@@ -115,38 +115,50 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						this.loading = false;
-						this.generateFlag = false;
-						this.forbidden = false;
-						let time = setInterval(() => {
-							uni.request({
-								url: '/video/status',
-								method: "GET",
-								data: {
-									id: res.data
-								},
-								success: (res1) => {
-									if (res1.data.address == "") {
-										if (res1.data.progress < 75) {
-											this.progress = res1.data.progress;
-										} else {
-											this.progress += 10
-											if (res1.data.progress >= 95) {
-												this.progress = 99
+						if (res.code == 200) {
+							this.loading = false;
+							this.generateFlag = false;
+							this.forbidden = false;
+							this.time = setInterval(() => {
+								uni.request({
+									url: '/video/status',
+									method: "GET",
+									data: {
+										id: res.data
+									},
+									success: (res1) => {
+										if (res1.data.address == "") {
+											if (res1.data.progress < 75) {
+												this.progress = res1.data.progress;
+											} else {
+												this.progress += 10
+												if (res1.data.progress >= 95) {
+													this.progress = 99
+												}
 											}
+										} else {
+											this.progress = 100;
+											this.videoInfo = res1.data;
+											console.log(this.videoInfo);
+											clearInterval(this.time)
+											this.time = null;
 										}
-									} else {
-										this.progress = 100
-										res1.data.address = app_config.apiUrl+"/" + res1.data
-											.address
-										this.videoInfo = res1.data;
-											console.log(this.videoInfo );
-										clearInterval(time)
-										time = null;
 									}
-								}
-							});
-						}, 6000)
+								});
+							}, 6000)
+						} else if (res.code == 500) {
+							uni.$u.toast('网络错误，请重试!');
+							clearInterval(this.time)
+							this.time = null;
+							let timer = setTimeout(() => {
+								clearTimeout(timer)
+								timer=null
+								uni.navigateTo({
+									url: `/pages/index/video/videocreattwocopy?from=${JSON.stringify(this.displayedTimbre)}&text=${JSON.stringify(this.from)}`
+								});
+							}, 1000)
+						}
+
 					}
 				});
 			},
@@ -163,10 +175,10 @@
 				});
 			},
 			// 结束视频播放
-			ended(){
-				this.playFlag=true;
+			ended() {
+				this.playFlag = true;
 			},
-			
+
 		}
 
 	}
@@ -225,7 +237,8 @@
 					height: 357px;
 					border-radius: 21px;
 					position: relative;
-					.myVideo{
+
+					.myVideo {
 						width: 100%;
 						height: 100%;
 						border-radius: 21px;

@@ -96,6 +96,7 @@ let req_handler = function(){
 							return false;
 							
 						}else if(res.data.code == 500){
+							res.code=res.res.code;
 							uni.showToast({title:res.data.msg,icon: 'error',position: true,});
 							return true;
 						}else { 

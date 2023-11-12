@@ -1,12 +1,10 @@
 <template>
-	<view class="editpass">
+	<view class="fundeditpass">
 		<u-navbar height="53px" @leftClick="goBackUser" title="交易密码" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<u-code ref="uCodes" unique-key="editpass" @change="codeChange" keep-running start-text="获取验证码" changeText="X秒重新获取"></u-code><text
-			class="retrieve_btn" @click="getCode">{{tips}}</text>
 		<view class="container_nei">
 			<view class="main">
 
@@ -15,7 +13,9 @@
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
 								<view slot="suffix" class="email_content_btn">
-
+									<u-code unique-key="fundeditpass" start-text="获取验证码" ref="uCode"
+										@change="codeChange" changeText="X秒重新获取"></u-code><text
+										@click="getCode">{{tips}}</text>
 								</view>
 							</u-input>
 						</view>
@@ -60,8 +60,8 @@
 						<text class="verify_item_text">包含数字</text>
 					</view>
 				</view>
-				<ai-button :bg="'#333'" :btnHeight="'53px'" class="next-btn editpassbtn"
-					@click="ConfMod">确认修改</ai-button>
+				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
+					class="next-btn editpassbtn" @click="ConfMod">确认修改</ai-button>
 			</view>
 		</view>
 	</view>
@@ -83,6 +83,8 @@
 				eyeShows: true, //密码显示
 				titleShow: 1, //判断标题
 				tips: "", //提示语
+				loading: false, //模态框按钮等待状态
+				btnDisabled: false, //模态框是否禁用按钮
 			};
 		},
 		created() {},
@@ -118,7 +120,7 @@
 			},
 			// 获取验证码
 			getCode() {
-				if (this.$refs.uCodes.canGetCode) {
+				if (this.$refs.uCode.canGetCode) {
 					uni.request({
 						url: `/aicommon/sendCodeMustToken`,
 						method: "GET",
@@ -126,7 +128,8 @@
 							type: this.titleShow
 						},
 						success: (res) => {
-							if (res.res.code == 200) {
+							if (res.code == 200) {
+								this.$refs.uCode.start();
 								uni.$u.toast('验证码发送成功');
 							}
 						}
@@ -139,47 +142,98 @@
 			// 提示语
 			codeChange(text) {
 				this.tips = text;
-				console.log(this.tips);
 			},
 			// 确认修改
 			ConfMod() {
 				let num = /[0-9]/im
-				let patrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
 				} else if (this.from.newPassword.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
-				} else if (!patrn.test(this.from.newPassword)) {
-					uni.$u.toast('有一个大写字母和字符');
-					return
-				} else if (!num.test(this.from.newPassword)) {
-					uni.$u.toast('包含数字');
-					return
-				} else if (this.from.newPassword != this.from.confirmPassword) {
-					uni.$u.toast('两次输入密码不一致');
-					return
 				} else {
-					uni.request({
-						url: '/member/updatePayPassword',
-						method: "POST",
-						data: this.from,
-						success: (res) => {
-							uni.showToast({
-								title: "修改成功",
-								success: function(res) {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.redirectTo({
-											url: `/pages/user/securitycenter/index`
-										});
-									}, 1000)
-								},
-							})
+					if (patrn.test(this.from.newPassword)) {
+						if (!num.test(this.from.newPassword)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (this.from.newPassword != this.from.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							this.btnDisabled = true
+							this.loading = true
+							uni.request({
+								url: '/member/updatePayPassword',
+								method: "POST",
+								data: this.from,
+								success: (res) => {
+									if (res.code == 200) {
+										this.btnDisabled = false
+										this.loading = false
+										uni.showToast({
+											title: "修改成功",
+											success: function(res) {
+												let times = setTimeout(() => {
+													clearTimeout(times)
+													uni.redirectTo({
+														url: `/pages/user/securitycenter/index`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										this.btnDisabled = false
+										this.loading = false
+									}
+
+								}
+							});
 						}
-					});
+
+					} else if (patrns.test(this.from.newPassword)) {
+						if (!num.test(this.from.newPassword)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (this.from.newPassword != this.from.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							this.btnDisabled = true
+							this.loading = true
+							uni.request({
+								url: '/member/updatePayPassword',
+								method: "POST",
+								data: this.from,
+								success: (res) => {
+									if (res.code == 200) {
+										this.btnDisabled = false
+										this.loading = false
+										uni.showToast({
+											title: "修改成功",
+											success: function(res) {
+												let time = setTimeout(() => {
+													clearTimeout(time)
+													uni.redirectTo({
+														url: `/pages/user/securitycenter/index`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										this.btnDisabled = false
+										this.loading = false
+									}
+
+								}
+							});
+						}
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
 				}
 			}
 		}
@@ -187,7 +241,7 @@
 </script>
 
 <style lang="scss" scoped>
-	::v-deep.editpass {
+	::v-deep.fundeditpass {
 		min-height: 100vh;
 		background-color: #fff;
 
@@ -271,6 +325,9 @@
 						height: 32px;
 						box-sizing: border-box;
 						background: #00bfff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
 						color: #fff;
 					}
 

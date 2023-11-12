@@ -90,8 +90,8 @@
 			// 登录
 			loginBtn() {
 				let that = this
-				let passwordPatrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (!emailPattern.test(this.from.username)) {
@@ -115,48 +115,81 @@
 						success: function(res) {},
 					})
 					return
-				} else if (!passwordPatrn.test(this.from.password)) {
-					uni.showToast({
-						title: "有一个大写字母或字符",
-						icon: "none",
-						success: function(res) {},
-					})
-					return
 				} else {
-					this.loading = true
-					this.forbidden = false
-					uni.request({
-						url: '/nt/login',
-						method: "POST",
-						data: this.from,
-						success: (res) => {
-							if (res.code == 200) {
-								if (that.checkboxValue[0] == 1) {
-									uni.setStorageSync("emailCheck", that.checkboxValue[0])
-									uni.setStorageSync("email", this.from)
+					if (patrn.test(this.from.password)) {
+						this.loading = true
+						this.forbidden = false
+						uni.request({
+							url: '/nt/login',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								if (res.code == 200) {
+									if (that.checkboxValue[0] == 1) {
+										uni.setStorageSync("emailCheck", that.checkboxValue[0])
+										uni.setStorageSync("email", this.from)
+									}
+									uni.showToast({
+										title: "登陆成功",
+										success: function() {
+											let time = setTimeout(() => {
+												that.loading = false;
+												that.forbidden = true;
+												clearTimeout(time)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								} else if (res.code == 500) {
+									that.loading = false;
+									that.forbidden = true;
+
 								}
-								uni.showToast({
-									title: "登陆成功",
-									success: function() {
-										let time = setTimeout(() => {
-											that.loading = false;
-											that.forbidden = true;
-											clearTimeout(time)
-											uni.setStorageSync("user", res.data)
-											uni.switchTab({
-												url: `/pages/index/index`
-											});
-										}, 1000)
-									},
-								})
-							} else if(res.code == 500) {
-								that.loading = false;
-								that.forbidden = true;
 
 							}
+						});
+					} else if (patrns.test(this.from.password)) {
+						this.loading = true
+						this.forbidden = false
+						uni.request({
+							url: '/nt/login',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								if (res.code == 200) {
+									if (that.checkboxValue[0] == 1) {
+										uni.setStorageSync("emailCheck", that.checkboxValue[0])
+										uni.setStorageSync("email", this.from)
+									}
+									uni.showToast({
+										title: "登陆成功",
+										success: function() {
+											let times = setTimeout(() => {
+												that.loading = false;
+												that.forbidden = true;
+												clearTimeout(times)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								} else if (res.code == 500) {
+									that.loading = false;
+									that.forbidden = true;
 
-						}
-					});
+								}
+
+							}
+						});
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
 				}
 			},
 			// 注册账号

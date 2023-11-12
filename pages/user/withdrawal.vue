@@ -10,7 +10,10 @@
 				<u-cell :title="userType==1?'手机号':'邮箱账号'">
 					<view slot="value" class="email_content">
 						<u-input class="email_content_text" v-model="userName">
-							<button slot="suffix" class="email_content_btn" @click="getCode">获取验证码</button>
+							<view slot="suffix" class="email_content_btn">
+								<u-code unique-key="withdrawal" start-text="获取验证码" ref="uCode" @change="codeChange"
+									changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+							</view>
 						</u-input>
 					</view>
 				</u-cell>
@@ -67,21 +70,35 @@
 			<!-- <button class="editpassbtn" @click="subApplication">提交</button> -->
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
+			
 			<view class="step">
-				<u-steps current="1" direction="column">
-					<u-steps-item title="发起提现">
-						<image class="slot-icon" slot="icon" src="@/static/user/startIcon.png"></image>
-						<view slot="desc" class="desc"></view>
-					</u-steps-item>
-					<u-steps-item class="active" iconSize="30" title="处理中">
-						<image class="slot-icon" slot="icon" src="@/static/user/wait.png"></image>
-						<view slot="desc" class="desc">预计1-2小时内到账</view>
-					</u-steps-item>
-					<u-steps-item title="到账成功">
-						<text class="end_icon" slot="icon"></text>
-						<view slot="desc" class="desc"></view>
-					</u-steps-item>
-				</u-steps>
+				<view class="steps">
+					<view class="steps_item">
+						<image class="slot-icon_one" src="@/static/user/startIcon.png" mode=""></image>
+						<view class="steps_item_line_one"></view>
+					</view>
+					<view class="steps_content">
+						<view class="steps_content_title">发起提现申请</view>
+					</view>
+				</view>
+				<view class="steps">
+					<view class="steps_item_two">
+						<image class="slot-icon_two" src="@/static/user/wait.png" mode=""></image>
+						<view class="steps_item_line_two"></view>
+					</view>
+					<view class="steps_content">
+						<view class="steps_content_title_two">处理中</view>
+						<view class="desc">预计1-2小时内到账</view>
+					</view>
+				</view>
+				<view class="steps">
+					<view class="steps_item">
+						<view class="slot-icon_three"></view>
+					</view>
+					<view class="steps_content">
+						<view class="steps_content_title">到账成功</view>
+					</view>
+				</view>
 			</view>
 			<view class="divider"></view>
 			<view class="withdrawal_amount">
@@ -94,7 +111,30 @@
 			</view>
 			<button class="complete_btn" @click="completeBtn">完成</button>
 		</view>
-		<u-modal title="温馨提示" :show="tipsShow" :content="content" closeOnClickOverlay>
+		<u-modal title="温馨提示" :show="tipsShow" closeOnClickOverlay>
+			<view>
+				<view class="footercontent">
+					<text class="text">
+						尊敬的客户:
+						<br/>
+						为了一直致力于为您提供安全、高效的服务，在您进行提现时，请务必注意以下事项:
+						<br/>
+						① 区块链交易存在不可预测的市场波动和风险。充值资金的价值可能受市场因素的影响而波动，用户应自行承担由此可能引起的盈亏。
+						<br/>
+						② 由于区块链网络拥堵、交易确认时间等原因，提现可能会面临延迟。我们将尽最大努力确保资金及时到账，但不能保证无延迟。
+						<br/>
+						③用户在提现过程中应仔细核对充值金额、币种等信息，平台不对因用户提供的错误信息导致的损失负责。
+						<br/>
+						④用户可通过提供的交易哈希值在区块链浏览器上查询交易状态。平台不对用户未能查询或查证交易详情导致的损失负责。
+						<br/>
+						⑤如因不可抗力、政策法规变化等原因导致的提现问题，平台不承担责任。用户理解并接受，在这些情况下，平台可能无法提供满足用户期望的服务。
+						<br/>
+						⑥用户有责任保管好个人账户及登录信息，平台不对用户因未妥善保管账户信息而导致的损失负责。
+						<br/>
+						⑦平台保留随时修改和更新本免责协议的权利。用户在使用服务前应仔细阅读最新版本的免责协议。
+					</text>
+				</view>
+			</view>
 			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">确定</button>
 		</u-modal>
 		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
@@ -139,6 +179,7 @@
 				eyeShow: true, //密码状态
 				loading: false, //按钮等待状态
 				forbidden: false, //是否禁用按钮
+				tips: "", //提示语
 			}
 		},
 		onShow() {
@@ -190,6 +231,7 @@
 			},
 			// 获取验证码
 			getCode() {
+				if (this.$refs.uCode.canGetCode) {
 				uni.request({
 					url: `/aicommon/sendCodeMustToken`,
 					method: "GET",
@@ -198,10 +240,18 @@
 					},
 					success: (res) => {
 						if (res.res.code == 200) {
+							this.$refs.uCode.start();
 							uni.$u.toast('验证码发送成功');
 						}
 					}
 				});
+				} else {
+					uni.$u.toast('倒计时结束后再发送');
+				}
+			},
+			// 提示语
+			codeChange(text) {
+				this.tips = text;
 			},
 			// 显示隐藏
 			showHidden() {
@@ -444,43 +494,79 @@
 		.miain {
 			.step {
 				height: 300px;
-
-				.desc {
+				display: flex;
+				flex-direction: column;
+				.steps{
 					width: 100%;
-					height: 70px !important;
-					font-size: 15px;
-					font-family: PingFang SC-Regular, PingFang SC;
-					font-weight: 400;
-					color: #7D7D7D;
-				}
-
-				.slot-icon {
-					width: 20px;
-					height: 20px;
-				}
-
-				.u-text__value {
-					font-size: 15px !important;
-					font-family: PingFang SC-Regular, PingFang SC;
-					font-weight: 400 !important;
-					color: #7D7D7D;
-				}
-
-				.active {
-					.u-text__value {
-						font-size: 16px !important;
-						font-family: PingFang SC-Regular, PingFang SC;
-						font-weight: 400 !important;
-						color: #1D1D1D;
+					height: 100px;
+					display: flex;
+					align-items: center;
+					.steps_item{
+						display: flex;
+						flex-direction: column;
+						height: 100%;
+						width: 30px;
+						align-items: center;
+						margin-top: 5px;
+						.slot-icon_one{
+							width: 14px;
+							height: 14px;
+						}
+						.steps_item_line_one{
+							height: calc(100% - 14px);
+							border-left: 1px dashed #5ABC6F;
+						}
+						
+						.slot-icon_three{
+							width: 14px;
+							height: 14px;
+							background-color: #E5E5E5;
+							border-radius: 50%;
+						}
+					}
+					.steps_item_two{
+						display: flex;
+						flex-direction: column;
+						height: 100%;
+						width: 30px;
+						align-items: center;
+						.steps_item_line_two{
+							height: calc(100% - 30px);
+							border-left: 1px dashed #E5E5E5;
+						}
+						.slot-icon_two{
+							width: 30px;
+							height: 30px;
+						}
+					}
+					.steps_content{
+						margin-left: 10px;
+						flex: 1;
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-start;
+						color: #7D7D7D;
+						.steps_content_title{
+							
+						}
+						.steps_content_title_two{
+							display: flex;
+							align-items: center;
+							height: 30px;
+							color: #1D1D1D;
+						}
+						.desc{
+							font-size: 15px;
+							font-family: PingFang SC-Regular, PingFang SC;
+							font-weight: 400;
+							color: #7D7D7D;
+						}
 					}
 				}
 
-				.end_icon {
-					width: 14px;
-					height: 14px;
-					background: #E5E5E5;
-					border-radius: 50%;
-				}
+				
+				
 			}
 
 			.divider {
@@ -537,6 +623,21 @@
 				font-weight: bold;
 				color: #1D1D1D;
 				width: 176px;
+				border: none;
+			}
+			uni-button:after{
+				border: none;
+			}
+		}
+		.footercontent {
+			width: 100%;
+			height: 258px;
+			overflow: auto;
+		
+			.text {
+				font-size: 14px;
+				font-weight: 400;
+				color: rgba(51, 51, 51, .6);
 			}
 		}
 	}
