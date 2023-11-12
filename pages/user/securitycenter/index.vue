@@ -11,13 +11,13 @@
 			<view class="main">
 				<view class="cellgroup">
 					<u-cell-group :border="false">
-						<u-cell title="登录密码" :is-link="true" @click="loginPassword">
+						<u-cell title="登录密码" :value="statusInfo.password?'已设置':'未设置'" :is-link="true" @click="loginPassword">
 						</u-cell>
-						<u-cell title="交易密码" :is-link="true" @click="tradePassword">
+						<u-cell title="交易密码" :value="statusInfo.withdrawPassword?'已设置':'未设置'" :is-link="true" @click="tradePassword">
 						</u-cell>
-						<u-cell title="密保设置" :is-link="true" @click="securitySet">
+						<u-cell title="密保设置" :value="statusInfo.question?'已设置':'未设置'" :is-link="true" @click="securitySet">
 						</u-cell>
-						<u-cell title="设置昵称" :is-link="true" @click="setNickName">
+						<u-cell title="设置昵称" :value="statusInfo.nickName?'已设置':'未设置'" :is-link="true" @click="setNickName">
 						</u-cell>
 					</u-cell-group>
 				</view>
@@ -30,10 +30,12 @@
 	export default {
 		data() {
 			return {
-
+			statusInfo:{},//状态
 			};
 		},
-		created() {},
+		onShow() {
+			this.getstatus();
+		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
@@ -53,38 +55,36 @@
 					url: `/pages/user/securitycenter/fundeditpass`
 				});
 			},
-			//密保设置
-			securitySet(){
+			// 获取状态
+			getstatus(){
 				uni.request({
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if(res.data.question){
-							uni.$u.toast("密保问题已设置")
-						}else{
-							uni.navigateTo({
-								url: `/pages/user/securitycenter/Confidentiality`
-							});
-						}
+						this.statusInfo=res.data;
 					},
 				})
+			},
+			//密保设置
+			securitySet(){
+				if(this.statusInfo.question){
+					uni.$u.toast("密保问题已设置")
+				}else{
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/Confidentiality`
+					});
+				}
 				
 			},
 			// 设置昵称
 			setNickName(){
-				uni.request({
-					url: `/member/getAccountIsComplete`,
-					method: "GET",
-					success: (res) => {
-						if(res.data.question){
-							uni.$u.toast("昵称已设置")
-						}else{
-							uni.navigateTo({
-								url: `/pages/user/securitycenter/settingName`
-							});
-						}
-					},
-				})
+				if(this.statusInfo.question){
+					uni.$u.toast("昵称已设置")
+				}else{
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/settingName`
+					});
+				}
 			}
 		}
 	}

@@ -49,16 +49,16 @@
 				<view class="verify">
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-						<text class="verify_item_text">至少有 8 个字符</text>
+						<text class="verify_item_text">请设置6位纯数字密码</text>
 					</view>
-					<view class="verify_item">
+					<!-- <view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
 						<text class="verify_item_text">有一个大写字母或符号</text>
 					</view>
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
 						<text class="verify_item_text">包含数字</text>
-					</view>
+					</view> -->
 				</view>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
 					class="next-btn editpassbtn" @click="ConfMod">确认修改</ai-button>
@@ -148,92 +148,57 @@
 				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
+				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
 				if (this.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
-				} else if (this.from.newPassword.length < 8) {
-					uni.$u.toast('至少有8个字符');
+				} else if (this.from.newPassword.length < 6) {
+					uni.$u.toast('只能有6位数字');
 					return
-				} else {
-					if (patrn.test(this.from.newPassword)) {
-						if (!num.test(this.from.newPassword)) {
-							uni.$u.toast('包含数字');
-							return
-						} else if (this.from.newPassword != this.from.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
-							return
-						} else {
-							this.btnDisabled = true
-							this.loading = true
-							uni.request({
-								url: '/member/updatePayPassword',
-								method: "POST",
-								data: this.from,
-								success: (res) => {
-									if (res.code == 200) {
-										this.btnDisabled = false
-										this.loading = false
-										uni.showToast({
-											title: "修改成功",
-											success: function(res) {
-												let times = setTimeout(() => {
-													clearTimeout(times)
-													uni.redirectTo({
-														url: `/pages/user/securitycenter/index`
-													});
-												}, 1000)
-											},
-										})
-									} else if (res.code == 500) {
-										this.btnDisabled = false
-										this.loading = false
-									}
+				} else if (this.from.newPassword.length > 6) {
+					uni.$u.toast('只能有6位数字');
+					return
+				} else if (patrn.test(this.from.newPassword)) {
+					uni.$u.toast('不能有大写字母');
+					return
+				} else if (patrns.test(this.from.newPassword)) {
+					uni.$u.toast('不能有特殊字符');
+					return
+				} else if (patrnss.test(this.from.newPassword)) {
+					uni.$u.toast('不能有小写字母');
+					return
+				} else if (this.from.newPassword!=this.from.confirmPassword) {
+					uni.$u.toast('两次输入密码不一致');
+					return
+				}else {
+					this.btnDisabled = true
+					this.loading = true
+					uni.request({
+						url: '/member/updatePayPassword',
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							if (res.code == 200) {
+								this.btnDisabled = false
+								this.loading = false
+								uni.showToast({
+									title: "修改成功",
+									success: function(res) {
+										let times = setTimeout(() => {
+											clearTimeout(times)
+											uni.redirectTo({
+												url: `/pages/user/securitycenter/index`
+											});
+										}, 1000)
+									},
+								})
+							} else if (res.code == 500) {
+								this.btnDisabled = false
+								this.loading = false
+							}
 
-								}
-							});
 						}
-
-					} else if (patrns.test(this.from.newPassword)) {
-						if (!num.test(this.from.newPassword)) {
-							uni.$u.toast('包含数字');
-							return
-						} else if (this.from.newPassword != this.from.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
-							return
-						} else {
-							this.btnDisabled = true
-							this.loading = true
-							uni.request({
-								url: '/member/updatePayPassword',
-								method: "POST",
-								data: this.from,
-								success: (res) => {
-									if (res.code == 200) {
-										this.btnDisabled = false
-										this.loading = false
-										uni.showToast({
-											title: "修改成功",
-											success: function(res) {
-												let time = setTimeout(() => {
-													clearTimeout(time)
-													uni.redirectTo({
-														url: `/pages/user/securitycenter/index`
-													});
-												}, 1000)
-											},
-										})
-									} else if (res.code == 500) {
-										this.btnDisabled = false
-										this.loading = false
-									}
-
-								}
-							});
-						}
-					} else {
-						uni.$u.toast('有一个大写字母或字符');
-						return
-					}
+					});
 				}
 			}
 		}

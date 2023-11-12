@@ -15,10 +15,10 @@
 				<view class="avatar_name">
 					<view class="a_name">
 						<text>nike</text>
-						<image class="levelIcon" src="@/static/user/B.png" mode=""></image>
+						<image class="levelIcon" :src="pointsBalance.vip==1?'../../static/user/e2.png':pointsBalance.vip==2?'../../static/user/d2.png':pointsBalance.vip==3?'../../static/user/c2.png':pointsBalance.vip==4?'../../static/user/b2.png':pointsBalance.vip==5?'../../static/user/a2.png':pointsBalance.vip==6?'../../static/user/s2.png':''" mode=""></image>
 					</view>
 					<view class="a_balance_title">积分余额</view>
-					<view class="a_balance">{{pointsBalance}}</view>
+					<view class="a_balance">{{pointsBalance.point}}</view>
 				</view>
 			</view>
 		</view>
@@ -62,7 +62,7 @@
 					pageNum: 1,
 					pageSize: 10
 				},
-				pointsBalance: "", //积分余额
+				pointsBalance: {}, //积分余额
 				PageCount: 0, //总页数
 				contentList: [], //记录列表
 				status: "loadmore",
@@ -120,7 +120,7 @@
 					url: '/member/getAccount',
 					method: "GET",
 					success: (res) => {
-						this.pointsBalance = res.data.point;
+						this.pointsBalance = res.data;
 						console.log(res);
 					}
 				});

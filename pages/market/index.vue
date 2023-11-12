@@ -59,7 +59,7 @@
 					</view>
 					<view class="modellist_every" @click="createContract(2)">
 						<view class="modeltop">
-							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
+							<image class="modeltop_img" src="../../static/user/encryption.png" mode=""></image>
 							<view class="titles">{{$t('ac.crypt')}}</view>
 						</view>
 						<view class="intro">
@@ -278,18 +278,18 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
+						if (!res.data.withdrawPassword) {
 							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
 						} else if (!res.data.question) {
 							this.show = true;
 							this.setIndex = 1;
 							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
+						} else if (!res.data.nickName) {
 							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
 						}
 					}
 				});
@@ -653,7 +653,7 @@
 
 								background: #fff;
 								padding-bottom: 16px;
-								box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .2);
+								// box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .2);
 								border-radius: 21px;
 								margin: 16px auto 0;
 
@@ -771,6 +771,7 @@
 								height: 266px;
 								margin-top: 10px;
 								padding: 0 18px;
+								margin-bottom: 100px;
 
 								.listdata_item {
 									padding: 0 10px;

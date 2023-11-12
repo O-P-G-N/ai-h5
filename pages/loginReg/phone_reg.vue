@@ -3,7 +3,7 @@
 		<u-navbar @leftClick="goBackUser" left-text="返回" title="注册" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
-			<view class="title_h1">手机号注册</view>
+			<view class="title_h1">{{$t('login.type.phones.register')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
@@ -35,16 +35,16 @@
 					</u-input>
 				</view>
 				<view class="privacy">
-					注册即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.selectmobileverification5')}}<text class="blur">《{{$t('login.selectmobileverification2')}}》</text>{{$t('login.selectmobileverification3')}}<text class="blur">《{{$t('login.selectmobileverification4')}}》</text>
 				</view>
 				<view class="btns">
-					<view class="rightforget">忘记密码？</view>
+					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
 					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn"
-						@click="regBtn">注册</ai-button>
+						@click="regBtn">{{$t('login.register')}}</ai-button>
 					<!-- <button class="loginbtn" ></button> -->
 					<view class="register">
-						已有账户？
-						<text class="blur" @click="loginNow">立即登录</text>
+						{{$t('login.existingaccount')}}？
+						<text class="blur" @click="loginNow">{{$t('login.loginnow')}}</text>
 					</view>
 				</view>
 			</view>
@@ -91,6 +91,12 @@
 			// 显示隐藏
 			showHidden() {
 				this.eyeShow = !this.eyeShow
+			},
+			// 忘记密码
+			forgotPassword() {
+				uni.navigateTo({
+					url: `/pages/loginReg/phone_asswordRet`
+				});
 			},
 			// 获取验证码
 			getCode() {

@@ -4,7 +4,7 @@
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
-			<view class="title_h3">欢迎来到EXGPT</view>
+			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
@@ -30,15 +30,15 @@
 					</u-checkbox-group>
 				</view>
 				<view class="privacy">
-					登录即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
-					<view class="rightforget" @click="forgotPassword">忘记密码？</view>
+					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
 					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading"
-						class="next-btn loginbtn" @click="loginBtn">登录</ai-button>
+						class="next-btn loginbtn" @click="loginBtn">{{$t('login.login')}}</ai-button>
 					<view class="register">
-						还没有账户？
-						<text class="blur" @click="regAccount">立即注册</text>
+						{{$t('login.noaccount')}}？
+						<text class="blur" @click="regAccount">{{$t('login.registernow')}}</text>
 					</view>
 				</view>
 			</view>
@@ -229,7 +229,7 @@
 
 	::v-deep.phone_login {
 		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 
 		box-sizing: border-box;
 

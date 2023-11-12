@@ -9,7 +9,7 @@
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
-					<image class="level_img" src="../../static/user/level.png"></image>
+					<image class="level_img" :src="myInfo.vip==1?'../../static/user/e1.png':myInfo.vip==2?'../../static/user/d1.png':myInfo.vip==3?'../../static/user/c1.png':myInfo.vip==4?'../../static/user/b1.png':myInfo.vip==5?'../../static/user/a1.png':myInfo.vip==6?'../../static/user/s1.png':''"></image>
 				</view>
 			</view>
 		</view>
@@ -291,18 +291,18 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
+						if (!res.data.withdrawPassword) {
 							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
 						} else if (!res.data.question) {
 							this.show = true;
 							this.setIndex = 1;
 							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
+						} else if (!res.data.nickName) {
 							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
 						} else {
 							uni.navigateTo({
 								url: `/pages/user/withdrawal`

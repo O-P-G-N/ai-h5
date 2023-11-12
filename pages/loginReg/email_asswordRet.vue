@@ -6,33 +6,33 @@
 			</view>
 		</u-navbar>
 		<view class="pageOne" v-if="pageIndex==0">
-			<view class="title_h2">找回密码</view>
+			<view class="title_h2">{{$t('login.retrievepassword')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<u-input v-model="from.to" placeholder="请输入邮箱">
 					</u-input>
 				</view>
 				<ai-button class="next-btn loginbtn" :disabled="forbidden" :loading="loading"
-					@click="nextStep">下一步</ai-button>
+					@click="nextStep">{{$t('login.nextstep')}}</ai-button>
 			</view>
 		</view>
 		<view class="pageTwo" v-if="pageIndex==1">
-			<view class="title_h2">邮箱验证</view>
+			<view class="title_h2">{{$t('login.emaileverification')}}</view>
 			<view class="formmain">
 				<view class="intro">
-					<view class="">如果您选择的是邮箱验证</view>
-					<view class="">请在1分钟后检查您的收件箱以及垃圾箱！</view>
+					<view class="">{{$t('login.selectmobileverification3')}}</view>
+					<view class="">{{$t('login.selectmobileverification4')}}</view>
 				</view>
 				<view class="codeinput">
 					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
 				</view>
-				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">下一步</ai-button>
-				<view class="register">没有收到?<u-code unique-key="email_asswordRet" ref="uCode" @change="codeChange" keep-running start-text="重新获取"
+				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">{{$t('login.nextstep')}}</ai-button>
+				<view class="register">{{$t('login.notreceived')}}?<u-code unique-key="email_asswordRet" ref="uCode" @change="codeChange" keep-running start-text="重新获取"
 						changeText="X秒重新获取"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text></view>
 			</view>
 		</view>
 		<view class="pageThree" v-else-if="pageIndex==2">
-			<view class="title_h2">邮箱验证</view>
+			<view class="title_h2">{{$t('login.emaileverification')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<u-input v-model="formData.password" placeholder="请输入密码" :password="eyeShow">
@@ -47,9 +47,9 @@
 						</image>
 					</u-input>
 				</view>
-				<view class="ps_tip">至少有 8 个字符/有一个大写字母或符号/包含数字</view>
-				<ai-button class="next-btn loginbtn" @click="reset">重置</ai-button>
-				<view class="lx">遇到问题?<text class="blur">联系客服</text></view>
+				<view class="ps_tip">{{$t('login.tip')}}</view>
+				<ai-button class="next-btn loginbtn" @click="reset">{{$t('login.reset')}}</ai-button>
+				<view class="lx">{{$t('login.problem')}}?<text class="blur">{{$t('login.customerservice')}}</text></view>
 			</view>
 		</view>
 	</view>

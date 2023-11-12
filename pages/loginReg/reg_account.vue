@@ -11,22 +11,22 @@
 		</view>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
-			<view class="title_h3">注册专属于您的EXGPT账号</view>
+			<view class="title_h3">{{$t('login.registertitle')}}</view>
 			<view class="subsectiontwo">
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						手机号注册(暂未开通)
+						{{$t('login.type.phones.register')}}({{$t('login.notyetopened')}})
 					</view>
 				</button>
 				<view class="line">
 					<view class="divider"></view>
-					<view class="lint_text">或注册以</view>
+					<view class="lint_text">{{$t('login.orregisterto')}}</view>
 				</view>
 				<button class="subsectiontwo_every" @click="emailLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/emails.png" mode=""></image>
-						电子邮箱注册
+						{{$t('login.type.emails.register')}}
 					</view>
 				</button>
 			</view>
@@ -43,11 +43,11 @@
 					</view>
 				</view> -->
 				<view class="privacy">
-					注册即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.agreement5')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
-					还没有账户？
-					<text class="blur" @click="logNow">立即登录</text>
+					{{$t('login.noaccount')}}？
+					<text class="blur" @click="logNow">{{$t('login.loginnow')}}</text>
 				</view>
 			</view>
 		</view>

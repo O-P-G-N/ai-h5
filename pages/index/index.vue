@@ -4,7 +4,8 @@
 			<image class="global" @click.stop="selectLang" src="~@/static/index/global.png"></image>
 			<view class="lang-down-menu" v-if="langShow">
 				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
-					{{item.text}}</view>
+					{{item.text}}
+				</view>
 
 			</view>
 		</view>
@@ -103,7 +104,7 @@
 			return {
 				constenList: [],
 				from: {
-					style:1,
+					style: 1,
 					pageNum: 1,
 					pageSize: 10,
 				},
@@ -119,31 +120,31 @@
 			tabsList() {
 				return [{
 					name: this.$t('index.ai.creationstyle.freedom'),
-					style:1,
+					style: 1,
 				}, {
 					name: this.$t('index.ai.creationstyle.cyberpunk'),
-					style:2,
+					style: 2,
 				}, {
 					name: this.$t('index.ai.creationstyle.watercolor'),
-					style:3,
+					style: 3,
 				}, {
 					name: this.$t('index.ai.creationstyle.chinese_ink'),
-					style:4,
+					style: 4,
 				}, {
 					name: this.$t('index.ai.creationstyle.black_and_white'),
-					style:5,
+					style: 5,
 				}, {
 					name: this.$t('index.ai.creationstyle.oil_painting'),
-					style:6,
+					style: 6,
 				}, {
 					name: this.$t('index.ai.creationstyle.dreamlike'),
-					style:7,
+					style: 7,
 				}, {
 					name: this.$t('index.ai.creationstyle.sketch'),
-					style:8,
+					style: 8,
 				}, {
 					name: this.$t('index.ai.creationstyle.graffiti'),
-					style:9,
+					style: 9,
 				}]
 			},
 			activeStyle() {
@@ -208,24 +209,24 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
+						if (!res.data.withdrawPassword) {
 							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
 						} else if (!res.data.question) {
 							this.show = true;
 							this.setIndex = 1;
 							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
+						} else if (!res.data.nickName) {
 							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
 						}
 					}
 				});
 			},
 			// 查看详情
-			viewImg(val){
+			viewImg(val) {
 				uni.navigateTo({
 					url: `/pages/index/picture/dfqaichattwocopy?imgInfo=${JSON.stringify(val)}`
 				});
@@ -569,6 +570,10 @@
 				}
 			}
 		}
+	}
+
+	.u-loadmore {
+		margin-bottom: 90px !important;
 	}
 
 	.loadingTxt {
