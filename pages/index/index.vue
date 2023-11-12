@@ -209,18 +209,20 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.withdrawPassword) {
-							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
-						} else if (!res.data.question) {
-							this.show = true;
-							this.setIndex = 1;
-							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.nickName) {
-							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
+						if(res.code==200){
+							if (!res.data.withdrawPassword) {
+								this.show = true;
+								this.setIndex = 2;
+								this.content = "您的交易密码未设置,请设置您的交易密码"
+							} else if (!res.data.question) {
+								this.show = true;
+								this.setIndex = 1;
+								this.content = "您的密保问题未设置,请设置您的密保问题"
+							} else if (!res.data.nickName) {
+								this.show = true;
+								this.setIndex = 0;
+								this.content = "您的昵称未设置,请设置您的昵称"
+							}
 						}
 					}
 				});

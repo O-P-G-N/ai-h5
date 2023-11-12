@@ -157,8 +157,11 @@
 			},
 			// 返回
 			goBackUser() {
-				uni.navigateTo({
-					url: `/pages/user/islands/index`
+				// uni.navigateTo({
+				// 	url: `/pages/user/islands/index`
+				// });
+				uni.switchTab({
+					url: `/pages/community/index`
 				});
 			},
 			//获取上下级

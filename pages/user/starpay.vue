@@ -203,7 +203,7 @@
 					}
 
 					.rc_de {
-						font-size: 8px;
+						font-size: 12px;
 					}
 				}
 			}

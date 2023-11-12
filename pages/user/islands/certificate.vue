@@ -35,9 +35,12 @@
 		methods: {
 			// 返回我的岛屿
 			goBackUser() {
-				uni.navigateTo({
-					url: `/pages/user/islands/index`
+				uni.switchTab({
+					url: `/pages/community/index`
 				});
+				// uni.navigateTo({
+				// 	url: `/pages/user/islands/index`
+				// });
 			},
 			// 标签切换
 			tabClick(val) {
@@ -52,7 +55,7 @@
 
 <style lang="scss" scoped>
 	::v-deep.certificate {
-		width: 100%;
+		width: 100vw;
 		height: 100vh;
 		overflow: hidden;
 		padding: 0 21px;
