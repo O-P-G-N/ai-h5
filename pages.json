@@ -417,7 +417,15 @@
 			"path" : "pages/index/video/videocreattwocopy",
 			"style" : 
 			{
-				"navigationBarTitleText" : "创作中心副本",
+				"navigationBarTitleText" : "",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/index/picture/dfqaichattwocopy",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
 				"navigationStyle" : "custom"
 			}
 		}

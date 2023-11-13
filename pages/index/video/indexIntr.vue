@@ -83,7 +83,6 @@
 </template>
 
 <script>
-	import app_config from '../../../common/config.js';
 	const innerAudioContext = uni.createInnerAudioContext();
 	export default {
 		data() {
@@ -159,9 +158,6 @@
 						sex: this.roleType
 					},
 					success: (res) => {
-						res.data.map((v)=>{
-							v.imageUrl=app_config.apiUrl+"/"+v.imageUrl
-						})
 						this.timbreList = res.data;
 					}
 				});

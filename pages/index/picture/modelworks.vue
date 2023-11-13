@@ -56,7 +56,6 @@
 </template>
 
 <script>
-	import app_config from '../../../common/config.js';
 	export default {
 		data() {
 			return {
@@ -121,9 +120,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
 						this.contentList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
 						if (this.pagenum <= this.contentList.length) {
@@ -143,9 +139,7 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
+						
 						this.videoList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
 						if (this.pagenum <= this.videoList.length) {
@@ -165,9 +159,7 @@
 							method: "POST",
 							data: this.from,
 							success: (res) => {
-								res.data.rows.map((v) => {
-									v.address = app_config.apiUrl + "/" + v.address
-								})
+								
 								this.status = "loadmore"
 								this.contentList.push(...res.data.rows);
 							}
@@ -179,9 +171,7 @@
 							method: "POST",
 							data: this.from,
 							success: (res) => {
-								res.data.rows.map((v) => {
-									v.address = app_config.apiUrl + "/" + v.address
-								})
+								
 								this.status = "loadmore"
 								this.videoList.push(...res.data.rows);
 							}

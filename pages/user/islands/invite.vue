@@ -85,7 +85,7 @@
 			// 复制链接
 			copyInvite(){
 				uni.setClipboardData({
-					data: app_config.apiUrl+`/#/pages/loginReg/reg_account?code=${this.invitationCode}`,
+					data: app_config.onlineUrl+`/#/pages/loginReg/reg_account?code=${this.invitationCode}`,
 					success: function() {
 						uni.showToast({
 							title: "复制成功!",

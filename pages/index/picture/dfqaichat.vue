@@ -25,7 +25,7 @@
 			</view>
 			<view class="btnMain">
 				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张图 10 积分</view>
-				<view class="btn" :class="{'btn-active':parameter.n==3}" @click="parameter.n=3">4张图 30 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">4张图 30 积分</view>
 			</view>
 			<ai-button :btnHeight="'60px'" class="next-btn" @click="nextFn">下一步</ai-button>
 		</view>
@@ -69,7 +69,7 @@
 			},
 			nextFn() {
 				let num = null
-				if (this.parameter.prompt == 1) {
+				if (this.parameter.n == 1) {
 					num = 10
 				} else {
 					num = 30

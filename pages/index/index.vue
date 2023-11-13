@@ -4,7 +4,8 @@
 			<image class="global" @click.stop="selectLang" src="~@/static/index/global.png"></image>
 			<view class="lang-down-menu" v-if="langShow">
 				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
-					{{item.text}}</view>
+					{{item.text}}
+				</view>
 
 			</view>
 		</view>
@@ -62,10 +63,10 @@
 			</view>
 			<view class="content-mian">
 				<template v-if='constenList.length>0'>
-					<view class="content-item" v-for='(v,index) in constenList' :key='index'>
+					<view @click="viewImg(v)" class="content-item" v-for='(v,index) in constenList' :key='index'>
 						<image mode="widthFix" :src="v.address"></image>
 						<view class="mian-text">
-							<view class="text">{{v.worksStyle}}</view>
+							<view class="text">{{v.topicStr}}</view>
 						</view>
 					</view>
 				</template>
@@ -95,7 +96,6 @@
 
 
 <script>
-	import app_config from '../../common/config.js';
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue')
@@ -104,7 +104,7 @@
 			return {
 				constenList: [],
 				from: {
-					style: "自由",
+					style: 1,
 					pageNum: 1,
 					pageSize: 10,
 				},
@@ -119,23 +119,32 @@
 		computed: {
 			tabsList() {
 				return [{
-					name: this.$t('index.ai.creationstyle.freedom')
+					name: this.$t('index.ai.creationstyle.freedom'),
+					style: 1,
 				}, {
-					name: this.$t('index.ai.creationstyle.cyberpunk')
+					name: this.$t('index.ai.creationstyle.cyberpunk'),
+					style: 2,
 				}, {
-					name: this.$t('index.ai.creationstyle.watercolor')
+					name: this.$t('index.ai.creationstyle.watercolor'),
+					style: 3,
 				}, {
-					name: this.$t('index.ai.creationstyle.chinese_ink')
+					name: this.$t('index.ai.creationstyle.chinese_ink'),
+					style: 4,
 				}, {
-					name: this.$t('index.ai.creationstyle.black_and_white')
+					name: this.$t('index.ai.creationstyle.black_and_white'),
+					style: 5,
 				}, {
-					name: this.$t('index.ai.creationstyle.oil_painting')
+					name: this.$t('index.ai.creationstyle.oil_painting'),
+					style: 6,
 				}, {
-					name: this.$t('index.ai.creationstyle.dreamlike')
+					name: this.$t('index.ai.creationstyle.dreamlike'),
+					style: 7,
 				}, {
-					name: this.$t('index.ai.creationstyle.sketch')
+					name: this.$t('index.ai.creationstyle.sketch'),
+					style: 8,
 				}, {
-					name: this.$t('index.ai.creationstyle.graffiti')
+					name: this.$t('index.ai.creationstyle.graffiti'),
+					style: 9,
 				}]
 			},
 			activeStyle() {
@@ -190,7 +199,7 @@
 		},
 		methods: {
 			tabSelectClick(e) {
-				this.from.style = e.name
+				this.from.style = e.style
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
@@ -200,33 +209,44 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
-							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
-						} else if (!res.data.question) {
-							this.show = true;
-							this.setIndex = 1;
-							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
-							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
+						if(res.code==200){
+							if (!res.data.withdrawPassword) {
+								this.show = true;
+								this.setIndex = 2;
+								this.content = "您的交易密码未设置,请设置您的交易密码"
+							} else if (!res.data.question) {
+								this.show = true;
+								this.setIndex = 1;
+								this.content = "您的密保问题未设置,请设置您的密保问题"
+							} else if (!res.data.nickName) {
+								this.show = true;
+								this.setIndex = 0;
+								this.content = "您的昵称未设置,请设置您的昵称"
+							}
 						}
 					}
+				});
+			},
+			// 查看详情
+			viewImg(val) {
+				uni.navigateTo({
+					url: `/pages/index/picture/dfqaichattwocopy?imgInfo=${JSON.stringify(val)}`
 				});
 			},
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/settingName`
 					});
 				} else if (this.setIndex == 1) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/Confidentiality`
 					});
 				} else if (this.setIndex == 2) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/fundeditpass`
 					});
@@ -250,10 +270,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
-
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -273,10 +289,6 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-
-							res.data.rows.map((v) => {
-								v.address = app_config.apiUrl + "/" + v.address
-							})
 							this.status = "loadmore"
 							this.constenList.push(...res.data.rows);
 						}
@@ -560,6 +572,10 @@
 				}
 			}
 		}
+	}
+
+	.u-loadmore {
+		margin-bottom: 90px !important;
 	}
 
 	.loadingTxt {

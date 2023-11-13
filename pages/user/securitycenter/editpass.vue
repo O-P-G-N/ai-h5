@@ -11,7 +11,10 @@
 					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
-								<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
+								<view slot="suffix" class="email_content_btn">
+									<u-code unique-key="editpass" start-text="获取验证码" ref="uCode" @change="codeChange"
+										changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+								</view>
 							</u-input>
 						</view>
 					</u-cell>
@@ -55,8 +58,8 @@
 						<text class="verify_item_text">包含数字</text>
 					</view>
 				</view>
-				<ai-button :bg="'#333'" :btnHeight="'53px'" class="next-btn editpassbtn"
-					@click="ConfMod">确认修改</ai-button>
+				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
+					class="next-btn editpassbtn" @click="ConfMod">确认修改</ai-button>
 			</view>
 		</view>
 	</view>
@@ -77,6 +80,9 @@
 				eyeShow: true, //密码显示
 				eyeShows: true, //密码显示
 				titleShow: 1, //判断标题
+				tips: "", //提示语
+				loading: false, //模态框按钮等待状态
+				btnDisabled: false, //模态框是否禁用按钮
 			};
 		},
 		created() {},
@@ -92,18 +98,27 @@
 			},
 			// 获取验证码
 			getCode() {
-				uni.request({
-					url: `/aicommon/sendCodeMustToken`,
-					method: "GET",
-					data: {
-						type: this.titleShow
-					},
-					success: (res) => {
-						if (res.res.code == 200) {
-							uni.$u.toast('验证码发送成功');
+				if (this.$refs.uCode.canGetCode) {
+					uni.request({
+						url: `/aicommon/sendCodeMustToken`,
+						method: "GET",
+						data: {
+							type: this.titleShow
+						},
+						success: (res) => {
+							if (res.code == 200) {
+								this.$refs.uCode.start();
+								uni.$u.toast('验证码发送成功');
+							}
 						}
-					}
-				});
+					});
+				} else {
+					uni.$u.toast('倒计时结束后再发送');
+				}
+			},
+			// 提示语
+			codeChange(text) {
+				this.tips = text;
 			},
 			// 判断标题
 			determineTitle() {
@@ -127,52 +142,111 @@
 			},
 			// 确认修改
 			ConfMod() {
-				let that=this
+				let that = this
 				let num = /[0-9]/im
-				let patrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (that.from.code == "") {
 					uni.$u.toast('请输入验证码');
 					return
 				} else if (that.from.newPassword.length < 8) {
 					uni.$u.toast('至少有8个字符');
 					return
-				} else if (!patrn.test(that.from.newPassword)) {
-					uni.$u.toast('有一个大写字母和字符');
-					return
-				} else if (!num.test(that.from.newPassword)) {
-					uni.$u.toast('包含数字');
-					return
-				} else if (that.from.newPassword != that.confirmPassword) {
-					uni.$u.toast('两次输入密码不一致');
-					return
 				} else {
-					uni.request({
-						url: '/member/updatePassword',
-						method: "POST",
-						data: that.from,
-						success: (res) => {
-							uni.showToast({
-								title: "修改成功",
-								success: function(res) {
-									uni.removeStorageSync("user")
-									if (that.titleShow == 1) {
-										uni.removeStorageSync("phoneCheck")
-										uni.removeStorageSync("phone")
-									} else {
-										uni.removeStorageSync("emailCheck")
-										uni.removeStorageSync("email")
+					if (patrn.test(that.from.newPassword)) {
+						if (!num.test(that.from.newPassword)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (that.from.newPassword != that.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							this.btnDisabled = true
+							this.loading = true
+							uni.request({
+								url: '/member/updatePassword',
+								method: "POST",
+								data: that.from,
+								success: (res) => {
+									if (res.code == 200) {
+										this.btnDisabled = false
+										this.loading = false
+										uni.showToast({
+											title: "修改成功",
+											success: function(res) {
+												uni.removeStorageSync("user")
+												if (that.titleShow == 1) {
+													uni.removeStorageSync("phoneCheck")
+													uni.removeStorageSync("phone")
+												} else {
+													uni.removeStorageSync("emailCheck")
+													uni.removeStorageSync("email")
+												}
+												let time = setTimeout(() => {
+													clearTimeout(time)
+													uni.redirectTo({
+														url: `/pages/loginReg/login`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										this.btnDisabled = false
+										this.loading = false
 									}
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.redirectTo({
-											url: `/pages/loginReg/login`
-										});
-									}, 1000)
-								},
-							})
+
+								}
+							});
 						}
-					});
+					} else if (patrns.test(that.from.newPassword)) {
+						if (!num.test(that.from.newPassword)) {
+							uni.$u.toast('包含数字');
+							return
+						} else if (that.from.newPassword != that.confirmPassword) {
+							uni.$u.toast('两次输入密码不一致');
+							return
+						} else {
+							this.btnDisabled = true
+							this.loading = true
+							uni.request({
+								url: '/member/updatePassword',
+								method: "POST",
+								data: that.from,
+								success: (res) => {
+									if (res.code == 200) {
+										this.btnDisabled = false
+										this.loading = false
+										uni.showToast({
+											title: "修改成功",
+											success: function(res) {
+												uni.removeStorageSync("user")
+												if (that.titleShow == 1) {
+													uni.removeStorageSync("phoneCheck")
+													uni.removeStorageSync("phone")
+												} else {
+													uni.removeStorageSync("emailCheck")
+													uni.removeStorageSync("email")
+												}
+												let times = setTimeout(() => {
+													clearTimeout(times)
+													uni.redirectTo({
+														url: `/pages/loginReg/login`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										this.btnDisabled = false
+										this.loading = false
+									}
+
+								}
+							});
+						}
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
 				}
 			}
 		}
@@ -265,6 +339,9 @@
 						box-sizing: border-box;
 						background: #00bfff;
 						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
 					}
 
 					uni-button:after {

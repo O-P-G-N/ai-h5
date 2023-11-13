@@ -157,8 +157,11 @@
 			},
 			// 返回
 			goBackUser() {
-				uni.navigateTo({
-					url: `/pages/user/islands/index`
+				// uni.navigateTo({
+				// 	url: `/pages/user/islands/index`
+				// });
+				uni.switchTab({
+					url: `/pages/community/index`
 				});
 			},
 			//获取上下级
@@ -432,8 +435,8 @@
 
 			.activate_popup_box {
 				margin: 0 auto;
-				width: 372px;
-				height: 438px;
+				width: 312px;
+				height: 408px;
 				background: url("@/static/user/HTXE4.png") no-repeat;
 				background-size: 100% 100%;
 				position: relative;
@@ -442,15 +445,15 @@
 					width: 210px;
 					height: 80px;
 					position: absolute;
-					bottom: 52px;
-					left: 20%;
+					bottom: 22px;
+					left: 16%;
 				}
 
 				.activate_popup_box_del {
 					width: 30px;
 					height: 30px;
 					position: absolute;
-					bottom: -32px;
+					bottom: -55px;
 					left: 44%;
 				}
 			}

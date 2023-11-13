@@ -111,6 +111,9 @@
 					delta: 1
 				});
 			},
+			getaa(){
+				
+			},
 			// 获取合约列表
 			getContractList() {
 				uni.request({

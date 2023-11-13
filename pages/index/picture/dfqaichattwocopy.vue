@@ -10,56 +10,25 @@
 			</view>
 		</u-navbar>
 		<view class="content-lei">
-			<template v-if='!isGenerate'>
-				<view class="content-title"><text>· 模型主题</text>
-					<image @click="showPopupFn(1)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
-				</view>
-				<view class="typeList">
-					<view class="type-item" v-for="(item,index) in typeList" :key='index'
-						@click="themeSelect(index,item.topic)">
-						<view class="activeItem" v-if='typeIndex==index'></view>
-						<image class="item-image" :src="item.imgUrl"></image>
-						<view class="typeTitle">{{item.name}}</view>
-					</view>
-				</view>
-				<view class="content-title"><text>· 风格选择</text>
-					<image @click="showPopupFn(2)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
-				</view>
-				<view class="stylelist">
-					<view class="tabsList-item" v-for='(item,index) in stylelist' :key='index'
-						@click='styleSelect(index,item.style)' :class="{'activeItem':styleIndex==index}">
-						{{item.name}}
-					</view>
-				</view>
-				<ai-button :btnHeight="'72px'" class="clickView" @click="generateFn">立即生成</ai-button>
-			</template>
-			<template v-else>
+			<template>
 				<view class="generateDiv">
-					<template v-if="imgUrl.length>0">
-						<view class="generateImg_box" >
-							<image :class="imgUrl.length>1?'generateImgs':'generateImg'" v-for="(v,i) in imgUrl" :key="i"
-								@load="load" :src="v" @click="showFn(v)"></image>
+					<template v-if="imgUrl">
+						<view class="generateImg_box">
+							<image class="generateImg" :src="imgUrl" @click="showFn(imgUrl)"></image>
 						</view>
-						<view class="img_load" v-if="!loadComplete"><u-loading-icon
-								:show="!loadComplete"></u-loading-icon>正在为您加载中...</view>
+
 					</template>
-					<template v-else>
-						<view class="progress-title">{{progress}}%</view>
-						<view class="progress-dec">正在生成中...</view>
-						<view class="progress">
-							<view class="progress-item" :style="{'width':`${progress}%`}"></view>
-						</view>
-					</template>
+
 				</view>
-				<view class="hint" v-if='imgUrl.length>0'>长按图片保存到本地</view>
+				<view class="hint" v-if='imgUrl'>长按图片保存到本地</view>
 				<view class="content-title" style="margin-top: 30rpx;"><text>画面描述</text></view>
-				<view class="detail-content">{{parameter.prompt}}</view>
+				<view class="detail-content">{{parameter.content}}</view>
 
 				<view class="content-title"><text>创作信息</text></view>
 				<view class="detail-content1">
 					<view class="detail-item">
 						<view class="detail-left">主题</view>
-						<view class="detail-right">{{typeList[typeIndex].name}}</view>
+						<view class="detail-right">{{parameter.topicStr}}</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">尺寸</view>
@@ -67,7 +36,7 @@
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">风格选择</view>
-						<view class="detail-right">{{stylelist[styleIndex].name}}</view>
+						<view class="detail-right">{{parameter.styleStr}}</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">采样模式</view>
@@ -141,71 +110,7 @@
 				isGenerate: false,
 				generateImg: '',
 				progress: 0,
-				typeList: [{
-					name: '通用',
-					imgUrl: require('@/static/index/preempt5.png'),
-					topic: 1,
-				}, {
-					name: '科幻',
-					imgUrl: require('@/static/index/model8.webp'),
-					topic: 2,
-				}, {
-					name: '儿童3D',
-					imgUrl: require('@/static/index/model4.webp'),
-					topic: 3,
-				}, {
-					name: '建筑设计',
-					imgUrl: require('@/static/index/model7.webp'),
-					topic: 4,
-				}, {
-					name: '2.5D动漫',
-					imgUrl: require('@/static/index/model1.webp'),
-					topic: 5,
-				}, {
-					name: '电影写实',
-					imgUrl: require('@/static/index/model10.webp'),
-					topic: 6,
-				}, {
-					name: '人物写真',
-					imgUrl: require('@/static/index/model11.webp'),
-					topic: 7,
-				}, {
-					name: '3D日漫',
-					imgUrl: require('@/static/index/model9.webp'),
-					topic: 8,
-				}, {
-					name: 'CG写真',
-					imgUrl: require('@/static/index/model5.webp'),
-					topic: 9,
-				}],
-				stylelist: [{
-					name: '自由',
-					style: 1,
-				}, {
-					name: '赛博朋克',
-					style: 2,
-				}, {
-					name: '水彩风',
-					style: 3,
-				}, {
-					name: '水墨风',
-					style: 4,
-				}, {
-					name: '黑白',
-					style: 5,
-				}, {
-					name: '油画风',
-					style: 6,
-				}, {
-					name: '梦幻风',
-					style: 7,
-				}, {
-					name: '素描',
-					style: 8,
-				}, {
-					name: '涂鸦',
-					style: 9,
-				}],
+
 				showPopup: false,
 				showDetail: {
 					title: '',
@@ -216,36 +121,16 @@
 			}
 		},
 		onLoad(e) {
-			this.parameter = JSON.parse(e.parameter);
-			this.parameter.style = 1;
-			this.parameter.topic = 1;
+			this.parameter = JSON.parse(e.imgInfo);
+			this.imgUrl = this.parameter.address;
 		},
 		methods: {
-			load() {
-				this.loadComplete = true;
-			},
-			showPopupFn(type) {
-				this.showPopup = true
-				if (type == 1) {
-					this.showDetail = {
-						title: '模型主题说明',
-						content: '通过模型主题设定，可以设定最终生成出来的画面是什么材质和风格。'
-					}
-				} else {
-					this.showDetail = {
-						title: '风格选择说明',
-						content: '包含风格修饰、艺术家、元素魔法'
-					}
-				}
 
-			},
+
 			back() {
-				if (this.isGenerate) {
-					this.isGenerate = false
-				} else {
-					uni.navigateBack()
-
-				}
+				uni.switchTab({
+					url: '/pages/index/index'
+				})
 			},
 			toWorks() {
 				uni.navigateTo({
@@ -255,55 +140,6 @@
 			showFn(src) {
 				this.show = true
 				this.generateImg = src
-			},
-			// 主题选择
-			themeSelect(index, topic) {
-				this.typeIndex = index;
-				this.parameter.topic = topic;
-			},
-			// 风格选择
-			styleSelect(index, style) {
-				this.styleIndex = index;
-				this.parameter.style = style;
-			},
-			generateFn() {
-				this.generateImg = "";
-				this.progress = 0;
-				this.imgUrl = [];
-				this.loadComplete = false;
-				uni.request({
-					url: `/workImage/generate`,
-					method: "POST",
-					data: this.parameter,
-					success: (res) => {
-						if (res.code == 200) {
-							this.imgUrl = res.data;
-						} else if (res.code == 500) {
-							this.isGenerate = false;
-							if (this.setIntervalL) clearInterval(this.setIntervalL)
-							uni.$u.toast('网络超时，请重试!');
-						}
-					},
-					fail: (err) => {
-						this.isGenerate = false;
-						if (this.setIntervalL) clearInterval(this.setIntervalL)
-						uni.$u.toast('网络超时，请重试!');
-					}
-				});
-				this.isGenerate = true
-				if (this.setIntervalL) clearInterval(this.setIntervalL)
-				this.setIntervalL = setInterval(() => {
-					if (this.imgUrl.length < 1) {
-						if (this.progress <= 95) {
-							this.progress = parseInt((this.progress + 1) * 100) / 100
-						} else if (this.progress > 96) {
-							this.progress = 99
-						}
-					} else {
-						this.progress = 100;
-						if (this.setIntervalL) clearInterval(this.setIntervalL);
-					}
-				}, 600)
 			},
 			copyBtn() {
 				let that = this
@@ -528,24 +364,27 @@
 		flex-direction: column;
 		overflow: hidden;
 		position: relative;
-		.generateImg_box{
+
+		.generateImg_box {
 			width: 100%;
 			height: 100%;
 			display: flex;
 			flex-wrap: wrap;
+
 			.generateImgs {
 				width: calc(100% / 2);
 				height: calc(100% / 2);
-			
-				
+
+
 			}
+
 			.generateImg {
 				width: 100%;
 				height: 100%;
 			}
 		}
 
-		
+
 
 		.generateImg {
 			width: 100%;

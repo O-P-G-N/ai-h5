@@ -4,7 +4,8 @@
 			<view class="navbers">
 				<view class="navbers_headers">
 					<view class="mailright" @click="viewNotices">
-						<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true" type="error"></u-badge>
+						<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+							type="error"></u-badge>
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
 				</view>
@@ -18,10 +19,14 @@
 				<view class="justcard">
 					<view class="justcard_left">
 						<view class="blancetext">
-							{{$t('ac.avb')}}<image class="homecs" @click="lockBtn" :src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode=""></image>
+							{{$t('ac.avb')}}
+							<image class="homecs" @click="lockBtn"
+								:src="eyeShow?'../../static/market/lock.png':'../../static/market/nolock.png'" mode="">
+							</image>
 						</view>
 						<view class="blancenum">
-							<text v-if="eyeShow">{{accountBalance}}</text><text v-else>******</text><text class="blancenum_text">{{$t('ac.hongbao')}}</text>
+							<text v-if="eyeShow">{{accountBalance}}</text><text v-else>******</text><text
+								class="blancenum_text">{{$t('ac.hongbao')}}</text>
 						</view>
 					</view>
 					<view class="justcard_right">
@@ -59,7 +64,7 @@
 					</view>
 					<view class="modellist_every" @click="createContract(2)">
 						<view class="modeltop">
-							<image class="modeltop_img" src="../../static/user/up.png" mode=""></image>
+							<image class="modeltop_img" src="../../static/user/encryption.png" mode=""></image>
 							<view class="titles">{{$t('ac.crypt')}}</view>
 						</view>
 						<view class="intro">
@@ -99,7 +104,8 @@
 					</view>
 				</view>
 				<view class="marketeverytitle">
-					<image class="marketeverytitle_img" src="@/static/market/marketexgpt.png" mode=""></image>{{$t('ac.pic2')}}
+					<image class="marketeverytitle_img" src="@/static/market/marketexgpt.png" mode=""></image>
+					{{$t('ac.pic2')}}
 				</view>
 				<view class="widgttwo">
 					<view class="flexcenter">
@@ -114,11 +120,12 @@
 									v-for="(v,i) in tabsList" :key="i">{{v.name}}</view>
 							</view>
 							<view class="listdata">
-								<view class="listdata_item" :class="i==listIndex?'listdataactive':''" @click="listBtn(i)" v-for="(v,i) in listData" :key="i" >
-									<view class="first">{{v.title}}</view>
+								<view class="listdata_item" :class="i==listIndex?'listdataactive':''"
+									@click="listBtn(i)" v-for="(v,i) in listData" :key="i">
+									<view class="first">{{v.pairs}}</view>
 									<view class="end">
-										<text class="end_top">{{v.num}}</text>
-										<text class="red">{{v.percentage}}</text>
+										<text class="end_top">{{v.bid}}</text>
+										<text class="red">{{v.ask}} {{v.change24h}}%</text>
 									</view>
 								</view>
 							</view>
@@ -135,6 +142,7 @@
 
 
 <script>
+	import dayjs from 'dayjs'
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue')
@@ -191,7 +199,7 @@
 				],
 				ftabsIndex: 0,
 				tabsIndex: 0,
-				listIndex:0,
+				listIndex: 0,
 				tabsList: [{
 						name: "1D"
 					},
@@ -217,44 +225,20 @@
 						name: "ALL"
 					},
 				],
-				listData:[
-					{
-						title:"DJIA",
-						num:"33274.58",
-						percentage:"221.71 0.67%"
-					},
-					{
-						title:"S＆P500",
-						num:"4237.86",
-						percentage:"44.06 1.05%"
-					},
-					{
-						title:"DJIA",
-						num:"33274.58",
-						percentage:"221.71 0.67%"
-					},{
-						title:"DJIA",
-						num:"33274.58",
-						percentage:"221.71 0.67%"
-					},{
-						title:"DJIA",
-						num:"33274.58",
-						percentage:"221.71 0.67%"
-					},
-				],
-				eyeShow:false,//隐藏
-				accountBalance:"",//红包余额
+				listData: [],
+				eyeShow: false, //隐藏
+				accountBalance: "", //红包余额
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
 			}
 		},
 		onReady() {
-			this.getServerData();
 			this.getAccount();
 		},
 		onShow() {
 			this.getAccountIsComplete();
+			this.getListData()
 		},
 		created() {},
 		methods: {
@@ -262,15 +246,37 @@
 				//模拟从服务器获取数据时的延时
 				setTimeout(() => {
 					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-						categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-						series: [{
-							name: "成交量A",
-							data: [10, 8, 10, 10, 4, 10]
-						}, ]
-					};
-					this.chartData = JSON.parse(JSON.stringify(res));
+					
 				}, 500);
+			},
+			// 获取列表数据
+			getListData() {
+				console.log(dayjs().startOf('date').format('YYYY-MM-DD HH:mm:ss'));
+				console.log(dayjs().startOf('date').add(1,'day').format('YYYY-MM-DD HH:mm:ss'));
+				console.log(new Date(dayjs().startOf('date')).getTime());
+				console.log(dayjs().startOf('date').add(1,'day'));
+				uni.request({
+					url: `/aicommon/getMarket`,
+					method: "GET",
+					success: (res) => {
+						this.listData = res.data;
+						uni.request({
+							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'day')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							method: "GET",
+							success: (res) => {
+							// 	let res = {
+							// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
+							// 		series: [{
+							// 			name: "成交量A",
+							// 			data: [10, 8, 10, 10, 4, 10]
+							// 		}, ]
+							// 	};
+							// 	this.chartData = JSON.parse(JSON.stringify(res));
+							}
+						});
+
+					}
+				});
 			},
 			// 获取用户资料完整度
 			getAccountIsComplete() {
@@ -278,33 +284,39 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
-							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
-						} else if (!res.data.question) {
-							this.show = true;
-							this.setIndex = 1;
-							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
-							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
+						if(res.code==200){
+							if (!res.data.withdrawPassword) {
+								this.show = true;
+								this.setIndex = 2;
+								this.content = "您的交易密码未设置,请设置您的交易密码"
+							} else if (!res.data.question) {
+								this.show = true;
+								this.setIndex = 1;
+								this.content = "您的密保问题未设置,请设置您的密保问题"
+							} else if (!res.data.nickName) {
+								this.show = true;
+								this.setIndex = 0;
+								this.content = "您的昵称未设置,请设置您的昵称"
+							}
 						}
+						
 					}
 				});
 			},
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/settingName`
 					});
 				} else if (this.setIndex == 1) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/Confidentiality`
 					});
 				} else if (this.setIndex == 2) {
+					this.show = false;
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/fundeditpass`
 					});
@@ -320,7 +332,7 @@
 				this.listIndex = i
 			},
 			// 获取红包余额
-			getAccount(){
+			getAccount() {
 				uni.request({
 					url: `/member/getAccount`,
 					method: "GET",
@@ -330,11 +342,11 @@
 				});
 			},
 			// 隐藏
-			lockBtn(){
-				this.eyeShow=!this.eyeShow
+			lockBtn() {
+				this.eyeShow = !this.eyeShow
 			},
 			// 激活码
-			activCode(){
+			activCode() {
 				uni.navigateTo({
 					url: `/pages/market/activationcode`
 				});
@@ -352,7 +364,7 @@
 				});
 			},
 			// 创建合约
-			createContract(val){
+			createContract(val) {
 				uni.navigateTo({
 					url: `/pages/market/startcreat?type=${val}`
 				});
@@ -363,14 +375,18 @@
 
 <style lang="scss" scoped>
 	@import "@/uni_modules/uview-ui/index.scss";
-::v-deep .u-modal__content {
+
+	::v-deep .u-modal__content {
 		.u-modal__content__text {
 
 			text-align: center;
 		}
 	}
-	.market {
+
+	::v-deep.market {
 		width: 100% !important;
+		min-height: 100vh;
+
 
 		.container_nei {
 			padding: 0 21px;
@@ -532,7 +548,8 @@
 					font-weight: 600;
 					display: flex;
 					align-items: center;
-					.marketeverytitle_img{
+
+					.marketeverytitle_img {
 						width: 102px;
 						height: 21px;
 					}
@@ -542,6 +559,7 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: stretch;
+					margin-top: 12px;
 
 					.modellist_every {
 						background-image: url("@/static/market/marketusdtbg.png");
@@ -649,7 +667,7 @@
 
 								background: #fff;
 								padding-bottom: 16px;
-								box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .2);
+								// box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .2);
 								border-radius: 21px;
 								margin: 16px auto 0;
 
@@ -764,9 +782,9 @@
 							}
 
 							.listdata {
-								height: 266px;
 								margin-top: 10px;
 								padding: 0 18px;
+								margin-bottom: 100px;
 
 								.listdata_item {
 									padding: 0 10px;
@@ -788,19 +806,22 @@
 										flex-direction: column;
 										align-items: flex-end;
 										justify-content: space-between;
-										.end_top{
+
+										.end_top {
 											font-size: 16px;
-											    color: #333;
+											color: #333;
 										}
-										.red{
+
+										.red {
 											color: red;
 										}
 									}
 								}
-								.listdataactive{
+
+								.listdataactive {
 									background-color: #e5ecff;
-									    transition: all .3s;
-									    border-radius: 5px;
+									transition: all .3s;
+									border-radius: 5px;
 								}
 							}
 						}

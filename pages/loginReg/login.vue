@@ -9,17 +9,17 @@
 		</view>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
-			<view class="title_h3">欢迎来到EXGPT</view>
+			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="subsectiontwo">
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						手机登录(暂未开通)
+						{{$t('login.type.phone')}}({{$t('login.notyetopened')}})
 					</view>
 				</button>
 				<view class="line">
 					<view class="divider"></view>
-					<view class="lint_text">或登录以</view>
+					<view class="lint_text">{{$t('login.orloginto')}}</view>
 				</view>
 				<button class="subsectiontwo_every" @click="emailLogin">
 					<view class="flex_al_center">
@@ -41,11 +41,11 @@
 					</view>
 				</view>
 				<view class="privacy">
-					登录即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
-					还没有账户？
-					<text class="blur" @click="regAccount">立即注册</text>
+					{{$t('login.noaccount')}}？
+					<text class="blur" @click="regAccount">{{$t('login.registernow')}}</text>
 				</view>
 			</view>
 		</view>

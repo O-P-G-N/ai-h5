@@ -3,21 +3,26 @@
 		<u-navbar @leftClick="goBackUser" left-text="返回" title="注册" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
-			<view class="title_h1">手机号注册</view>
+			<view class="title_h1">{{$t('login.type.phones.register')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange"
+							v-model="countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.phone" placeholder="请输入手机号">
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
-						<button @click="getCode" slot="suffix" class="email_content_btn">获取验证码</button>
+						<view slot="suffix" class="email_content_btn">
+							<u-code start-text="获取验证码" ref="uCode" @change="codeChange"
+								changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+						</view>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input class="email_content_text" type="number" placeholder="请输入验证码" v-model="from.code"></u-input>
+					<u-input class="email_content_text" type="number" placeholder="请输入验证码"
+						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.password" placeholder="请输入密码" :password="eyeShow">
@@ -30,15 +35,16 @@
 					</u-input>
 				</view>
 				<view class="privacy">
-					注册即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.selectmobileverification5')}}<text class="blur">《{{$t('login.selectmobileverification2')}}》</text>{{$t('login.selectmobileverification3')}}<text class="blur">《{{$t('login.selectmobileverification4')}}》</text>
 				</view>
 				<view class="btns">
-					<view class="rightforget">忘记密码？</view>
-					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn" @click="regBtn">注册</ai-button>
+					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
+					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn"
+						@click="regBtn">{{$t('login.register')}}</ai-button>
 					<!-- <button class="loginbtn" ></button> -->
 					<view class="register">
-						已有账户？
-						<text class="blur" @click="loginNow">立即登录</text>
+						{{$t('login.existingaccount')}}？
+						<text class="blur" @click="loginNow">{{$t('login.loginnow')}}</text>
 					</view>
 				</view>
 			</view>
@@ -55,20 +61,21 @@
 				checkboxValue: "", //是否记住密码
 				from: {
 					phone: "", //手机号码
-					code:"",//验证码
+					code: "", //验证码
 					password: "", //密码
 					invitationCode: "", //邀请码
 					countryCode: "", //国家编码
 				},
-				forbidden:false,//是否禁用
-				loading:false,//等待状态
+				forbidden: false, //是否禁用
+				loading: false, //等待状态
+				tips: "", //提示语
 			};
 		},
 		onLoad(option) {
-			if(option.invitationCode){
-				this.from.invitationCode=option.invitationCode;
+			if (option.invitationCode) {
+				this.from.invitationCode = option.invitationCode;
 			}
-		}, 
+		},
 		methods: {
 			// 返回注册首页
 			goBackUser() {
@@ -85,36 +92,51 @@
 			showHidden() {
 				this.eyeShow = !this.eyeShow
 			},
+			// 忘记密码
+			forgotPassword() {
+				uni.navigateTo({
+					url: `/pages/loginReg/phone_asswordRet`
+				});
+			},
 			// 获取验证码
 			getCode() {
-				if(this.from.countryCode==""){
+				if (this.from.countryCode == "") {
 					uni.$u.toast('请选择国家');
 					return
-				}else if(this.from.phone==""){
+				} else if (this.from.phone == "") {
 					uni.$u.toast('请输入手机号');
 					return
-				}else{
-					uni.request({
-						url: `/aicommon/sendCode`,
-						method: "GET",
-						data: {
-							countryCode:this.from.countryCode,
-							to:this.from.phone,
-							type: 1
-						},
-						success: (res) => {
-							if (res.res.code == 200) {
-								uni.$u.toast('验证码发送成功');
+				} else {
+					if (this.$refs.uCode.canGetCode) {
+						uni.request({
+							url: `/aicommon/sendCode`,
+							method: "GET",
+							data: {
+								countryCode: this.from.countryCode,
+								to: this.from.phone,
+								type: 1
+							},
+							success: (res) => {
+								if (res.code == 200) {
+									this.$refs.uCode.start();
+									uni.$u.toast('验证码发送成功');
+								}
 							}
-						}
-					});
+						});
+					} else {
+						uni.$u.toast('倒计时结束后再发送');
+					}
 				}
-				
+
+			},
+			// 提示语
+			codeChange(text) {
+				this.tips = text;
 			},
 			// 注册
 			regBtn() {
-				let patrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({
 						title: "请正确选择国家",
@@ -150,38 +172,73 @@
 						success: function(res) {},
 					})
 					return
-				} else if (!patrn.test(this.from.password)) {
-					uni.showToast({
-						title: "有一个大写字母或字符",
-						icon: "none",
-						success: function(res) {},
-					})
-					return
 				} else {
-					this.forbidden=true;
-					this.loading=true
-					uni.request({
-						url: '/nt/registerPhone',
-						method:"POST",
-						data: this.from,
-						success: (res) => {
-							// uni.$u.toast('注册成功');
-							this.forbidden=false;
-							this.loading=false;
-							uni.showToast({
-								title: "注册成功",
-								success: function(res1) {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.setStorageSync("user", res.data)
-										uni.switchTab({
-											url: `/pages/index/index`
-										});
-									}, 1000)
-								},
-							})
-						}
-					});
+					if (patrn.test(this.from.password)) {
+						this.forbidden = true;
+						this.loading = true
+						uni.request({
+							url: '/nt/registerPhone',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								// uni.$u.toast('注册成功');
+								if (res.code == 200) {
+									this.forbidden = false;
+									this.loading = false;
+									uni.showToast({
+										title: "注册成功",
+										success: function(res1) {
+											let times = setTimeout(() => {
+												clearTimeout(times)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								} else if (res.code == 500) {
+									this.forbidden = false;
+									this.loading = false;
+								}
+
+							}
+						});
+					} else if (patrns.test(this.from.password)) {
+						this.forbidden = true;
+						this.loading = true
+						uni.request({
+							url: '/nt/registerPhone',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								// uni.$u.toast('注册成功');
+								if (res.code == 200) {
+									this.forbidden = false;
+									this.loading = false;
+									uni.showToast({
+										title: "注册成功",
+										success: function(res1) {
+											let time = setTimeout(() => {
+												clearTimeout(time)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								} else if (res.code == 500) {
+									this.forbidden = false;
+									this.loading = false;
+								}
+
+							}
+						});
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
 				}
 			},
 			// 立即登录
@@ -238,6 +295,7 @@
 					border-radius: 12px 12px 12px 12px;
 					display: flex;
 					align-items: center;
+
 					.email_content_btn {
 						padding: 2px 5px;
 						border-radius: 10px;
@@ -247,6 +305,7 @@
 						background: #00bfff;
 						color: #fff;
 					}
+
 					uni-button:after {
 						border: none;
 					}

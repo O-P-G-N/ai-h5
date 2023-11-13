@@ -9,13 +9,16 @@
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
-					<image class="level_img" src="../../static/user/level.png"></image>
+					<image class="level_img"
+						:src="myInfo.vip==1?'../../static/user/e1.png':myInfo.vip==2?'../../static/user/d1.png':myInfo.vip==3?'../../static/user/c1.png':myInfo.vip==4?'../../static/user/b1.png':myInfo.vip==5?'../../static/user/a1.png':myInfo.vip==6?'../../static/user/s1.png':''">
+					</image>
 				</view>
 			</view>
 		</view>
 		<view class="user_head_right" @click="viewNotices">
 			<view class="user_head_right_content">
-				<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true" type="error"></u-badge>
+				<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+					type="error"></u-badge>
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
 		</view>
@@ -137,14 +140,14 @@
 					</view>
 				</view>
 			</view>
-			<view>
+			<!-- <view>
 				<view class="funlist_every" @click="viewIslands">
 					<view class="left"><text>{{$t('home.menu.islande')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view>
 				<view class="funlist_every" @click="securityCenter">
 					<view class="left"><text>{{$t('home.menu.security')}}</text></view>
@@ -225,7 +228,7 @@
 					}
 				});
 			},
-			
+
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
@@ -291,23 +294,28 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if (!res.data.nickName) {
-							this.show = true;
-							this.setIndex = 0;
-							this.content = "您的昵称未设置,请设置您的昵称"
-						} else if (!res.data.question) {
-							this.show = true;
-							this.setIndex = 1;
-							this.content = "您的密保问题未设置,请设置您的密保问题"
-						} else if (!res.data.withdrawPassword) {
-							this.show = true;
-							this.setIndex = 2;
-							this.content = "您的交易密码未设置,请设置您的交易密码"
-						} else {
-							uni.navigateTo({
-								url: `/pages/user/withdrawal`
-							});
+						if (res.code == 200) {
+							if (!res.data.withdrawPassword) {
+								this.show = true;
+								this.setIndex = 2;
+								this.content = "您的交易密码未设置,请设置您的交易密码"
+							} else if (!res.data.question) {
+								this.show = true;
+								this.setIndex = 1;
+								this.content = "您的密保问题未设置,请设置您的密保问题"
+							} else if (!res.data.nickName) {
+								this.show = true;
+								this.setIndex = 0;
+								this.content = "您的昵称未设置,请设置您的昵称"
+							} else {
+								uni.navigateTo({
+									url: `/pages/user/withdrawal`
+								});
+							}
+						}else if(res.code==500){
+							uni.$u.toast("网络问题，请重试！")
 						}
+						
 					}
 				});
 

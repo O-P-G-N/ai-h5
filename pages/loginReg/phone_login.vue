@@ -4,11 +4,12 @@
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
-			<view class="title_h3">欢迎来到EXGPT</view>
+			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange" v-model="from.countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange"
+							v-model="from.countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -29,15 +30,15 @@
 					</u-checkbox-group>
 				</view>
 				<view class="privacy">
-					登录即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
+					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
-					<view class="rightforget" @click="forgotPassword">忘记密码？</view>
-					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading" class="next-btn loginbtn"
-						@click="loginBtn">登录</ai-button>
+					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
+					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading"
+						class="next-btn loginbtn" @click="loginBtn">{{$t('login.login')}}</ai-button>
 					<view class="register">
-						还没有账户？
-						<text class="blur" @click="regAccount">立即注册</text>
+						{{$t('login.noaccount')}}？
+						<text class="blur" @click="regAccount">{{$t('login.registernow')}}</text>
 					</view>
 				</view>
 			</view>
@@ -57,17 +58,17 @@
 					username: "", //手机号码
 					password: "", //密码
 					countryCode: "", //国家编码
-					type:1,//类型
+					type: 1, //类型
 				},
-				loading:false,//等待
-				forbidden:true,//是否禁用按钮
+				loading: false, //等待
+				forbidden: true, //是否禁用按钮
 			};
 		},
 		onShow() {
-			if(uni.getStorageSync("phoneCheck")==1){
+			if (uni.getStorageSync("phoneCheck") == 1) {
 				this.checkboxValue.push(1)
-				this.from=uni.getStorageSync("phone")
-				this.countryCode= `+${this.from.countryCode}`
+				this.from = uni.getStorageSync("phone")
+				this.countryCode = `+${this.from.countryCode}`
 			}
 		},
 		created() {},
@@ -89,16 +90,16 @@
 				this.eyeShow = !this.eyeShow
 			},
 			// 忘记密码
-			forgotPassword(){
+			forgotPassword() {
 				uni.navigateTo({
 					url: `/pages/loginReg/phone_asswordRet`
 				});
 			},
 			// 登录
 			loginBtn() {
-				let that=this
-				let patrn =
-					/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”ABCDEFGHIJKLMNOPQRSTUVWXYZ【】、；‘'，。、]/im
+				let that = this
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({
 						title: "请正确选择国家",
@@ -127,57 +128,95 @@
 						success: function(res) {},
 					})
 					return
-				} else if (!patrn.test(this.from.password)) {
-					uni.showToast({
-						title: "有一个大写字母或字符",
-						icon: "none",
-						success: function(res) {},
-					})
-					return
 				} else {
-					this.loading=true
-					this.forbidden=false
-					uni.request({
-						url: '/nt/login',
-						method: "POST",
-						data: this.from,
-						success: (res) => {
-							if(that.checkboxValue[0]==1){
-								uni.setStorageSync("phoneCheck",that.checkboxValue[0])
-								uni.setStorageSync("phone",that.from)
+					if (patrn.test(this.from.password)) {
+						this.loading = true
+						this.forbidden = false
+						uni.request({
+							url: '/nt/login',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								if (res.code == 500) {
+									that.loading = false;
+									that.forbidden = true;
+								} else if (res.code == 200) {
+									if (that.checkboxValue[0] == 1) {
+										uni.setStorageSync("phoneCheck", that.checkboxValue[0])
+										uni.setStorageSync("phone", that.from)
+									}
+									uni.showToast({
+										title: "登陆成功",
+										success: function() {
+											let times = setTimeout(() => {
+												that.loading = false;
+												that.forbidden = true;
+												clearTimeout(times)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								}
+
+
 							}
-							uni.showToast({
-								title: "登陆成功",
-								success: function() {
-									 let time=setTimeout(()=>{
-										 that.loading=false;
-										 that.forbidden=true;
-										 clearTimeout(time)
-										uni.setStorageSync("user",res.data)
-										uni.switchTab({
-											url: `/pages/index/index`
-										});
-									},1000)
-								},
-							})
-							
-						}
-					});
+						});
+					} else if (patrns.test(this.from.password)) {
+						this.loading = true
+						this.forbidden = false
+						uni.request({
+							url: '/nt/login',
+							method: "POST",
+							data: this.from,
+							success: (res) => {
+								if (res.code == 500) {
+									that.loading = false;
+									that.forbidden = true;
+								} else if (res.code == 200) {
+									if (that.checkboxValue[0] == 1) {
+										uni.setStorageSync("phoneCheck", that.checkboxValue[0])
+										uni.setStorageSync("phone", that.from)
+									}
+									uni.showToast({
+										title: "登陆成功",
+										success: function() {
+											let time = setTimeout(() => {
+												that.loading = false;
+												that.forbidden = true;
+												clearTimeout(time)
+												uni.setStorageSync("user", res.data)
+												uni.switchTab({
+													url: `/pages/index/index`
+												});
+											}, 1000)
+										},
+									})
+								}
+
+
+							}
+						});
+					} else {
+						uni.$u.toast('有一个大写字母或字符');
+						return
+					}
 				}
 			},
 			// 注册账号
-			regAccount(){
+			regAccount() {
 				uni.navigateTo({
 					url: `/pages/loginReg/reg_account`
 				});
 			},
 			// 勾选记住密码
 			checkboxChange(val) {
-			if(val[0]==1){
-			}else{
-				uni.removeStorageSync("phoneCheck")
-				uni.removeStorageSync("phone")
-			}
+				if (val[0] == 1) {} else {
+					uni.removeStorageSync("phoneCheck")
+					uni.removeStorageSync("phone")
+				}
 			}
 		},
 	}
@@ -190,7 +229,7 @@
 
 	::v-deep.phone_login {
 		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 
 		box-sizing: border-box;
 

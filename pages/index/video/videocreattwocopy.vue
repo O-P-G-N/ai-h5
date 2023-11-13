@@ -98,7 +98,7 @@
 				</view>
 				<view class="topcard">
 					<textarea v-model="modelText" maxlength="1000" @input="modelInputTextarea" class="text_area"
-						placeholder-style="color:grey"
+						placeholder-style="color:grey;fontSize:13px"
 						placeholder="例如:请帮我生成一段30秒的口播内容，内容主题是关于卖苹果的，产品特色为有机苹果苹果的品牌为开心牌。" />
 					<view class="topcard_bottom">
 						{{modelTextareaLength}}<text class="topcard_bottom_text">/1000</text>
@@ -129,7 +129,6 @@
 </template>
 
 <script>
-	import app_config from '../../../common/config.js';
 	const innerAudioContext = uni.createInnerAudioContext();
 	export default {
 		data() {
@@ -180,9 +179,6 @@
 						sex: gender
 					},
 					success: (res) => {
-						res.data.map((v)=>{
-							v.imageUrl=app_config.apiUrl+"/"+v.imageUrl
-						})
 						this.timbreList = res.data;
 					}
 				});
@@ -245,9 +241,15 @@
 							text: this.modelText
 						},
 						success: (res) => {
-							this.aiModelText = res.data;
-							this.btnDisabled = false
-							this.loading = false
+							if(res.code==500){
+								this.btnDisabled = false
+								this.loading = false
+							}else if(res.code==200){
+								this.aiModelText = res.data;
+								this.btnDisabled = false
+								this.loading = false
+							}
+							
 						},
 						fail: (err) => {
 							this.btnDisabled = false
