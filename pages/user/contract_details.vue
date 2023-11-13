@@ -82,8 +82,8 @@
 		methods: {
 			// 返回合约金额
 			goBackUser() {
-				uni.redirectTo({
-					url: `/pages/user/contract_amount`
+				uni.navigateBack({
+					delta: 1
 				});
 			},
 			getContractDetails(id) {

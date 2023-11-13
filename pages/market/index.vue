@@ -4,6 +4,7 @@
 			<view class="navbers">
 				<view class="navbers_headers">
 					<view class="mailright" @click="viewNotices">
+						<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true" type="error"></u-badge>
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
 				</view>
@@ -98,7 +99,7 @@
 					</view>
 				</view>
 				<view class="marketeverytitle">
-					<image class="marketeverytitle" src="@/static/market/marketexgpt.png" mode=""></image>{{$t('ac.pic2')}}
+					<image class="marketeverytitle_img" src="@/static/market/marketexgpt.png" mode=""></image>{{$t('ac.pic2')}}
 				</view>
 				<view class="widgttwo">
 					<view class="flexcenter">
@@ -127,6 +128,8 @@
 			</view>
 		</view>
 		<Footer pageName='market'></Footer>
+		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" title="温馨提示"
+			:content='content'></u-modal>
 	</view>
 </template>
 
@@ -241,11 +244,17 @@
 				],
 				eyeShow:false,//隐藏
 				accountBalance:"",//红包余额
+				show: false, //温馨提示模态框
+				content: "", //提示框内容
+				setIndex: null, //设置索引
 			}
 		},
 		onReady() {
 			this.getServerData();
 			this.getAccount();
+		},
+		onShow() {
+			this.getAccountIsComplete();
 		},
 		created() {},
 		methods: {
@@ -262,6 +271,44 @@
 					};
 					this.chartData = JSON.parse(JSON.stringify(res));
 				}, 500);
+			},
+			// 获取用户资料完整度
+			getAccountIsComplete() {
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if (!res.data.nickName) {
+							this.show = true;
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
+						} else if (!res.data.question) {
+							this.show = true;
+							this.setIndex = 1;
+							this.content = "您的密保问题未设置,请设置您的密保问题"
+						} else if (!res.data.withdrawPassword) {
+							this.show = true;
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
+						}
+					}
+				});
+			},
+			// 设置完整性判断
+			setConfirm() {
+				if (this.setIndex == 0) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/settingName`
+					});
+				} else if (this.setIndex == 1) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/Confidentiality`
+					});
+				} else if (this.setIndex == 2) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/fundeditpass`
+					});
+				}
 			},
 			ftabsBtn(i) {
 				this.ftabsIndex = i
@@ -316,7 +363,12 @@
 
 <style lang="scss" scoped>
 	@import "@/uni_modules/uview-ui/index.scss";
+::v-deep .u-modal__content {
+		.u-modal__content__text {
 
+			text-align: center;
+		}
+	}
 	.market {
 		width: 100% !important;
 
@@ -477,10 +529,13 @@
 					color: #000;
 					font-size: 21px;
 					margin-top: 26px;
-					margin-bottom: 16px;
 					font-weight: 600;
 					display: flex;
 					align-items: center;
+					.marketeverytitle_img{
+						width: 102px;
+						height: 21px;
+					}
 				}
 
 				.modellist {
@@ -634,7 +689,7 @@
 				.marketeverytitle {
 					color: #000;
 					font-size: 21px;
-					margin-top: 26px;
+					margin-top: 30px;
 					font-weight: 600;
 					display: flex;
 					align-items: center;
@@ -671,7 +726,7 @@
 								font-size: 10px;
 								color: #ccc;
 								position: absolute;
-								top: 26px;
+								top: 18px;
 								z-index: 99;
 
 								.ftabs_item {

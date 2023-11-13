@@ -27,22 +27,6 @@
 						</view>
 					</view>
 				</view>
-				<view class="list-body">
-					<view class="capital">
-						<view class="capital_top">
-							<text class="title">类型</text>
-							<text>邀请分佣</text>
-						</view>
-						<view class="orderhao">
-							<text class="title">金额</text>
-							<text class="greens">+6.0000</text>
-						</view>
-						<view class="orderhao">
-							<text class="title">时间</text>
-							<text>2023-10-26 23:23:28</text>
-						</view>
-					</view>
-				</view>
 				<u-loadmore :status="status" />
 			</view>
 		</view>

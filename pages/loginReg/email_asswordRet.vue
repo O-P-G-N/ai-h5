@@ -12,7 +12,8 @@
 					<u-input v-model="from.to" placeholder="请输入邮箱">
 					</u-input>
 				</view>
-				<ai-button class="next-btn loginbtn" @click="nextStep">下一步</ai-button>
+				<ai-button class="next-btn loginbtn" :disabled="forbidden" :loading="loading"
+					@click="nextStep">下一步</ai-button>
 			</view>
 		</view>
 		<view class="pageTwo" v-if="pageIndex==1">
@@ -58,7 +59,7 @@
 	export default {
 		data() {
 			return {
-				pageIndex: 1, //页面索1
+				pageIndex: 0, //页面索1
 				from: {
 					to: "", //邮箱号
 					type: 2, //类型
@@ -72,6 +73,8 @@
 				},
 				eyeShow: true, //第一个密码状态
 				eyeShows: true, //第二个密码状态
+				loading: false, //等待
+				forbidden: false, //是否禁用按钮
 			};
 		},
 		onHide() {
@@ -88,19 +91,32 @@
 			// 第一步下一步
 			nextStep() {
 				if (this.from.to) {
+					this.loading = true
+					this.forbidden = true
 					uni.request({
 						url: '/aicommon/sendCode',
 						method: "GET",
 						data: this.from,
 						success: (res) => {
-							uni.showLoading({
-								title: '验证码发送中'
-							})
-							this.timer = setTimeout(() => {
-								uni.hideLoading();
-								uni.$u.toast('验证码已发送');
-								this.pageIndex = 1;
-							}, 2000);
+							if(res.data.code == 500) {
+								this.loading = false
+								this.forbidden = false
+							} else {
+								uni.showLoading({
+									title: '验证码发送中'
+								})
+								this.timer = setTimeout(() => {
+									uni.hideLoading();
+									this.loading = false
+									this.forbidden = false
+									uni.$u.toast('验证码已发送');
+									this.pageIndex = 1;
+								}, 2000);
+							}
+						},
+						fail: (err) => {
+							this.loading = false
+							this.forbidden = false
 						}
 					});
 				}
@@ -112,9 +128,21 @@
 			// 重新获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-					uni.$u.toast('验证码已发送');
-					// 通知验证码组件内部开始倒计时
-					this.$refs.uCode.start();
+					uni.request({
+						url: '/aicommon/sendCode',
+						method: "GET",
+						data: this.from,
+						success: (res) => {
+							uni.$u.toast('验证码已发送');
+							// 通知验证码组件内部开始倒计时
+							this.$refs.uCode.start();
+						},
+						fail: () => {
+							this.loading = false
+							this.forbidden = false
+						}
+					});
+
 				} else {
 					uni.$u.toast('倒计时结束后再发送');
 				}

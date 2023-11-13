@@ -47,7 +47,7 @@
 			// 返回积分查看
 			goBackUser() {
 				uni.navigateTo({
-					url: `/pages/user/recharge`
+					url: `/pages/user/recharge?show=1`
 				});
 			},
 			// 生成二维码

@@ -113,6 +113,10 @@
 				// 	});
 				// }
 			},
+			onLocaleChange(e) {
+				uni.setLocale(e.code);
+				this.$i18n.locale = e.code;
+			},
 			// 选择语言
 			selectLang(){
 				this.langShow=true;

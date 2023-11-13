@@ -4,7 +4,8 @@
 			<view class="user_head_left">
 				<view class="name">{{myInfo.nickName}}</view>
 				<view class="account_level">
-					<u--text class="account_num" mode="name" :text="myUserName" :format="eyeShow?'':'encrypt'"></u--text>
+					<u--text class="account_num" mode="name" :text="myUserName"
+						:format="eyeShow?'':'encrypt'"></u--text>
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
@@ -14,6 +15,7 @@
 		</view>
 		<view class="user_head_right" @click="viewNotices">
 			<view class="user_head_right_content">
+				<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true" type="error"></u-badge>
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
 		</view>
@@ -26,10 +28,12 @@
 					<view class="balancenum">
 						<text v-if="eyeShows">{{myInfo.total}}</text>
 						<text v-else>******</text>
-						<image class="balancenum_img" @click="eyeShows=!eyeShows" :src="eyeShows?'../../static/user/eye.png':'../../static/user/hide.png'" mode=""></image>
+						<image class="balancenum_img" @click="eyeShows=!eyeShows"
+							:src="eyeShows?'../../static/user/eye.png':'../../static/user/hide.png'" mode=""></image>
 					</view>
 				</view>
-				<button class="right_btn" size="default" type="default" @click="integralExchange">{{$t('home.asset.exchange_point')}}</button>
+				<button class="right_btn" size="default" type="default"
+					@click="integralExchange">{{$t('home.asset.exchange_point')}}</button>
 			</view>
 			<view class="yuecard_nei">
 				<view class="yuecardtop">
@@ -60,8 +64,7 @@
 
 		</view>
 		<view v-else class="yuecardskeleton">
-			<u-skeleton :title="false" :rows="1" class="yuecardskeleton" loading rowsWidth="100%"
-				></u-skeleton>
+			<u-skeleton :title="false" :rows="1" class="yuecardskeleton" loading rowsWidth="100%"></u-skeleton>
 		</view>
 		<view class="threebalance">
 			<template v-if="infoShow">
@@ -96,8 +99,8 @@
 				</view>
 			</template>
 			<template v-else>
-				<u-skeleton :title="false" :rows="1" class="threebalance_skeleton" loading rowsWidth="100%"
-					></u-skeleton>
+				<u-skeleton :title="false" :rows="1" class="threebalance_skeleton" loading
+					rowsWidth="100%"></u-skeleton>
 			</template>
 		</view>
 		<view class="rechargewithdrawal">
@@ -108,7 +111,7 @@
 			<view class="justcard_bottom">
 				{{$t('home.pic.about')}}
 				<image class="justcard_bottom_img" src="@/static/user/homecs1.png" mode=""></image>
-				
+
 			</view>
 			<button class="justcard_top" @click="aboutUs">
 				<view class="justcard_left">{{$t('home.pic.more')}}</view>
@@ -171,11 +174,13 @@
 			</view>
 		</view>
 		<Footer pageName='user'></Footer>
-		<u-modal :show="outLoginShow" @confirm="confirm" @cancel="cancel" width="300px" showCancelButton >
+		<u-modal :show="outLoginShow" @confirm="confirm" class="login_out" title="温馨提示" @cancel="cancel" width="300px"
+			showCancelButton>
 			<view class="slot-content">
 				{{$t('home.confirm.logout')}}
 			</view>
 		</u-modal>
+		<u-modal @confirm="setConfirm" :show="show" title="温馨提示" :content='content'></u-modal>
 	</view>
 </template>
 
@@ -188,11 +193,14 @@
 		data() {
 			return {
 				eyeShow: false, //用户名展示
-				eyeShows:true,//金额展示
+				eyeShows: true, //金额展示
 				outLoginShow: false, //确定退出弹窗
-				myInfo:{},//我的信息
-				infoShow:false,//是否显示
-				myUserName:"",//我的用户名
+				myInfo: {}, //我的信息
+				infoShow: false, //是否显示
+				myUserName: "", //我的用户名
+				show: false, //温馨提示模态框
+				content: "", //提示框内容
+				setIndex: null, //设置索引
 			}
 		},
 		created() {},
@@ -201,21 +209,41 @@
 		},
 		methods: {
 			// 获取我的信息
-			getMyInfo(){
-				if(uni.getStorageSync("user").phone){
-					this.myUserName=uni.getStorageSync("user").phone
-				}else{
-					this.myUserName=uni.getStorageSync("user").email
+			getMyInfo() {
+				if (uni.getStorageSync("user").phone) {
+					this.myUserName = uni.getStorageSync("user").phone
+				} else {
+					this.myUserName = uni.getStorageSync("user").email
 				}
 				uni.request({
 					url: '/member/myWallet',
 					method: "GET",
 					success: (res) => {
-						this.infoShow=true;
-						this.myInfo=res.data;
+						this.infoShow = true;
+						this.myInfo = res.data;
 						console.log(res);
 					}
 				});
+			},
+			
+			// 设置完整性判断
+			setConfirm() {
+				if (this.setIndex == 0) {
+					this.show = false;
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/settingName`
+					});
+				} else if (this.setIndex == 1) {
+					this.show = false;
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/Confidentiality`
+					});
+				} else if (this.setIndex == 2) {
+					this.show = false;
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/fundeditpass`
+					});
+				}
 			},
 			// 查看通知
 			viewNotices() {
@@ -259,9 +287,30 @@
 			},
 			// 提现
 			withdrawal() {
-				uni.navigateTo({
-					url: `/pages/user/withdrawal`
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if (!res.data.nickName) {
+							this.show = true;
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
+						} else if (!res.data.question) {
+							this.show = true;
+							this.setIndex = 1;
+							this.content = "您的密保问题未设置,请设置您的密保问题"
+						} else if (!res.data.withdrawPassword) {
+							this.show = true;
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
+						} else {
+							uni.navigateTo({
+								url: `/pages/user/withdrawal`
+							});
+						}
+					}
 				});
+
 			},
 			// 关于我们
 			aboutUs() {
@@ -344,6 +393,19 @@
 		box-sizing: border-box;
 		background-color: #fff;
 
+		.login_out {
+			.u-popup__content {
+				border-radius: 30px !important;
+			}
+		}
+
+		.u-modal__content {
+			.u-modal__content__text {
+
+				text-align: center;
+			}
+		}
+
 		.user_head {
 			display: flex;
 			align-items: center;
@@ -409,6 +471,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				position: relative;
 
 				.user_head_right_content_img {
 					width: 15px;

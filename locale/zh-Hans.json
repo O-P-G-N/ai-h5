@@ -63,5 +63,11 @@
 	"ac.pic1": "实时累计收益率",
 	"ac.pic2": "行情监测",
 	
-	"login.email_LOG": "邮箱登录"
+	"login.type.email": "邮箱登录",
+	"login.type.phone":"手机登录",
+	"login.agreement1":"登录即表示您同意我们的",
+	"login.agreement2":"使用条款",
+	"login.agreement3":"以及我们的",
+	"login.agreement4":"隐私和政策",
+	"login.noaccount":"还没有账户?"
 }

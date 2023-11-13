@@ -48,7 +48,7 @@
 			// 返回我的岛屿
 			goBackUser() {
 				uni.navigateTo({
-					url: `/pages/user/islands/index`
+					url: `/pages/user/islands/identity_judge`
 				});
 			},
 			// 获取邀请码

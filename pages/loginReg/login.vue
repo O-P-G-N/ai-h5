@@ -24,7 +24,7 @@
 				<button class="subsectiontwo_every" @click="emailLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/emails.png" mode=""></image>
-						{{$t('login.email_LOG')}}
+						{{$t('login.type.email')}}
 					</view>
 				</button>
 			</view>
@@ -88,7 +88,7 @@
 		methods: {
 			//手机登录
 			mobileLogin() {
-				uni.$u.toast('手机登录暂未开通');
+				// uni.$u.toast('手机登录暂未开通');
 				uni.navigateTo({
 					url: `/pages/loginReg/phone_login`
 				});

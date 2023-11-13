@@ -27,7 +27,7 @@
 					注册即表示您同意我们的<text class="blur">《使用条款》</text>以及我们的<text class="blur">《隐私和政策》</text>
 				</view>
 				<view class="btns">
-					<view class="rightforget">忘记密码？</view>
+					<view class="rightforget" @click="forgotPassword">忘记密码？</view>
 					<ai-button :disabled="forbidden" :loading="loading" class="next-btn loginbtn" @click="regBtn">注册</ai-button>
 					<view class="register">
 						已有账户？
@@ -69,6 +69,12 @@
 			// 显示隐藏
 			showHidden() {
 				this.eyeShow = !this.eyeShow
+			},
+			// 忘记密码
+			forgotPassword() {
+				uni.navigateTo({
+					url: `/pages/loginReg/email_asswordRet`
+				});
 			},
 			// 获取验证码
 			getCode() {
@@ -140,20 +146,26 @@
 						data: this.from,
 						success: (res) => {
 							// uni.$u.toast('注册成功');
-							this.forbidden=false;
-							this.loading=false;
-							uni.showToast({
-								title: "注册成功",
-								success: function(res1) {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.setStorageSync("user", res.data)
-										uni.switchTab({
-											url: `/pages/index/index`
-										});
-									}, 1000)
-								},
-							})
+							if(res.data.code == 500) {
+								this.forbidden=false;
+								this.loading=false;
+							}else{
+								this.forbidden=false;
+								this.loading=false;
+								uni.showToast({
+									title: "注册成功",
+									success: function(res1) {
+										let time = setTimeout(() => {
+											clearTimeout(time)
+											uni.setStorageSync("user", res.data)
+											uni.switchTab({
+												url: `/pages/index/index`
+											});
+										}, 1000)
+									},
+								})
+							}
+							
 						}
 					});
 				}

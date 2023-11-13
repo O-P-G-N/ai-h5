@@ -3,11 +3,12 @@
 		<view class="globalMian">
 			<image class="global" @click.stop="selectLang" src="~@/static/index/global.png"></image>
 			<view class="lang-down-menu" v-if="langShow">
-				<view class="extend-link"  v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">{{item.text}}</view>
-				
+				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
+					{{item.text}}</view>
+
 			</view>
 		</view>
-		
+
 		<view class="container">
 			<view class="justcard">
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
@@ -87,6 +88,8 @@
 			<u-loadmore :status="status" />
 			<Footer pageName='index'></Footer>
 		</view>
+		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" title="温馨提示"
+			:content='content'></u-modal>
 	</view>
 </template>
 
@@ -107,7 +110,10 @@
 				},
 				status: "loadmore",
 				pagenum: 0, //总共页数
-				langShow:false,//选择语言
+				langShow: false, //选择语言
+				show: false, //温馨提示模态框
+				content: "", //提示框内容
+				setIndex: null, //设置索引
 			}
 		},
 		computed: {
@@ -173,7 +179,8 @@
 			})
 		},
 		onShow() {
-			this.getImgList()
+			this.getImgList();
+			this.getAccountIsComplete()
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -187,13 +194,51 @@
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
+			// 获取用户资料完整度
+			getAccountIsComplete() {
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if (!res.data.nickName) {
+							this.show = true;
+							this.setIndex = 0;
+							this.content = "您的昵称未设置,请设置您的昵称"
+						} else if (!res.data.question) {
+							this.show = true;
+							this.setIndex = 1;
+							this.content = "您的密保问题未设置,请设置您的密保问题"
+						} else if (!res.data.withdrawPassword) {
+							this.show = true;
+							this.setIndex = 2;
+							this.content = "您的交易密码未设置,请设置您的交易密码"
+						}
+					}
+				});
+			},
+			// 设置完整性判断
+			setConfirm() {
+				if (this.setIndex == 0) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/settingName`
+					});
+				} else if (this.setIndex == 1) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/Confidentiality`
+					});
+				} else if (this.setIndex == 2) {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/fundeditpass`
+					});
+				}
+			},
 			// 选择语言
-			selectLang(){
-				this.langShow=true
+			selectLang() {
+				this.langShow = true
 			},
 			// 关闭语言选择框
-			closeLang(){
-				this.langShow=false
+			closeLang() {
+				this.langShow = false
 			},
 			// 社区
 			communityBtn() {
@@ -256,6 +301,13 @@
 		background-color: #fff;
 	}
 
+	::v-deep .u-modal__content {
+		.u-modal__content__text {
+
+			text-align: center;
+		}
+	}
+
 	.globalMian {
 		width: calc(100vw - 80rpx);
 		display: flex;
@@ -273,29 +325,31 @@
 			top: -10rpx;
 			right: -10rpx;
 		}
-		.lang-down-menu{
+
+		.lang-down-menu {
 			position: absolute;
-			    right: 10px;
-			    top: 26px;
-			    z-index: 10!important;
-			    text-align: center;
-			    background-color: #242424;
-			    color: #fff;
-			    left: unset;
-			    right: 0;
-			    min-width: 120px;
-			    padding: 8px 0;
-			    border: none;
-			    border-radius: 6px;
-			    box-shadow: 0 5px 10px 0 rgba(3,6,18,.5);
-			    transition: all .3s;
-				.extend-link{
-					line-height: 20px;
-					    padding: 12px 16px;
-					    display: block;
-					    font-size: 14px;
-					    font-weight: 500;
-				}
+			right: 10px;
+			top: 26px;
+			z-index: 10 !important;
+			text-align: center;
+			background-color: #242424;
+			color: #fff;
+			left: unset;
+			right: 0;
+			min-width: 120px;
+			padding: 8px 0;
+			border: none;
+			border-radius: 6px;
+			box-shadow: 0 5px 10px 0 rgba(3, 6, 18, .5);
+			transition: all .3s;
+
+			.extend-link {
+				line-height: 20px;
+				padding: 12px 16px;
+				display: block;
+				font-size: 14px;
+				font-weight: 500;
+			}
 		}
 
 	}
@@ -564,7 +618,8 @@
 		height: 328rpx;
 		border-radius: 40rpx;
 	}
-	
+
+
 
 	// .skeleton{
 	// 	background: linear-gradient(90deg, #F1F2F4 25%, #e6e6e6 37%, #F1F2F4 50%);

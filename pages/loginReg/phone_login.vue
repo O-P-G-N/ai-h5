@@ -8,7 +8,7 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl type="phone" @onChange="onChange" v-model="from.countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange" v-model="from.countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">

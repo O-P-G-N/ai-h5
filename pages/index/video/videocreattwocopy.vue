@@ -338,6 +338,7 @@
 		.main {
 			padding: 0 20px;
 			box-sizing: border-box;
+			padding-top: 20px;
 
 			.videoeverytitle {
 				display: flex;
@@ -464,12 +465,12 @@
 				}
 
 				.rightjt {
-					width: 10px;
+					width: 20px;
 					height: 16px;
-					margin-left: 26px;
+					margin-left: 10px;
 
 					.rightjt_img {
-						width: 10px;
+						width: 16px;
 						height: 16px;
 					}
 				}
@@ -544,7 +545,7 @@
 					background: #f5f6fa;
 					border-radius: 21px;
 					margin-top: 16px;
-					margin-bottom: 25px;
+					margin-bottom: 58px;
 
 					.text_area {
 						height: 74px;
