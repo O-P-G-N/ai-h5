@@ -36,7 +36,6 @@ let req_handler = function() {
 	let this_url = ''
 	return {
 		invoke(config) {
-			console.log(config);
 			// 关闭证书验证
 			config.sslVerify = false;
 			// request 触发前拼接 url
@@ -83,7 +82,6 @@ let req_handler = function() {
 				on: false
 			})
 			console.log('test', res);
-			
 			if (res.statusCode == 200 && res.errMsg == 'request:ok') {
 				res.res = res.data;
 				if (res.data.code == 200) {
@@ -113,6 +111,8 @@ let req_handler = function() {
 						icon: 'error',
 						position: true,
 					});
+					return true;
+				} else if (res.data.error == false) {
 					return true;
 				} else {
 					uni.showToast({
