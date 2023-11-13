@@ -93,7 +93,7 @@
 			margin-top: 13px;
 			    display: flex;
 			    align-items: center;
-			    width: 357px;
+			    // width: 357px;
 			    height: 85px;
 			    background: #eff3fa;
 			    border-radius: 21px;
