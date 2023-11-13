@@ -164,12 +164,11 @@
 						disableGrid: true,
 						disabled: true,
 						axisLine: false,
-						titleOffsetY: -100
+						// titleOffsetY: -100
 					},
 					yAxis: {
 						gridType: "dash",
 						dashLength: 2,
-						splitNumber: 20,
 						disabled: true,
 						disableGrid: true,
 						data: [{
@@ -248,16 +247,17 @@
 					method: "GET",
 					success: (res) => {
 						this.listData = res.data;
-						console.log('3etyuhetu9o89',res.data);
 						uni.request({
 							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(7,'day')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
 							method: "GET",
 							filter: false,
 							success: (res1) => {
-								console.log('asdfasd',res1);
-								let parmas={}
+								let parmas={
+									categories:[],
+									series:[]
+								}
 								let arr=[]
-								res.data.map((v)=>{
+								res1.data.data.map((v)=>{
 									parmas.categories.push(v.date)
 									arr.push(v.last)
 								})
@@ -265,8 +265,7 @@
 									name:res.data[0].pairs,
 									data:arr
 								}]
-								console.log(7777);
-								console.log("parmas",parmas);
+								this.chartData = JSON.parse(JSON.stringify(parmas));
 							// 	let res = {
 							// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
 							// 		series: [{
