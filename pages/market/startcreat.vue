@@ -187,21 +187,25 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							this.forbidden=false;
-							this.loading=false;
-							uni.showToast({
-								title: "购买成功",
-								success: function() {
-									 let time=setTimeout(()=>{
-										 clearTimeout(time)
-										 console.log(res);
-										uni.navigateTo({
-											url: `/pages/user/contract_amount`
-										});
-									},1000)
-								},
-							})
-							
+							if(res.code==200){
+								this.forbidden=false;
+								this.loading=false;
+								uni.showToast({
+									title: "购买成功",
+									success: function() {
+										 let time=setTimeout(()=>{
+											 clearTimeout(time)
+											 console.log(res);
+											uni.navigateTo({
+												url: `/pages/user/contract_amount`
+											});
+										},1000)
+									},
+								})
+							}else if(res.code==500){
+								this.forbidden=false;
+								this.loading=false;
+							}
 						}
 					});
 				}

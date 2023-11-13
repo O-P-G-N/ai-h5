@@ -50,10 +50,13 @@
 							<view class="order_sn">
 								创建时间：{{v.createTime}}
 							</view>
-							<view class="order_sn" v-if="v.status==2">
+							<view class="order_sn" v-if="v.status==0">
+								到期时间：{{v.endTime}}
+							</view>
+							<view class="order_sn" v-if="v.status==2||v.status==1">
 								结束时间：{{v.updateTime}}
 							</view>
-							<view class="modelbtns" v-if="v.status!=2">
+							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
 								<button class="zhongzhibtn"
 									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":v.status==4?"取消终止":""}}合约</button>
 							</view>
@@ -61,7 +64,7 @@
 								<text>终止合约后将不再有任何收益 倒计时:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
-							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2">
+							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2&&v.status!=1">
 								查看更多交易详情
 								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
 							</button>
@@ -82,6 +85,7 @@
 </template>
 
 <script>
+	import dayjs from 'dayjs'
 	import {
 		data
 	} from '../../uni_modules/uview-ui/libs/mixin/mixin';
@@ -101,7 +105,9 @@
 			};
 		},
 		onShow() {
-			this.getContractList()
+			this.getContractList();
+			const pages = getCurrentPages();
+			console.log(pages,"1111");
 		},
 		onHide() {
 			this.from.page = 1;
@@ -125,6 +131,7 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							v.runday = this.getDaysDiff(v.createTime, Date.now())
+							v.endTime=dayjs(v.createTime).add(v.payDays,'day').format('YYYY-MM-DD HH:mm:ss')
 							if (v.status == 4) {
 								v.countdown = this.getCountDown(v.updateTime)
 							}
@@ -179,6 +186,7 @@
 						success: (res) => {
 							res.data.rows.map((v) => {
 								v.runday = this.getDaysDiff(v.createTime, Date.now())
+								v.endTime=dayjs(v.createTime).add(v.payDays,'day').format('YYYY-MM-DD HH:mm:ss')
 								if (v.status == 1) {
 									v.countdown = this.getCountDown(v.updateTime)
 								}

@@ -98,7 +98,7 @@
 										<text class="red">+221.71&nbsp;&nbsp;&nbsp;+0.67%</text>
 									</view>
 								</view>
-								<qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
+								<qiun-data-charts type="line" :opts="opts" :chartData="chartDatas" />
 							</view>
 						</view>
 					</view>
@@ -116,12 +116,12 @@
 							</view>
 							<qiun-data-charts height="240px" type="line" :opts="opts" :chartData="chartData" />
 							<view class="tabs">
-								<view class="tabs_item" :class="i==tabsIndex?'active':''" @click="tabsBtn(i)"
+								<view class="tabs_item" :class="i==tabsIndex?'active':''" @click="tabsBtn(v.type,i)"
 									v-for="(v,i) in tabsList" :key="i">{{v.name}}</view>
 							</view>
 							<view class="listdata">
 								<view class="listdata_item" :class="i==listIndex?'listdataactive':''"
-									@click="listBtn(i)" v-for="(v,i) in listData" :key="i">
+									@click="listBtn(v.pairs,i)" v-for="(v,i) in listData" :key="i">
 									<view class="first">{{v.pairs}}</view>
 									<view class="end">
 										<text class="end_top">{{v.bid}}</text>
@@ -150,6 +150,7 @@
 		data() {
 			return {
 				chartData: {},
+				chartDatas: {},
 				opts: {
 					color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
 						"#ea7ccc"
@@ -164,22 +165,23 @@
 						disableGrid: true,
 						disabled: true,
 						axisLine: false,
-						// titleOffsetY: -100
+						titleOffsetY: -100
 					},
 					yAxis: {
 						gridType: "dash",
 						dashLength: 2,
 						disabled: true,
 						disableGrid: true,
-						data: [{
-							max: 50
-						}]
+
 					},
 					extra: {
 						line: {
-							type: "straight",
+							type: "curve",
 							width: 2,
-							activeType: "hollow"
+							activeType: "hollow",
+							linearType: "custom",
+							onShadow: true,
+							animation: "horizontal"
 						}
 					}
 				},
@@ -199,21 +201,21 @@
 				ftabsIndex: 0,
 				tabsIndex: 0,
 				listIndex: 0,
-				tabsList: [
-					{
-						name: "1M"
+				tabsList: [{
+						name: "1W",
+						type:1
 					},
 					{
-						name: "3M"
+						name: "2W",
+						type:2
 					},
 					{
-						name: "6M"
+						name: "3W",
+						type:3
 					},
 					{
-						name: "1Y"
-					},
-					{
-						name: "ALL"
+						name: "4W",
+						type:4
 					},
 				],
 				listData: [],
@@ -222,12 +224,15 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
+				timeType:1,//时间
+				currencyName:"",//货币名称
 			}
 		},
 		onReady() {
 			this.getAccount();
 		},
 		onShow() {
+			this.$store.dispatch('app/getUnread')
 			this.getAccountIsComplete();
 			this.getListData()
 		},
@@ -237,7 +242,7 @@
 				//模拟从服务器获取数据时的延时
 				setTimeout(() => {
 					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					
+
 				}, 500);
 			},
 			// 获取列表数据
@@ -248,35 +253,111 @@
 					success: (res) => {
 						this.listData = res.data;
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(7,'day')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
 							method: "GET",
 							filter: false,
 							success: (res1) => {
-								let parmas={
-									categories:[],
-									series:[]
+								let parmas = {
+									categories: [],
+									series: []
 								}
-								let arr=[]
-								res1.data.data.map((v)=>{
+								let arr = []
+								res1.data.data.map((v) => {
 									parmas.categories.push(v.date)
 									arr.push(v.last)
 								})
-								parmas.series=[{
-									name:res.data[0].pairs,
-									data:arr
+								parmas.series = [{
+									name: res.data[0].pairs,
+									data: arr,
+									linearColor: [
+										[
+											0,
+											"#1890FF"
+										],
+										[
+											0.25,
+											"#00B5FF"
+										],
+										[
+											0.5,
+											"#00D1ED"
+										],
+										[
+											0.75,
+											"#00E6BB"
+										],
+										[
+											1,
+											"#90F489"
+										]
+									],
+									setShadow: [
+										3,
+										8,
+										10,
+										"#1890FF"
+									],
 								}]
 								this.chartData = JSON.parse(JSON.stringify(parmas));
-							// 	let res = {
-							// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-							// 		series: [{
-							// 			name: "成交量A",
-							// 			data: [10, 8, 10, 10, 4, 10]
-							// 		}, ]
-							// 	};
-							// 	this.chartData = JSON.parse(JSON.stringify(res));
+								// 	let res = {
+								// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
+								// 		series: [{
+								// 			name: "成交量A",
+								// 			data: [10, 8, 10, 10, 4, 10]
+								// 		}, ]
+								// 	};
+								// 	this.chartData = JSON.parse(JSON.stringify(res));
 							}
 						});
-
+						uni.request({
+							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(3,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							method: "GET",
+							filter: false,
+							success: (res1) => {
+								let parmas = {
+									categories: [],
+									series: []
+								}
+								let arr = []
+								res1.data.data.map((v) => {
+									parmas.categories.push(v.date)
+									arr.push(v.last)
+								})
+								parmas.series = [{
+									name: res.data[0].pairs,
+									data: arr,
+									linearColor: [
+										[
+											0,
+											"#1890FF"
+										],
+										[
+											0.25,
+											"#00B5FF"
+										],
+										[
+											0.5,
+											"#00D1ED"
+										],
+										[
+											0.75,
+											"#00E6BB"
+										],
+										[
+											1,
+											"#90F489"
+										]
+									],
+									setShadow: [
+										3,
+										8,
+										10,
+										"#1890FF"
+									],
+								}]
+								this.chartDatas = JSON.parse(JSON.stringify(parmas));
+							}
+						});
 					}
 				});
 			},
@@ -286,7 +367,7 @@
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if(res.code==200){
+						if (res.code == 200) {
 							if (!res.data.withdrawPassword) {
 								this.show = true;
 								this.setIndex = 2;
@@ -301,7 +382,7 @@
 								this.content = "您的昵称未设置,请设置您的昵称"
 							}
 						}
-						
+
 					}
 				});
 			},
@@ -327,11 +408,128 @@
 			ftabsBtn(i) {
 				this.ftabsIndex = i
 			},
-			tabsBtn(i) {
-				this.tabsIndex = i
+			tabsBtn(type,i) {
+				this.tabsIndex = i;
+				this.timeType=type;
+				uni.request({
+					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${this.currencyName}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(type,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					method: "GET",
+					filter: false,
+					success: (res1) => {
+						let parmas = {
+							categories: [],
+							series: []
+						}
+						let arr = []
+						res1.data.data.map((v) => {
+							parmas.categories.push(v.date)
+							arr.push(v.last)
+						})
+						parmas.series = [{
+							name: this.currencyName,
+							data: arr,
+							linearColor: [
+								[
+									0,
+									"#1890FF"
+								],
+								[
+									0.25,
+									"#00B5FF"
+								],
+								[
+									0.5,
+									"#00D1ED"
+								],
+								[
+									0.75,
+									"#00E6BB"
+								],
+								[
+									1,
+									"#90F489"
+								]
+							],
+							setShadow: [
+								3,
+								8,
+								10,
+								"#1890FF"
+							],
+						}]
+						this.chartData = JSON.parse(JSON.stringify(parmas));
+						// 	let res = {
+						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
+						// 		series: [{
+						// 			name: "成交量A",
+						// 			data: [10, 8, 10, 10, 4, 10]
+						// 		}, ]
+						// 	};
+						// 	this.chartData = JSON.parse(JSON.stringify(res));
+					}
+				});
 			},
-			listBtn(i) {
-				this.listIndex = i
+			listBtn(pairs,i) {
+				this.listIndex = i;
+				this.currencyName=pairs;
+				uni.request({
+					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(this.timeType,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					method: "GET",
+					filter: false,
+					success: (res1) => {
+						let parmas = {
+							categories: [],
+							series: []
+						}
+						let arr = []
+						console.log("res1",res1);
+						res1.data.data.map((v) => {
+							parmas.categories.push(v.date)
+							arr.push(v.last)
+						})
+						parmas.series = [{
+							name: pairs,
+							data: arr,
+							linearColor: [
+								[
+									0,
+									"#1890FF"
+								],
+								[
+									0.25,
+									"#00B5FF"
+								],
+								[
+									0.5,
+									"#00D1ED"
+								],
+								[
+									0.75,
+									"#00E6BB"
+								],
+								[
+									1,
+									"#90F489"
+								]
+							],
+							setShadow: [
+								3,
+								8,
+								10,
+								"#1890FF"
+							],
+						}]
+						this.chartData = JSON.parse(JSON.stringify(parmas));
+						// 	let res = {
+						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
+						// 		series: [{
+						// 			name: "成交量A",
+						// 			data: [10, 8, 10, 10, 4, 10]
+						// 		}, ]
+						// 	};
+						// 	this.chartData = JSON.parse(JSON.stringify(res));
+					}
+				});
 			},
 			// 获取红包余额
 			getAccount() {
@@ -654,13 +852,12 @@
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						height: 160px;
 
 						.pages {
 							position: relative;
 							box-sizing: border-box;
 							width: 100%;
-							height: 160px;
+							
 
 							.box {
 								width: 100%;
@@ -674,9 +871,11 @@
 								margin: 16px auto 0;
 
 								.title {
-									position: absolute;
-									top: 18%;
-									left: 5px;
+									// position: absolute;
+									// top: 18%;
+									// left: 5px;
+									margin-top: 10px;
+									margin-bottom: 20px;
 									padding-left: 37px;
 									font-size: 10px;
 									display: flex;
@@ -709,7 +908,7 @@
 				.marketeverytitle {
 					color: #000;
 					font-size: 21px;
-					margin-top: 30px;
+					margin-top: 0px;
 					font-weight: 600;
 					display: flex;
 					align-items: center;
@@ -745,9 +944,8 @@
 								display: flex;
 								font-size: 10px;
 								color: #ccc;
-								position: absolute;
-								top: 18px;
-								z-index: 99;
+								margin-top: 20px;
+								margin-bottom: 20px;
 
 								.ftabs_item {
 									margin-right: 16px;
