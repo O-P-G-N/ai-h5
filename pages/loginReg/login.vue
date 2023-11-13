@@ -41,7 +41,7 @@
 					</view>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
 					{{$t('login.noaccount')}}？
@@ -91,6 +91,12 @@
 				// uni.$u.toast('手机登录暂未开通');
 				uni.navigateTo({
 					url: `/pages/loginReg/phone_login`
+				});
+			},
+			// 查看用户协议
+			viewTerms(){
+				uni.navigateTo({
+					url: `/pages/loginReg/termsUse`
 				});
 			},
 			onLocaleChange(e) {
@@ -294,6 +300,7 @@
 				}
 
 				.privacy {
+					margin-top: 10px;
 					font-size: 14px;
 					font-family: PingFang SC-Regular, PingFang SC;
 					font-weight: 400;

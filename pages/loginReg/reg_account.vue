@@ -1,6 +1,6 @@
 <template>
 	<view class="login" @click="closeLang">
-		<u-navbar @leftClick="goBackUser" left-text="返回" title="注册" :safeAreaInsetTop="false"
+		<u-navbar @leftClick="goBackUser" :left-text="back" :title="register" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="navbar">
 			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
@@ -60,6 +60,8 @@
 			return {
 				langShow:false,//选择语言
 				invitationCode:"",//邀请码
+				register:this.$t('login.register'),//注册国际化
+				back:this.$t('login.back'),//返回国际化
 			};
 		},
 		created() {

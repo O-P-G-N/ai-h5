@@ -1,30 +1,30 @@
 <template>
 	<view class="email_reg">
-		<u-navbar @leftClick="goBackUser" left-text="返回" title="注册" :safeAreaInsetTop="false"
+		<u-navbar @leftClick="goBackUser" :left-text="back" :title="register" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
 			<view class="title_h1">{{$t('login.type.email.register')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
-					<u-input v-model="from.email" placeholder="请输入邮箱">
+					<u-input v-model="from.email" :placeholder="enteremail">
 						<view slot="suffix" class="email_content_btn">
-							<u-code unique-key="email_reg" start-text="获取验证码" ref="uCode" @change="codeChange"
-								changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+							<u-code unique-key="email_reg" :start-text="getcode" ref="uCode" @change="codeChange"
+								:changeText="acquire"></u-code><text @click="getCode">{{tips}}</text>
 						</view>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input class="email_content_text" type="number" placeholder="请输入验证码"
+					<u-input class="email_content_text" type="number" :placeholder="entercode"
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" placeholder="请输入密码" :password="eyeShow">
+					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.invitationCode" placeholder="请输入邀请码">
+					<u-input v-model="from.invitationCode" :placeholder="invitationcode">
 					</u-input>
 				</view>
 				<view class="privacy">
@@ -58,6 +58,15 @@
 				forbidden: false, //是否禁用
 				loading: false, //等待状态
 				tips: "", //提示语
+				register:this.$t('login.register'),//注册国际化
+				back:this.$t('login.back'),//返回国际化
+				enteremail:this.$t('login.enteremail'),//请输入邮箱国际化
+				getcode:this.$t('login.getcode'),//获取验证码国际化
+				acquire:this.$t('login.acquire'),//X秒后获取国际化
+				entercode:this.$t('login.entercode'),//请输入验证码国际化
+				enterpassword:this.$t('login.enterpassword'),//请输入密码国际化
+				invitationcode:this.$t('login.invitationcode'),//请输入邀请码国际化
+				
 			};
 		},
 		onLoad(option) {

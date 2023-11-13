@@ -428,6 +428,22 @@
 				"navigationBarTitleText" : "",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "pages/loginReg/termsUse",
+			"style" : 
+			{
+				"navigationBarTitleText" : "使用条款",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/privacyPolicy",
+			"style" : 
+			{
+				"navigationBarTitleText" : "隐私政策",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

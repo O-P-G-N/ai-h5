@@ -239,7 +239,7 @@
 						type: this.userType
 					},
 					success: (res) => {
-						if (res.res.code == 200) {
+						if (res.code == 200) {
 							this.$refs.uCode.start();
 							uni.$u.toast('验证码发送成功');
 						}
@@ -308,7 +308,7 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							if (res.data.code == 200) {
+							if (res.code == 200) {
 								this.forbidden = false;
 								this.loading = false;
 								uni.$u.toast('提现已申请');

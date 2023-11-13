@@ -31,6 +31,7 @@
 			<view class="menu_item waves" v-for="(v,i) in contentList" :key="i"
 				@click="e => butonClick(e,'buttonMain_'+i,i)" :ref='refName' :id=" 'buttonMain_'+i"
 				:style="{'--width':`${widthPx}px`,'--waterColor':waterColor}">
+				<view class="menu_item_title">{{v.title}}</view>
 				<view class="menu_item_detail">{{v.content}}</view>
 				<view class="menu_item_menus">
 					<text class="menu_item_menus_text" v-for="(item,index) in v.word" :key="index">{{item}}</text>
@@ -172,7 +173,7 @@
 <style lang="scss" scoped>
 	::v-deep.upgrade_train {
 		width: 100%;
-		height: 100vh;
+		min-height: 100vh;
 		background-color: #fff;
 		padding: 12px 21px 68px;
 		box-sizing: border-box;

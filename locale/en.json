@@ -75,7 +75,7 @@
 	"login.registernow":"Register Now",
 	"login.registertitle":"Register your exclusive EXGPT account",
 	"login.register":"register",
-	"login.login":"log on",
+	"login.login":"log in",
 	"login.back":"go  back",
 	"login.type.phone.register":"Mobile registration",
 	"login.type.phones.register":"Mobile registration",
@@ -104,5 +104,15 @@
 	"login.reset":"resetting",
 	"login.problem":"encounter a problem",
 	"login.customerservice":"contact service",
-	"login.existingaccount":"Existing account"
+	"login.existingaccount":"Existing account",
+	"login.cell-phone-number":"cell-phone number",
+	"login.password":"password",
+	"login.acquire":"Xget in seconds",
+	"login.Email":"E-mail",
+	"login.getcode":"Obtain verification code",
+	"login.invitationcode":"Please enter the invitation code",
+	"login.entercode":"Please enter the verification code",
+	"login.enterphone":"Please enter your phone number",
+	"login.termsuse":"User Agreement",
+	"login.privacypolicy":"Privacy Policy"
 }

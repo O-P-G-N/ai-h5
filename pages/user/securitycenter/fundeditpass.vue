@@ -29,7 +29,7 @@
 					</u-cell>
 					<u-cell title="新密码">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.newPassword" placeholder="请输入新密码" :password="eyeShow">
+							<u-input v-model="from.newPassword" maxlength="6" placeholder="请输入新密码" :password="eyeShow">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>

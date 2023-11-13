@@ -1,6 +1,6 @@
 <template>
 	<view class="email_asswordRet">
-		<u-navbar @leftClick="goBackUser" leftText="返回" height="53px" title="忘记密码" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="back" height="53px" :title="forgotpassword" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -9,7 +9,7 @@
 			<view class="title_h2">{{$t('login.retrievepassword')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
-					<u-input v-model="from.to" placeholder="请输入邮箱">
+					<u-input v-model="from.to" :placeholder="enteremail">
 					</u-input>
 				</view>
 				<ai-button class="next-btn loginbtn" :disabled="forbidden" :loading="loading"
@@ -27,21 +27,21 @@
 					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
 				</view>
 				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">{{$t('login.nextstep')}}</ai-button>
-				<view class="register">{{$t('login.notreceived')}}?<u-code unique-key="email_asswordRet" ref="uCode" @change="codeChange" keep-running start-text="重新获取"
-						changeText="X秒重新获取"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text></view>
+				<view class="register">{{$t('login.notreceived')}}?<u-code unique-key="email_asswordRet" ref="uCode" @change="codeChange" keep-running :start-text="retrieve"
+						:changeText="acquire"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text></view>
 			</view>
 		</view>
 		<view class="pageThree" v-else-if="pageIndex==2">
 			<view class="title_h2">{{$t('login.emaileverification')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
-					<u-input v-model="formData.password" placeholder="请输入密码" :password="eyeShow">
+					<u-input v-model="formData.password" :placeholder="enterpassword" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="formData.confirmPassword" placeholder="请确认密码" :password="eyeShows">
+					<u-input v-model="formData.confirmPassword" :placeholder="confirmpassword" :password="eyeShows">
 						<image @click="showHiddens" slot="suffix" class="eye"
 							:src="eyeShows?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 						</image>
@@ -75,6 +75,15 @@
 				eyeShows: true, //第二个密码状态
 				loading: false, //等待
 				forbidden: false, //是否禁用按钮
+				rememberPassword:this.$t('login.rememberpassword'),//记住密码国际化
+				enteremail:this.$t('login.enteremail'),//请输入邮箱国际化
+				enterpassword:this.$t('login.password'),//请输入密码国际化
+				confirmpassword:this.$t('login.confirmpassword'),//请确认密码国际化
+				back:this.$t('login.back'),//返回国际化
+				forgotpassword:this.$t('login.forgotpassword'),//忘记密码国际化
+				acquire:this.$t('login.acquire'),//X秒后获取国际化
+				retrieve:this.$t('login.retrieve'),//重新获取国际化
+				
 			};
 		},
 		onHide() {

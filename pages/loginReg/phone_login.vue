@@ -1,6 +1,6 @@
 <template>
 	<view class="phone_login">
-		<u-navbar @leftClick="goBackUser" left-text="返回" title="手机号" :safeAreaInsetTop="false"
+		<u-navbar @leftClick="goBackUser" :left-text="back" :title="phone" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
 			<view class="title_h1">EXGPT</view>
@@ -13,19 +13,19 @@
 					</view>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.username" placeholder="手机号">
+					<u-input v-model="from.username" :placeholder="phone">
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" placeholder="密码" :password="eyeShow">
+					<u-input v-model="from.password" :placeholder="password" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
 				<view class="jzmm">
 					<u-checkbox-group v-model="checkboxValue" placement="column" @change="checkboxChange">
-						<u-checkbox label="记住密码" :name="1">
+						<u-checkbox :label="rememberPassword" :name="1">
 						</u-checkbox>
 					</u-checkbox-group>
 				</view>
@@ -62,6 +62,10 @@
 				},
 				loading: false, //等待
 				forbidden: true, //是否禁用按钮
+				rememberPassword:this.$t('login.rememberpassword'),//记住密码国际化
+				phone:this.$t('login.cell-phone-number'),//手机号国际化
+				password:this.$t('login.password'),//密码国际化
+				back:this.$t('login.back'),//返回国际化
 			};
 		},
 		onShow() {
@@ -70,6 +74,7 @@
 				this.from = uni.getStorageSync("phone")
 				this.countryCode = `+${this.from.countryCode}`
 			}
+			
 		},
 		created() {},
 		methods: {

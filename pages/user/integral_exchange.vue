@@ -149,19 +149,25 @@
 							hongbao: this.redPacket
 						},
 						success: (res) => {
-							this.forbidden=false;
-							this.loading=false;
-							uni.showToast({
-								title: "兑换成功",
-								success: function() {
-									let time = setTimeout(() => {
-										clearTimeout(time)
-										uni.switchTab({
-											url: `/pages/user/index`
-										});
-									}, 1000)
-								},
-							})
+							if(res.code==200){
+								this.forbidden=false;
+								this.loading=false;
+								uni.showToast({
+									title: "兑换成功",
+									success: function() {
+										let time = setTimeout(() => {
+											clearTimeout(time)
+											uni.switchTab({
+												url: `/pages/user/index`
+											});
+										}, 1000)
+									},
+								})
+							}else if(res.code==500){
+								this.forbidden=false;
+								this.loading=false;
+							}
+							
 						}
 					});
 				}

@@ -40,17 +40,20 @@
 					method: "POST",
 					data:{nickName:this.nickName},
 					success: (res) => {
-						uni.showToast({
-							title: "设置成功",
-							success: function(res) {
-								let time = setTimeout(() => {
-									clearTimeout(time)
-									uni.redirectTo({
-										url: `/pages/user/securitycenter/index`
-									});
-								}, 1000)
-							},
-						})
+							if(res.code==200){
+								uni.showToast({
+									title: "设置成功",
+									success: function(res) {
+										let time = setTimeout(() => {
+											clearTimeout(time)
+											uni.redirectTo({
+												url: `/pages/user/securitycenter/index`
+											});
+										}, 1000)
+									},
+								})
+							}
+						
 					}
 				});
 			},

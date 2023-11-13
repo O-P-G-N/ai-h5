@@ -50,11 +50,14 @@
 							<view class="order_sn">
 								创建时间：{{v.createTime}}
 							</view>
+							<view class="order_sn" v-if="v.status==2">
+								结束时间：{{v.updateTime}}
+							</view>
 							<view class="modelbtns" v-if="v.status!=2">
 								<button class="zhongzhibtn"
-									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":"取消终止"}}合约</button>
+									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":v.status==4?"取消终止":""}}合约</button>
 							</view>
-							<view class="modelendtime" v-if="v.status==1">
+							<view class="modelendtime" v-if="v.status==4">
 								<text>终止合约后将不再有任何收益 倒计时:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
@@ -122,7 +125,7 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							v.runday = this.getDaysDiff(v.createTime, Date.now())
-							if (v.status == 1) {
+							if (v.status == 4) {
 								v.countdown = this.getCountDown(v.updateTime)
 							}
 						})
@@ -198,7 +201,7 @@
 				let expectOver = null
 				that.show = false;
 				if (that.status == 0) {
-					expectOver = 1
+					expectOver = 4
 				} else {
 					expectOver = 0
 				}

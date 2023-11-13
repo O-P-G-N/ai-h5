@@ -200,17 +200,9 @@
 				ftabsIndex: 0,
 				tabsIndex: 0,
 				listIndex: 0,
-				tabsList: [{
-						name: "1D"
-					},
-					{
-						name: "5D"
-					},
+				tabsList: [
 					{
 						name: "1M"
-					},
-					{
-						name: "3M"
 					},
 					{
 						name: "3M"
@@ -251,19 +243,30 @@
 			},
 			// 获取列表数据
 			getListData() {
-				console.log(dayjs().startOf('date').format('YYYY-MM-DD HH:mm:ss'));
-				console.log(dayjs().startOf('date').add(1,'day').format('YYYY-MM-DD HH:mm:ss'));
-				console.log(new Date(dayjs().startOf('date')).getTime());
-				console.log(dayjs().startOf('date').add(1,'day'));
 				uni.request({
 					url: `/aicommon/getMarket`,
 					method: "GET",
 					success: (res) => {
 						this.listData = res.data;
+						console.log('3etyuhetu9o89',res.data);
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'day')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(7,'day')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
 							method: "GET",
-							success: (res) => {
+							filter: false,
+							success: (res1) => {
+								console.log('asdfasd',res1);
+								let parmas={}
+								let arr=[]
+								res.data.map((v)=>{
+									parmas.categories.push(v.date)
+									arr.push(v.last)
+								})
+								parmas.series=[{
+									name:res.data[0].pairs,
+									data:arr
+								}]
+								console.log(7777);
+								console.log("parmas",parmas);
 							// 	let res = {
 							// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
 							// 		series: [{
@@ -434,8 +437,8 @@
 							padding-left: 18px;
 
 							.u-nav-slot {
-								width: 96px;
-								height: 32px;
+								width: 188rpx;
+								height: 60rpx;
 							}
 
 							.head_back_img {
@@ -551,7 +554,7 @@
 
 					.marketeverytitle_img {
 						width: 102px;
-						height: 21px;
+						height: 56rpx;
 					}
 				}
 

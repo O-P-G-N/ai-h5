@@ -128,12 +128,17 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							if( res.code==200){
 							this.forbidden = false;
 							this.loading = false;
 							// console.log(res.data);
 							uni.navigateTo({
 								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${this.from.amount}&type=${this.from.type==1?'红包-TRC20':'红包-ERC20'}`
 							});
+							}else if(res.code==500){
+								this.forbidden = false;
+								this.loading = false;
+							}
 						}
 					});
 

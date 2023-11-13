@@ -104,6 +104,16 @@
 	"login.reset":"重置",
 	"login.problem":"遇到問題",
 	"login.customerservice":"聯係客服",
-	"login.existingaccount":"已有賬戶"
+	"login.existingaccount":"已有賬戶",
+	"login.cell-phone-number":"手機號",
+	"login.password":"密碼",
+	"login.acquire":"X秒後獲取",
+	"login.Email":"電子郵箱",
+	"login.getcode":"獲取驗證碼",
+	"login.invitationcode":"請輸入邀請碼",
+	"login.entercode":"請輸入驗證碼",
+	"login.enterphone":"請輸入手機號",
+	"login.termsuse":"用戶協議",
+	"login.privacypolicy":"隱私政策"
 	
 }

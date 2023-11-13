@@ -27,7 +27,7 @@
 							<view class="intro">{{$t('index.ai.creatioin.text')}}</view>
 						</view>
 						<view class="bottom">
-							<image src="~@/static/index/tiyanjt.webp"></image>
+							<image src="~@/static/index/tiyanjt.gif"></image>
 							<view>{{$t('index.ai.experience')}}</view>
 						</view>
 					</view>
@@ -40,7 +40,7 @@
 							<view class="intro">{{$t('index.ai.video.text')}}</view>
 						</view>
 						<view class="bottom">
-							<image src="~@/static/index/tiyanjt.webp"></image>
+							<image src="~@/static/index/tiyanjt.gif"></image>
 							<view>{{$t('index.ai.experience')}}</view>
 						</view>
 					</view>
@@ -476,7 +476,7 @@
 				.bottom {
 					image {
 						width: 40rpx;
-						height: 20rpx;
+						height: 36rpx;
 					}
 
 					view {
@@ -575,7 +575,7 @@
 	}
 
 	.u-loadmore {
-		margin-bottom: 90px !important;
+		margin-bottom: 120px !important;
 	}
 
 	.loadingTxt {
