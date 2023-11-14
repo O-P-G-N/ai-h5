@@ -12,7 +12,7 @@
 			<view class="banana_bg_last">{{$t('user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you')}}</view>
 		</view>
 		<view class="copy_box">
-			<button class="copy_btn" @click="copyBtn">{{$t('"user.asset.islands.idj.copy_the_link')}}</button>
+			<button class="copy_btn" @click="copyBtn">{{$t('user.asset.islands.idj.copy_the_link')}}</button>
 		</view>
 		<view class="dyselect">
 			<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">

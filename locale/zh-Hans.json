@@ -181,7 +181,7 @@
 	"login.enterphone":"请输入手机号",
 	"login.termsuse":"用户协议",
 	"login.privacypolicy":"隐私政策",
-	"login.activity_code":"隐私政策",
+	"login.activity_code":"邀请码",
 	
 	
 	"user.asset.details.index.asset_detail": "资产明细",
@@ -355,10 +355,13 @@
 	"user.capital_flow.i39": "充值地址",
 	"user.capital_flow.i40": "复制地址",
 	"user.capital_flow.i41": "提现",
+	"user.capital_flow.i411": "提现币种",
+	"user.capital_flow.i412": "请选择提现币种",
 	"user.capital_flow.i42": "提币数量",
 	"user.capital_flow.i43": "请输入提币数量",
 	"user.capital_flow.i44": "实际到账",
 	"user.capital_flow.i45": "资金管理费",
+	"user.capital_flow.i451": "本金提款金额的3%,收益提款金额的5%",
 	"user.capital_flow.i46": "最小提币数量",
 	"user.capital_flow.i47": "最大提币数量",
 	"user.capital_flow.i48": "交易密码",
@@ -380,7 +383,12 @@
 	"user.capital_flow.i65": "答案不能为空",
 	"user.capital_flow.i66": "最小提币数量为",
 	"user.capital_flow.i67": "最大提币数量为",
-	"user.capital_flow.i68": "提现已申请"	
+	"user.capital_flow.i68": "提现已申请",
+	"user.capital_flow.i69": "通知",
+	"user.capital_flow.i71": "您的交易密码未设置,请设置您的交易密码",
+	"user.capital_flow.i72": "您的密保问题未设置,请设置您的密保问题",
+	"user.capital_flow.i73": "您的昵称未设置,请设置您的昵称",
+	"user.capital_flow.i74": "网络问题，请重试！"
 	
 
 }

@@ -1,6 +1,6 @@
 <template>
 	<view class="starpay">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="充值" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i33')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -16,9 +16,9 @@
 						</view>
 					</view>
 				</view>
-				<view class="rc_title">充值地址</view>
+				<view class="rc_title">{{$t('user.capital_flow.i39')}}</view>
 				<view class="address">{{to}}</view>
-				<view class="copy_address" @click="copyAdd">复制地址</view>
+				<view class="copy_address" @click="copyAdd">{{$t('user.capital_flow.i40')}}</view>
 				<view class="rc_details">
 					<view class="rc_de_title">温馨提示</view>
 					<view class="rc_de">
@@ -71,7 +71,7 @@
 			// 生成二维码
 			make() {
 				uni.showLoading({
-					title: '二维码生成中',
+					title: this.$t('user.islands.ivt.qr_gen'),
 					mask: true
 				})
 
@@ -95,7 +95,7 @@
 					data: this.to,
 					success: function() {
 						uni.showToast({
-							title: "复制成功!",
+							title: this.$t('user.islands.ivt.copy_suc'),
 							success: function(res) {}
 						})
 					}

@@ -1,6 +1,6 @@
 <template>
 	<view class="recharge">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="充值" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i33')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -10,7 +10,7 @@
 				<view class="usdt_select">
 					<view class="top_jm">
 						<image class="top_jm_img" src="@/static/user/cryptocurrency-coins.png" mode=""></image>
-						<text class="top_jm_text">加密货币</text>
+						<text class="top_jm_text">{{$t('user.capital_flow.i34')}}</text>
 					</view>
 					<view class="border_bt"></view>
 					<view class="rc_item" @click="checkEthBtn(1)">
@@ -44,12 +44,12 @@
 						</view>
 					</view>
 				</view>
-				<view class="ctitle">储值金额</view>
+				<view class="ctitle">{{$t('user.capital_flow.i35')}}</view>
 				<view class="czj_sss">
 					<input type="number" v-model="from.amount" class="uni-input" placeholder="10.00 USD起" />
 				</view>
 				<ai-button :btnHeight="'51px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian"
-					@click="nextStep">下一步</ai-button>
+					@click="nextStep">{{$t('user.capital_flow.i36')}}</ai-button>
 				<!-- <button class="chuangjian" @click="nextStep">下一步</button> -->
 			</view>
 		</view>
@@ -70,7 +70,7 @@
 					</text>
 				</view>
 			</view>
-			<button slot="confirmButton" @click="determine" class="zhuiaddbtn">确定</button>
+			<button slot="confirmButton" @click="determine" class="zhuiaddbtn">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
 	</view>
 </template>
@@ -115,10 +115,10 @@
 			// 下一步
 			nextStep() {
 				if (!this.from.amount) {
-					uni.$u.toast('请输入充值数量');
+					uni.$u.toast(this.$t('user.capital_flow.i37'));
 					return
 				} else if (this.from.amount < 10) {
-					uni.$u.toast('最小充值数量为10.00');
+					uni.$u.toast(this.$t('user.capital_flow.i38')+'10.00');
 					return
 				} else {
 					this.forbidden = true;

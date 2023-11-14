@@ -1,18 +1,18 @@
 <template>
 	<view class="integral_exchange">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" title="积分兑换"
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i15')"
 			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 			<view class="u-nav-slot" slot="right">
-				历史记录
+				{{$t('user.capital_flow.i19')}}
 			</view>
 		</u-navbar>
 		<view class="mains">
 			<view class="bili">
-				兑换比例：
-				<text>1 红包={{exchangeNum}}积分</text>
+				{{$t('user.capital_flow.i20')}}：
+				<text>1 红包={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -21,12 +21,12 @@
 							<image src="@/static/user/bbji.png" mode=""></image>
 						</view>
 						<view class="">红包</view>
-						<view class="fdTitle">消耗</view>
+						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">
 						<view class="pfdz"
 							style="background-color: rgb(245, 246, 250);color: rgb(127, 127, 127);top: -36px;">
-							余额:{{accountBalance?accountBalance:0}}
+							{{$t('user.capital_flow.i23')}}:{{accountBalance?accountBalance:0}}
 						</view>
 						<view class="intCs">
 							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"
@@ -42,11 +42,11 @@
 						<view class="iconImgs">
 							<image src="@/static/user/guanguan.png" mode=""></image>
 						</view>
-						<view class="">积分</view>
-						<view class="fdTitle">获得</view>
+						<view class="">{{$t('user.capital_flow.i21')}}</view>
+						<view class="fdTitle">{{$t('user.capital_flow.i24')}}</view>
 					</view>
 					<view class="right">
-						<view class="pfdz">B+: 赠{{bonusRatio}}%</view>
+						<view class="pfdz">B+: {{$t('user.capital_flow.i25')}}{{bonusRatio}}%</view>
 						<view class="intCs">
 							<text class="intCs_text">{{integralAmount}}</text>
 						</view>
@@ -58,14 +58,14 @@
 		<!-- <button class="ljdh" @click="redeemNow"></button> -->
 		<view class="tuiguang">
 			<view>
-				<view class="title">推广收益(积分)</view>
-				<view class="neirong">您所有推荐的会员使用AI功能</view>
-				<view class="neirong">您都将获得一定比例的积分奖励</view>
+				<view class="title">{{$t('user.capital_flow.i27')}}</view>
+				<view class="neirong">{{$t('user.capital_flow.i28')}}</view>
+				<view class="neirong">{{$t('user.capital_flow.i29')}}</view>
 			</view>
 			<view class="right">
 				<image src="@/static/user/weiks.png" mode=""></image>
 			</view>
-			<view class="zwkf">当前暂未开放</view>
+			<view class="zwkf">{{$t('user.capital_flow.i30')}}</view>
 		</view>
 	</view>
 </template>
@@ -123,7 +123,7 @@
 			},
 			// 交换
 			exchange() {
-				uni.$u.toast('暂未开放');
+				uni.$u.toast(this.$t('user.capital_flow.i30'));
 			},
 			// 计算金额
 			calculateAmount(val) {
@@ -134,10 +134,10 @@
 			// 确定兑换
 			redeemNow() {
 				if (this.redPacket == "") {
-					uni.$u.toast('请输入要兑换的积分或者余额');
+					uni.$u.toast(this.$t('user.capital_flow.i31'));
 					return
 				} else if (this.redPacket > this.redPacket) {
-					uni.$u.toast('兑换数量不得大于余额');
+					uni.$u.toast(this.$t('user.capital_flow.i32'));
 					return
 				} else {
 					this.forbidden=true;
