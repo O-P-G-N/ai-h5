@@ -18,7 +18,6 @@
 	"index.ai.creationstyle.dreamlike": "夢幻風",
 	"index.ai.creationstyle.sketch": "素描",
 	"index.ai.creationstyle.graffiti": "塗鴉",
-<<<<<<< HEAD
 	"index.ai.create": "AI創作",
 	"index.screendescription": "畫面描述",
 	"index.integral": "積分",
@@ -95,8 +94,6 @@
 	"index.tips7": "網絡超時，請重試!",
 	"index.tips8": "復製成功,請在瀏覽器打開!",
 	"index.tips9": "復製成功!",
-
-=======
 	"index.ai.create":"AI創作",
 	"index.screendescription":"畫面描述",
 	"index.integral":"積分",
@@ -163,7 +160,6 @@
 	"index.use":"使用",
 	"index.regenerate":"重新生成",
 	
->>>>>>> 1132140b02577a6722a7e78bafd872510d95565d
 	"home.charge": "充值",
 	"home.withdraw": "提現",
 	"home.today_earnings": "今日收益",
@@ -251,7 +247,6 @@
 	"model.tips4": "網絡問題，請重試！",
 
 	"login.type.email": "郵箱登錄",
-<<<<<<< HEAD
 	"login.type.phone": "手機登錄",
 	"login.orloginto": "或登錄以",
 	"login.agreement1": "登錄即表示您同意我們的",
@@ -326,7 +321,7 @@
 	"login.tips21": "請選擇國家",
 	"login.activity_code": "邀請碼",
 
-=======
+
 	"login.type.phone":"手機登錄",
 	"login.orloginto":"或登錄以",
 	"login.agreement1":"登錄即表示您同意我們的",
@@ -380,7 +375,6 @@
 	"login.privacypolicy":"隱私政策",
 	"login.activity_code":"邀請碼",
 	
->>>>>>> 1132140b02577a6722a7e78bafd872510d95565d
 	"user.asset.details.index.asset_detail": "資產明細",
 	"user.asset.details.index.charge_record": "充值記錄",
 	"user.asset.details.index.withdraw_record": "體現記錄",

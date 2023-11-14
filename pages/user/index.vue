@@ -156,14 +156,14 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view>
+			<view>
 				<view class="funlist_every" @click="helpCenter">
 					<view class="left"><text>{{$t('home.menu.assist')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view> -->
+			</view>
 			<view>
 				<view class="funlist_every" @click="viewNotice">
 					<view class="left"><text>{{$t('home.menu.notice')}}</text></view>
@@ -177,13 +177,13 @@
 			</view>
 		</view>
 		<Footer pageName='user'></Footer>
-		<u-modal :show="outLoginShow" @confirm="confirm" class="login_out" :title="$t('user.islands.sc.sn.i1')" @cancel="cancel" width="300px"
+		<u-modal :show="outLoginShow" @confirm="confirm" class="login_out" title="温馨提示" @cancel="cancel" width="300px"
 			showCancelButton>
 			<view class="slot-content">
 				{{$t('home.confirm.logout')}}
 			</view>
 		</u-modal>
-		<u-modal @confirm="setConfirm" :show="show" :title="$t('user.islands.sc.sn.i1')" :content='content'></u-modal>
+		<u-modal @confirm="setConfirm" :show="show" title="温馨提示" :content='content'></u-modal>
 	</view>
 </template>
 
@@ -299,38 +299,22 @@
 							if (!res.data.withdrawPassword) {
 								this.show = true;
 								this.setIndex = 2;
-<<<<<<< HEAD
-								this.content = this.$t("model.tips1")
+								this.content = "您的交易密码未设置,请设置您的交易密码"
 							} else if (!res.data.question) {
 								this.show = true;
 								this.setIndex = 1;
-								this.content = this.$t("model.tips2")
+								this.content = "您的密保问题未设置,请设置您的密保问题"
 							} else if (!res.data.nickName) {
 								this.show = true;
 								this.setIndex = 0;
-								this.content = this.$t("model.tips3")
-=======
-								this.content = this.$t('user.capital_flow.i71')
-							} else if (!res.data.question) {
-								this.show = true;
-								this.setIndex = 1;
-								this.content = this.$t('user.capital_flow.i72')
-							} else if (!res.data.nickName) {
-								this.show = true;
-								this.setIndex = 0;
-								this.content = this.$t('user.capital_flow.i73')
->>>>>>> 1132140b02577a6722a7e78bafd872510d95565d
+								this.content = "您的昵称未设置,请设置您的昵称"
 							} else {
 								uni.navigateTo({
 									url: `/pages/user/withdrawal`
 								});
 							}
 						}else if(res.code==500){
-<<<<<<< HEAD
-							uni.$u.toast(this.$t("model.tips4"))
-=======
-							uni.$u.toast(this.$t('user.capital_flow.i74'))
->>>>>>> 1132140b02577a6722a7e78bafd872510d95565d
+							uni.$u.toast("网络问题，请重试！")
 						}
 						
 					}
