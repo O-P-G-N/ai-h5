@@ -1,6 +1,6 @@
 <template>
 	<view class="user_notice">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="通知" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i69')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>

@@ -1,6 +1,6 @@
 <template>
 	<view class="about_us">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" title="" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -8,11 +8,11 @@
 		<view class="content">
 			<view class="">
 				<view class="content_head">
-					<text class="content_head_text">IsLand智岛</text>
-					于2011年成立，是一家以人工智能为主要研究方向的全球性公司，至今全球员工480人，成立之初便以AI为主要研究方向，经过多年的发展IsLand逐渐形成了AI多产业发展的格局
+					<text class="content_head_text">{{$t('user.about.i2')}}</text>
+					{{$t('user.about.i3')}}
 				</view>
 				<image class="content_body" src="@/static/user/introduction_bg.png" mode=""></image>
-				<view class="content_foot">与其名字一样 ，IsLand希望打造一个具备自生长内循环的AI生态空间，通过创新、合作、和谐发展，努力成为全球领先的AI应用公司。</view>
+				<view class="content_foot">{{$t('user.about.i4')}}</view>
 			</view>
 		</view>
 	</view>

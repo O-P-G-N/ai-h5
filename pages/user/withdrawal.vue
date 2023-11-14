@@ -1,72 +1,72 @@
 <template>
 	<view class="withdrawal">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="提现" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i41')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="main" v-if="pageIndex==0">
 			<u-cell-group :border="false">
-				<u-cell :title="userType==1?'手机号':'邮箱账号'">
+				<u-cell :title="userType==1?$t('user.islands.sc.edp.i2'):$t('user.islands.sc.edp.i3')">
 					<view slot="value" class="email_content">
 						<u-input class="email_content_text" v-model="userName">
 							<view slot="suffix" class="email_content_btn">
-								<u-code unique-key="withdrawal" start-text="获取验证码" ref="uCode" @change="codeChange"
-									changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+								<u-code unique-key="withdrawal" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode" @change="codeChange"
+									:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text @click="getCode">{{tips}}</text>
 							</view>
 						</u-input>
 					</view>
 				</u-cell>
-				<u-cell title="验证码">
+				<u-cell :title="$t('user.islands.sc.edp.i6')">
 					<view slot="value" class="code_content">
 						<input v-model="from.code" type="number" class="uni-input" maxlength="10"
-							placeholder="请输入验证码" />
+							:placeholder="$t('user.islands.sc.edp.i61')" />
 					</view>
 				</u-cell>
-				<u-cell title="提现币种" :isLink="true" @click="withdrawalCurrency">
+				<u-cell :title="$t('user.capital_flow.i411')" :isLink="true" @click="withdrawalCurrency">
 					<view slot="value" class="withdrawal_currency">
-						<input disabled class="uni-input" v-model="currencyType" placeholder="请选择提现币种" />
+						<input disabled class="uni-input" v-model="currencyType" placeholder="$t('user.capital_flow.i412')" />
 					</view>
 				</u-cell>
-				<u-cell title="提现地址">
+				<u-cell :title="$t('user.capital_flow.i59')">
 					<view slot="value" class="code_content">
-						<input v-model="from.payAddress" class="uni-input" placeholder="请输入提现地址" />
+						<input v-model="from.payAddress" class="uni-input" :placeholder="$t('user.capital_flow.i62')" />
 
 					</view>
 				</u-cell>
-				<u-cell title="提币数量">
+				<u-cell :title="$t('user.capital_flow.i42')">
 					<view slot="value" class="code_content">
 						<input class="uni-input" type="number" @input="calculateAmount" v-model="from.amount"
-							placeholder="请输入提币数量" />
+							:placeholder="$t('user.capital_flow.i43')" />
 					</view>
 				</u-cell>
-				<u-cell title="实际到账">
+				<u-cell :title="$t('user.capital_flow.i44')">
 					<view slot="value" class="code_content">
-						<input disabled class="uni-input" type="number" v-model="realityAmount" placeholder="请输入提币数量" />
+						<input disabled class="uni-input" type="number" v-model="realityAmount" :placeholder="$t('user.capital_flow.i43')" />
 					</view>
 				</u-cell>
-				<u-cell title="资金管理费" :value="commissionRate" label="本金提款金额的3%,收益提款金额的5%"></u-cell>
-				<u-cell title="最小提币数量" :value="withdrawalInfo.withdrawMin"></u-cell>
-				<u-cell title="最大提币数量" :value="withdrawalInfo.withdrawMax"></u-cell>
-				<u-cell title="交易密码">
+				<u-cell :title="$t('user.capital_flow.i45')" :value="commissionRate" ：label="$t('user.capital_flow.i451')"></u-cell>
+				<u-cell :title="$t('user.capital_flow.i46')" :value="withdrawalInfo.withdrawMin"></u-cell>
+				<u-cell :title="$t('user.capital_flow.i47')" :value="withdrawalInfo.withdrawMax"></u-cell>
+				<u-cell :title="$t('user.capital_flow.i48')">
 					<view slot="value" class="code_content">
-						<u-input v-model="from.withdrawPassword" placeholder="密码" :password="eyeShow">
+						<u-input v-model="from.withdrawPassword" :placeholder="$t('user.capital_flow.i49')" :password="eyeShow">
 							<image @click="showHidden" slot="suffix" class="eye"
 								:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 							</image>
 						</u-input>
 					</view>
 				</u-cell>
-				<u-cell title="密保问题"
+				<u-cell :title="$t('user.capital_flow.i50')"
 					:value="withdrawalInfo.questionList.length>0?withdrawalInfo.questionList[0].value:''"></u-cell>
-				<u-cell title="密保答案">
+				<u-cell :title="$t('user.capital_flow.i51')">
 					<view slot="value" class="code_content">
-						<input v-model="from.answer" class="uni-input" maxlength="10" placeholder="请输入密保答案" />
+						<input v-model="from.answer" class="uni-input" maxlength="10" :placeholder="$t('user.capital_flow.i52')" />
 					</view>
 				</u-cell>
 			</u-cell-group>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn"
-				@click="subApplication">提交</ai-button>
+				@click="subApplication">{{$t('user.capital_flow.i53')}}</ai-button>
 			<!-- <button class="editpassbtn" @click="subApplication">提交</button> -->
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
@@ -78,7 +78,7 @@
 						<view class="steps_item_line_one"></view>
 					</view>
 					<view class="steps_content">
-						<view class="steps_content_title">发起提现申请</view>
+						<view class="steps_content_title">{{$t('user.capital_flow.i54')}}</view>
 					</view>
 				</view>
 				<view class="steps">
@@ -87,8 +87,8 @@
 						<view class="steps_item_line_two"></view>
 					</view>
 					<view class="steps_content">
-						<view class="steps_content_title_two">处理中</view>
-						<view class="desc">预计1-2小时内到账</view>
+						<view class="steps_content_title_two">{{$t('user.capital_flow.i55')}}</view>
+						<view class="desc">{{$t('user.capital_flow.i56')}}</view>
 					</view>
 				</view>
 				<view class="steps">
@@ -96,20 +96,20 @@
 						<view class="slot-icon_three"></view>
 					</view>
 					<view class="steps_content">
-						<view class="steps_content_title">到账成功</view>
+						<view class="steps_content_title">{{$t('user.capital_flow.i57')}}</view>
 					</view>
 				</view>
 			</view>
 			<view class="divider"></view>
 			<view class="withdrawal_amount">
-				<view class="withdrawal_amount_title">提现金额：</view>
+				<view class="withdrawal_amount_title">{{$t('user.capital_flow.i58')}}：</view>
 				<view class="withdrawal_amount_text">{{from.amount}}</view>
 			</view>
 			<view class="withdrawal_add">
-				<view class="withdrawal_add_title">提现地址：</view>
+				<view class="withdrawal_add_title">{{$t('user.capital_flow.i59')}}：</view>
 				<view class="withdrawal_add_text">{{from.payAddress}}</view>
 			</view>
-			<button class="complete_btn" @click="completeBtn">完成</button>
+			<button class="complete_btn" @click="completeBtn">{{$t('user.capital_flow.i61')}}</button>
 		</view>
 		<u-modal title="温馨提示" :show="tipsShow" closeOnClickOverlay>
 			<view>
@@ -135,7 +135,7 @@
 					</text>
 				</view>
 			</view>
-			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">确定</button>
+			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
 		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
@@ -241,12 +241,12 @@
 					success: (res) => {
 						if (res.code == 200) {
 							this.$refs.uCode.start();
-							uni.$u.toast('验证码发送成功');
+							uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 						}
 					}
 				});
 				} else {
-					uni.$u.toast('倒计时结束后再发送');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 				}
 			},
 			// 提示语
@@ -280,25 +280,25 @@
 			// 提交提现申请
 			subApplication() {
 				if (this.from.code == "") {
-					uni.$u.toast('请输入验证码');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
 					return
 				} else if (this.from.payAddress == "") {
-					uni.$u.toast('请输入提现地址');
+					uni.$u.toast(this.$t('user.capital_flow.i62'));
 					return
 				} else if (this.from.amount == "") {
-					uni.$u.toast('请输入提现数量');
+					uni.$u.toast(this.$t('user.capital_flow.i63'));
 					return
 				} else if (this.from.withdrawPassword == "") {
-					uni.$u.toast('请输入交易密码');
+					uni.$u.toast(this.$t('user.capital_flow.i64'));
 					return
 				} else if (this.from.answer == "") {
-					uni.$u.toast('答案不能为空');
+					uni.$u.toast(this.$t('user.capital_flow.i65'));
 					return
 				} else if (this.from.amount < this.withdrawalInfo.withdrawMin) {
-					uni.$u.toast(`最小提币数量为：${this.withdrawalInfo.withdrawMin}`);
+					uni.$u.toast(`this.$t('user.capital_flow.i66')：${this.withdrawalInfo.withdrawMin}`);
 					return
 				} else if (this.from.amount > this.withdrawalInfo.withdrawMax) {
-					uni.$u.toast(`最大提币数量为：${this.withdrawalInfo.withdrawMax}`);
+					uni.$u.toast(`this.$t('user.capital_flow.i67')：${this.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
 					this.forbidden = true;
@@ -311,7 +311,7 @@
 							if (res.code == 200) {
 								this.forbidden = false;
 								this.loading = false;
-								uni.$u.toast('提现已申请');
+								uni.$u.toast(this.$t('user.capital_flow.i68'));
 								this.pageIndex = 1;
 							} else {
 								this.forbidden = false;
