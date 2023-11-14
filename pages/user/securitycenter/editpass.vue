@@ -36,7 +36,7 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="confirmPassword" :placeholder="$t('user.islands.sc.edp.i10')" :password="eyeShows">
+							<u-input v-model="confirmPassword" :placeholder="$t('user.islands.sc.edp.i0')" :password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>

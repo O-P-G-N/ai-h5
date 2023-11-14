@@ -1,6 +1,6 @@
 <template>
 	<view class="history">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="兑换记录" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i13')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -9,19 +9,19 @@
 			<view class="list-body" v-for="(v,i) in lists" :key="i">
 				<view class="capital">
 					<view class="capital_top">
-						<text>兑换类型</text>
-						<text>积分兑换</text>
+						<text>{{$t('user.capital_flow.i14')}}</text>
+						<text>{{$t('user.capital_flow.i15')}}</text>
 					</view>
 					<view class="orderhao">
-						<text>兑换红包金额</text>
+						<text>{{$t('user.capital_flow.i16')}}</text>
 						<text>{{v.hongbao}}</text>
 					</view>
 					<view class="orderhao">
-						<text>兑换积分数量</text>
+						<text>{{$t('user.capital_flow.i17')}}</text>
 						<text>{{v.useScore}}</text>
 					</view>
 					<view class="orderhao">
-						<text>兑换时间</text>
+						<text>{{$t('user.capital_flow.i18')}}</text>
 						<text>{{v.updateTime}}</text>
 					</view>
 				</view>
