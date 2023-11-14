@@ -153,7 +153,7 @@
 								this.forbidden=false;
 								this.loading=false;
 								uni.showToast({
-									title: this.this.$t('user.capital_flow.i75'),
+									title: this.$t('user.capital_flow.i75'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)
