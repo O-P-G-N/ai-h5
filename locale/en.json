@@ -460,10 +460,6 @@
 	"user.capital_flow.i71": "Your trading password is not set, please set your trading password",
 	"user.capital_flow.i72": "Your security question is not set, please set your security question",
 	"user.capital_flow.i73": "Your nickname is not set, please set your nickname",
-<<<<<<< HEAD
-	"user.capital_flow.i74": "Network problem, please try again!"
-
-=======
 	"user.capital_flow.i74": "Network problem, please try again!",
 	"user.capital_flow.i75": "Successful exchange",
 	
@@ -523,5 +519,4 @@
 	
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 	
->>>>>>> 1132140b02577a6722a7e78bafd872510d95565d
 }
