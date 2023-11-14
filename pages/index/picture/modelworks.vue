@@ -143,7 +143,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						
 						this.videoList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
 						if (this.pagenum <= this.videoList.length) {
@@ -163,7 +162,6 @@
 							method: "POST",
 							data: this.from,
 							success: (res) => {
-								
 								this.status = "loadmore"
 								this.contentList.push(...res.data.rows);
 							}
