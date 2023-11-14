@@ -1,27 +1,27 @@
 <template>
 	<view class="myteam">
-		<u-navbar title="我的岛屿" @rightClick="capitalFlow" :safeAreaInsetTop="false">
+		<u-navbar :title="prc1" @rightClick="capitalFlow" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="" mode=""></image>
 			</view>
 			<view class="u-nav-slot" slot="right">
-				我的卡券
+				{{$t("comm.prc2")}}
 			</view>
 		</u-navbar>
 		<view class="">
 			<view class="pyzsOut">
-				<button class="pyzsOut_btn" @click="inviteFriends">邀请好友</button>
+				<button class="pyzsOut_btn" @click="inviteFriends">{{$t("comm.prc3")}}</button>
 				<view class="title">
 					<image class="title_img" src="@/static/islands/people_num.png" mode=""></image>
-					岛民总数
+					{{$t("comm.prc4")}}
 				</view>
 				<view class="content">{{myTeamInfo.sum?myTeamInfo.sum:0}}</view>
 				<view class="dy">
 					<view class="gx">
-						岛屿贡献值
+						{{$t("comm.prc5")}}
 						<text class="gx_text">0</text>
 					</view>
-					<view class="xh">岛屿消耗
+					<view class="xh">{{$t("comm.prc6")}}
 						<text class="xh_text">0</text>
 					</view>
 				</view>
@@ -29,17 +29,17 @@
 			<u-tabs :list="tabList" keyName="name" :scrollable="false" @click="tabClick"></u-tabs>
 			<view class="dyselect">
 				<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">
-					内岛
-					<text class="nd_text">{{myTeamInfo.in}}</text>人
+					{{$t("comm.prc7")}}
+					<text class="nd_text">{{myTeamInfo.in}}</text>{{$t("comm.prc25")}}
 				</view>
-				<view class="wd" :class="dyShow==0?'dyactive':''" @click="dyShowBtn(0)">外岛
-					<text class="wd_text">{{myTeamInfo.out}}</text>人
+				<view class="wd" :class="dyShow==0?'dyactive':''" @click="dyShowBtn(0)">{{$t("comm.prc8")}}
+					<text class="wd_text">{{myTeamInfo.out}}</text>{{$t("comm.prc25")}}
 				</view>
 			</view>
 			<view class="people">
 				<view class="people_item">
-					<view class=""><text>{{dyShow==1?'内':'外'}}岛有效人数</text></view>
-					<view class="num">{{effectivePeople}}人</view>
+					<view class=""><text>{{dyShow==1?$t("comm.prc9"):$t("comm.prc10")}}</text></view>
+					<view class="num">{{effectivePeople}}{{$t("comm.prc25")}}</view>
 				</view>
 			</view>
 			<view class="tabs">
@@ -48,27 +48,27 @@
 						<view class="list-body" v-for="(v,i) in myTeamInfo.data" :key="i">
 							<view class="capital">
 								<view class="orderhao">
-									<text>账号</text>
+									<text>{{$t("comm.prc11")}}</text>
 									<text class="bluephone">{{v.memberName}}</text>
 								</view>
 								<view class="orderhao">
-									<text>昵称</text>
+									<text>{{$t("comm.prc12")}}</text>
 									<text>{{v.nickName}}</text>
 								</view>
 								<view class="orderhao">
-									<text>等级名称</text>
+									<text>{{$t("comm.prc13")}}</text>
 									<text>{{v.vip}}</text>
 								</view>
 								<view class="orderhao">
-									<text>激活状态</text>
-									<text>{{v.isActive==1?"未激活":"已激活"}}</text>
+									<text>{{$t("comm.prc14")}}</text>
+									<text>{{v.isActive==1?$t("comm.prc15"):$t("comm.prc16")}}</text>
 								</view>
 								<view class="orderhao">
-									<text>合约份数</text>
+									<text>{{$t("comm.prc17")}}</text>
 									<text>0</text>
 								</view>
 								<view class="orderhao">
-									<text>{{dyShow==1?'邀请':'注册'}}时间</text>
+									<text>{{dyShow==1?$t("comm.prc19"):$t("comm.prc20")}}</text>
 									<text>{{v.createTime}}</text>
 								</view>
 							</view>
@@ -77,15 +77,15 @@
 
 					<view class="tips_box" v-else>
 						<image class="community_img" src="@/static/user/nofriends.png" mode=""></image>
-						<view class="community_text">还没有邀请好友，快去邀请过好友吧~</view>
-						<button class="community_btn" @click="inviteFriends">邀请好友</button>
+						<view class="community_text">{{$t("comm.prc18")}}~</view>
+						<button class="community_btn" @click="inviteFriends">{{$t("comm.prc3")}}</button>
 						<view style="height: 90px;"></view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<Footer pageName='community'></Footer>
-		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" title="温馨提示"
+		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
 	</view>
 </template>
@@ -98,16 +98,16 @@
 		data() {
 			return {
 				tabList: [{
-					name: '全部',
+					name:this.$t("comm.prc21"),
 					value: 'all'
 				}, {
-					name: '今日',
+					name:this.$t("comm.prc22"),
 					value: 'today'
 				}, {
-					name: '本周',
+					name: this.$t("comm.prc23"),
 					value: 'week'
 				}, {
-					name: '本月',
+					name: this.$t("comm.prc24"),
 					value: 'month'
 				}], //tab标签
 				dyShow: 1, //内外岛索引
@@ -120,6 +120,8 @@
 				content: "", //提示框内容
 				setIndex: null, //设置索引
 				effectivePeople:0,//有效人数
+				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				prc1:this.$t("comm.prc1"),//我的岛屿国际化
 			};
 		},
 		onShow() {
@@ -277,7 +279,7 @@
 				height: 34px;
 				background:#517EFF;
 				border-radius: 25px 25px 25px 25px;
-				font-size: 15px;
+				font-size: 12px;
 				font-family: PingFang SC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #FFFFFF;
