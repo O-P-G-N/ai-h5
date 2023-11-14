@@ -58,7 +58,7 @@
 		width: 100vw;
 		height: 100vh;
 		// overflow: hidden;
-		padding: 0 21px;
+		padding: 0 20px;
 		background-color: #fff;
 		box-sizing: border-box;
 
@@ -93,7 +93,7 @@
 			margin-top: 13px;
 			    display: flex;
 			    align-items: center;
-			    width: 100%;
+			    width: calc(100% - 1px);
 			    height: 85px;
 			    background: #eff3fa;
 			    border-radius: 21px;
