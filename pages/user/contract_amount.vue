@@ -106,19 +106,25 @@
 		},
 		onShow() {
 			this.getContractList();
-			const pages = getCurrentPages();
-			console.log(pages,"1111");
+			
 		},
 		onHide() {
 			this.from.page = 1;
-			this.contractList = []
+			this.contractList = [];
 		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.navigateBack({
-					delta: 1
-				});
+				const pages = getCurrentPages();
+				if(pages.length>1){
+					uni.navigateBack({
+						delta: 1
+					});
+				}else{
+					uni.switchTab({
+						url: `/pages/market/index`
+					});
+				}
 			},
 			getaa(){
 				

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="AI创作" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="create" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
@@ -11,7 +11,7 @@
 		</u-navbar>
 		<view class="content-lei">
 			<template v-if='!isGenerate'>
-				<view class="content-title"><text>· 模型主题</text>
+				<view class="content-title"><text>· {{$t("index.modeltheme")}}</text>
 					<image @click="showPopupFn(1)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="typeList">
@@ -142,39 +142,39 @@
 				generateImg: '',
 				progress: 0,
 				typeList: [{
-					name: '通用',
+					name:this.$t("index.theme.becurrent"),
 					imgUrl: require('@/static/index/preempt5.png'),
 					topic: 1,
 				}, {
-					name: '科幻',
+					name: this.$t("index.theme.sciencefiction"),
 					imgUrl: require('@/static/index/model8.webp'),
 					topic: 2,
 				}, {
-					name: '儿童3D',
+					name: this.$t("index.theme.children's3D"),
 					imgUrl: require('@/static/index/model4.webp'),
 					topic: 3,
 				}, {
-					name: '建筑设计',
+					name: this.$t("index.theme.architecturaldesign"),
 					imgUrl: require('@/static/index/model7.webp'),
 					topic: 4,
 				}, {
-					name: '2.5D动漫',
+					name: this.$t("index.theme.2.5Danime"),
 					imgUrl: require('@/static/index/model1.webp'),
 					topic: 5,
 				}, {
-					name: '电影写实',
+					name: this.$t("index.theme.filmrealism"),
 					imgUrl: require('@/static/index/model10.webp'),
 					topic: 6,
 				}, {
-					name: '人物写真',
+					name:this.$t("index.theme.characterportrait"),
 					imgUrl: require('@/static/index/model11.webp'),
 					topic: 7,
 				}, {
-					name: '3D日漫',
+					name:this.$t("index.theme.3Dmarvel"),
 					imgUrl: require('@/static/index/model9.webp'),
 					topic: 8,
 				}, {
-					name: 'CG写真',
+					name:this.$t("index.theme.CGphoto"),
 					imgUrl: require('@/static/index/model5.webp'),
 					topic: 9,
 				}],
@@ -213,6 +213,7 @@
 				},
 				imgUrl: [], //图片地址
 				loadComplete: false, //图片加载完成
+				create:this.$t("index.ai.create"),//AI创作国际化
 			}
 		},
 		onLoad(e) {

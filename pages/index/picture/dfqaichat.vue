@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="AI创作" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="create" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
@@ -11,23 +11,23 @@
 		</u-navbar>
 		<view class="content-lei">
 			<view class="miaoshumain">
-				<view class="left">· 画面描述</view>
+				<view class="left">· {{$t('index.screendescription')}}</view>
 				<view class="right" @click="exchangePoints">
 					<image mode="aspectFit" class="davincupload" src="~@/static/index/jifen.png"></image>
-					<view>{{accountBalance}}积分</view>
+					<view>{{accountBalance}}{{$t('index.integral')}}</view>
 				</view>
 			</view>
 			<view class="textarea">
-				<textarea v-model="parameter.prompt" placeholder="请输入您的描述词" maxlength="1000"></textarea>
+				<textarea v-model="parameter.prompt" :placeholder="descriptivewords" maxlength="1000"></textarea>
 				<view class="textareaLast"><text>{{parameter.prompt.length}}/<text class="num">1000</text></text>
-					<view class="click" @click="parameter.prompt=''">清空</view>
+					<view class="click" @click="parameter.prompt=''">{{$t('index.empty')}}</view>
 				</view>
 			</view>
 			<view class="btnMain">
-				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张图 10 积分</view>
-				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">4张图 30 积分</view>
+				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张{{$t("index.picture")}} 10 {{$t('index.integral')}}</view>
+				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">4张{{$t("index.picture")}} 30 {{$t('index.integral')}}</view>
 			</view>
-			<ai-button :btnHeight="'60px'" class="next-btn" @click="nextFn">下一步</ai-button>
+			<ai-button :btnHeight="'60px'" class="next-btn" @click="nextFn">{{$t('index.nextstep')}}</ai-button>
 		</view>
 	</view>
 </template>
@@ -42,6 +42,8 @@
 					size: "1024x1024",
 				},
 				accountBalance: "", //账户余额
+				create:this.$t("index.ai.create"),//AI创作国际化
+				descriptivewords:this.$t("index.ai.descriptivewords"),//请输入您的描述词国际化
 			}
 		},
 		onShow() {
