@@ -4,7 +4,7 @@
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
-			<image v-if="rechargeAmount>=500" slot="center" class="head_center_img" src="@/static/user/HTXE1.png"
+			<image v-if="rechargeAmount" slot="center" class="head_center_img" src="@/static/user/HTXE1.png"
 				mode=""></image>
 		</u-navbar>
 		<view class="banana_bg">
@@ -121,12 +121,12 @@
 				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
 		</view>
-		<view class="activate_popup" v-if="activateShow">
+		<view class="activate_popup" v-if="!activateShow">
 			<view class="activate_popup_box">
 
 				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode="">
 				</image>
-				<image class="activate_popup_box_del" @click.stop="activateShow=false" src="@/static/user/del.png"
+				<image class="activate_popup_box_del" @click.stop="activateShow=true" src="@/static/user/del.png"
 					mode=""></image>
 			</view>
 		</view>
@@ -139,8 +139,8 @@
 			return {
 				dyShow: 1, //索引
 				aa: false,
-				activateShow: false,
-				rechargeAmount: 0, //充值总额
+				activateShow: true,
+				rechargeAmount: false, //充值总额>500
 				SupSub:{
 					above:[{memberName:""}],//上级
 					below:[],//上级
@@ -181,10 +181,11 @@
 					url: `/island/rechargeRecord`,
 					method: "GET",
 					success: (res) => {
-						this.rechargeAmount = res.data
-						if (res.data < 500) {
-							this.activateShow = true;
-						}
+						this.activateShow = res.data;
+						this.rechargeAmount=res.data;
+						// if (res.data < 500) {
+						// 	this.activateShow = true;
+						// }
 						console.log(res);
 					}
 				});

@@ -38,7 +38,7 @@
 			<view class="people">
 				<view class="people_item">
 					<view class=""><text>{{dyShow==1?'内':'外'}}岛有效人数</text></view>
-					<view class="num">0人</view>
+					<view class="num">{{effectivePeople}}人</view>
 				</view>
 			</view>
 			<view class="tabs">
@@ -68,7 +68,7 @@
 								</view>
 								<view class="orderhao">
 									<text>{{dyShow==1?'邀请':'注册'}}时间</text>
-									<text>2023-10-26 10:27:29</text>
+									<text>{{v.createTime}}</text>
 								</view>
 							</view>
 						</view>
@@ -117,6 +117,7 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
+				effectivePeople:0,//有效人数
 			};
 		},
 		onShow() {
@@ -137,6 +138,12 @@
 					method: "GET",
 					success: (res) => {
 						this.myTeamInfo = res.data;
+						if(this.myTeamInfo.data.length>0){
+							let num=this.myTeamInfo.data.filter((v)=>{
+								return v.isActive!=1
+							})
+							this.effectivePeople=num.length;
+						}
 					}
 				});
 			},
@@ -214,8 +221,8 @@
 <style lang="scss" scoped>
 	::v-deep.myteam {
 		width: 100%;
-		height: 100vh;
-		overflow: hidden;
+		min-height: 100vh;
+		background-color: #FFFFFF;
 		padding: 0 21px;
 		background-color: #fff;
 		box-sizing: border-box;
@@ -360,6 +367,7 @@
 		}
 
 		.tabs {
+			margin-bottom: 120px;
 			.listmain {
 				margin: 0;
 				padding: 16px 0;
@@ -393,7 +401,6 @@
 				}
 			}
 			.tips_box {
-			
 				display: flex;
 				align-items: center;
 				justify-content: center;

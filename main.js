@@ -34,7 +34,6 @@ Vue.prototype._loading = store.getters.loading
 
 let req_handler = function() {
 	let this_url = ''
-	let filter = true
 	return {
 		invoke(config) {
 			// 关闭证书验证

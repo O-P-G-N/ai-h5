@@ -32,7 +32,7 @@ export default {
 					url: '/member/message/unread',
 					method: 'GET',
 					success: res => {
-						state.unread_msg_amount = res
+						state.unread_msg_amount = res.data;
 					}
 				});
 			}, 1000);

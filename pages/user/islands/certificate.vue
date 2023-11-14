@@ -57,7 +57,7 @@
 	::v-deep.certificate {
 		width: 100vw;
 		height: 100vh;
-		overflow: hidden;
+		// overflow: hidden;
 		padding: 0 21px;
 		background-color: #fff;
 		box-sizing: border-box;
@@ -93,7 +93,7 @@
 			margin-top: 13px;
 			    display: flex;
 			    align-items: center;
-			    // width: 357px;
+			    width: 100%;
 			    height: 85px;
 			    background: #eff3fa;
 			    border-radius: 21px;

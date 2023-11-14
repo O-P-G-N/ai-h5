@@ -209,6 +209,7 @@
 		created() {},
 		onShow() {
 			this.getMyInfo();
+			this.$store.dispatch('app/getUnread')
 		},
 		methods: {
 			// 获取我的信息

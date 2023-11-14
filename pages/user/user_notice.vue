@@ -7,11 +7,13 @@
 		</u-navbar>
 		<view style="padding:0 20px;box-sizing: border-box; margin-top: 20px;" v-if="noticeList.length>0">
 			<u-collapse @open="openNotice" accordion>
-				<u-collapse-item v-for="(v,i) in noticeList" :key="i" :border="false" :title="v.title"
-					:name="v.id">
+				<u-collapse-item v-for="(v,i) in noticeList" :key="i" :border="false" :title="v.title" :name="v.id">
 					<text class="u-collapse-content">{{v.content}}</text>
+					<u-badge slot="value" :offset="[10, 12]" :absolute="true" v-if="v.status==0" :isDot="true"
+						type="error"></u-badge>
 				</u-collapse-item>
 			</u-collapse>
+			<u-loadmore :status="status" />
 		</view>
 		<view class="container_nei" v-else>
 			<view class="content">
@@ -28,13 +30,24 @@
 	export default {
 		data() {
 			return {
+				from: {
+					pageNum: 1,
+					pageSize: 10
+				}, //表单
 				noticeList: [], //通知消息
+				PageCount: 0, //总页数
+				status: "loadmore",
 			}
 		},
 		onShow() {
 			this.getNotice();
 		},
-		created() {},
+		onReachBottom() {
+			this.loadMore();
+		},
+		onHide() {
+			this.from.pageNum = 1;
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
@@ -43,23 +56,52 @@
 				});
 			},
 			getNotice() {
+				// 0:维度
 				uni.request({
 					url: '/member/messages/1',
 					method: 'GET',
+					data: this.from,
 					success: (res) => {
 						this.noticeList = res.data.rows;
+						this.PageCount = Math.ceil(res.data.total / 10);
+						if (this.PageCount <= this.noticeList.length) {
+							this.status = "nomore"
+						}
 					}
 				})
 			},
 			// 消息已读
-			openNotice(val){
+			openNotice(val) {
 				console.log(val);
 				uni.request({
 					url: `/member/message/${val}`,
 					method: 'GET',
 					success: (res) => {
+						
 					}
 				})
+				this.noticeList.map((v)=>{
+					if(v.id==val){
+						v.status=1
+					}
+				})
+			},
+			loadMore() {
+				if (this.from.pageNum < this.PageCount) {
+					this.status = "loading"
+					this.from.pageNum++;
+					uni.request({
+						url: '/member/messages/1',
+						method: 'GET',
+						data: this.from,
+						success: (res) => {
+							this.noticeList.push(...res.data.rows);
+
+						}
+					})
+				} else {
+					this.status = "nomore"
+				}
 			}
 		},
 	}
@@ -150,6 +192,7 @@
 					font-size: 15px;
 					color: #303133;
 					align-items: center;
+					position: relative;
 				}
 			}
 		}
