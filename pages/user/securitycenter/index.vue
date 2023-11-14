@@ -78,7 +78,7 @@
 			},
 			// 设置昵称
 			setNickName(){
-				if(this.statusInfo.question){
+				if(this.statusInfo.nickName){
 					uni.$u.toast(this.$t('user.islands.sc.idx.i9'))
 				}else{
 					uni.navigateTo({
