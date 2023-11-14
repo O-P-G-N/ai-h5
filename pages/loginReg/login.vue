@@ -41,7 +41,7 @@
 					</view>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
 					{{$t('login.noaccount')}}？
@@ -97,6 +97,12 @@
 			viewTerms(){
 				uni.navigateTo({
 					url: `/pages/loginReg/termsUse`
+				});
+			},
+			// 查看隐私协议
+			viewPolicy(){
+				uni.navigateTo({
+					url: `/pages/loginReg/privacyPolicy`
 				});
 			},
 			onLocaleChange(e) {

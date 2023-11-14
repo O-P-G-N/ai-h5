@@ -3,10 +3,10 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="termsuse" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="main" v-if="pageShow==0">
-		
+			<web-view src="../../static/file/termsUse/zh-Hant.htm"></web-view>
 		</view>
 		<view class="main" v-else-if="pageShow==1">
-			<web-view src="../../static/file/termsUse/zh-Hans.html"></web-view>
+			<web-view src="../../static/file/termsUse/zh-Hans.htm"></web-view>
 		</view>
 		<view class="main" v-else-if="pageShow==2">
 			<web-view src="../../static/file/termsUse/en.html"></web-view>
@@ -45,7 +45,6 @@
 
 <style lang="scss" scoped>
 	::v-deep.terms_use {
-		min-height: 100vh;
 		box-sizing: border-box;
 		width: 100%;
 		min-height: 100vh;
