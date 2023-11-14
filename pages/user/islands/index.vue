@@ -1,7 +1,7 @@
 <template>
 	<view class="islands">
 		<view class="navTow">
-			<u-navbar @leftClick="goBackUser" title="岛屿" :safeAreaInsetTop="false">
+			<u-navbar @leftClick="goBackUser" :title="$t('user.islands.idx.island')" :safeAreaInsetTop="false">
 				<view class="u-nav-slot" slot="left">
 					<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 				</view>
@@ -11,11 +11,11 @@
 			<view class="main">
 				<view class="cellgroup">
 					<u-cell-group :border="false">
-						<u-cell title="我的岛屿" :is-link="true" @click="rechargeRecord">
+						<u-cell :title="$t('user.islands.idx.my_island')" :is-link="true" @click="rechargeRecord">
 						</u-cell>
-						<u-cell title="邀请好友" :is-link="true" @click="withdrawalRecords">
+						<u-cell :title="$t('user.islands.idx.invite_friends')" :is-link="true" @click="withdrawalRecords">
 						</u-cell>
-						<u-cell title="我的卡券" :is-link="true" @click="capitalFlow">
+						<u-cell :title="$t('user.islands.idx.my_coupon')" :is-link="true" @click="capitalFlow">
 						</u-cell>
 					</u-cell-group>
 				</view>

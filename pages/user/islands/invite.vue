@@ -9,14 +9,14 @@
 			<view class="invitemain">
 				<view class="invitemain_nei">
 					<view class="invitetop">
-						<view class="invitetitle">分享给你的朋友</view>
-						<view class="inviteintro">EXGPT为你打开新世界的大门</view>
+						<view class="invitetitle">{{$t('user.asset.islands.idj.Share_with_friends')}}</view>
+						<view class="inviteintro">{{$t('user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you')}}</view>
 					</view>
 					<view class="invitein">
 						<canvas canvas-id="qrcode" :style="{width: `100%`, height: `100%`}" />
 					</view>
 					<view class="invitebottom">
-						<view class="inviteleft">邀请码</view>
+						<view class="inviteleft">{{$t('login.activity_code')}}</view>
 						<view class="inviteright">{{invitationCode}}
 							<image @click="copyInvite" class="inviteright_img" src="@/static/islands/copywhite.png" mode=""></image>
 						</view>
@@ -25,7 +25,7 @@
 			</view>
 			<button class="editpassbtn" @click="copyInvite">
 				<view class="bothsides"></view>
-				<view class="">复制链接</view>
+				<view class="">{{$t('user.asset.islands.idj.copy_the_link')}}</view>
 				<image class="bothsides" src="@/static/islands/invitecopy.png" mode=""></image>
 			</button>
 		</view>

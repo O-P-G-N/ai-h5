@@ -1,6 +1,6 @@
 <template>
 	<view class="certificate">
-		<u-navbar @leftClick="goBackUser" title="卡券" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.asset.islands.ctf.coupon')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -8,13 +8,13 @@
 		<u-tabs :list="tabList" :activeStyle="{color: '#408ab7',fontWeight: '700'}" lineColor="#408ab7" :inactiveStyle="{color:'#000',fontWeight: '700',}" :scrollable="false" @click="tabClick"></u-tabs>
 		<view class="list">
 			<view class="main_desc">
-				<view class="title">新手礼包券</view>
+				<view class="title">{{$t('user.asset.islands.ctf.Novice_gift')}}</view>
 			</view>
 			<view class="used"></view>
 			<view class="multiple_box">
-				<view class="multiple">1.5倍</view>
+				<view class="multiple">1.5{{$t('user.asset.islands.ctf.time')}}</view>
 				<view class="card_active" @click="activeBtn">
-					<view class="active_btn">激活</view>
+					<view class="active_btn">{{$t('user.asset.islands.ctf.activity')}}</view>
 				</view>
 			</view>
 		</view>
@@ -26,9 +26,9 @@
 		data() {
 			return {
 				tabList: [{
-					name: '我的卡券',
+					name: $t('user.asset.islands.ctf.my_coupon'),
 				}, {
-					name: '使用记录',
+					name: $t('user.asset.islands.ctf.use_record'),
 				}]
 			};
 		},
@@ -47,7 +47,7 @@
 				console.log(val.index);
 			},
 			activeBtn(){
-				uni.$u.toast("暂未开放")
+				uni.$u.toast($t('user.asset.islands.ctf.Not_yet_open'))
 			}
 		}
 	}
