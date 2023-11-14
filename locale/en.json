@@ -212,9 +212,8 @@
 	"login.tips19":"Please enter a valid phone number",
 	"login.tips20":"Mobile phone registration is not available yet",
 	"login.tips21":"Please select a country",
-=======
 	"login.privacypolicy":"invite code",
->>>>>>> e55771ada3ca34a1938958d8bfcf1939041c3306
+	
 	
 	"user.asset.details.index.asset_detail": "asset detail",
 	"user.asset.details.index.charge_record": "charge record",
