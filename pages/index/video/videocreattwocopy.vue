@@ -1,6 +1,6 @@
 <template>
 	<view class="videocreattwo">
-		<u-navbar title="创作中心" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="creativecenter" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="head_back_img" src="~@/static/index/round-back.png">
 				</image>
@@ -12,26 +12,26 @@
 		</u-navbar>
 		<view class="main">
 			<view class="videoeverytitle">
-				<view class="videoeverytitle_left">请输入数字人演讲稿</view>
+				<view class="videoeverytitle_left">{{$t("index.enterdigitalspeakerspeech")}}</view>
 				<view class="videoeverytitle_right">2/3</view>
 			</view>
 			<view class="topcard">
 				<textarea maxlength="300" v-model="from.content" @input="inputTextarea" class="text_area"
 					placeholder-style="color:grey"
-					placeholder="例如:开心牌有机苹果，精选自优质的有机果园，以纯净的土地和天然的阳光培育而成。我们坚持不使用任何化学合成物，让每一颗苹果都天然无添加，无农药残留，确保您和您的家人能够品尝到最纯正的自然滋味。" />
+					:placeholder="placeholder" />
 				<view class="topcard_bottom">
 					<view class="verybottom_left" @click="layoutCopy">
-						使用AI编排文案
+						{{$t("index.usingAI")}}
 						<image class="verybottom_left_img" src="@/static/index/buzhou2icon.png" mode=""></image>
 					</view>
 					<view class="verybottom_right">
 						{{textareaLength}}<text class="verybottom_right_text">/300</text>
-						<view class="clearbtn" @click="from.content='',textareaLength=0">清空</view>
+						<view class="clearbtn" @click="from.content='',textareaLength=0">{{$t("index.empty")}}</view>
 					</view>
 				</view>
 			</view>
 			<view class="videoeverytitle" style="margin-top: 26px;">
-				<view class="videoeverytitle_left">请选择数字人音色</view>
+				<view class="videoeverytitle_left">{{$t("index.pleaseselectadigitalhuman")}}</view>
 				<view class="videoeverytitle_right"></view>
 			</view>
 			<view class="yinsedetail">
@@ -55,7 +55,7 @@
 				</template>
 			</view>
 			<view class="verybottom_btn">
-				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="nextStepThree">下一步
+				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="nextStepThree">{{$t("index.nextstep")}}
 					2/3</ai-button>
 			</view>
 		</view>
@@ -79,9 +79,9 @@
 				</view>
 				<view class="verybottom_btn">
 					<ai-button :btnHeight="'53px'" @click="timbreShow=false" :bg="'#333'"
-						class="zhuiaddbtn">取消</ai-button>
+						class="zhuiaddbtn">{{$t("index.cancellation")}}</ai-button>
 					<ai-button :btnHeight="'53px'" :bg="'#fff'" :color="'#333'" class="zhongzhibtn"
-						@click="determineUse">确定</ai-button>
+						@click="determineUse">{{$t("index.determine")}}</ai-button>
 				</view>
 			</view>
 		</u-popup>
@@ -89,24 +89,24 @@
 			customStyle="{'background-color':'transparent'}">
 			<view class="popupcontent" v-if="!aiModelText">
 				<view class="popuptitle">
-					<text class="popuptitle_left">AI生成</text>
+					<text class="popuptitle_left">{{$t("index.AIgeneration")}}</text>
 					<image @click="copywritingShow=false" class="popuptitle_right" src="@/static/index/closeicon.png"
 						mode=""></image>
 				</view>
 				<view class="everytitles">
-					简单描述您的产品详情
+					{{$t("index.describeyourproductdetails")}}
 				</view>
 				<view class="topcard">
 					<textarea v-model="modelText" maxlength="1000" @input="modelInputTextarea" class="text_area"
 						placeholder-style="color:grey;fontSize:13px"
-						placeholder="例如:请帮我生成一段30秒的口播内容，内容主题是关于卖苹果的，产品特色为有机苹果苹果的品牌为开心牌。" />
+						:placeholder="placeholder1" />
 					<view class="topcard_bottom">
 						{{modelTextareaLength}}<text class="topcard_bottom_text">/1000</text>
-						<view class="clearbtn" @click="modelText='',modelTextareaLength=0">清空</view>
+						<view class="clearbtn" @click="modelText='',modelTextareaLength=0">{{$t("index.empty")}}</view>
 					</view>
 				</view>
 				<ai-button :btnHeight="'58px'" :bg="'#333'" :disabled="btnDisabled" class="quicklycreate"
-					:loading="loading" @click="startGeneration">开始生成</ai-button>
+					:loading="loading" @click="startGeneration">{{$t("index.startgeneration")}}</ai-button>
 			</view>
 			<view class="popupcontent" v-else>
 				<view class="popuptitle">
@@ -115,14 +115,14 @@
 						mode=""></image>
 				</view>
 				<view class="everytitles">
-					文案内容
+					{{$t("index.copycontent")}}
 				</view>
 				<view class="topcards">
 					<textarea v-model="aiModelText" class="text_area" placeholder-style="color:grey" />
 				</view>
-				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="usingCopy">使用</ai-button>
+				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="usingCopy">{{$t("index.use")}}</ai-button>
 				<ai-button :btnHeight="'53px'" :bg="'#fff'" :color="'#333'" class="zhongzhibtn"
-					@click="aiModelText=''">重新生成</ai-button>
+					@click="aiModelText=''">{{$t("index.regenerate")}}</ai-button>
 			</view>
 		</u-popup>
 	</view>
@@ -151,6 +151,10 @@
 				voiceIndex: null, //选中索引
 				selectedVoice: {}, //选中的音色
 				displayedTimbre: {}, //展示的音色
+				creativecenter:this.$t("index.creativecenter"),//创作中心国际化
+				placeholder:this.$t("index.placeholder"),//提示语国际化
+				placeholder1:this.$t("index.placeholder1"),//提示语国际化
+				
 			};
 		},
 		onShow() {
@@ -258,7 +262,7 @@
 					});
 					let time=setTimeout(()=>{
 						clearTimeout(time)
-						uni.$u.toast('网络超时，请重试!');
+						uni.$u.toast(this.$t("index.tips7"));
 						this.btnDisabled = false
 						this.loading = false
 					},30000)
@@ -282,10 +286,10 @@
 			},
 			nextStepThree() {
 				if (this.from.content == "") {
-					uni.$u.toast('请输入演讲稿');
+					uni.$u.toast(this.$t("index.enterdigitalspeakerspeech"));
 					return
 				}else if (this.from.voiceId == "") {
-					uni.$u.toast('请选择数字人音色');
+					uni.$u.toast(this.$t("index.pleaseselectadigitalhuman"));
 					return
 				}else {
 					uni.navigateTo({

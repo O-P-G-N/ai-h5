@@ -24,8 +24,8 @@
 				</view>
 			</view>
 			<view class="btnMain">
-				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">1张{{$t("index.picture")}} 10 {{$t('index.integral')}}</view>
-				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">4张{{$t("index.picture")}} 30 {{$t('index.integral')}}</view>
+				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">{{$t("index.sel1")}}</view>
+				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">{{$t("index.sel2")}}</view>
 			</view>
 			<ai-button :btnHeight="'60px'" class="next-btn" @click="nextFn">{{$t('index.nextstep')}}</ai-button>
 		</view>
@@ -43,7 +43,7 @@
 				},
 				accountBalance: "", //账户余额
 				create:this.$t("index.ai.create"),//AI创作国际化
-				descriptivewords:this.$t("index.ai.descriptivewords"),//请输入您的描述词国际化
+				descriptivewords:this.$t("index.descriptivewords"),//请输入您的描述词国际化
 			}
 		},
 		onShow() {
@@ -78,13 +78,13 @@
 				}
 				if (this.parameter.prompt == '') {
 					uni.showToast({
-						title: '请输入描述画面',
+						title: this.$t("index.tips1"),
 						icon: 'none'
 					})
 					return
 				} else if (this.accountBalance < num) {
 					uni.showToast({
-						title: '积分余额不足',
+						title: this.$t("index.tips2"),
 						icon: 'none'
 					})
 					return

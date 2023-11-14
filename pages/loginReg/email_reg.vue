@@ -28,7 +28,9 @@
 					</u-input>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement5')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement5')}}<text class="blur"
+						@click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text
+						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
@@ -58,15 +60,15 @@
 				forbidden: false, //是否禁用
 				loading: false, //等待状态
 				tips: "", //提示语
-				register:this.$t('login.register'),//注册国际化
-				back:this.$t('login.back'),//返回国际化
-				enteremail:this.$t('login.enteremail'),//请输入邮箱国际化
-				getcode:this.$t('login.getcode'),//获取验证码国际化
-				acquire:this.$t('login.acquire'),//X秒后获取国际化
-				entercode:this.$t('login.entercode'),//请输入验证码国际化
-				enterpassword:this.$t('login.enterpassword'),//请输入密码国际化
-				invitationcode:this.$t('login.invitationcode'),//请输入邀请码国际化
-				
+				register: this.$t('login.register'), //注册国际化
+				back: this.$t('login.back'), //返回国际化
+				enteremail: this.$t('login.enteremail'), //请输入邮箱国际化
+				getcode: this.$t('login.getcode'), //获取验证码国际化
+				acquire: this.$t('login.acquire'), //X秒后获取国际化
+				entercode: this.$t('login.entercode'), //请输入验证码国际化
+				enterpassword: this.$t('login.enterpassword'), //请输入密码国际化
+				invitationcode: this.$t('login.invitationcode'), //请输入邀请码国际化
+
 			};
 		},
 		onLoad(option) {
@@ -85,6 +87,18 @@
 			showHidden() {
 				this.eyeShow = !this.eyeShow
 			},
+			// 查看用户协议
+			viewTerms() {
+				uni.navigateTo({
+					url: `/pages/loginReg/termsUse`
+				});
+			},
+			// 查看隐私协议
+			viewPolicy() {
+				uni.navigateTo({
+					url: `/pages/loginReg/privacyPolicy`
+				});
+			},
 			// 忘记密码
 			forgotPassword() {
 				uni.navigateTo({
@@ -94,7 +108,7 @@
 			// 获取验证码
 			getCode() {
 				if (this.from.email == "") {
-					uni.$u.toast('请输入邮箱号');
+					uni.$u.toast(this.$t("login.tips12"));
 					return
 				} else {
 					if (this.$refs.uCode.canGetCode) {
@@ -108,12 +122,12 @@
 							success: (res) => {
 								if (res.code == 200) {
 									this.$refs.uCode.start();
-									uni.$u.toast('验证码发送成功');
+									uni.$u.toast(this.$t("login.tips13"));
 								}
 							}
 						});
 					} else {
-						uni.$u.toast('倒计时结束后再发送');
+						uni.$u.toast(this.$t("login.tips3"));
 					}
 				}
 			},
@@ -129,34 +143,34 @@
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (!emailPattern.test(this.from.email)) {
 					uni.showToast({
-						title: "请输入正确的邮箱",
+						title:this.$t("login.tips9"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.code == "") {
 					uni.showToast({
-						title: "请输入验证码",
+						title:this.$t("login.tips14"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password == "") {
 					uni.showToast({
-						title: "请输入密码",
+						title:this.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password.length < 8) {
 					uni.showToast({
-						title: "至少有8个字符",
+						title:this.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
-				} else{
-					if(patrn.test(this.from.password)){
+				} else {
+					if (patrn.test(this.from.password)) {
 						this.forbidden = true;
 						this.loading = true
 						uni.request({
@@ -169,7 +183,7 @@
 									this.forbidden = false;
 									this.loading = false;
 									uni.showToast({
-										title: "注册成功",
+										title:this.$t("login.tips15"),
 										success: function(res1) {
 											let times = setTimeout(() => {
 												clearTimeout(times)
@@ -184,10 +198,10 @@
 									this.forbidden = false;
 									this.loading = false;
 								}
-						
+
 							}
 						});
-					}else if(patrns.test(this.from.password)){
+					} else if (patrns.test(this.from.password)) {
 						this.forbidden = true;
 						this.loading = true
 						uni.request({
@@ -200,7 +214,7 @@
 									this.forbidden = false;
 									this.loading = false;
 									uni.showToast({
-										title: "注册成功",
+										title:this.$t("login.tips15"),
 										success: function(res1) {
 											let time = setTimeout(() => {
 												clearTimeout(time)
@@ -215,11 +229,11 @@
 									this.forbidden = false;
 									this.loading = false;
 								}
-						
+
 							}
 						});
-					}else {
-						uni.$u.toast('有一个大写字母或字符');
+					} else {
+						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}

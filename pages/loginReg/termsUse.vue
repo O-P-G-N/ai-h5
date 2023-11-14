@@ -87,5 +87,12 @@
 			padding:0 20rpx;
 			box-sizing: border-box;
 		}
+		uni-web-view.uni-webview--fullscreen {
+		    position: absolute;
+		    left: 0px;
+		    right: 0;
+		    top: 43px;
+		    bottom: 0;
+		}
 	}
 </style>

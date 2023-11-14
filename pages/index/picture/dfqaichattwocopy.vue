@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="AI创作" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="create" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
@@ -20,62 +20,62 @@
 					</template>
 
 				</view>
-				<view class="hint" v-if='imgUrl'>长按图片保存到本地</view>
-				<view class="content-title" style="margin-top: 30rpx;"><text>画面描述</text></view>
+				<view class="hint" v-if='imgUrl'>{{$t("index.savelocally")}}</view>
+				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text></view>
 				<view class="detail-content">{{parameter.content}}</view>
 
-				<view class="content-title"><text>创作信息</text></view>
+				<view class="content-title"><text>{{$t("index.creativeinfo")}}</text></view>
 				<view class="detail-content1">
 					<view class="detail-item">
-						<view class="detail-left">主题</view>
+						<view class="detail-left">{{$t("index.theme")}}</view>
 						<view class="detail-right">{{parameter.topicStr}}</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">尺寸</view>
+						<view class="detail-left">{{$t("index.size")}}</view>
 						<view class="detail-right">1024*1024</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">风格选择</view>
+						<view class="detail-left">{{$t("index.styleselection")}}</view>
 						<view class="detail-right">{{parameter.styleStr}}</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">采样模式</view>
+						<view class="detail-left">{{$t("index.samplingmode")}}</view>
 						<view class="detail-right">DPM++ 2M Karras</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">提示性相关词</view>
+						<view class="detail-left">{{$t("index.suggestiverelatedterm")}}</view>
 						<view class="detail-right">7</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">Clip skip</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">ENSD</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">角色同人</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.rolepeers")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">融合模型</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.fusionmodel")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">参考图</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.referenceimage")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 				</view>
 				<view class="miaoshu">
-					<view class="content-title"><text>精绘</text></view>
+					<view class="content-title"><text>{{$t("index.finedrawing")}}</text></view>
 					<view class="detail-content1">
 						<view class="detail-item">
-							<view class="detail-left">精绘倍数</view>
+							<view class="detail-left">{{$t("index.finedrawingmultiple")}}</view>
 							<view class="detail-right">1.5</view>
 						</view>
 						<view class="detail-item">
-							<view class="detail-left">强度</view>
+							<view class="detail-left">{{$t("index.strength")}}</view>
 							<view class="detail-right">80%</view>
 						</view>
 					</view>
@@ -85,7 +85,7 @@
 		</view>
 		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="generateImg"></image>
-			<view class="buttonDown" @click="copyBtn">复制链接</view>
+			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -93,7 +93,7 @@
 					{{showDetail.title}}
 				</view>
 				<view class="content">{{showDetail.content}}</view>
-				<view class="button" @click="showPopup=false">知道了</view>
+				<view class="button" @click="showPopup=false">{{$t("index.gotit")}}</view>
 			</view>
 		</ai-popup>
 	</view>
@@ -110,7 +110,7 @@
 				isGenerate: false,
 				generateImg: '',
 				progress: 0,
-
+				create:this.$t("index.ai.create"),//AI创作国际化
 				showPopup: false,
 				showDetail: {
 					title: '',
@@ -147,7 +147,7 @@
 					data: this.generateImg,
 					success: function() {
 						uni.showToast({
-							title: "复制成功,请在浏览器打开!",
+							title:this.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}

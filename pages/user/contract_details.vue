@@ -43,24 +43,14 @@
 				</view>
 				<view class="jiaoyititles">{{$t('user.con_detail.i21')}}</view>
 				<view class="tablemain">
-					<view class="tablemain_body">
-						<view class="">2023-10-27 09:37:30</view>
-						<view class="">Stock：Aptos |（Symbol：APT）| US</view>
+					<view class="tablemain_body" v-for="(v,i) in marketData" :key="i">
+						<view class="">{{v.createTime}}</view>
+						<view class="">Stock：{{v.stock}} |（Symbol：{{v.symbol}}）| US</view>
 						<view class="tablemain_body_content">
-							<view class="redactivebgcolor">
-								Buy
+							<view :class="v.type=='Buy'?'redactivebgcolor':'greenactivebgcolor'">
+								{{v.type}}
 							</view>
-							<view class="">Price：6.43 | Floating P/L：0%</view>
-						</view>
-					</view>
-					<view class="tablemain_body">
-						<view class="">2023-10-27 09:36:16</view>
-						<view class="">Stock：Zcash |（Symbol：ZEC）| US</view>
-						<view class="tablemain_body_content">
-							<view class="redactivebgcolor">
-								Sell
-							</view>
-							<view class="">Price：30.27 | Floating P/L：17.59%</view>
+							<view class="">Price：{{v.price}}| Floating P/L：{{v.floating}}</view>
 						</view>
 					</view>
 				</view>
@@ -74,6 +64,7 @@
 		data() {
 			return {
 				contractDetails: {}, //交易详情
+				marketData:[],//交易行情
 			};
 		},
 		onLoad(option) {
@@ -92,6 +83,18 @@
 					method: "POST",
 					success: (res) => {
 						res.data.runday = this.getDaysDiff(res.data.createTime, Date.now())
+						this.contractDetails=res.data;
+					}
+				});
+				uni.request({
+					url: `/marketDetail/list`,
+					method: "GET",
+					data:{
+						pageNum:1,
+						pageSize:10
+					},
+					success: (res) => {
+						this.marketData=res.data.rows;
 						this.contractDetails=res.data;
 					}
 				});

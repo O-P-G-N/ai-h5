@@ -78,6 +78,7 @@
 						<image class="community_img" src="@/static/user/nofriends.png" mode=""></image>
 						<view class="community_text">还没有邀请好友，快去邀请过好友吧~</view>
 						<button class="community_btn" @click="inviteFriends">邀请好友</button>
+						<view style="height: 90px;"></view>
 					</view>
 				</view>
 			</view>

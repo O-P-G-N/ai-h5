@@ -301,6 +301,9 @@
 					margin-top: 15px;
 					display: flex;
 					align-items: center;
+					.uni-input{
+						width: 100%;
+					}
 				}
 
 				.chuangjian {

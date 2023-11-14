@@ -32,6 +32,7 @@
 				<view class="videoevery_wai" v-for="(v,i) in videoList" :key="i">
 					<view class="videoevery">
 						<view class="videoevery_nei" v-if="playFlag!=i&&playIndex!=i">
+							<image class="videoevery_nei_img" :src="v.imgUrl" mode=""></image>
 							<view class="bofangbtn" @click="playBtn(i)">
 								<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
 							</view>
@@ -315,6 +316,7 @@
 				justify-content: space-around;
 				grid-template-columns: repeat(auto-fill, 110px);
 				grid-gap: 10px;
+
 				.workslist_img {
 					margin-left: 10px;
 					margin-right: 10px;
@@ -345,14 +347,23 @@
 						width: 100%;
 						height: 213px;
 						border-radius: 21px;
-						background-image: url(https://imgeom.oss-ap-southeast-1.aliyuncs.com/static/image/videoanli1.png);
-						background-size: cover;
+
 						background-position: 50%;
 						background-repeat: no-repeat;
 						left: 0;
 						top: 0;
 
+						.videoevery_nei_img {
+							width: 100%;
+							height: 100%;
+						}
+
 						.bofangbtn {
+							position: absolute;
+							left: 0;
+							top: 0;
+							width: 100%;
+							z-index: 10000;
 							height: 100%;
 							display: flex;
 							align-items: center;

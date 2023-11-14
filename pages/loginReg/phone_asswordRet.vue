@@ -120,13 +120,13 @@
 						success: (res) => {
 							if (res.code == 200) {
 								uni.showLoading({
-									title: '验证码发送中'
+									title: this.$t("login.tips1")
 								})
 								this.timer = setTimeout(() => {
 									uni.hideLoading();
 									this.loading = false
 									this.forbidden = false
-									uni.$u.toast('验证码已发送');
+									uni.$u.toast(this.$t("login.tips2"));
 									this.pageIndex = 1;
 								}, 2000);
 
@@ -147,14 +147,14 @@
 						method: "GET",
 						data: that.from,
 						success: (res) => {
-							uni.$u.toast('验证码已发送');
+							uni.$u.toast(this.$t("login.tips2"));
 							// 通知验证码组件内部开始倒计时
 							this.$refs.uCode.start();
 						},
 					})
 
 				} else {
-					uni.$u.toast('倒计时结束后再发送');
+					uni.$u.toast(this.$t("login.tips3"));
 				}
 			},
 			// 提示语
@@ -190,15 +190,15 @@
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.formData.password.length < 8) {
-					uni.$u.toast('至少有8个字符');
+					uni.$u.toast(this.$t("login.tips4"));
 					return
 				} else{
 					if(patrn.test(this.formData.password)){
 						if (!num.test(this.formData.password)) {
-							uni.$u.toast('包含数字');
+							uni.$u.toast(this.$t("login.tips5"));
 							return
 						} else if (this.formData.password != this.formData.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
+							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
 							uni.request({
@@ -212,7 +212,7 @@
 								},
 								success: (res) => {
 									uni.showToast({
-										title: "重置成功",
+										title: this.$t("login.tips7"),
 										success: function(res) {
 											let times = setTimeout(() => {
 												clearTimeout(times)
@@ -227,10 +227,10 @@
 						}
 					}else if(patrns.test(this.formData.password)){
 						if (!num.test(this.formData.password)) {
-							uni.$u.toast('包含数字');
+							uni.$u.toast(this.$t("login.tips5"));
 							return
 						} else if (this.formData.password != this.formData.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
+							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
 							uni.request({
@@ -244,7 +244,7 @@
 								},
 								success: (res) => {
 									uni.showToast({
-										title: "重置成功",
+										title: this.$t("login.tips7"),
 										success: function(res) {
 											let time = setTimeout(() => {
 												clearTimeout(time)
@@ -258,7 +258,7 @@
 							});
 						}
 					}else {
-						uni.$u.toast('有一个大写字母或字符');
+						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}

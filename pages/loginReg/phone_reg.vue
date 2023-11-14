@@ -35,7 +35,7 @@
 					</u-input>
 				</view>
 				<view class="privacy">
-					{{$t('login.selectmobileverification5')}}<text class="blur">《{{$t('login.selectmobileverification2')}}》</text>{{$t('login.selectmobileverification3')}}<text class="blur">《{{$t('login.selectmobileverification4')}}》</text>
+					{{$t('login.selectmobileverification5')}}<text class="blur" @click="viewTerms">《{{$t('login.selectmobileverification2')}}》</text>{{$t('login.selectmobileverification3')}}<text class="blur" @click="viewPolicy">《{{$t('login.selectmobileverification4')}}》</text>
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
@@ -96,6 +96,18 @@
 				this.countryCode = `+${selected.dialCode}`;
 				this.from.countryCode = selected.dialCode;
 			},
+			// 查看用户协议
+						viewTerms(){
+							uni.navigateTo({
+								url: `/pages/loginReg/termsUse`
+							});
+						},
+						// 查看隐私协议
+						viewPolicy(){
+							uni.navigateTo({
+								url: `/pages/loginReg/privacyPolicy`
+							});
+						},
 			// 显示隐藏
 			showHidden() {
 				this.eyeShow = !this.eyeShow
@@ -109,10 +121,10 @@
 			// 获取验证码
 			getCode() {
 				if (this.from.countryCode == "") {
-					uni.$u.toast('请选择国家');
+					uni.$u.toast(this.$t("login.tips21"));
 					return
 				} else if (this.from.phone == "") {
-					uni.$u.toast('请输入手机号');
+					uni.$u.toast(this.$t("login.enterphone"));
 					return
 				} else {
 					if (this.$refs.uCode.canGetCode) {
@@ -127,12 +139,12 @@
 							success: (res) => {
 								if (res.code == 200) {
 									this.$refs.uCode.start();
-									uni.$u.toast('验证码发送成功');
+									uni.$u.toast(this.$t("login.tips13"));
 								}
 							}
 						});
 					} else {
-						uni.$u.toast('倒计时结束后再发送');
+						uni.$u.toast(this.$t("login.tips3"));
 					}
 				}
 
@@ -147,35 +159,35 @@
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({
-						title: "请正确选择国家",
+						title:this.$t("login.tips18"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.phone == "") {
 					uni.showToast({
-						title: "请输入正确的手机号",
+						title: this.$t("login.tips19"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.code == "") {
 					uni.showToast({
-						title: "请输入验证码",
+						title: this.$t("login.tips14"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password == "") {
 					uni.showToast({
-						title: "请输入密码",
+						title: this.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password.length < 8) {
 					uni.showToast({
-						title: "至少有8个字符",
+						title: this.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
@@ -194,7 +206,7 @@
 									this.forbidden = false;
 									this.loading = false;
 									uni.showToast({
-										title: "注册成功",
+										title: this.$t("login.tips15"),
 										success: function(res1) {
 											let times = setTimeout(() => {
 												clearTimeout(times)
@@ -225,7 +237,7 @@
 									this.forbidden = false;
 									this.loading = false;
 									uni.showToast({
-										title: "注册成功",
+										title: this.$t("login.tips15"),
 										success: function(res1) {
 											let time = setTimeout(() => {
 												clearTimeout(time)
@@ -244,7 +256,7 @@
 							}
 						});
 					} else {
-						uni.$u.toast('有一个大写字母或字符');
+						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}

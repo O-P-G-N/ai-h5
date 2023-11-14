@@ -17,7 +17,7 @@
 						<text>nike</text>
 						<image class="levelIcon" :src="pointsBalance.vip==1?'../../static/user/e2.png':pointsBalance.vip==2?'../../static/user/d2.png':pointsBalance.vip==3?'../../static/user/c2.png':pointsBalance.vip==4?'../../static/user/b2.png':pointsBalance.vip==5?'../../static/user/a2.png':pointsBalance.vip==6?'../../static/user/s2.png':''" mode=""></image>
 					</view>
-					<view class="a_balance_title">积分余额</view>
+					<view class="a_balance_title">技能点余额</view>
 					<view class="a_balance">{{pointsBalance.point}}</view>
 				</view>
 			</view>

@@ -3,13 +3,16 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="privacypolicy" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="main" v-if="pageShow==0">
-			<web-view src="../../static/file/termsUse/zh-Hant.html"></web-view>
+			<view style="margin-top: 10px;"></view>
+			<web-view src="../../static/file/privacypolicy/zh-Hant.html"></web-view>
 		</view>
 		<view class="main" v-else-if="pageShow==1">
-			<web-view src="../../static/file/termsUse/zh-Hans.htm"></web-view>
+			<web-view src="../../static/file/privacypolicy/zh-Hans.htm"></web-view>
 		</view>
 		<view class="main" v-else-if="pageShow==2">
-			<web-view src="../../static/file/termsUse/en.htm"></web-view>
+			<view style="margin-top: 10px;">
+			<web-view src="../../static/file/privacypolicy/en.htm"></web-view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -86,6 +89,13 @@
 		.main{
 			padding:0 20rpx;
 			box-sizing: border-box;
+		}
+		uni-web-view.uni-webview--fullscreen {
+		    position: absolute;
+		    left: 0px;
+		    right: 0;
+		    top: 43px;
+		    bottom: 0;
 		}
 	}
 </style>

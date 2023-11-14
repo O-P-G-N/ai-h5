@@ -1,13 +1,13 @@
 <template>
 	<view class="portfolio">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="作品集" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="back" :title="portfolio" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="searchselect">
 			<view class="inputsearch">
-				<u--input v-model="from.keyword" placeholder="搜索画面描述" border="surround" shape="circle"></u--input>
+				<u--input v-model="from.keyword" :placeholder="searchdescription" border="surround" shape="circle"></u--input>
 			</view>
 			<view class="rightshaixuan" @click="searchBtn">
 				<image class="searchicon" src="@/static/user/search.png" mode=""></image>
@@ -32,6 +32,7 @@
 				<view class="videoevery_wai" v-for="(v,i) in videoList" :key="i">
 					<view class="videoevery">
 						<view class="videoevery_nei" v-if="playFlag!=i&&playIndex!=i">
+							<image class="videoevery_nei_img" :src="v.imgUrl" mode=""></image>
 							<view class="bofangbtn" @click="playBtn(i)">
 								<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
 							</view>
@@ -40,7 +41,7 @@
 							@pause="ended" @ended="ended" :src="v.address" controls></video>
 					</view>
 
-					<ai-button :btnHeight="'57px'" class="next-btn startBtn" @click="copyVideoLink(v.address)">复制视频链接</ai-button>
+					<ai-button :btnHeight="'57px'" class="next-btn startBtn" @click="copyVideoLink(v.address)">{{$t("index.copyvideolink")}}</ai-button>
 					<!-- <button class="startBtn" >复制视频链接</button> -->
 				</view>
 			</view>
@@ -48,7 +49,7 @@
 		<view v-if="bigImg" class="image_mask" @click.stop="bigImg=false">
 			<view class="image_box">
 				<image class="big_img" @click.native.stop :src="bigImgRoute" mode=""></image>
-				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">复制链接</view>
+				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">{{$t("index.copylink")}}</view>
 			</view>
 		</view>
 		<u-loadmore :status="status" />
@@ -78,6 +79,9 @@
 				status: "loadmore",
 				playFlag: null, //是否播放
 				playIndex:null,//播放索引
+				back:this.$t("index.back"),//返回国际化
+				searchdescription:this.$t("index.searchdescription"),//搜索画面描述国际化
+				portfolio:this.$t("index.portfolio"),//作品集国际化
 			}
 		},
 		onShow() {
@@ -343,14 +347,21 @@
 						width: 100%;
 						height: 213px;
 						border-radius: 21px;
-						background-image: url(https://imgeom.oss-ap-southeast-1.aliyuncs.com/static/image/videoanli1.png);
-						background-size: cover;
+						
 						background-position: 50%;
 						background-repeat: no-repeat;
 						left: 0;
 						top: 0;
-
+						.videoevery_nei_img{
+							width: 100%;
+							height: 100%;
+						}
 						.bofangbtn {
+							position: absolute;
+							top: 0;
+							left: 0;
+							z-index: 10000;
+							width: 100%;
 							height: 100%;
 							display: flex;
 							align-items: center;

@@ -156,14 +156,14 @@
 					</view>
 				</view>
 			</view>
-			<view>
+			<!-- <view>
 				<view class="funlist_every" @click="helpCenter">
 					<view class="left"><text>{{$t('home.menu.assist')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view>
 				<view class="funlist_every" @click="viewNotice">
 					<view class="left"><text>{{$t('home.menu.notice')}}</text></view>

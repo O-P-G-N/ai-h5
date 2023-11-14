@@ -44,7 +44,7 @@
 						</button>
 					</view>
 				</view>
-				<view class="marketeverytitle">AI{{$t('ac.int')}}+{{$t('ac.lht')}}</view>
+				<view class="marketeverytitles">AI{{$t('ac.int')}}+{{$t('ac.lht')}}</view>
 				<view class="modellist">
 					<view class="modellist_every" @click="createContract(1)">
 						<view class="modeltop">
@@ -157,6 +157,7 @@
 					],
 					padding: [15, 10, 0, 15],
 					enableScroll: false,
+					// dataLabel:false,
 					legend: {
 						show: false,
 						position: "top"
@@ -252,6 +253,7 @@
 					method: "GET",
 					success: (res) => {
 						this.listData = res.data;
+						this.currencyName=res.data[0].pairs;
 						uni.request({
 							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
 							method: "GET",
@@ -264,7 +266,7 @@
 								let arr = []
 								res1.data.data.map((v) => {
 									parmas.categories.push(v.date)
-									arr.push(v.last)
+									arr.push(v.last.toFixed(2))
 								})
 								parmas.series = [{
 									name: res.data[0].pairs,
@@ -321,7 +323,7 @@
 								let arr = []
 								res1.data.data.map((v) => {
 									parmas.categories.push(v.date)
-									arr.push(v.last)
+									arr.push(v.last.toFixed(2))
 								})
 								parmas.series = [{
 									name: res.data[0].pairs,
@@ -423,7 +425,7 @@
 						let arr = []
 						res1.data.data.map((v) => {
 							parmas.categories.push(v.date)
-							arr.push(v.last)
+							arr.push(v.last.toFixed(2))
 						})
 						parmas.series = [{
 							name: this.currencyName,
@@ -485,7 +487,7 @@
 						console.log("res1",res1);
 						res1.data.data.map((v) => {
 							parmas.categories.push(v.date)
-							arr.push(v.last)
+							arr.push(v.last.toFixed(2))
 						})
 						parmas.series = [{
 							name: pairs,
@@ -741,7 +743,7 @@
 					}
 				}
 
-				.marketeverytitle {
+				.marketeverytitles {
 					color: #000;
 					font-size: 21px;
 					margin-top: 26px;
@@ -749,10 +751,7 @@
 					display: flex;
 					align-items: center;
 
-					.marketeverytitle_img {
-						width: 102px;
-						height: 56rpx;
-					}
+					
 				}
 
 				.modellist {
@@ -912,6 +911,10 @@
 					font-weight: 600;
 					display: flex;
 					align-items: center;
+					.marketeverytitle_img {
+						width: 102px;
+						height: 56rpx;
+					}
 
 					.marketeverytitle {
 						width: 74px;
@@ -919,7 +922,7 @@
 						margin-right: 5px;
 					}
 				}
-
+				
 				.widgttwo {
 					width: 100%;
 					margin: 0 auto;
