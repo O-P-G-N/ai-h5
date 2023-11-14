@@ -1,21 +1,21 @@
 <template>
 	<view class="Confidentiality">
-		<u-navbar @leftClick="goBackUser" title="密保设置" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.islands.sc.cd.sc')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="main">
 			<view class="cell">
-				<view v-if="!problem" @click="selectProblem" class="placeholderClass">点击选择密保问题</view>
+				<view v-if="!problem" @click="selectProblem" class="placeholderClass">{{$t('user.islands.sc.cd.cfcq')}}</view>
 				<view v-else class="confvalue" @click="selectProblem">{{problem}}</view>
 			</view>
 			<view class="cell">
-				<input v-model="from.content" class="uni-input" maxlength="20" placeholder="请输入密保答案" />
+				<input v-model="from.content" class="uni-input" maxlength="20" :placeholder="$t('user.islands.sc.cd.pima')" />
 			</view>
-			<view class="tip">请牢记密保问题，请勿透露给第三方</view>
+			<view class="tip">{{$t('user.islands.sc.cd.kim')}}</view>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" class="next-btn editpassbtn"
-				@click="ConfirmSet">确认设置</ai-button>
+				@click="ConfirmSet">{{$t('user.islands.sc.cd.cs')}}</ai-button>
 		</view>
 		<u-picker closeOnClickOverlay @close="closeShow" @cancel="closeShow" @confirm="confirmBtn" :show="show"
 			:columns="columns" keyName="value"></u-picker>
@@ -59,10 +59,10 @@
 			// 确认绑定
 			ConfirmSet() {
 				if (this.from.key == "") {
-					uni.$u.toast('请选择密保问题');
+					uni.$u.toast(this.$t('user.islands.sc.cd.scq'));
 					return
 				} else if (this.from.content == "") {
-					uni.$u.toast('内容不能为空');
+					uni.$u.toast(this.$t('user.islands.sc.cd.cbe'));
 					return
 				} else {
 					uni.request({
@@ -72,7 +72,7 @@
 						success: (res) => {
 							if (res.code == 200) {
 								uni.showToast({
-									title: "设置成功",
+									title: this.$t('user.islands.sc.cd.sttscc'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)

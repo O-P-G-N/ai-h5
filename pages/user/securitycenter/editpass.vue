@@ -1,6 +1,6 @@
 <template>
 	<view class="editpass">
-		<u-navbar height="53px" @leftClick="goBackUser" title="登录密码" :safeAreaInsetTop="false">
+		<u-navbar height="53px" @leftClick="goBackUser" :title="$t('user.islands.sc.edp.i1')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -8,35 +8,35 @@
 		<view class="container_nei">
 			<view class="main">
 				<u-cell-group :border="false">
-					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
+					<u-cell :title="titleShow==1?$t('user.islands.sc.edp.i2'):$t('user.islands.sc.edp.i3')">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
 								<view slot="suffix" class="email_content_btn">
-									<u-code unique-key="editpass" start-text="获取验证码" ref="uCode" @change="codeChange"
-										changeText="X秒重新获取"></u-code><text @click="getCode">{{tips}}</text>
+									<u-code unique-key="editpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode" @change="codeChange"
+										:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text @click="getCode">{{tips}}</text>
 								</view>
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="验证码">
+					<u-cell :title="$t('user.islands.sc.edp.i6')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.code" placeholder="请输入验证码" type="number">
+							<u-input v-model="from.code" :placeholder="$t('user.islands.sc.edp.i61')" type="number">
 
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="新密码">
+					<u-cell :title="$t('user.islands.sc.edp.i7')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.newPassword" placeholder="请输入新密码" :password="eyeShow">
+							<u-input v-model="from.newPassword" :placeholder="$t('user.islands.sc.edp.i8')" :password="eyeShow">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="确认新密码">
+					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="confirmPassword" placeholder="请确认新密码" :password="eyeShows">
+							<u-input v-model="confirmPassword" :placeholder="$t('user.islands.sc.edp.i10')" :password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -47,19 +47,19 @@
 				<view class="verify">
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-						<text class="verify_item_text">至少有 8 个字符</text>
+						<text class="verify_item_text">{{$t('user.islands.sc.edp.i11')}}</text>
 					</view>
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-						<text class="verify_item_text">有一个大写字母或符号</text>
+						<text class="verify_item_text">{{$t('user.islands.sc.edp.i12')}}</text>
 					</view>
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-						<text class="verify_item_text">包含数字</text>
+						<text class="verify_item_text">{{$t('user.islands.sc.edp.i13')}}</text>
 					</view>
 				</view>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
-					class="next-btn editpassbtn" @click="ConfMod">确认修改</ai-button>
+					class="next-btn editpassbtn" @click="ConfMod">{{$t('user.islands.sc.edp.i14')}}</ai-button>
 			</view>
 		</view>
 	</view>
@@ -108,12 +108,12 @@
 						success: (res) => {
 							if (res.code == 200) {
 								this.$refs.uCode.start();
-								uni.$u.toast('验证码发送成功');
+								uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 							}
 						}
 					});
 				} else {
-					uni.$u.toast('倒计时结束后再发送');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 				}
 			},
 			// 提示语
@@ -147,18 +147,18 @@
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (that.from.code == "") {
-					uni.$u.toast('请输入验证码');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
 					return
 				} else if (that.from.newPassword.length < 8) {
-					uni.$u.toast('至少有8个字符');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i11'));
 					return
 				} else {
 					if (patrn.test(that.from.newPassword)) {
 						if (!num.test(that.from.newPassword)) {
-							uni.$u.toast('包含数字');
+							uni.$u.toast(this.$t('user.islands.sc.edp.i13'));
 							return
 						} else if (that.from.newPassword != that.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
+							uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
 							return
 						} else {
 							this.btnDisabled = true
@@ -172,7 +172,7 @@
 										this.btnDisabled = false
 										this.loading = false
 										uni.showToast({
-											title: "修改成功",
+											title: this.$t('user.islands.sc.edp.i19'),
 											success: function(res) {
 												uni.removeStorageSync("user")
 												if (that.titleShow == 1) {
@@ -200,10 +200,10 @@
 						}
 					} else if (patrns.test(that.from.newPassword)) {
 						if (!num.test(that.from.newPassword)) {
-							uni.$u.toast('包含数字');
+							uni.$u.toast(this.$t('user.islands.sc.edp.i13'));
 							return
 						} else if (that.from.newPassword != that.confirmPassword) {
-							uni.$u.toast('两次输入密码不一致');
+							uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
 							return
 						} else {
 							this.btnDisabled = true
@@ -217,7 +217,7 @@
 										this.btnDisabled = false
 										this.loading = false
 										uni.showToast({
-											title: "修改成功",
+											title: this.$t('user.islands.sc.edp.i19'),
 											success: function(res) {
 												uni.removeStorageSync("user")
 												if (that.titleShow == 1) {
@@ -244,7 +244,7 @@
 							});
 						}
 					} else {
-						uni.$u.toast('有一个大写字母或字符');
+						uni.$u.toast(this.$t('user.islands.sc.edp.i12'));
 						return
 					}
 				}

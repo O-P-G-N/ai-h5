@@ -1,7 +1,7 @@
 <template>
 	<view class="asset_details">
 		<view class="navTow">
-			<u-navbar @leftClick="goBackUser" title="安全中心" :safeAreaInsetTop="false">
+			<u-navbar @leftClick="goBackUser" :title="$t('user.islands.sc.idx.i1')" :safeAreaInsetTop="false">
 				<view class="u-nav-slot" slot="left">
 					<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 				</view>
@@ -11,13 +11,13 @@
 			<view class="main">
 				<view class="cellgroup">
 					<u-cell-group :border="false">
-						<u-cell title="登录密码" :value="statusInfo.password?'已设置':'未设置'" :is-link="true" @click="loginPassword">
+						<u-cell :title="$t('user.islands.sc.idx.i4')" :value="statusInfo.password?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')" :is-link="true" @click="loginPassword">
 						</u-cell>
-						<u-cell title="交易密码" :value="statusInfo.withdrawPassword?'已设置':'未设置'" :is-link="true" @click="tradePassword">
+						<u-cell :title="$t('user.islands.sc.idx.i5')" :value="statusInfo.withdrawPassword?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')" :is-link="true" @click="tradePassword">
 						</u-cell>
-						<u-cell title="密保设置" :value="statusInfo.question?'已设置':'未设置'" :is-link="true" @click="securitySet">
+						<u-cell :title="$t('user.islands.sc.idx.i6')" :value="statusInfo.question?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')" :is-link="true" @click="securitySet">
 						</u-cell>
-						<u-cell title="设置昵称" :value="statusInfo.nickName?'已设置':'未设置'" :is-link="true" @click="setNickName">
+						<u-cell :title="$t('user.islands.sc.idx.i7')" :value="statusInfo.nickName?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')" :is-link="true" @click="setNickName">
 						</u-cell>
 					</u-cell-group>
 				</view>
@@ -68,7 +68,7 @@
 			//密保设置
 			securitySet(){
 				if(this.statusInfo.question){
-					uni.$u.toast("密保问题已设置")
+					uni.$u.toast(this.$t('user.islands.sc.idx.i8'))
 				}else{
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/Confidentiality`
@@ -79,7 +79,7 @@
 			// 设置昵称
 			setNickName(){
 				if(this.statusInfo.question){
-					uni.$u.toast("昵称已设置")
+					uni.$u.toast(this.$t('user.islands.sc.idx.i9'))
 				}else{
 					uni.navigateTo({
 						url: `/pages/user/securitycenter/settingName`

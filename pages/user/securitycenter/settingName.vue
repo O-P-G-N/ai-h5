@@ -1,20 +1,20 @@
 <template>
 	<view class="set_name">
-		<u-navbar @leftClick="goBackUser" title="设置昵称" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.islands.sc.idx.i7')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="main">
 			<view class="cell">
-				<input class="uni-input" v-model="nickName" maxlength="20" placeholder="请输入昵称" />
+				<input class="uni-input" v-model="nickName" maxlength="20" :placeholder="$t('user.islands.sc.sn.i4')" />
 			</view>
 			<view class="tip">
-				<view class="">温馨提示：</view>
-				<view class="">设置后默认不允许修改，请认真给自己取名哦！</view>
+				<view class="">{{$t('user.islands.sc.sn.i1')}}：</view>
+				<view class="">{{$t('user.islands.sc.sn.i2')}}</view>
 			</view>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" class="next-btn editpassbtn"
-				@click="ConfirmSet">确认绑定</ai-button>
+				@click="ConfirmSet">{{$t('user.islands.sc.sn.i3')}}</ai-button>
 		</view>
 	</view>
 </template>
@@ -42,7 +42,7 @@
 					success: (res) => {
 							if(res.code==200){
 								uni.showToast({
-									title: "设置成功",
+									title: this.$t('user.islands.sc.sn.i5'),
 									success: function(res) {
 										let time = setTimeout(() => {
 											clearTimeout(time)

@@ -1,6 +1,6 @@
 <template>
 	<view class="fundeditpass">
-		<u-navbar height="53px" @leftClick="goBackUser" title="交易密码" :safeAreaInsetTop="false">
+		<u-navbar height="53px" @leftClick="goBackUser" :title="$t('user.islands.sc.fdp.i1')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -9,36 +9,36 @@
 			<view class="main">
 
 				<u-cell-group :border="false">
-					<u-cell :title="titleShow==1?'手机号':'邮箱账号'">
+					<u-cell :title="titleShow==1?$t('user.islands.sc.edp.i2'):$t('user.islands.sc.edp.i3')">
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
 								<view slot="suffix" class="email_content_btn">
-									<u-code unique-key="fundeditpass" start-text="获取验证码" ref="uCode"
-										@change="codeChange" changeText="X秒重新获取"></u-code><text
+									<u-code unique-key="fundeditpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"
+										@change="codeChange" :changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text
 										@click="getCode">{{tips}}</text>
 								</view>
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="验证码">
+					<u-cell :title="$t('user.islands.sc.edp.i6')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.code" placeholder="请输入验证码" type="number">
+							<u-input v-model="from.code" :placeholder="$t('user.islands.sc.edp.i61')" type="number">
 
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="新密码">
+					<u-cell :title="$t('user.islands.sc.edp.i7')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.newPassword" maxlength="6" placeholder="请输入新密码" :password="eyeShow">
+							<u-input v-model="from.newPassword" maxlength="6" :placeholder="$t('user.islands.sc.edp.i8')" :password="eyeShow">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
 							</u-input>
 						</view>
 					</u-cell>
-					<u-cell title="确认新密码">
+					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.confirmPassword" placeholder="请确认新密码" :password="eyeShows">
+							<u-input v-model="from.confirmPassword" :placeholder="$t('user.islands.sc.edp.i0')" :password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -49,7 +49,7 @@
 				<view class="verify">
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-						<text class="verify_item_text">请设置6位纯数字密码</text>
+						<text class="verify_item_text">{{$t('user.islands.sc.fdp.i2')}}</text>
 					</view>
 					<!-- <view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
@@ -61,7 +61,7 @@
 					</view> -->
 				</view>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
-					class="next-btn editpassbtn" @click="ConfMod">确认修改</ai-button>
+					class="next-btn editpassbtn" @click="ConfMod">{{$t('user.islands.sc.edp.i14')}}</ai-button>
 			</view>
 		</view>
 	</view>
@@ -130,12 +130,12 @@
 						success: (res) => {
 							if (res.code == 200) {
 								this.$refs.uCode.start();
-								uni.$u.toast('验证码发送成功');
+								uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 							}
 						}
 					});
 				} else {
-					uni.$u.toast('倒计时结束后再发送');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 				}
 
 			},
@@ -150,25 +150,25 @@
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
 				if (this.from.code == "") {
-					uni.$u.toast('请输入验证码');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
 					return
 				} else if (this.from.newPassword.length < 6) {
-					uni.$u.toast('只能有6位数字');
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i3'));
 					return
 				} else if (this.from.newPassword.length > 6) {
-					uni.$u.toast('只能有6位数字');
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i3'));
 					return
 				} else if (patrn.test(this.from.newPassword)) {
-					uni.$u.toast('不能有大写字母');
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i4'));
 					return
 				} else if (patrns.test(this.from.newPassword)) {
-					uni.$u.toast('不能有特殊字符');
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i5'));
 					return
 				} else if (patrnss.test(this.from.newPassword)) {
-					uni.$u.toast('不能有小写字母');
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
 					return
 				} else if (this.from.newPassword!=this.from.confirmPassword) {
-					uni.$u.toast('两次输入密码不一致');
+					uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
 					return
 				}else {
 					this.btnDisabled = true
@@ -182,7 +182,7 @@
 								this.btnDisabled = false
 								this.loading = false
 								uni.showToast({
-									title: "修改成功",
+									title: this.$t('user.islands.sc.edp.i19'),
 									success: function(res) {
 										let times = setTimeout(() => {
 											clearTimeout(times)
