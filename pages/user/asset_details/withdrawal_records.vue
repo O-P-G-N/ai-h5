@@ -1,6 +1,6 @@
 <template>
 	<view class="withdrawal_records">
-		<u-navbar @leftClick="goBackUser" title="提现记录" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.asset.details.wr.withdraw_record')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -10,35 +10,35 @@
 				<view class="list-body" v-for="(v,i) in contentList" :key="i">
 					<view class="capital">
 						<view class="capital_top">
-							<text>提现类型</text>
+							<text>{{$t('user.asset.details.wr.withdraw_type')}}</text>
 							<text>{{v.type==1?'红包-TRC20':'红包-ERC20'}}</text>
 						</view>
 						<view class="orderhao">
-							<text>订单号</text>
+							<text>{{$t('user.asset.details.wr.order_sn')}}</text>
 							<text>{{v.orderNo}}</text>
 						</view>
 						<view class="orderhao">
-							<text>提现地址</text>
+							<text>{{$t('user.asset.details.wr.withdraw_address')}}</text>
 							<text>{{v.payAddress}}</text>
 						</view>
 						<view class="orderhao">
-							<text>提现金额</text>
+							<text>{{$t('user.asset.details.wr.withdraw_amount')}}</text>
 							<text>{{v.hongbao}}</text>
 						</view>
 						<view class="orderhao">
-							<text>手续费</text>
+							<text>{{$t('user.asset.details.wr.service_charge')}}</text>
 							<text>{{v.commission}}</text>
 						</view>
 						<view class="orderhao">
-							<text>实际到账金额</text>
+							<text>{{$t('user.asset.details.wr.actual_received')}}</text>
 							<text>{{v.cope}}</text>
 						</view>
 						<view class="orderhao">
-							<text>提现状态</text>
+							<text>{{$t('user.asset.details.wr.withdraw_status')}}</text>
 							<text>{{v.statusStr}}</text>
 						</view>
 						<view class="orderhao">
-							<text>提现时间</text>
+							<text>{{$t('user.asset.details.wr.withdraw_time')}}</text>
 							<text>{{v.updateTime}}</text>
 						</view>
 					</view>

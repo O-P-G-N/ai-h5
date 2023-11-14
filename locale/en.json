@@ -114,5 +114,66 @@
 	"login.entercode":"Please enter the verification code",
 	"login.enterphone":"Please enter your phone number",
 	"login.termsuse":"User Agreement",
-	"login.privacypolicy":"Privacy Policy"
+	"login.privacypolicy":"Privacy Policy",
+	
+	"user.asset.details.index.asset_detail": "asset detail",
+	"user.asset.details.index.charge_record": "charge record",
+	"user.asset.details.index.withdraw_record": "withdraw record",
+	"user.asset.details.index.flow": "flow",
+	"user.asset.details.rc.back": "back",
+	"user.asset.details.rc.charge_record": "charge record",
+	"user.asset.details.rc.charge_type": "charge type",
+	"user.asset.details.rc.order_sn": "order sn",
+	"user.asset.details.rc.charge_status": "charge status",
+	"user.asset.details.rc.to_pay": "to pay",
+	"user.asset.details.rc.payed": "payed",
+	"user.asset.details.rc.charge_amount": "charge amount",
+	"user.asset.details.rc.actual_received": "actual received",
+	"user.asset.details.rc.charge_time": "charge time",
+	"user.asset.details.wr.withdraw_record": "withdraw record",
+	"user.asset.details.wr.withdraw_type": "withdraw type",
+	"user.asset.details.wr.order_sn": "order sn",
+	"user.asset.details.wr.withdraw_address": "withdraw address",
+	"user.asset.details.wr.withdraw_amount": "withdraw amount",
+	"user.asset.details.wr.service_charge": "service charge",
+	"user.asset.details.wr.actual_received": "actual received",
+	"user.asset.details.wr.withdraw_status": "withdraw status",
+	"user.asset.details.wr.withdraw_time": "withdraw time",
+	"user.asset.helpcenter.idx.help_center": "help center",
+	
+	"user.asset.islands.ctf.coupon": "coupon",
+	"user.asset.islands.ctf.Novice_gift": "Novice Gift",
+	"user.asset.islands.ctf.time": "time",
+	"user.asset.islands.ctf.activity": "activity",
+	"user.asset.islands.ctf.my_coupon": "my coupon",
+	"user.asset.islands.ctf.use_record": "use record",
+	"user.asset.islands.ctf.Not_yet_open": "Not yet open",
+	
+	"user.asset.islands.idj.Share_with_friends": "Share with friends",
+	"user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you": "exgpt opens up new worlds for you",
+	"user.asset.islands.idj.copy_the_link": "copy the link",
+	"user.asset.islands.idj.my_inviter": "my inviter",
+	"user.asset.islands.idj.invite_by_me": "invite by me",
+	"user.asset.islands.idj.account_name": "account name",
+	"user.asset.islands.idj.nickname": "nickname",
+	"user.asset.islands.idj.rankname": "rankname",
+	"user.asset.islands.idj.act_status": "activity status",
+	"user.asset.islands.idj.unactivated": "unactivated",
+	"user.asset.islands.idj.activated": "activated",
+	"user.asset.islands.idj.contract_amount": "contract amount",
+	"user.asset.islands.idj.activity_time": "activity time",
+	
+	"user.islands.idx.island": "island",
+	"user.islands.idx.my_island": "my_island",
+	"user.islands.idx.invite_friends": "invite_friends",
+	"user.islands.idx.my_coupon": "my_coupon",
+	
+	"user.islands.idx.island": "island",
+	"user.islands.idx.my_island": "my island",
+	"user.islands.idx.invite_friends": "invite friends",
+	"user.islands.idx.my_coupon": "my coupon"
+	
+	
+	
+	
 }

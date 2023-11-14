@@ -65,7 +65,13 @@ let req_handler = function() {
 			this_url = config.url
 			if (store.state.app.loading.indexOf(this_url) >= 0) {
 				console.error('intercepted duplicate request', this_url)
+				uni.showToast({
+					title: "操作过于频繁,请稍后再试",
+					icon: 'error',
+					position: true,
+				});
 				throw 'IGNORE_ERROR'
+				
 			} else {
 				store.commit('app/SET_LOADING', {
 					effect: this_url,

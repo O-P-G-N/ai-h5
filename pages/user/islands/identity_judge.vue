@@ -8,54 +8,54 @@
 				mode=""></image>
 		</u-navbar>
 		<view class="banana_bg">
-			<view class="banana_bg_first">分享给你的朋友</view>
-			<view class="banana_bg_last">exgpt为你打开新世界的大门</view>
+			<view class="banana_bg_first">{{ $t('user.asset.islands.idj.Share_with_friends') }}</view>
+			<view class="banana_bg_last">{{$t('user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you')}}</view>
 		</view>
 		<view class="copy_box">
-			<button class="copy_btn" @click="copyBtn">复制链接</button>
+			<button class="copy_btn" @click="copyBtn">{{$t('"user.asset.islands.idj.copy_the_link')}}</button>
 		</view>
 		<view class="dyselect">
 			<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">
-				我的上级
+				{{$t('user.asset.islands.idj.my_inviter')}}
 			</view>
 			<view class="wd" :class="dyShow==0?'dyactive':''" @click="dyShowBtn(0)">
-				我的分享
+				{{$t('user.asset.islands.idj.invite_by_me')}}
 			</view>
 		</view>
 		<view class="info_box" v-if="dyShow==1">
 			<view class="info_body" v-if="SupSub.above[0].memberName">
 				<view class="info_body_item">
-					<view class="info_body_item_left">账号</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.account_name') }}</view>
 					<view class="info_body_item_right">
 						<text class="bluephone">{{SupSub.above[0].memberName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">昵称</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.nickname') }}</view>
 					<view class="info_body_item_right">
 						<text>{{SupSub.above[0].nickName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">等级名称</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.rankname') }}</view>
 					<view class="info_body_item_right">
 						<text>{{SupSub.above[0].vip==1?"E":SupSub.above[0].vip==2?"D":SupSub.above[0].vip==3?"C":SupSub.above[0].vip==4?"B":SupSub.above[0].vip==5?"A":SupSub.above[0].vip==6?"S":""}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">激活状态</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.act_status')}}</view>
 					<view class="info_body_item_right">
-						<text>{{SupSub.above[0].isActive==1?"未激活":"已激活"}}</text>
+						<text>{{SupSub.above[0].isActive==1?$t('user.asset.islands.idj.unactivated'): $t('user.asset.islands.idj.activated')}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">合约份数</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.contract_amount')}}</view>
 					<view class="info_body_item_right">
 						<text>{{SupSub.above[0].contractCount?SupSub.above[0].contractCount:0}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">邀请时间</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.activity_time')}}</view>
 					<view class="info_body_item_right">
 						<text>{{SupSub.above[0].createTime}}</text>
 					</view>
@@ -77,37 +77,37 @@
 			<view class="" v-if="SupSub.below.length>0">
 			<view class="info_body" v-for="(v,i) in SupSub.below" :key="i">
 				<view class="info_body_item">
-					<view class="info_body_item_left">账号</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.account_name') }}</view>
 					<view class="info_body_item_right">
 						<text class="bluephone">{{v.memberName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">昵称</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.nickname') }}</view>
 					<view class="info_body_item_right">
 						<text>{{v.nickName}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">等级名称</view>
+					<view class="info_body_item_left">{{ $t('user.asset.islands.idj.rankname') }}</view>
 					<view class="info_body_item_right">
 						<text>{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">激活状态</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.act_status')}}</view>
 					<view class="info_body_item_right">
-						<text>{{v.isActive==1?"未激活":"已激活"}}</text>
+						<text>{{v.isActive==1?$t('user.asset.islands.idj.unactivated'): $t('user.asset.islands.idj.activated')}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">活约份数</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.contract_amount')}}</view>
 					<view class="info_body_item_right">
 						<text>{{v.contractCount}}</text>
 					</view>
 				</view>
 				<view class="info_body_item">
-					<view class="info_body_item_left">邀请时间</view>
+					<view class="info_body_item_left">{{$t('user.asset.islands.idj.activity_time')}}</view>
 					<view class="info_body_item_right">
 						<text>{{v.createTime}}</text>
 					</view>

@@ -1,6 +1,6 @@
 <template>
 	<view class="recharge_record">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="充值记录" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.asset.details.rc.back')" :title="$t('user.asset.details.rc.charge_record')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -10,27 +10,27 @@
 				<view class="list-body" v-for="(v,i) in contentList" :key="i">
 					<view class="capital">
 						<view class="capital_top">
-							<text>充值类型</text>
+							<text>{{$t('user.asset.details.rc.charge_type')}}</text>
 							<text>{{v.type==1?'红包-TRC20':'红包-ERC20'}}</text>
 						</view>
 						<view class="orderhao">
-							<text>订单号</text>
+							<text>{{$t('user.asset.details.rc.order_sn')}}</text>
 							<text>{{v.orderNo}}</text>
 						</view>
 						<view class="orderhao">
-							<text>充值状态</text>
-							<text class="rechargetype">{{v.status==0?'待支付':'已支付'}}</text>
+							<text>{{$t('user.asset.details.rc.charge_status')}}</text>
+							<text class="rechargetype">{{v.status==0?$t('user.asset.details.rc.to_pay'):$t('user.asset.details.rc.payed')}}</text>
 						</view>
 						<view class="orderhao">
-							<text>充值金额</text>
+							<text>{{$t('user.asset.details.rc.charge_amount')}}</text>
 							<text>{{v.hongbao}}</text>
 						</view>
 						<view class="orderhao">
-							<text>实际到账金额</text>
+							<text>{{$t('user.asset.details.rc.actual_received')}}</text>
 							<text>{{v.hongbao}}</text>
 						</view>
 						<view class="orderhao">
-							<text>充值时间</text>
+							<text>{{$t('user.asset.details.rc.charge_time')}}</text>
 							<text>{{v.updateTime}}</text>
 						</view>
 					</view>

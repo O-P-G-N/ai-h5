@@ -1,6 +1,6 @@
 <template>
 	<view class="help_center">
-		<u-navbar @leftClick="goBackUser" title="帮助中心" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.asset.helpcenter.idx.help_center')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>

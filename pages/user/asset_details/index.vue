@@ -1,7 +1,7 @@
 <template>
 	<view class="asset_details">
 		<view class="navTow">
-			<u-navbar @leftClick="goBackUser" title="资产明细" :safeAreaInsetTop="false">
+			<u-navbar @leftClick="goBackUser" :title="$t('user.asset.details.index.asset_detail')" :safeAreaInsetTop="false">
 				<view class="u-nav-slot" slot="left">
 					<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 				</view>
@@ -11,11 +11,11 @@
 			<view class="main">
 				<view class="cellgroup">
 					<u-cell-group :border="false">
-						<u-cell title="充值记录" :is-link="true" @click="rechargeRecord">
+						<u-cell :title="$t('user.asset.details.index.asset_detail')" :is-link="true" @click="rechargeRecord">
 						</u-cell>
-						<u-cell title="提现记录" :is-link="true" @click="withdrawalRecords">
+						<u-cell :title="$t('user.asset.details.index.withdraw_record')" :is-link="true" @click="withdrawalRecords">
 						</u-cell>
-						<u-cell title="资金流水" :is-link="true" @click="capitalFlow">
+						<u-cell :title="$t('user.asset.details.index.flow')" :is-link="true" @click="capitalFlow">
 						</u-cell>
 					</u-cell-group>
 				</view>
