@@ -6,7 +6,7 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 			<view class="u-nav-slot" slot="right">
-				筛选
+				{{$t('user.capital_flow.i2')}}
 			</view>
 		</u-navbar>
 		<view class="container_nei">
@@ -14,15 +14,15 @@
 				<view class="list-body" v-for="(v,i) in contentList" :key="i">
 					<view class="capital">
 						<view class="capital_top">
-							<text class="title">类型</text>
+							<text class="title">{{$t('user.capital_flow.i3')}}</text>
 							<text>{{v.typeStr}}</text>
 						</view>
 						<view class="orderhao">
-							<text class="title">金额</text>
+							<text class="title">{{$t('user.capital_flow.i4')}}</text>
 							<text :class="v.type==6||v.type==1?'greens':'reds'">{{v.type==6||v.type==1?'':'+'}}{{v.useHongbao}}</text>
 						</view>
 						<view class="orderhao">
-							<text class="title">时间</text>
+							<text class="title">{{$t('user.capital_flow.i5')}}</text>
 							<text>{{v.updateTime}}</text>
 						</view>
 					</view>
@@ -33,18 +33,18 @@
 		<u-popup :show="show" mode="center" class="popup_content_center">
 			<view class="mainpopup">
 				<view class="every_list">
-					<text class="titles">起止时间</text>
-					<text class="intro">起止时间为创建订单时间</text>
+					<text class="titles">{{$t('user.capital_flow.i6')}}</text>
+					<text class="intro">{{$t('user.capital_flow.i7')}}</text>
 					<u-cell-group class="start_time">
-						<u-cell :title="from.begin?from.begin:'选择开始时间'" @click="startEndTime('start')" :isLink="true"></u-cell>
+						<u-cell :title="from.begin?from.begin:$t('user.capital_flow.i9')" @click="startEndTime('start')" :isLink="true"></u-cell>
 					</u-cell-group>
 					<u-cell-group class="end_time">
-						<u-cell :title="from.end?from.end:'选择结束时间'" @click="startEndTime('end')" :isLink="true"></u-cell>
+						<u-cell :title="from.end?from.end:$t('user.capital_flow.i10')" @click="startEndTime('end')" :isLink="true"></u-cell>
 					</u-cell-group>
 				</view>
 				<view class="anniubtn">
-					<view class="chongzhi" @click="reset">重置</view>
-					<view class="queding" @click="determine">确定</view>
+					<view class="chongzhi" @click="reset">{{$t('user.capital_flow.i11')}}</view>
+					<view class="queding" @click="determine">{{$t('user.capital_flow.i12')}}</view>
 				</view>
 			</view>
 		</u-popup>
@@ -96,7 +96,7 @@
 			// 选择开始和结束时间
 			startEndTime(val) {
 				if (val == "start") {
-					if(this.from.begin=="选择开始时间"){
+					if(this.from.begin==this.$t('user.capital_flow.i9')){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
@@ -107,7 +107,7 @@
 						this.timeValue=this.from.begin
 					}
 				} else {
-					if(this.from.end=="选择结束时间"){
+					if(this.from.end==this.$t('user.capital_flow.i10')){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
