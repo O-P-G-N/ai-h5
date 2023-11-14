@@ -192,7 +192,6 @@
 	"login.enterphone":"请输入手机号",
 	"login.termsuse":"用户协议",
 	"login.privacypolicy":"隐私政策",
-	"login.activity_code":"隐私政策",
 	"login.tips1":"验证码发送中",
 	"login.tips2":"验证码已发送",
 	"login.tips3":"倒计时结束后再发送",
@@ -214,10 +213,7 @@
 	"login.tips19":"请输入正确的手机号",
 	"login.tips20":"手机注册暂未开通",
 	"login.tips21":"请选择国家",
-	
-=======
 	"login.activity_code":"邀请码",
->>>>>>> e55771ada3ca34a1938958d8bfcf1939041c3306
 	
 	
 	"user.asset.details.index.asset_detail": "资产明细",
