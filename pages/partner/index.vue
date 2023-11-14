@@ -12,7 +12,7 @@
 			<view class="right_avatar">
 				<text class="right_avatar_top">nike</text>
 				<ai-button @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'"
-					class="next-btn btn-view">升级训练</ai-button>
+					class="next-btn btn-view">{{$t("pa.prc1")}}</ai-button>
 			</view>
 		</view>
 		<view class="chat-view">
@@ -47,10 +47,11 @@
 		data() {
 			return {
 				chatList: [{
-					reply: "我是您的专属伴侣nike,为你效劳。我可以回答问题、提供信息，甚至与你闲聊，请随时向我询问"
+					reply:this.$t("pa.prc2")
 				}],
 				question: "", //提问
-				scrollTop: 5000
+				scrollTop: 5000,
+				
 			};
 		},
 		methods: {
@@ -72,7 +73,7 @@
 			// 获取聊天
 			getChat() {
 				if (this.question == "") {
-					uni.$u.toast("请输入您要询问的话")
+					uni.$u.toast(this.$t("pa.prc3"))
 					return
 				} else {
 					try{

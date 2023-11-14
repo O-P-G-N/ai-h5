@@ -221,6 +221,16 @@
 			this.parameter.style = 1;
 			this.parameter.topic = 1;
 		},
+		onShow() {
+			document.oncontextmenu=function(){return false;}
+			 
+			document.onkeydown=function(event){
+			        var e = event ||window.event || arguments.callee.caller.arguments[0];
+			        if(e && e.keyCode==116){
+			            return false;
+			        }
+			}
+		},
 		methods: {
 			load() {
 				this.loadComplete = true;

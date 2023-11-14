@@ -1,6 +1,6 @@
 <template>
 	<view class="startcreat">
-		<u-navbar :fixed="false" @leftClick="goBackUser" title="创建合约" :safeAreaInsetTop="false">
+		<u-navbar :fixed="false" @leftClick="goBackUser" :title="prc14" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -13,53 +13,53 @@
 							<image class="left_img"
 								:src="pageData.dictSort==1?'../../static/user/up.png':'../../static/user/encryption.png'"
 								mode=""></image>
-							<view class="in">{{pageData.dictSort==1?'证券':'加密货币'}}</view>
+							<view class="in">{{pageData.dictSort==1?$t("ac.share"):$t("ac.crypt")}}</view>
 						</view>
 						<view class="right">
 							<view class="right_first">{{pageData.dictValue}}</view>
-							<view class="right_last">平均日收益率</view>
+							<view class="right_last">{{$t("ac.prc1")}}</view>
 						</view>
 					</view>
 					<view v-else class="yuecardskeleton">
 						<u-skeleton :title="false" :rows="1" loading rowsWidth="100%"></u-skeleton>
 					</view>
 					<view class="jiaoyimubiao">
-						<text>交易目标</text>
+						<text>{{$t("ac.prc2")}}</text>
 						<text class="jiaoyimubiao_text">{{pageData.cssClass}}</text>
 					</view>
-					<view class="tuoguan">托管金额</view>
+					<view class="tuoguan">{{$t("ac.prc3")}}</view>
 					<view class="transactionList">
-						<view class="every" @click="selectCopies(1)" :class="from.payNum==1?'everyactive':''">1份
+						<view class="every" @click="selectCopies(1)" :class="from.payNum==1?'everyactive':''">1{{$t("ac.prc4")}}
 						</view>
-						<view class="every" @click="selectCopies(10)" :class="from.payNum==10?'everyactive':''">10份
+						<view class="every" @click="selectCopies(10)" :class="from.payNum==10?'everyactive':''">10{{$t("ac.prc4")}}
 						</view>
 						<view class="every" @click="selectCopies(100)" :class="from.payNum==100?'everyactive':''">
-							100份</view>
+							100{{$t("ac.prc4")}}</view>
 						<view class="every" @click="selectCopies(500)" :class="from.payNum==500?'everyactive':''">
-							500份</view>
+							500{{$t("ac.prc4")}}</view>
 						<view class="mairu">
 							<input class="uni-input" v-model="from.payNum"
 								placeholder-style="color:rgb(192, 196, 204)" @input="customAmount" type="number"
-								placeholder="自定义买入份额" />
+								:placeholder="prc5" />
 						</view>
 					</view>
-					<view class="meifen">每份等于{{pageData.remark}}红包</view>
+					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}}{{$t("ac.prc7")}}</view>
 				</view>
 				<view class="yujimain" v-if="pageData.dictSort">
 					<view class="buymoney">
-						<view class="">买入金额</view>
-						<text class="buymoney_num">{{from.payHongbao}} 红包</text>
+						<view class="">{{$t("ac.prc8")}}</view>
+						<text class="buymoney_num">{{from.payHongbao}} {{$t("ac.prc7")}}</text>
 					</view>
 					<view class="buymoney">
-						<view class="">当前余额最大可购买份数</view>
-						<text class="buymoney_text">{{Math.floor(Number(balanceMax)/Number(pageData.remark))}}份</text>
+						<view class="">{{$t("ac.prc9")}}</view>
+						<text class="buymoney_text">{{Math.floor(Number(balanceMax)/Number(pageData.remark))}}{{$t("ac.prc4")}}</text>
 					</view>
 					<view class="buymoney">
-						<view class="">当前等级最大可购买份数</view>
-						<text class="buymoney_text">{{gradeMax}}份</text>
+						<view class="">{{$t("ac.prc10")}}</view>
+						<text class="buymoney_text">{{gradeMax}}{{$t("ac.prc4")}}</text>
 					</view>
 					<view class="buymoney">
-						<view class="">红包余额</view>
+						<view class="">{{$t("ac.prc11")}}</view>
 						<text class="buymoney_text">{{accountBalance}}</text>
 					</view>
 				</view>
@@ -69,13 +69,13 @@
 			</view>
 			<u-row customStyle="margin-bottom: 10px">
 				<u-col span="4">
-					<view class="bg-purple-light">合约运行天数</view>
+					<view class="bg-purple-light">{{$t("ac.prc12")}}</view>
 				</u-col>
 				<u-col span="4">
-					<view class="bg-purple-light">信用等级要求</view>
+					<view class="bg-purple-light">{{$t("ac.prc13")}}</view>
 				</u-col>
 				<u-col span="4">
-					<view class="bg-purple-light">最大日收益</view>
+					<view class="bg-purple-light">{{$t("ac.prc26")}}</view>
 				</u-col>
 			</u-row>
 			<u-row customStyle="margin-bottom: 10px" v-for="(v,i) in revenueList" :key="i"
@@ -94,7 +94,7 @@
 
 		</view>
 		<view class="createbtn">
-			<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="createContract">创建合约</ai-button>
+			<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="createContract">{{$t("ac.prc14")}}</ai-button>
 			<!-- <button class="chuangjian" @click="createContract"></button> -->
 		</view>
 	</view>
@@ -119,6 +119,8 @@
 				balanceMax:"",//余额最大购买份数
 				gradeMax:"",//等级最大购买份数
 				accountBalance:"",//红包余额
+				prc14:this.$t("ac.prc14"),//创建合约国际化
+				prc5:this.$t("ac.prc5"),//自定义买入份额国际化
 			};
 		},
 		onLoad(option) {
@@ -177,23 +179,23 @@
 					this.from.payDays = days;
 					this.from.bili = bili;
 				} else {
-					uni.$u.toast('您的等级不足！');
+					uni.$u.toast(this.$t("ac.prc15"));
 				}
 			},
 			// 创建合约
 			createContract(){
 				console.log(this.from);
 				if(this.from.payNum==""){
-					uni.$u.toast('请输入买入份额');
+					uni.$u.toast(this.$t("ac.prc16"));
 					return
 				}else if(this.from.payNum>(Number(this.balanceMax)/Number(this.pageData.remark))){
-					uni.$u.toast(`当前余额最大可购买份数${Number(this.balanceMax)/Number(this.pageData.remark)}份`);
+					uni.$u.toast(`${this.$t("ac.prc9")}${Number(this.balanceMax)/Number(this.pageData.remark)}${this.$t("ac.prc4")}`);
 					return
 				}else if(this.from.payNum>this.gradeMax){
-					uni.$u.toast(`当前等级最大可购买份数${this.gradeMax}份`);
+					uni.$u.toast(`${this.$t("ac.prc10")}${this.gradeMax}${this.$t("ac.prc4")}`);
 					return
 				}else if(this.from.payDays==""){
-					uni.$u.toast(`请选择需要购买的合约运行天数`);
+					uni.$u.toast(this.$t("ac.prc17"));
 					return
 				}else{
 					this.forbidden=true;
@@ -207,7 +209,7 @@
 								this.forbidden=false;
 								this.loading=false;
 								uni.showToast({
-									title: "购买成功",
+									title: this.$t("ac.prc18"),
 									success: function() {
 										 let time=setTimeout(()=>{
 											 clearTimeout(time)

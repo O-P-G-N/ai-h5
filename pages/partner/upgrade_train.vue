@@ -1,6 +1,6 @@
 <template>
 	<view class="upgrade_train">
-		<u-navbar @leftClick="goBackUser" title="升级训练" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="prc1" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -17,16 +17,16 @@
 						<text>nike</text>
 						<image class="levelIcon" :src="pointsBalance.vip==1?'../../static/user/e2.png':pointsBalance.vip==2?'../../static/user/d2.png':pointsBalance.vip==3?'../../static/user/c2.png':pointsBalance.vip==4?'../../static/user/b2.png':pointsBalance.vip==5?'../../static/user/a2.png':pointsBalance.vip==6?'../../static/user/s2.png':''" mode=""></image>
 					</view>
-					<view class="a_balance_title">技能点余额</view>
+					<view class="a_balance_title">{{$t("pa.prc4")}}</view>
 					<view class="a_balance">{{pointsBalance.point}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="autonomous_btn">
-			<u-button type="info" @click="autonomousBtn" text="自主训练"></u-button>
+			<u-button type="info" @click="autonomousBtn" :text="prc5"></u-button>
 			<!-- <button type="default" ></button> -->
 		</view>
-		<view class="menu-title">可选技能包:</view>
+		<view class="menu-title">{{$t("pa.prc6")}}:</view>
 		<view class="menu_content">
 			<view class="menu_item waves" v-for="(v,i) in contentList" :key="i"
 				@click="e => butonClick(e,'buttonMain_'+i,i)" :ref='refName' :id=" 'buttonMain_'+i"
@@ -36,8 +36,8 @@
 				<view class="menu_item_menus">
 					<text class="menu_item_menus_text" v-for="(item,index) in v.word" :key="index">{{item}}</text>
 				</view>
-				<view class="menu_item_points">{{v.price}}技能点</view>
-				<u-button type="info" text="兑换" @click="exchange(v.id)"></u-button>
+				<view class="menu_item_points">{{v.price}}{{$t("pa.prc7")}}</view>
+				<u-button type="info" :text="prc8" @click="exchange(v.id)"></u-button>
 				<view class="waterView" v-if='showWater&&clickIndex == i' :style="{left:XY.left,top:XY.top}">
 					<view class="point"></view>
 					<view class="wave1" @animationend='animationendFn'></view>
@@ -68,6 +68,9 @@
 				contentList: [], //记录列表
 				status: "loadmore",
 				clickIndex: null,
+				prc5:this.$t("pa.prc5"),//自主训练国际化
+				prc8:this.$t("pa.prc8"),//兑换国际化
+				prc1:this.$t("pa.prc1"),//升级训练国际化
 			};
 		},
 		onShow() {
@@ -113,7 +116,7 @@
 			},
 			// 自主训练
 			autonomousBtn() {
-				uni.$u.toast('暂未开放!');
+				uni.$u.toast(this.$t("pa.prc10"));
 			},
 			// 获取技能包及积分余额
 			getSkillPack() {
@@ -163,7 +166,7 @@
 			},
 			// 兑换
 			exchange(id) {
-				uni.$u.toast('积分余额不足!');
+				uni.$u.toast(this.$t("pa.prc9"));
 				console.log(id);
 			},
 		}

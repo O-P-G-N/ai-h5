@@ -47,7 +47,7 @@
 				console.log(val.index);
 			},
 			activeBtn(){
-				uni.$u.toast($t('user.asset.islands.ctf.Not_yet_open'))
+				uni.$u.toast(this.$t('user.asset.islands.ctf.Not_yet_open'))
 			}
 		}
 	}

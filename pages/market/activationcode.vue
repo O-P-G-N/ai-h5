@@ -1,6 +1,6 @@
 <template>
 	<view class="activationcode">
-		<u-navbar :fixed="false" @leftClick="goBackUser" title="激活码" :safeAreaInsetTop="false">
+		<u-navbar :fixed="false" @leftClick="goBackUser" :title="prc19" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -8,7 +8,7 @@
 		<view class="main">
 			<image class="jihuoimg" src="@/static/market/jihuomapage.png" mode=""></image>
 			<button class="editpassbtn" @click="getInvitationCode">
-				<view class="justcard_left" >获取激活码</view>
+				<view class="justcard_left" >{{$t("ac.prc20")}}</view>
 				<view class="justcard_right">
 					<image class="justcard_right_img" src="@/static/user/homejiantou.png" mode=""></image>
 				</view>
@@ -18,7 +18,7 @@
 			<view class="list-body" v-for="(v,i) in invitationCodeList" :key="i">
 				<view class="capital">
 					<view class="orderhao">
-						<text>激活码</text>
+						<text>{{$t("ac.prc19")}}</text>
 						<view class="jihuoma">
 							<text>{{v.code}}</text>
 							<image @click="copyBtn(v.code)" class="jihuoma_img" src="@/static/market/copy.png" mode="">
@@ -26,11 +26,11 @@
 						</view>
 					</view>
 					<view class="orderhao">
-						<text>使用状态</text>
-						<text>{{v.status==1?'已使用':'未使用'}}</text>
+						<text>{{$t("ac.prc21")}}</text>
+						<text>{{v.status==1?$t("ac.prc22"):$t("ac.prc23")}}</text>
 					</view>
 					<view class="orderhao">
-						<text>获取时间</text>
+						<text>{{$t("ac.prc24")}}</text>
 						<text>{{v.createTime}}</text>
 					</view>
 				</view>
@@ -51,6 +51,7 @@
 				invitationCodeList: [], //激活码列表
 				PageCount: 0, //总页数
 				status: "loadmore",
+				prc19:this.$t("ac.prc19"),//激活码国际化
 			};
 		},
 		onShow() {
@@ -96,7 +97,7 @@
 					data: val,
 					success: function() {
 						uni.showToast({
-							title: "复制成功!",
+							title:this.$t("ac.prc25"),
 							succesvals: function(res) {
 							}
 						})

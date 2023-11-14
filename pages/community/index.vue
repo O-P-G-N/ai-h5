@@ -10,6 +10,7 @@
 		</u-navbar>
 		<view class="">
 			<view class="pyzsOut">
+				<button class="pyzsOut_btn" @click="inviteFriends">邀请好友</button>
 				<view class="title">
 					<image class="title_img" src="@/static/islands/people_num.png" mode=""></image>
 					岛民总数
@@ -182,15 +183,15 @@
 							if (!res.data.withdrawPassword) {
 								this.show = true;
 								this.setIndex = 2;
-								this.content = "您的交易密码未设置,请设置您的交易密码"
+								this.content = this.$t("model.tips1")
 							} else if (!res.data.question) {
 								this.show = true;
 								this.setIndex = 1;
-								this.content = "您的密保问题未设置,请设置您的密保问题"
+								this.content =this.$t("model.tips2")
 							} else if (!res.data.nickName) {
 								this.show = true;
 								this.setIndex = 0;
-								this.content = "您的昵称未设置,请设置您的昵称"
+								this.content = this.$t("model.tips3")
 							}
 						}
 					}
@@ -266,6 +267,24 @@
 			padding: 18px;
 			background-repeat: no-repeat;
 			color: #fff;
+			position: relative;
+			.pyzsOut_btn{
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				margin-top: 20px;
+				width: 92px;
+				height: 34px;
+				background:#517EFF;
+				border-radius: 25px 25px 25px 25px;
+				font-size: 15px;
+				font-family: PingFang SC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #FFFFFF;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 
 			.title {
 				font-size: 12px;
@@ -424,7 +443,7 @@
 					margin-top: 20px;
 					width: 110px;
 					height: 36px;
-					background: #6B58E5;
+					background: #517EFF;
 					border-radius: 25px 25px 25px 25px;
 					font-size: 15px;
 					font-family: PingFang SC-Regular, PingFang SC;
