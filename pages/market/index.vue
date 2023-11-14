@@ -135,7 +135,7 @@
 			</view>
 		</view>
 		<Footer pageName='market'></Footer>
-		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" title="温馨提示"
+		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
 	</view>
 </template>
@@ -227,6 +227,7 @@
 				setIndex: null, //设置索引
 				timeType:1,//时间
 				currencyName:"",//货币名称
+				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
 			}
 		},
 		onReady() {

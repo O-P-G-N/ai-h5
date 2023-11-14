@@ -89,7 +89,7 @@
 			<u-loadmore :status="status" />
 			<Footer pageName='index'></Footer>
 		</view>
-		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" title="温馨提示"
+		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
 	</view>
 </template>
@@ -114,6 +114,7 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
+				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
 			}
 		},
 		computed: {

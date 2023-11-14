@@ -80,7 +80,7 @@
 				</u-list>
 
 				<u-loadmore :status="status" />
-				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" title="温馨提示"
+				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" :title="tips"
 					:content='modalContent'></u-modal>
 			</view>
 		</view>
@@ -109,6 +109,7 @@
 				modalContent: "", //模态框提示语
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
+				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
 			};
 		},
 		onShow() {
