@@ -30,7 +30,9 @@
 					</u-checkbox-group>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur"
+						@click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text
+						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
@@ -62,10 +64,10 @@
 				},
 				loading: false, //等待
 				forbidden: true, //是否禁用按钮
-				rememberPassword:this.$t('login.rememberpassword'),//记住密码国际化
-				phone:this.$t('login.cell-phone-number'),//手机号国际化
-				password:this.$t('login.password'),//密码国际化
-				back:this.$t('login.back'),//返回国际化
+				rememberPassword: this.$t('login.rememberpassword'), //记住密码国际化
+				phone: this.$t('login.cell-phone-number'), //手机号国际化
+				password: this.$t('login.password'), //密码国际化
+				back: this.$t('login.back'), //返回国际化
 			};
 		},
 		onShow() {
@@ -74,7 +76,7 @@
 				this.from = uni.getStorageSync("phone")
 				this.countryCode = `+${this.from.countryCode}`
 			}
-			
+
 		},
 		created() {},
 		methods: {
@@ -89,6 +91,18 @@
 				console.log(selected);
 				this.countryCode = `+${selected.dialCode}`
 				this.from.countryCode = selected.dialCode;
+			},
+			// 查看用户协议
+			viewTerms() {
+				uni.navigateTo({
+					url: `/pages/loginReg/termsUse`
+				});
+			},
+			// 查看隐私协议
+			viewPolicy() {
+				uni.navigateTo({
+					url: `/pages/loginReg/privacyPolicy`
+				});
 			},
 			// 显示隐藏
 			showHidden() {
@@ -107,28 +121,28 @@
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({
-						title: "请正确选择国家",
+						title: this.$t("login.tips18"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.username == "") {
 					uni.showToast({
-						title: "请输入正确的手机号",
+						title: this.$t("login.tips19"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password == "") {
 					uni.showToast({
-						title: "请输入密码",
+						title: this.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password.length < 8) {
 					uni.showToast({
-						title: "至少有8个字符",
+						title: this.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
@@ -151,7 +165,7 @@
 										uni.setStorageSync("phone", that.from)
 									}
 									uni.showToast({
-										title: "登陆成功",
+										title: this.$t("login.tips11"),
 										success: function() {
 											let times = setTimeout(() => {
 												that.loading = false;
@@ -186,7 +200,7 @@
 										uni.setStorageSync("phone", that.from)
 									}
 									uni.showToast({
-										title: "登陆成功",
+										title:this.$t("login.tips11"),
 										success: function() {
 											let time = setTimeout(() => {
 												that.loading = false;
@@ -205,7 +219,7 @@
 							}
 						});
 					} else {
-						uni.$u.toast('有一个大写字母或字符');
+						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}
@@ -357,7 +371,7 @@
 				}
 
 				.btns {
-					margin-top: 198px;
+					margin-top: 100px;
 
 					.rightforget {
 						text-align: center;

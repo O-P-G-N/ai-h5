@@ -1,6 +1,6 @@
 <template>
 	<view class="ainumpeople">
-		<u-navbar title="创作中心" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="creativecenter" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="head_back_img" src="~@/static/index/round-back.png">
 				</image>
@@ -13,8 +13,8 @@
 		<view class="videoaiheader">
 			<image class="videoaiheader_img" src="@/static/index/videoindexheader.png" mode=""></image>
 			<view class="videoaiheader_right">
-				<view class="titleweight">AI视频生成工具</view>
-				<view class="intro">内容快速生成、灵活的解决方案、直观编辑和优化视频</view>
+				<view class="titleweight">{{$t("index.AIvideogenerationtool")}}</view>
+				<view class="intro">{{$t("index.title")}}</view>
 			</view>
 		</view>
 		<view class="container_nei">
@@ -47,6 +47,7 @@
 				}, {
 					name: '女性',
 				}],
+				creativecenter:this.$t("index.creativecenter"),//创作中心国际化
 			};
 		},
 		methods: {

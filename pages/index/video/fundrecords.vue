@@ -1,6 +1,6 @@
 <template>
 	<view class="fundrecords">
-		<u-navbar title="AI合成详情" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="AIsynthesisdetails" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="head_back_img" src="~@/static/index/round-back.png">
 				</image>
@@ -20,7 +20,7 @@
 									<image class="bofangbtn_img" src="@/static/index/bofangicon.png" mode=""></image>
 								</view>
 							</view>
-							<image class="morentu" src="@/static/index/preview_target_big.webp" mode=""></image>
+							<image class="morentu" :src="videoInfo.imgUrl" mode=""></image>
 						</view>
 					</template>
 					<template v-else>
@@ -31,25 +31,25 @@
 				<!-- <ai-button :btnHeight="'57px'" :bg="'#f5f6fa'" :color="'#333'" class="ghszrBtn">更换数字人</ai-button> -->
 				<view class="tools">
 					<view class="toolsDemo" v-if="progress==100">
-						<text class="title">时长</text>
+						<text class="title">{{$t("index.duration")}}时长</text>
 						<text class="detail jifen">{{videoInfo.timeCost}}S</text>
 					</view>
 					<view class="toolsDemo noBottm">
-						<text class="title">数字人音色</text>
+						<text class="title">{{$t("index.digitalhumanvoice")}}</text>
 						<text class="detail">{{displayedTimbre.name}}</text>
 					</view>
-					<view class="toolsDemo rightJU" v-if="generateFlag">
+					<view class="toolsDemo rightJU" v-if="generateFlag&&!forbidden">
 						<ai-button :btnHeight="'32px'" :fontSize="'12px'" :bg="'#333'" class="ghysBtn"
-							@click="changeVoice">更换音色</ai-button>
+							@click="changeVoice">{{$t("index.changevoicecolor")}}</ai-button>
 					</view>
 					<view class="toolsDemo noBottm">
-						<text class="title">消耗</text>
-						<text class="detail jifen">30积分</text>
+						<text class="title">{{$t("index.consume")}}</text>
+						<text class="detail jifen">30{{$t("index.integral")}}</text>
 					</view>
 				</view>
 				<view class="" v-if="!videoInfo.address">
 					<ai-button v-if="generateFlag" :disabled="forbidden" :loading="loading" :btnHeight="'57px'"
-						:fontSize="'17px'" :bg="'#333'" class="startBtn" @click="startSynthesis">开始合成</ai-button>
+						:fontSize="'17px'" :bg="'#333'" class="startBtn" @click="startSynthesis">{{$t("index.startsynthesis")}}</ai-button>
 					<view class="jdtOut" v-else>
 						<u-line-progress class="jindu" :showText="false" :percentage="progress"
 							activeColor="rgb(51, 51, 51)"></u-line-progress>
@@ -57,7 +57,7 @@
 					</view>
 				</view>
 				<ai-button v-else :btnHeight="'57px'" :fontSize="'17px'" :bg="'#333'" class="startBtn"
-					@click="copyVideoLink">复制视频链接</ai-button>
+					@click="copyVideoLink">{{$t("index.copyvideolink")}}</ai-button>
 			</view>
 		</view>
 	</view>
@@ -79,6 +79,7 @@
 					address: "",
 				}, //视频信息
 				playFlag: true, //是否播放
+				AIsynthesisdetails:this.$t("index.AIsynthesisdetails"),//AI合成详情国际化
 			};
 		},
 		onLoad(option) {
@@ -147,7 +148,7 @@
 								});
 							}, 6000)
 						} else if (res.code == 500) {
-							uni.$u.toast('网络错误，请重试!');
+							uni.$u.toast(this.$t("index.tips7"));
 							clearInterval(this.time)
 							this.time = null;
 							let timer = setTimeout(() => {
@@ -168,7 +169,7 @@
 					data: this.videoInfo.address,
 					success: function() {
 						uni.showToast({
-							title: "复制成功!",
+							title: this.$t("index.tips9"),
 							success: function(res) {}
 						})
 					}

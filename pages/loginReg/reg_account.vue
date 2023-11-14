@@ -5,8 +5,9 @@
 		<view class="navbar">
 			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
 			<view class="lang-down-menu" v-if="langShow">
-				<view class="extend-link"  v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">{{item.text}}</view>
-				
+				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
+					{{item.text}}</view>
+
 			</view>
 		</view>
 		<view class="container_nei">
@@ -43,7 +44,9 @@
 					</view>
 				</view> -->
 				<view class="privacy">
-					{{$t('login.agreement5')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement5')}}<text class="blur"
+						@click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text
+						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
 					{{$t('login.noaccount')}}？
@@ -58,18 +61,18 @@
 	export default {
 		data() {
 			return {
-				langShow:false,//选择语言
-				invitationCode:"",//邀请码
-				register:this.$t('login.register'),//注册国际化
-				back:this.$t('login.back'),//返回国际化
+				langShow: false, //选择语言
+				invitationCode: "", //邀请码
+				register: this.$t('login.register'), //注册国际化
+				back: this.$t('login.back'), //返回国际化
 			};
 		},
 		created() {
 
 		},
 		onLoad(option) {
-			if(option.code){
-				this.invitationCode=option.code
+			if (option.code) {
+				this.invitationCode = option.code
 			}
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
@@ -102,9 +105,21 @@
 					url: `/pages/loginReg/login`
 				});
 			},
+			// 查看用户协议
+			viewTerms() {
+				uni.navigateTo({
+					url: `/pages/loginReg/termsUse`
+				});
+			},
+			// 查看隐私协议
+			viewPolicy() {
+				uni.navigateTo({
+					url: `/pages/loginReg/privacyPolicy`
+				});
+			},
 			//手机注册
 			mobileLogin() {
-				uni.$u.toast('手机注册暂未开通');
+				uni.$u.toast(this.$t("login.tips20"));
 				// if(this.invitationCode){
 				// 	uni.navigateTo({
 				// 		url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
@@ -120,28 +135,28 @@
 				this.$i18n.locale = e.code;
 			},
 			// 选择语言
-			selectLang(){
-				this.langShow=true;
+			selectLang() {
+				this.langShow = true;
 			},
 			// 关闭语言选择框
-			closeLang(){
-				this.langShow=false;
+			closeLang() {
+				this.langShow = false;
 			},
 			// 邮箱注册
 			emailLogin() {
-				if(this.invitationCode){
+				if (this.invitationCode) {
 					uni.navigateTo({
 						url: `/pages/loginReg/email_reg?invitationCode=${this.invitationCode}`
 					});
-				}else{
+				} else {
 					uni.navigateTo({
 						url: `/pages/loginReg/email_reg`
 					});
 				}
-				
+
 			},
 			// 立即登录
-			logNow(){
+			logNow() {
 				uni.navigateTo({
 					url: `/pages/loginReg/login`
 				});
@@ -171,29 +186,31 @@
 				width: 37px;
 				height: 38px;
 			}
-			.lang-down-menu{
+
+			.lang-down-menu {
 				position: absolute;
-				    right: 10px;
-				    top: 26px;
-				    z-index: 10!important;
-				    text-align: center;
-				    background-color: #242424;
-				    color: #fff;
-				    left: unset;
-				    right: 0;
-				    min-width: 120px;
-				    padding: 8px 0;
-				    border: none;
-				    border-radius: 6px;
-				    box-shadow: 0 5px 10px 0 rgba(3,6,18,.5);
-				    transition: all .3s;
-					.extend-link{
-						line-height: 20px;
-						    padding: 12px 16px;
-						    display: block;
-						    font-size: 14px;
-						    font-weight: 500;
-					}
+				right: 10px;
+				top: 26px;
+				z-index: 10 !important;
+				text-align: center;
+				background-color: #242424;
+				color: #fff;
+				left: unset;
+				right: 0;
+				min-width: 120px;
+				padding: 8px 0;
+				border: none;
+				border-radius: 6px;
+				box-shadow: 0 5px 10px 0 rgba(3, 6, 18, .5);
+				transition: all .3s;
+
+				.extend-link {
+					line-height: 20px;
+					padding: 12px 16px;
+					display: block;
+					font-size: 14px;
+					font-weight: 500;
+				}
 			}
 		}
 

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="视频营销" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="aivideo" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
@@ -12,8 +12,8 @@
 		<view class="videoaiheader">
 			<image class="videoindexImage" src="~@/static/index/videoindexheader.webp"></image>
 			<view class="videoaiheader_right">
-				<view class="right_title">AI视频生成工具</view>
-				<view class="intro">内容快速生成、灵活的解决方案、直观编辑和优化视频</view>
+				<view class="right_title">{{$t("index.AIvideogenerationtool")}}</view>
+				<view class="intro">{{$t("index.title")}}</view>
 			</view>
 		</view>
 
@@ -96,20 +96,21 @@
 				// contentList: [],
 				contentList2: [],
 				tabsList: [{
-						name: '全部',
+						name: this.$t("index.whole"),
 						value: ""
 					},
 					{
-						name: '男性',
+						name: this.$t("index.male"),
 						value: "1"
 					},
 					{
-						name: '女性',
+						name: this.$t("index.woman"),
 						value: "0"
 					},
 			
 				],
 				roleType: "", //角色类型
+				aivideo:this.$t("index.ai.video"),//视频营销国际化
 			}
 		},
 		computed: {

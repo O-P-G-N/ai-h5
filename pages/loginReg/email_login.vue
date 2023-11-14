@@ -23,7 +23,7 @@
 					</u-checkbox-group>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
@@ -79,6 +79,18 @@
 					url: `/pages/loginReg/email_asswordRet`
 				});
 			},
+			// 查看用户协议
+			viewTerms(){
+				uni.navigateTo({
+					url: `/pages/loginReg/termsUse`
+				});
+			},
+			// 查看隐私协议
+			viewPolicy(){
+				uni.navigateTo({
+					url: `/pages/loginReg/privacyPolicy`
+				});
+			},
 			// 显示隐藏
 			showHidden() {
 				this.eyeShow = !this.eyeShow
@@ -101,21 +113,21 @@
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (!emailPattern.test(this.from.username)) {
 					uni.showToast({
-						title: "请输入正确的邮箱",
+						title: this.$t("login.tips9"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password == "") {
 					uni.showToast({
-						title: "请输入密码",
+						title: this.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (this.from.password.length < 8) {
 					uni.showToast({
-						title: "至少有8个字符",
+						title:this.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
@@ -135,7 +147,7 @@
 										uni.setStorageSync("email", this.from)
 									}
 									uni.showToast({
-										title: "登陆成功",
+										title:this.$t("login.tips11"),
 										success: function() {
 											let time = setTimeout(() => {
 												that.loading = false;
@@ -170,7 +182,7 @@
 										uni.setStorageSync("email", this.from)
 									}
 									uni.showToast({
-										title: "登陆成功",
+										title: this.$t("login.tips11"),
 										success: function() {
 											let times = setTimeout(() => {
 												that.loading = false;
@@ -192,7 +204,7 @@
 							}
 						});
 					} else {
-						uni.$u.toast('有一个大写字母或字符');
+						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}
@@ -337,7 +349,7 @@
 				}
 
 				.btns {
-					margin-top: 198px;
+					margin-top: 100px;
 
 					.rightforget {
 						text-align: center;

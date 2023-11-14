@@ -22,7 +22,7 @@
 						<view class="typeTitle">{{item.name}}</view>
 					</view>
 				</view>
-				<view class="content-title"><text>· 风格选择</text>
+				<view class="content-title"><text>· {{$t("index.styleselection")}}</text>
 					<image @click="showPopupFn(2)" class="miaoshudaxio" src="~@/static/index/miaoshudaxio.webp"></image>
 				</view>
 				<view class="stylelist">
@@ -31,7 +31,7 @@
 						{{item.name}}
 					</view>
 				</view>
-				<ai-button :btnHeight="'72px'" class="clickView" @click="generateFn">立即生成</ai-button>
+				<ai-button :btnHeight="'72px'" class="clickView" @click="generateFn">{{$t("index.generatenow")}}</ai-button>
 			</template>
 			<template v-else>
 				<view class="generateDiv">
@@ -41,72 +41,72 @@
 								@load="load" :src="v" @click="showFn(v)"></image>
 						</view>
 						<view class="img_load" v-if="!loadComplete"><u-loading-icon
-								:show="!loadComplete"></u-loading-icon>正在为您加载中...</view>
+								:show="!loadComplete"></u-loading-icon>{{$t("index.loadingforyou")}}...</view>
 					</template>
 					<template v-else>
 						<view class="progress-title">{{progress}}%</view>
-						<view class="progress-dec">正在生成中...</view>
+						<view class="progress-dec">{{$t("index.generating")}}...</view>
 						<view class="progress">
 							<view class="progress-item" :style="{'width':`${progress}%`}"></view>
 						</view>
 					</template>
 				</view>
-				<view class="hint" v-if='imgUrl.length>0'>长按图片保存到本地</view>
-				<view class="content-title" style="margin-top: 30rpx;"><text>画面描述</text></view>
+				<view class="hint" v-if='imgUrl.length>0'>{{$t("index.savelocally")}}</view>
+				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text></view>
 				<view class="detail-content">{{parameter.prompt}}</view>
 
-				<view class="content-title"><text>创作信息</text></view>
+				<view class="content-title"><text>{{$t("index.creativeinfo")}}</text></view>
 				<view class="detail-content1">
 					<view class="detail-item">
-						<view class="detail-left">主题</view>
+						<view class="detail-left">{{$t("index.theme")}}</view>
 						<view class="detail-right">{{typeList[typeIndex].name}}</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">尺寸</view>
+						<view class="detail-left">{{$t("index.size")}}</view>
 						<view class="detail-right">1024*1024</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">风格选择</view>
+						<view class="detail-left">{{$t("index.styleselection")}}</view>
 						<view class="detail-right">{{stylelist[styleIndex].name}}</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">采样模式</view>
+						<view class="detail-left">{{$t("index.samplingmode")}}</view>
 						<view class="detail-right">DPM++ 2M Karras</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">提示性相关词</view>
+						<view class="detail-left">{{$t("index.suggestiverelatedterm")}}</view>
 						<view class="detail-right">7</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">Clip skip</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
 						<view class="detail-left">ENSD</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">角色同人</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.rolepeers")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">融合模型</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.fusionmodel")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 					<view class="detail-item">
-						<view class="detail-left">参考图</view>
-						<view class="detail-right">敬请期待...</view>
+						<view class="detail-left">{{$t("index.referenceimage")}}</view>
+						<view class="detail-right">{{$t("index.staytuned")}}...</view>
 					</view>
 				</view>
 				<view class="miaoshu">
-					<view class="content-title"><text>精绘</text></view>
+					<view class="content-title"><text>{{$t("index.finedrawing")}}</text></view>
 					<view class="detail-content1">
 						<view class="detail-item">
-							<view class="detail-left">精绘倍数</view>
+							<view class="detail-left">{{$t("index.finedrawingmultiple")}}</view>
 							<view class="detail-right">1.5</view>
 						</view>
 						<view class="detail-item">
-							<view class="detail-left">强度</view>
+							<view class="detail-left">{{$t("index.strength")}}</view>
 							<view class="detail-right">80%</view>
 						</view>
 					</view>
@@ -116,7 +116,7 @@
 		</view>
 		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="generateImg"></image>
-			<view class="buttonDown" @click="copyBtn">复制链接</view>
+			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -124,7 +124,7 @@
 					{{showDetail.title}}
 				</view>
 				<view class="content">{{showDetail.content}}</view>
-				<view class="button" @click="showPopup=false">知道了</view>
+				<view class="button" @click="showPopup=false">{{$t("index.gotit")}}</view>
 			</view>
 		</ai-popup>
 	</view>
@@ -179,31 +179,31 @@
 					topic: 9,
 				}],
 				stylelist: [{
-					name: '自由',
+					name: this.$t("index.ai.creationstyle.freedom"),
 					style: 1,
 				}, {
-					name: '赛博朋克',
+					name: this.$t("index.ai.creationstyle.cyberpunk"),
 					style: 2,
 				}, {
-					name: '水彩风',
+					name:this.$t("index.ai.creationstyle.watercolor"),
 					style: 3,
 				}, {
-					name: '水墨风',
+					name:this.$t("index.ai.creationstyle.chinese_ink"),
 					style: 4,
 				}, {
-					name: '黑白',
+					name:this.$t("index.ai.creationstyle.black_and_white"),
 					style: 5,
 				}, {
-					name: '油画风',
+					name:this.$t("index.ai.creationstyle.oil_painting"),
 					style: 6,
 				}, {
-					name: '梦幻风',
+					name: this.$t("index.ai.creationstyle.dreamlike"),
 					style: 7,
 				}, {
-					name: '素描',
+					name:this.$t("index.ai.creationstyle.sketch"),
 					style: 8,
 				}, {
-					name: '涂鸦',
+					name:this.$t("index.ai.creationstyle.graffiti"),
 					style: 9,
 				}],
 				showPopup: false,
@@ -229,13 +229,13 @@
 				this.showPopup = true
 				if (type == 1) {
 					this.showDetail = {
-						title: '模型主题说明',
-						content: '通过模型主题设定，可以设定最终生成出来的画面是什么材质和风格。'
+						title: this.$t("index.tips3"),
+						content:this.$t("index.tips4")
 					}
 				} else {
 					this.showDetail = {
-						title: '风格选择说明',
-						content: '包含风格修饰、艺术家、元素魔法'
+						title: this.$t("index.tips5"),
+						content: this.$t("index.tips6")
 					}
 				}
 
@@ -282,13 +282,13 @@
 						} else if (res.code == 500) {
 							this.isGenerate = false;
 							if (this.setIntervalL) clearInterval(this.setIntervalL)
-							uni.$u.toast('网络超时，请重试!');
+							uni.$u.toast(this.$t("index.tips7"));
 						}
 					},
 					fail: (err) => {
 						this.isGenerate = false;
 						if (this.setIntervalL) clearInterval(this.setIntervalL)
-						uni.$u.toast('网络超时，请重试!');
+						uni.$u.toast(this.$t("index.tips7"));
 					}
 				});
 				this.isGenerate = true
@@ -312,7 +312,7 @@
 					data: this.generateImg,
 					success: function() {
 						uni.showToast({
-							title: "复制成功,请在浏览器打开!",
+							title:this.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}

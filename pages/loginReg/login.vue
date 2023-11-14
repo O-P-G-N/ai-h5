@@ -88,10 +88,10 @@
 		methods: {
 			//手机登录
 			mobileLogin() {
-				// uni.$u.toast('手机登录暂未开通');
-				uni.navigateTo({
-					url: `/pages/loginReg/phone_login`
-				});
+				uni.$u.toast(this.$t("login.tips16"));
+				// uni.navigateTo({
+				// 	url: `/pages/loginReg/phone_login`
+				// });
 			},
 			// 查看用户协议
 			viewTerms(){
@@ -119,7 +119,7 @@
 			},
 			// 提示
 			loginItem(){
-				uni.$u.toast('当前地区暂未开放');
+				uni.$u.toast(this.$t("login.tips17"));
 			},
 			// 邮箱登录
 			emailLogin() {

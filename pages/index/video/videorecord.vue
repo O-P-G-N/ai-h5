@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="AI合成详情" :fixed='false' :safeAreaInsetTop="false" :height='50'>
+		<u-navbar :title="AIsynthesisdetails" :fixed='false' :safeAreaInsetTop="false" :height='50'>
 			<view class="u-nav-slot" slot="left">
 				<image mode="aspectFit" @click="back" class="back" src="~@/static/index/round-back.png"></image>
 			</view>
@@ -13,6 +13,7 @@
 			<view class="contentItemVideo" v-for="(v,i) in videoList" :key='i'>
 				<view class="contentVideoMain">
 					<view class="videoevery_nei" v-if="playFlag!=i&&playIndex!=i">
+						<image class="videoevery_nei_img" :src="v.imgUrl" mode=""></image>
 						<view class="bofangbtn" @click="playBtn(i)">
 							<image class="bofangbtn_img" src="@/static/user/bofangicon.png" mode=""></image>
 						</view>
@@ -21,7 +22,7 @@
 						:src="v.address" controls></video>
 				</view>
 				<!-- <view class="copy-btn" @click="copyFn">复制视频链接</view> -->
-				<ai-button :btnHeight="'62px'" :color="'#fff'" :bg="'#333'" class="copy-btn" @click="copyVideoLink(v.address)">复制视频链接</ai-button>
+				<ai-button :btnHeight="'62px'" :color="'#fff'" :bg="'#333'" class="copy-btn" @click="copyVideoLink(v.address)">{{$t("index.copyvideolink")}}</ai-button>
 			</view>
 			<u-loadmore :status="status" />
 		</view>
@@ -42,6 +43,7 @@
 				status: "loadmore",
 				playFlag: null, //是否播放
 				playIndex:null,//播放索引
+				AIsynthesisdetails:this.$t("index.AIsynthesisdetails"),//AI合成详情国际化
 			}
 		},
 		onLoad() {
@@ -112,7 +114,7 @@
 					showToast: true,
 					success: function() {
 						uni.showToast({
-							title: "复制成功",
+							title: this.$t("index.tips9"),
 							success: function(res) {}
 						})
 					}
@@ -180,18 +182,27 @@
 				width: 100%;
 				height: 100%;
 				border-radius: 21px;
-				background-image: url(https://imgeom.oss-ap-southeast-1.aliyuncs.com/static/image/videoanli1.png);
-				background-size: cover;
+				
 				background-position: 50%;
 				background-repeat: no-repeat;
 				left: 0;
 				top: 0;
+				.videoevery_nei_img{
+					width: 100%;
+					height: 100%;
+				}
 			
 				.bofangbtn {
 					height: 100%;
 					display: flex;
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
 					align-items: center;
 					justify-content: center;
+					z-index: 100000;
 			
 					.bofangbtn_img {
 						width: 37px;

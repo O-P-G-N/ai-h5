@@ -58,6 +58,10 @@
 						<view class="">当前等级最大可购买份数</view>
 						<text class="buymoney_text">{{gradeMax}}份</text>
 					</view>
+					<view class="buymoney">
+						<view class="">红包余额</view>
+						<text class="buymoney_text">{{accountBalance}}</text>
+					</view>
 				</view>
 				<view v-else class="yuecardskeletons">
 					<u-skeleton :title="false" :rows="1" loading rowsWidth="100%"></u-skeleton>
@@ -114,12 +118,13 @@
 				pageData: {}, //页面展示数据
 				balanceMax:"",//余额最大购买份数
 				gradeMax:"",//等级最大购买份数
-				
+				accountBalance:"",//红包余额
 			};
 		},
 		onLoad(option) {
 			this.from.type=option.type;
 			this.getDayRevenue(option.type)
+			this.getAccount();
 		},
 		methods: {
 			// 获取每日收益
@@ -136,6 +141,17 @@
 						this.from.payDays = res.data.list[0].days;
 						this.from.bili = res.data.list[0].bili;
 						this.from.payHongbao=Number(this.from.payNum)*Number(this.pageData.remark);
+					}
+				});
+				
+			},
+			// 获取红包余额
+			getAccount() {
+				uni.request({
+					url: `/member/getAccount`,
+					method: "GET",
+					success: (res) => {
+						this.accountBalance = res.data.hongbao.toString();
 					}
 				});
 			},
