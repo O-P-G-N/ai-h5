@@ -1,6 +1,7 @@
 <template>
 	<view class="contract_amount">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="我的合约" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.con_detail.i1')" :title="$t('user.con_detail.i23')"
+			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -16,56 +17,62 @@
 										:src="v.type==1?'../../static/user/up.png':'../../static/user/encryption.png'"
 										mode=""></image>
 									<view class="in">
-										<view class="title">{{v.type==1?'证券':'加密货币'}}</view>
+										<view class="title">
+											{{v.type==1?$t('user.con_detail.i12'):$t('user.con_detail.i13')}}
+										</view>
 									</view>
 								</view>
 								<view class="modelshouyi">
 									<view class="modelshouyi_every">
 										<view class="leijiprice">${{v.incomeHongbao}}</view>
-										<view class="">累计收益</view>
+										<view class="">{{$t('user.con_detail.i14')}}</view>
 									</view>
 									<view class="modelshouyi_every">
 										<view class="shouyilvprice"><text>{{Number(v.bili)*100}}%</text></view>
-										<view class="">收益率</view>
+										<view class="">{{$t('user.con_detail.i15')}}</view>
 									</view>
 								</view>
 							</view>
 							<view class="contractthree">
 								<view class="contract_every">
 									<view class="intro">{{v.payNum}}份</view>
-									<view class="titles">合约份数</view>
+									<view class="titles">{{$t('user.con_detail.i16')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">{{v.runday}}天</view>
-									<view class="titles">已运行</view>
+									<view class="intro">{{v.runday}}{{$t('user.con_detail.i18')}}</view>
+									<view class="titles">{{$t('user.con_detail.i22')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">0次</view>
-									<view class="titles">交易次数</view>
+									<view class="intro">0{{$t('user.con_detail.i19')}}</view>
+									<view class="titles">{{$t('user.con_detail.i20')}}</view>
 								</view>
 							</view>
 							<view class="order_sn">
 								Order ID：{{v.orderSn}}
 							</view>
 							<view class="order_sn">
-								创建时间：{{v.createTime}}
+								{{$t('user.con_detail.i24')}}：{{v.createTime}}
 							</view>
 							<view class="order_sn" v-if="v.status==0">
-								到期时间：{{v.endTime}}
+								{{$t('user.con_detail.i25')}}：{{v.endTime}}
 							</view>
 							<view class="order_sn" v-if="v.status==2||v.status==1">
-								结束时间：{{v.updateTime}}
+								{{$t('user.con_detail.i26')}}：{{v.updateTime}}
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
-								<button class="zhongzhibtn"
-									@click="contractSet(v.id,v.status)">{{v.status==0?"终止":v.status==4?"取消终止":""}}合约</button>
+								<button class="zhongzhibtn" @click="contractSet(v.id,v.status)">
+									{{
+										v.status==0?$t('user.con_detail.i27'):
+									v.status==4 ? $t('user.con_detail.i28') :""}}
+									{{$t('user.con_detail.i29')}}
+								</button>
 							</view>
 							<view class="modelendtime" v-if="v.status==4">
-								<text>终止合约后将不再有任何收益 倒计时:</text>
+								<text>{{$t('user.con_detail.i30')}}:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
 							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2&&v.status!=1">
-								查看更多交易详情
+								{{$t('user.con_detail.i31')}}
 								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
 							</button>
 						</view>
@@ -79,7 +86,7 @@
 		</view>
 		<view class="default_page" v-else>
 			<image class="default_page_img" src="@/static/user/defaultPage.png" mode=""></image>
-			<view class="default_page_text">还没有合约，快去创建合约吧~</view>
+			<view class="default_page_text">{{$t('user.con_detail.i32')}}~</view>
 		</view>
 	</view>
 </template>
@@ -106,7 +113,7 @@
 		},
 		onShow() {
 			this.getContractList();
-			
+
 		},
 		onHide() {
 			this.from.page = 1;
@@ -116,18 +123,18 @@
 			// 返回个人中心
 			goBackUser() {
 				const pages = getCurrentPages();
-				if(pages.length>1){
+				if (pages.length > 1) {
 					uni.navigateBack({
 						delta: 1
 					});
-				}else{
+				} else {
 					uni.switchTab({
 						url: `/pages/market/index`
 					});
 				}
 			},
-			getaa(){
-				
+			getaa() {
+
 			},
 			// 获取合约列表
 			getContractList() {
@@ -137,7 +144,8 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							v.runday = this.getDaysDiff(v.createTime, Date.now())
-							v.endTime=dayjs(v.createTime).add(v.payDays,'day').format('YYYY-MM-DD HH:mm:ss')
+							v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
+								'YYYY-MM-DD HH:mm:ss')
 							if (v.status == 4) {
 								v.countdown = this.getCountDown(v.updateTime)
 							}
@@ -153,9 +161,9 @@
 				this.show = true
 				this.id = id;
 				if (status == 0) {
-					this.modalContent = "您确定要终止该合约吗？"
+					this.modalContent = this.$t('user.con_detail.i33')
 				} else {
-					this.modalContent = "您确定要取消终止该合约吗？"
+					this.modalContent = this.$t('user.con_detail.i34')
 				}
 				this.status = status;
 
@@ -192,7 +200,8 @@
 						success: (res) => {
 							res.data.rows.map((v) => {
 								v.runday = this.getDaysDiff(v.createTime, Date.now())
-								v.endTime=dayjs(v.createTime).add(v.payDays,'day').format('YYYY-MM-DD HH:mm:ss')
+								v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
+									'YYYY-MM-DD HH:mm:ss')
 								if (v.status == 1) {
 									v.countdown = this.getCountDown(v.updateTime)
 								}
@@ -228,7 +237,7 @@
 					success: (res) => {
 						if (that.status == 0) {
 							uni.showToast({
-								title: "合约已终止",
+								title: this.$t('user.con_detail.i35'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();
@@ -237,7 +246,7 @@
 							})
 						} else {
 							uni.showToast({
-								title: "合约已取消终止",
+								title: this.$t('user.con_detail.i36'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();

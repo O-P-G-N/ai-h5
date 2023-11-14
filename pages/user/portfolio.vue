@@ -1,13 +1,13 @@
 <template>
 	<view class="portfolio">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="作品集" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.con_detail.i1')" :title="$t('user.con_detail.i2')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
 		<view class="searchselect">
 			<view class="inputsearch">
-				<u--input v-model="from.keyword" placeholder="搜索画面描述" border="surround" shape="circle"></u--input>
+				<u--input v-model="from.keyword" :placeholder="$t('user.con_detail.i3')" border="surround" shape="circle"></u--input>
 			</view>
 			<view class="rightshaixuan" @click="searchBtn">
 				<image class="searchicon" src="@/static/user/search.png" mode=""></image>
@@ -41,7 +41,7 @@
 					</view>
 
 					<ai-button :btnHeight="'57px'" class="next-btn startBtn"
-						@click="copyVideoLink(v.address)">复制视频链接</ai-button>
+						@click="copyVideoLink(v.address)">{{$t('user.con_detail.i4')}}</ai-button>
 					<!-- <button class="startBtn" >复制视频链接</button> -->
 				</view>
 			</view>
@@ -49,7 +49,7 @@
 		<view v-if="bigImg" class="image_mask" @click.stop="bigImg=false">
 			<view class="image_box">
 				<image class="big_img" @click.native.stop :src="bigImgRoute" mode=""></image>
-				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">复制链接</view>
+				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">{{$t('user.con_detail.i5')}}</view>
 			</view>
 		</view>
 		<u-loadmore :status="status" />
@@ -67,9 +67,9 @@
 					pageSize: 10
 				},
 				list: [{
-					name: 'AI创作',
+					name: this.$t('user.con_detail.i6'),
 				}, {
-					name: '视频营销',
+					name: this.$t('user.con_detail.i7'),
 				}, ],
 				contentList: [], //ai作品合集
 				videoList: [], //ai视频合集
@@ -194,7 +194,7 @@
 					data: val,
 					success: function() {
 						uni.showToast({
-							title: "复制成功,请在浏览器打开!",
+							title: this.$t('user.con_detail.i8'),
 							success: function(res) {
 								that.bigImg = false;
 							}
@@ -205,7 +205,7 @@
 			// 搜索
 			searchBtn() {
 				if (this.from.keyword == "") {
-					uni.$u.toast("请输入您要查询的内容")
+					uni.$u.toast(this.$t('user.con_detail.i9'))
 				} else {
 					this.from.pageNum = 1;
 					if (this.pageIndex == 0) {
@@ -222,7 +222,7 @@
 					showToast: true,
 					success: function() {
 						uni.showToast({
-							title: "复制成功",
+							title: this.$t('user.con_detail.i10'),
 							success: function(res) {}
 						})
 					}

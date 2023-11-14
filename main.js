@@ -65,7 +65,7 @@ let req_handler = function() {
 			if (store.state.app.loading.indexOf(this_url) >= 0) {
 				console.error('intercepted duplicate request', this_url)
 				uni.showToast({
-					title: "操作过于频繁,请稍后再试",
+					title: this.$t('app.main.js.i1'),
 					icon: 'error',
 					position: true,
 				});

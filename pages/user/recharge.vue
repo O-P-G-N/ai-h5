@@ -53,20 +53,20 @@
 				<!-- <button class="chuangjian" @click="nextStep">下一步</button> -->
 			</view>
 		</view>
-		<u-modal :show="show" title="温馨提示">
+		<u-modal :show="show" :title="$t('user.islands.sc.sn.i1')">
 			<view>
 				<view class="footercontent">
 					<text class="text">
-						尊敬的客户:
+						{{$t('user.capital_flow.i800')}}
 						<br />
-						为了一直致力于为您提供安全、高效的服务在您进行储值时，请务必注意以下事项:
+						{{$t('user.capital_flow.i90')}}
 						<br />
 						<br />
-						①平台仅支持红包- ERC20 和 红包-TRC20 类型的区块链数字货币收款，为了确保您的充值顺畅请在转账前核对好所选择的渠道，并确保您的转账类型正确.对于转错其他类型的情况，我们将无法负责处理
+						①{{$t('user.capital_flow.i91')}}
 						<br />
-						②为避免造成金额损失,请您切勿保存收款地址错误地址将导致您的存款无法到账等
+						②{{$t('user.capital_flow.i92')}}
 						<br />
-						③储值时间7X24小时.但订单只存在60分钟,请及时完成账单
+						③{{$t('user.capital_flow.i93')}}
 					</text>
 				</view>
 			</view>

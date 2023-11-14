@@ -1,6 +1,6 @@
 <template>
 	<view class="contract_details">
-		<u-navbar @leftClick="goBackUser" leftText="返回" title="合约详情" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.con_detail.i1')" :title="$t('user.con_detail.i11')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -12,36 +12,36 @@
 						<view class="modeltitle">
 							<image class="modeltitle_img" :src="contractDetails.type==1?'../../static/user/up.png':'../../static/user/encryption.png'" mode=""></image>
 							<view class="in">
-								<view class="title">{{contractDetails.type==1?'证券':'加密货币'}}</view>
+								<view class="title">{{contractDetails.type==1?$t('user.con_detail.i12'):$t('user.con_detail.i13')}}</view>
 							</view>
 						</view>
 						<view class="modelshouyi">
 							<view class="modelshouyi_every">
 								<view class="leijiprice">${{contractDetails.incomeHongbao}}</view>
-								<view class="">累计收益</view>
+								<view class="">{{$t('user.con_detail.i14')}}</view>
 							</view>
 							<view class="modelshouyi_every">
 								<view class="shouyilvprice"><text>{{Number(contractDetails.bili)*100}}%</text></view>
-								<view class="">收益率</view>
+								<view class="">{{$t('user.con_detail.i15')}}</view>
 							</view>
 						</view>
 					</view>
 					<view class="contractthree">
 						<view class="contract_every">
-							<view class="intro">{{contractDetails.payNum}}份</view>
-							<view class="titles">合约份数</view>
+							<view class="intro">{{contractDetails.payNum}}{{$t('user.con_detail.i17')}}</view>
+							<view class="titles">{{$t('user.con_detail.i16')}}</view>
 						</view>
 						<view class="contract_every">
-							<view class="intro">{{contractDetails.runday}}天</view>
-							<view class="titles">已运行</view>
+							<view class="intro">{{contractDetails.runday}}{{$t('user.con_detail.i18')}}</view>
+							<view class="titles">{{$t('user.con_detail.iww')}}</view>
 						</view>
 						<view class="contract_every">
-							<view class="intro">1次</view>
-							<view class="titles">交易次数</view>
+							<view class="intro">1{{$t('user.con_detail.i19')}}</view>
+							<view class="titles">{{$t('user.con_detail.i20')}}</view>
 						</view>
 					</view>
 				</view>
-				<view class="jiaoyititles">交易行情</view>
+				<view class="jiaoyititles">{{$t('user.con_detail.i21')}}</view>
 				<view class="tablemain">
 					<view class="tablemain_body">
 						<view class="">2023-10-27 09:37:30</view>

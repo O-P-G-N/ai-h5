@@ -1,6 +1,6 @@
 <template>
 	<view class="notice">
-		<u-navbar @leftClick="goBackUser" title="公告" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('home.menu.notice')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -30,13 +30,13 @@
 		data() {
 			return {
 				tabList: [{
-					name: '系统公告',
+					name: this.$t('user.capital_flow.i77'),
 					value:"1"
 				}, {
-					name: '交易公告',
+					name: this.$t('user.capital_flow.i78'),
 					value:"2"
 				}, {
-					name: '活动公告',
+					name: this.$t('user.capital_flow.i79'),
 					value:"3"
 				}, ],
 				noticeList:[],//公告列表

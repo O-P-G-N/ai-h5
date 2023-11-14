@@ -30,7 +30,7 @@
 						</view>
 						<view class="intCs">
 							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"
-								placeholder="请输入金额" />
+								:placeholder="$t('user.capital_flow.i76')" />
 						</view>
 					</view>
 				</view>
@@ -153,7 +153,7 @@
 								this.forbidden=false;
 								this.loading=false;
 								uni.showToast({
-									title: "兑换成功",
+									title: this.this.$t('user.capital_flow.i75'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)

@@ -20,25 +20,25 @@
 				<view class="address">{{to}}</view>
 				<view class="copy_address" @click="copyAdd">{{$t('user.capital_flow.i40')}}</view>
 				<view class="rc_details">
-					<view class="rc_de_title">温馨提示</view>
+					<view class="rc_de_title">{{$t('user.islands.sc.sn.i1')}}</view>
 					<view class="rc_de">
-						尊敬的客户:
+						{{$t('user.capital_flow.i800')}}:
 						<br/>
-						为了一直致力于为您提供安全、高效的服务，在您进行储值时，请务必注意以下事项:
+						{{$t('user.capital_flow.i81')}}
 						<br/>
-						① 区块链交易存在不可预测的市场波动和风险。充值资金的价值可能受市场因素的影响而波动，用户应自行承担由此可能引起的盈亏。
+						① {{$t('user.capital_flow.i82')}}
 						<br/>
-						② 由于区块链网络拥堵、交易确认时间等原因，充值可能会面临延迟。我们将尽最大努力确保资金及时到账，但不能保证无延迟。
+						② {{$t('user.capital_flow.i83')}}
 						<br/>
-						③用户在充值过程中应仔细核对充值金额、币种等信息，平台不对因用户提供的错误信息导致的损失负责。
+						③{{$t('user.capital_flow.i84')}}
 						<br/>
-						④用户可通过提供的交易哈希值在区块链浏览器上查询交易状态。平台不对用户未能查询或查证交易详情导致的损失负责。
+						④{{$t('user.capital_flow.i85')}}
 						<br/>
-						⑤如因不可抗力、政策法规变化等原因导致的充值问题，平台不承担责任。用户理解并接受，在这些情况下，平台可能无法提供满足用户期望的服务。
+						⑤{{$t('user.capital_flow.i86')}}
 						<br/>
-						⑥用户有责任保管好个人账户及登录信息，平台不对用户因未妥善保管账户信息而导致的损失负责。
+						⑥{{$t('user.capital_flow.i87')}}
 						<br/>
-						⑦平台保留随时修改和更新本免责协议的权利。用户在使用服务前应仔细阅读最新版本的免责协议。
+						⑦{{$t('user.capital_flow.i88')}}
 					</view>
 				</view>
 			</view>
