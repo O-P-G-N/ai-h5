@@ -1,6 +1,6 @@
 <template>
 	<view class="myteam">
-		<u-navbar @leftClick="goBackUser" title="我的岛屿" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.islands.idx.my_island')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -9,15 +9,15 @@
 			<view class="pyzsOut">
 				<view class="title">
 					<image class="title_img" src="@/static/islands/people_num.png" mode=""></image>
-					岛民总数
+					{{$t('user.islands.mt.poi')}}
 				</view>
 				<view class="content">{{myTeamInfo.sum?myTeamInfo.sum:0}}</view>
 				<view class="dy">
 					<view class="gx">
-						岛屿贡献值
+						{{$t('user.islands.mt.coi')}}
 						<text class="gx_text">0</text>
 					</view>
-					<view class="xh">岛屿消耗
+					<view class="xh">{{$t('user.islands.mt.efi')}}
 						<text class="xh_text">0</text>
 					</view>
 				</view>
@@ -25,17 +25,17 @@
 			<u-tabs :list="tabList" keyName="name" :scrollable="false" @click="tabClick"></u-tabs>
 			<view class="dyselect">
 				<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">
-					内岛
-					<text class="nd_text">{{myTeamInfo.in}}</text>人
+					{{$t('user.islands.mt.ii')}}
+					<text class="nd_text">{{myTeamInfo.in}}</text>{{$t('user.islands.mt.p')}}
 				</view>
 				<view class="wd" :class="dyShow==0?'dyactive':''" @click="dyShowBtn(0)">外岛
-					<text class="wd_text">{{myTeamInfo.out}}</text>人
+					<text class="wd_text">{{myTeamInfo.out}}</text>{{$t('user.islands.mt.p')}}
 				</view>
 			</view>
 			<view class="people">
 				<view class="people_item">
-					<view class=""><text>{{dyShow==1?'内':'外'}}岛有效人数</text></view>
-					<view class="num">0人</view>
+					<view class=""><text>{{dyShow==1?$t('user.islands.mt.in'):$t('user.islands.mt.out')}}{{$t('user.islands.mt.vnpi')}}</text></view>
+					<view class="num">0{{$t('user.islands.mt.p')}}</view>
 				</view>
 			</view>
 			<view class="tabs">
@@ -44,34 +44,34 @@
 						<view class="list-body" v-for="(v,i) in myTeamInfo.data" :key="i">
 							<view class="capital">
 								<view class="orderhao">
-									<text>账号</text>
+									<text>{{$t('user.asset.islands.idj.account_name')}}</text>
 									<text class="bluephone">{{v.memberName}}</text>
 								</view>
 								<view class="orderhao">
-									<text>昵称</text>
+									<text>{{$t('user.asset.islands.idj.nickname')}}</text>
 									<text>{{v.nickName}}</text>
 								</view>
 								<view class="orderhao">
-									<text>等级名称</text>
+									<text>{{$t('user.asset.islands.idj.rankname')}}</text>
 									<text>{{v.vip}}</text>
 								</view>
 								<view class="orderhao">
-									<text>激活状态</text>
-									<text>{{v.isActive==1?"未激活":"已激活"}}</text>
+									<text>{{$t('user.asset.islands.idj.act_status')}}</text>
+									<text>{{v.isActive==1?$t('user.asset.islands.idj.unactivated'):$t('user.asset.islands.idj.activated')}}</text>
 								</view>
 								<view class="orderhao">
-									<text>合约份数</text>
+									<text>{{$t('user.asset.islands.idj.contract_amount')}}</text>
 									<text>0</text>
 								</view>
 								<view class="orderhao">
-									<text>{{dyShow==1?'邀请':'注册'}}时间</text>
+									<text>{{dyShow==1?$t('user.asset.islands.idj.ivt'):$('user.asset.islands.idj.reg')}}{{$t('user.asset.islands.idj.time')}}</text>
 									<text>2023-10-26 10:27:29</text>
 								</view>
 							</view>
 						</view>
 					</view>
 					<view v-else>
-					<u-empty text="暂无内容" mode="history" icon="http://cdn.uviewui.com/uview/empty/history.png">
+					<u-empty :text="$t('user.islands.mt.nc')" mode="history" icon="http://cdn.uviewui.com/uview/empty/history.png">
 					</u-empty>
 					</view>
 				</view>
@@ -85,16 +85,16 @@
 		data() {
 			return {
 				tabList: [{
-					name: '全部',
+					name: this.$t('user.islands.mt.all'),
 					value:'all'
 				}, {
-					name: '今日',
+					name: this.$t('user.islands.mt.td'),
 					value:'today'
 				}, {
-					name: '本周',
+					name: this.$t('user.islands.mt.tw'),
 					value:'week'
 				}, {
-					name: '本月',
+					name: this.$t('user.islands.mt.th'),
 					value:'month'
 				}], //tab标签
 				dyShow: 1, //内外岛索引

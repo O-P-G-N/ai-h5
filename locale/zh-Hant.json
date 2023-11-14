@@ -162,9 +162,29 @@
 	"user.asset.islands.idj.activated": "已激活",
 	"user.asset.islands.idj.contract_amount": "合約份數",
 	"user.asset.islands.idj.activity_time": "邀請時間",
+	"user.asset.islands.idj.time": "時間",
+	"user.asset.islands.idj.reg": "注冊",
+	"user.asset.islands.idj.ivt": "邀請",
 	
 	"user.islands.idx.island": "島嶼",
 	"user.islands.idx.my_island": "我的島嶼",
 	"user.islands.idx.invite_friends": "邀請好友",
-	"user.islands.idx.my_coupon": "我的卡券"
+	"user.islands.idx.my_coupon": "我的卡券",
+	"user.islands.ivt.share": "分享",
+	"user.islands.ivt.copy_suc": "複製成功",
+	"user.islands.ivt.qr_gen": "二維碼生成中",
+	
+	"user.islands.mt.poi": "島民總數",
+	"user.islands.mt.coi": "島嶼貢獻值",
+	"user.islands.mt.efi": "島嶼消耗",
+	"user.islands.mt.ii": "内島",
+	"user.islands.mt.ei": "外島",
+	"user.islands.mt.vnpi": "島内有效人數",
+	"user.islands.mt.p": "人",
+	"user.islands.mt.nc": "暫無内容",
+	"user.islands.mt.all": "全部",
+	"user.islands.mt.td": "今日",
+	"user.islands.mt.tw": "本周",
+	"user.islands.mt.th": "本月"
+
 }

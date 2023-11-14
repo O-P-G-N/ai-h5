@@ -162,16 +162,33 @@
 	"user.asset.islands.idj.activated": "activated",
 	"user.asset.islands.idj.contract_amount": "contract amount",
 	"user.asset.islands.idj.activity_time": "activity time",
+	"user.asset.islands.idj.time": "time",
+	"user.asset.islands.idj.reg": "regist",
+	"user.asset.islands.idj.ivt": "invite",
 	
 	"user.islands.idx.island": "island",
 	"user.islands.idx.my_island": "my_island",
 	"user.islands.idx.invite_friends": "invite_friends",
 	"user.islands.idx.my_coupon": "my_coupon",
+	"user.islands.ivt.share": "share",
+	"user.islands.ivt.copy_suc": "success",
+	"user.islands.ivt.qr_gen": "generating",
 	
-	"user.islands.idx.island": "island",
-	"user.islands.idx.my_island": "my island",
-	"user.islands.idx.invite_friends": "invite friends",
-	"user.islands.idx.my_coupon": "my coupon"
+	"user.islands.mt.poi": "Population on the island",
+	"user.islands.mt.coi": "Contribution Of Island",
+	"user.islands.mt.efi": "expend Of Island",
+	"user.islands.mt.ii": "inner island",
+	"user.islands.mt.ei": "external island",
+	"user.islands.mt.vnpi": "Valid number of persons in island",
+	"user.islands.mt.p": "person",
+	"user.islands.mt.nc": "No content",
+	"user.islands.mt.all": "all",
+	"user.islands.mt.td": "today",
+	"user.islands.mt.tw": "this week",
+	"user.islands.mt.th": "this month",
+	"user.islands.mt.in": "inside",
+	"user.islands.mt.out": "outside"
+	
 	
 	
 	

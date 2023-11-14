@@ -1,6 +1,6 @@
 <template>
 	<view class="invite">
-		<u-navbar @leftClick="goBackUser" title="分享" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :title="$t('user.islands.ivt.share')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -65,7 +65,7 @@
 			// 生成二维码
 			make(data) {
 				uni.showLoading({
-					title: '二维码生成中',
+					title: this.$t('user.islands.ivt.qr_gen'),
 					mask: true
 				})
 			
@@ -86,9 +86,9 @@
 			copyInvite(){
 				uni.setClipboardData({
 					data: app_config.onlineUrl+`/#/pages/loginReg/reg_account?code=${this.invitationCode}`,
-					success: function() {
+					success: () => {
 						uni.showToast({
-							title: "复制成功!",
+							title: this.$t('user.islands.ivt.copy_suc'),
 							success: function(res) {
 							}
 						})
