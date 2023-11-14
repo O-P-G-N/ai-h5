@@ -24,21 +24,21 @@
 					<view class="rc_de">
 						{{$t('user.capital_flow.i800')}}:
 						<br/>
-						{{$t('user.capital_flow.i81')}}
+						{{$t('user.capital_flow.i80')}}
 						<br/>
-						① {{$t('user.capital_flow.i82')}}
+						① {{$t('user.capital_flow.i81')}}
 						<br/>
-						② {{$t('user.capital_flow.i83')}}
+						② {{$t('user.capital_flow.i82')}}
 						<br/>
-						③{{$t('user.capital_flow.i84')}}
+						③{{$t('user.capital_flow.i83')}}
 						<br/>
-						④{{$t('user.capital_flow.i85')}}
+						④{{$t('user.capital_flow.i84')}}
 						<br/>
-						⑤{{$t('user.capital_flow.i86')}}
+						⑤{{$t('user.capital_flow.i85')}}
 						<br/>
-						⑥{{$t('user.capital_flow.i87')}}
+						⑥{{$t('user.capital_flow.i86')}}
 						<br/>
-						⑦{{$t('user.capital_flow.i88')}}
+						⑦{{$t('user.capital_flow.i87')}}
 					</view>
 				</view>
 			</view>

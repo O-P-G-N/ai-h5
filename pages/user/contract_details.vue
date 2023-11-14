@@ -33,7 +33,7 @@
 						</view>
 						<view class="contract_every">
 							<view class="intro">{{contractDetails.runday}}{{$t('user.con_detail.i18')}}</view>
-							<view class="titles">{{$t('user.con_detail.iww')}}</view>
+							<view class="titles">{{$t('user.con_detail.i22')}}</view>
 						</view>
 						<view class="contract_every">
 							<view class="intro">1{{$t('user.con_detail.i19')}}</view>
