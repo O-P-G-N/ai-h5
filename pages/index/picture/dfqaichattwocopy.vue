@@ -147,7 +147,7 @@
 					data: this.generateImg,
 					success: function() {
 						uni.showToast({
-							title:this.$t("index.tips8"),
+							title:that.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}

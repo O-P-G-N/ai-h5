@@ -95,7 +95,6 @@
 					},
 					success: (res) => {
 						this.marketData=res.data.rows;
-						this.contractDetails=res.data;
 					}
 				});
 			},

@@ -61,10 +61,7 @@
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
 								<button class="zhongzhibtn" @click="contractSet(v.id,v.status)">
-									{{
-										v.status==0?$t('user.con_detail.i27'):
-									v.status==4 ? $t('user.con_detail.i28') :""}}
-									{{$t('user.con_detail.i29')}}
+									{{v.status==0?$t('user.con_detail.i27'):v.status==4 ? $t('user.con_detail.i28') :""}}{{$t('user.con_detail.i29')}}
 								</button>
 							</view>
 							<view class="modelendtime" v-if="v.status==4">
@@ -109,7 +106,7 @@
 				modalContent: "", //模态框提示语
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 			};
 		},
 		onShow() {
