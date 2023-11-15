@@ -26,9 +26,9 @@
 		data() {
 			return {
 				tabList: [{
-					name: $t('user.asset.islands.ctf.my_coupon'),
+					name: this.$t('user.asset.islands.ctf.my_coupon'),
 				}, {
-					name: $t('user.asset.islands.ctf.use_record'),
+					name:this.$t('user.asset.islands.ctf.use_record'),
 				}]
 			};
 		},

@@ -97,7 +97,7 @@
 		data() {
 			return {
 				from: {
-					page: 1, //页数
+					pageNum: 1, //页数
 				}, //请求数据
 				contractList: [], //合约列表
 				total: 0, //总条数
@@ -114,7 +114,7 @@
 
 		},
 		onHide() {
-			this.from.page = 1;
+			this.from.pageNum = 1;
 			this.contractList = [];
 		},
 		methods: {
@@ -137,7 +137,7 @@
 			// 获取合约列表
 			getContractList() {
 				uni.request({
-					url: `/island/contracts/${this.from.page}`,
+					url: `/island/contracts/${this.from.pageNum}`,
 					method: "GET",
 					success: (res) => {
 						res.data.rows.map((v) => {
@@ -190,21 +190,21 @@
 			// 上划加载
 			scrolltolower() {
 				this.status = "loading"
-				if (this.from.page < (this.total / 10)) {
-					this.from.page++;
+				if (this.from.pageNum < Math.ceil((this.total / 10))) {
+					this.from.pageNum++;
 					uni.request({
-						url: `/island/contracts/${this.from.page}`,
+						url: `/island/contracts/${this.from.pageNum}`,
 						method: "GET",
 						success: (res) => {
 							res.data.rows.map((v) => {
 								v.runday = this.getDaysDiff(v.createTime, Date.now())
 								v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
 									'YYYY-MM-DD HH:mm:ss')
-								if (v.status == 1) {
+								if (v.status == 4) {
 									v.countdown = this.getCountDown(v.updateTime)
 								}
 							})
-							this.contractList.push(res.data.rows);
+							this.contractList.push(...res.data.rows);
 						}
 					});
 				} else {
@@ -235,7 +235,7 @@
 					success: (res) => {
 						if (that.status == 0) {
 							uni.showToast({
-								title: this.$t('user.con_detail.i35'),
+								title: that.$t('user.con_detail.i35'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();
@@ -244,7 +244,7 @@
 							})
 						} else {
 							uni.showToast({
-								title: this.$t('user.con_detail.i36'),
+								title: that.$t('user.con_detail.i36'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();
