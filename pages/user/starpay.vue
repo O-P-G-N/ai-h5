@@ -91,6 +91,7 @@
 			// 复制地址
 			copyAdd() {
 				let that = this
+				console.log(that.to);
 				uni.setClipboardData({
 					data: that.to,
 					success: function() {
