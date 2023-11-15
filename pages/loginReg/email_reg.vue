@@ -137,53 +137,54 @@
 			},
 			// 邮箱注册
 			regBtn() {
+				let that=this
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
-				if (!emailPattern.test(this.from.email)) {
+				if (!emailPattern.test(that.from.email)) {
 					uni.showToast({
-						title:this.$t("login.tips9"),
+						title:that.$t("login.tips9"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
-				} else if (this.from.code == "") {
+				} else if (that.from.code == "") {
 					uni.showToast({
-						title:this.$t("login.tips14"),
+						title:that.$t("login.tips14"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
-				} else if (this.from.password == "") {
+				} else if (that.from.password == "") {
 					uni.showToast({
-						title:this.$t("login.tips10"),
+						title:that.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
-				} else if (this.from.password.length < 8) {
+				} else if (that.from.password.length < 8) {
 					uni.showToast({
-						title:this.$t("login.tips4"),
+						title:that.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else {
-					if (patrn.test(this.from.password)) {
-						this.forbidden = true;
-						this.loading = true
+					if (patrn.test(that.from.password)) {
+						that.forbidden = true;
+						that.loading = true
 						uni.request({
 							url: '/nt/registerEmail',
 							method: "POST",
-							data: this.from,
+							data: that.from,
 							success: (res) => {
 								// uni.$u.toast('注册成功');
 								if (res.code == 200) {
-									this.forbidden = false;
-									this.loading = false;
+									that.forbidden = false;
+									that.loading = false;
 									uni.showToast({
-										title:this.$t("login.tips15"),
+										title:that.$t("login.tips15"),
 										success: function(res1) {
 											let times = setTimeout(() => {
 												clearTimeout(times)
@@ -195,26 +196,26 @@
 										},
 									})
 								} else if (res.code == 500) {
-									this.forbidden = false;
-									this.loading = false;
+									that.forbidden = false;
+									that.loading = false;
 								}
 
 							}
 						});
-					} else if (patrns.test(this.from.password)) {
-						this.forbidden = true;
-						this.loading = true
+					} else if (patrns.test(that.from.password)) {
+						that.forbidden = true;
+						that.loading = true
 						uni.request({
 							url: '/nt/registerEmail',
 							method: "POST",
-							data: this.from,
+							data: that.from,
 							success: (res) => {
 								// uni.$u.toast('注册成功');
 								if (res.code == 200) {
-									this.forbidden = false;
-									this.loading = false;
+									that.forbidden = false;
+									that.loading = false;
 									uni.showToast({
-										title:this.$t("login.tips15"),
+										title:that.$t("login.tips15"),
 										success: function(res1) {
 											let time = setTimeout(() => {
 												clearTimeout(time)
@@ -226,14 +227,14 @@
 										},
 									})
 								} else if (res.code == 500) {
-									this.forbidden = false;
-									this.loading = false;
+									that.forbidden = false;
+									that.loading = false;
 								}
 
 							}
 						});
 					} else {
-						uni.$u.toast(this.$t("login.tips8"));
+						uni.$u.toast(that.$t("login.tips8"));
 						return
 					}
 				}

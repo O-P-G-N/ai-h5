@@ -89,9 +89,16 @@
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.switchTab({
+						url: `/pages/user/index`
+					});
+				}
 			},
 			// 获取兑换信息
 			getExchangeInfo() {
@@ -133,27 +140,28 @@
 			},
 			// 确定兑换
 			redeemNow() {
-				if (this.redPacket == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i31'));
+				let that=this
+				if (that.redPacket == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i31'));
 					return
-				} else if (this.redPacket > this.redPacket) {
-					uni.$u.toast(this.$t('user.capital_flow.i32'));
+				} else if (that.redPacket > that.redPacket) {
+					uni.$u.toast(that.$t('user.capital_flow.i32'));
 					return
 				} else {
-					this.forbidden=true;
-					this.loading=true;
+					that.forbidden=true;
+					that.loading=true;
 					uni.request({
 						url: `/member/scoreConvert`,
 						method: "POST",
 						data: {
-							hongbao: this.redPacket
+							hongbao: that.redPacket
 						},
 						success: (res) => {
 							if(res.code==200){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 								uni.showToast({
-									title: this.$t('user.capital_flow.i75'),
+									title: that.$t('user.capital_flow.i75'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)
@@ -164,8 +172,8 @@
 									},
 								})
 							}else if(res.code==500){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 							}
 							
 						}

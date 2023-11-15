@@ -6,7 +6,8 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<view class="main" v-if="contractList.length>0">
+		
+		<view class="main" v-if="contractList.length>0&&!loadShow">
 			<view class="mymodelmain">
 				<u-list @scrolltolower="scrolltolower" lowerThreshold="70">
 					<u-list-item v-for="(v, i) in contractList" :key="i">
@@ -81,10 +82,11 @@
 					:content='modalContent'></u-modal>
 			</view>
 		</view>
-		<view class="default_page" v-else>
+		<view class="default_page" v-else-if="contractList.length==0&&!loadShow">
 			<image class="default_page_img" src="@/static/user/defaultPage.png" mode=""></image>
 			<view class="default_page_text">{{$t('user.con_detail.i32')}}~</view>
 		</view>
+		<u-loading-page icon-size="36" :loading="loadShow" loading-text="正在为您拼命加载中..."></u-loading-page>
 	</view>
 </template>
 
@@ -99,6 +101,7 @@
 				from: {
 					pageNum: 1, //页数
 				}, //请求数据
+				loadShow: true, //加载页状态
 				contractList: [], //合约列表
 				total: 0, //总条数
 				status: "", //状态
@@ -149,6 +152,11 @@
 							}
 						})
 						this.contractList = res.data.rows;
+						let time = setTimeout(() => {
+							this.loadShow = false;
+							clearTimeout(time)
+
+						}, 1500)
 						this.status = "loadmore";
 						this.total = res.data.total;
 					}

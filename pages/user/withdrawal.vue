@@ -279,43 +279,50 @@
 			},
 			// 提交提现申请
 			subApplication() {
-				if (this.from.code == "") {
-					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
+				let that=this
+				if (that.from.code == "") {
+					uni.$u.toast(that.$t('user.islands.sc.edp.i16'));
 					return
-				} else if (this.from.payAddress == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i62'));
+				} else if (that.from.payAddress == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i62'));
 					return
-				} else if (this.from.amount == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i63'));
+				} else if (that.from.amount == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i63'));
 					return
-				} else if (this.from.withdrawPassword == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i64'));
+				} else if (that.from.withdrawPassword == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i64'));
 					return
-				} else if (this.from.answer == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i65'));
+				} else if (that.from.answer == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i65'));
 					return
-				} else if (this.from.amount < this.withdrawalInfo.withdrawMin) {
-					uni.$u.toast(`this.$t('user.capital_flow.i66')：${this.withdrawalInfo.withdrawMin}`);
+				} else if (that.from.amount < that.withdrawalInfo.withdrawMin) {
+					uni.$u.toast(`that.$t('user.capital_flow.i66')：${that.withdrawalInfo.withdrawMin}`);
 					return
-				} else if (this.from.amount > this.withdrawalInfo.withdrawMax) {
-					uni.$u.toast(`this.$t('user.capital_flow.i67')：${this.withdrawalInfo.withdrawMax}`);
+				} else if (that.from.amount > that.withdrawalInfo.withdrawMax) {
+					uni.$u.toast(`that.$t('user.capital_flow.i67')：${that.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
-					this.forbidden = true;
-					this.loading = true;
+					// uni.showLoading({
+					// 	title: that.$t('user.islands.ivt.qr_gen'),
+					// 	mask: true
+					// })
+					that.forbidden = true;
+					that.loading = true;
 					uni.request({
 						url: `/withdraw/withdrawApply`,
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if (res.code == 200) {
-								this.forbidden = false;
-								this.loading = false;
-								uni.$u.toast(this.$t('user.capital_flow.i68'));
-								this.pageIndex = 1;
+								that.forbidden = false;
+								that.loading = false;
+								uni.$u.toast(that.$t('user.capital_flow.i68'));
+								that.pageIndex = 1;
+								// uni.hideLoading()
 							} else {
-								this.forbidden = false;
-								this.loading = false;
+								that.forbidden = false;
+								that.loading = false;
+								// uni.hideLoading()
 								
 							}
 

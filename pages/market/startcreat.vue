@@ -184,32 +184,33 @@
 			},
 			// 创建合约
 			createContract(){
+				let that=this
 				console.log(this.from);
-				if(this.from.payNum==""){
-					uni.$u.toast(this.$t("ac.prc16"));
+				if(that.from.payNum==""){
+					uni.$u.toast(that.$t("ac.prc16"));
 					return
-				}else if(this.from.payNum>(Number(this.balanceMax)/Number(this.pageData.remark))){
-					uni.$u.toast(`${this.$t("ac.prc9")}${Number(this.balanceMax)/Number(this.pageData.remark)}${this.$t("ac.prc4")}`);
+				}else if(that.from.payNum>(Number(that.balanceMax)/Number(that.pageData.remark))){
+					uni.$u.toast(`${that.$t("ac.prc9")}${Number(that.balanceMax)/Number(that.pageData.remark)}${that.$t("ac.prc4")}`);
 					return
-				}else if(this.from.payNum>this.gradeMax){
-					uni.$u.toast(`${this.$t("ac.prc10")}${this.gradeMax}${this.$t("ac.prc4")}`);
+				}else if(that.from.payNum>that.gradeMax){
+					uni.$u.toast(`${that.$t("ac.prc10")}${that.gradeMax}${that.$t("ac.prc4")}`);
 					return
-				}else if(this.from.payDays==""){
-					uni.$u.toast(this.$t("ac.prc17"));
+				}else if(that.from.payDays==""){
+					uni.$u.toast(that.$t("ac.prc17"));
 					return
 				}else{
-					this.forbidden=true;
-					this.loading=true;
+					that.forbidden=true;
+					that.loading=true;
 					uni.request({
 						url: '/island/contract',
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if(res.code==200){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 								uni.showToast({
-									title: this.$t("ac.prc18"),
+									title: that.$t("ac.prc18"),
 									success: function() {
 										 let time=setTimeout(()=>{
 											 clearTimeout(time)
@@ -217,12 +218,12 @@
 											uni.navigateTo({
 												url: `/pages/user/contract_amount`
 											});
-										},1000)
+										},2000)
 									},
 								})
 							}else if(res.code==500){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 							}
 						}
 					});
