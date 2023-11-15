@@ -64,8 +64,9 @@
 			},
 			// 生成二维码
 			make(data) {
+				let that=this
 				uni.showLoading({
-					title: this.$t('user.islands.ivt.qr_gen'),
+					title: that.$t('user.islands.ivt.qr_gen'),
 					mask: true
 				})
 			
@@ -84,11 +85,12 @@
 			},
 			// 复制链接
 			copyInvite(){
+				let that=this
 				uni.setClipboardData({
-					data: app_config.onlineUrl+`/#/pages/loginReg/reg_account?code=${this.invitationCode}`,
+					data: app_config.onlineUrl+`/#/pages/loginReg/reg_account?code=${that.invitationCode}`,
 					success: () => {
 						uni.showToast({
-							title: this.$t('user.islands.ivt.copy_suc'),
+							title: that.$t('user.islands.ivt.copy_suc'),
 							success: function(res) {
 							}
 						})

@@ -195,7 +195,7 @@
 					data: val,
 					success: function() {
 						uni.showToast({
-							title: this.$t('user.con_detail.i8'),
+							title: that.$t('user.con_detail.i8'),
 							success: function(res) {
 								that.bigImg = false;
 							}
@@ -218,12 +218,13 @@
 			},
 			// 复制视频链接
 			copyVideoLink(val) {
+				let that=this
 				uni.setClipboardData({
 					data: val,
 					showToast: true,
 					success: function() {
 						uni.showToast({
-							title: this.$t('user.con_detail.i10'),
+							title: that.$t('user.con_detail.i10'),
 							success: function(res) {}
 						})
 					}

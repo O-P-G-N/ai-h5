@@ -92,10 +92,10 @@
 			copyAdd() {
 				let that = this
 				uni.setClipboardData({
-					data: this.to,
+					data: that.to,
 					success: function() {
 						uni.showToast({
-							title: this.$t('user.islands.ivt.copy_suc'),
+							title: that.$t('user.islands.ivt.copy_suc'),
 							success: function(res) {}
 						})
 					}

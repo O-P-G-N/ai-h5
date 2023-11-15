@@ -91,6 +91,8 @@
 			},
 			// 筛选
 			viewHistory() {
+				this.from.begin="";
+				this.from.end="";
 				this.show = true;
 			},
 			// 选择开始和结束时间
@@ -152,9 +154,6 @@
 				this.timeShow = false;
 				this.from.pageNum = 1;
 				this.getCapitalFlow();
-				this.from.begin="";
-				this.from.end="";
-					
 			},
 			// 获取提现记录
 			getCapitalFlow() {
