@@ -4,7 +4,7 @@
 			<view class="navbers">
 				<view class="navbers_headers">
 					<view class="mailright" @click="viewNotices">
-						<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+						<u-badge :offset="[0, -3]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
 							type="error"></u-badge>
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
@@ -98,7 +98,7 @@
 										<text class="red">+221.71&nbsp;&nbsp;&nbsp;+0.67%</text>
 									</view>
 								</view>
-								<qiun-data-charts type="line" :opts="opts" :chartData="chartDatas" />
+								<qiun-data-charts type="area" :opts="opt" :chartData="chartDatas" />
 							</view>
 						</view>
 					</view>
@@ -114,18 +114,18 @@
 								<view class="ftabs_item" :class="i==ftabsIndex?'factive':''" @click="ftabsBtn(i)"
 									v-for="(v,i) in ftabsList" :key="i">{{v.name}}</view>
 							</view>
-							<qiun-data-charts height="240px" type="line" :opts="opts" :chartData="chartData" />
+							<qiun-data-charts height="240px" type="area" :opts="opts" :chartData="chartData" />
 							<view class="tabs">
 								<view class="tabs_item" :class="i==tabsIndex?'active':''" @click="tabsBtn(v.type,i)"
 									v-for="(v,i) in tabsList" :key="i">{{v.name}}</view>
 							</view>
 							<view class="listdata">
 								<view class="listdata_item" :class="i==listIndex?'listdataactive':''"
-									@click="listBtn(v.pairs,i)" v-for="(v,i) in listData" :key="i">
-									<view class="first">{{v.pairs}}</view>
+									@click="listBtn(v.id,v.symbol,i)" v-for="(v,i) in listData" :key="i">
+									<view class="first">{{v.symbol}}</view>
 									<view class="end">
-										<text class="end_top">{{v.bid}}</text>
-										<text class="red">{{v.ask}} {{v.change24h}}%</text>
+										<text class="end_top">{{Number(v.priceUsd).toFixed(2)}}</text>
+										<text class="red">{{(Number(v.priceUsd)-Number(v.vwap24Hr)).toFixed(2)}}&ensp;&ensp;{{Number(v.changePercent24Hr).toFixed(2)}}%</text>
 									</view>
 								</view>
 							</view>
@@ -152,12 +152,11 @@
 				chartData: {},
 				chartDatas: {},
 				opts: {
-					color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
-						"#ea7ccc"
-					],
+					color: ["#3F65FD"],
 					padding: [15, 10, 0, 15],
 					enableScroll: false,
-					// dataLabel:false,
+					dataLabel: false,
+					dataPointShape: false,
 					legend: {
 						show: false,
 						position: "top"
@@ -176,13 +175,47 @@
 
 					},
 					extra: {
-						line: {
+						area: {
 							type: "curve",
+							opacity: 0.2,
+							addLine: true,
 							width: 2,
-							activeType: "hollow",
-							linearType: "custom",
-							onShadow: true,
-							animation: "horizontal"
+							gradient: true,
+							activeType: "hollow"
+						}
+					}
+				},
+				opt: {
+					color: ["#4EAD9B"],
+					padding: [15, 10, 0, 15],
+					enableScroll: false,
+					dataLabel: false,
+					dataPointShape: false,
+					legend: {
+						show: false,
+						position: "top"
+					},
+					xAxis: {
+						disableGrid: true,
+						disabled: true,
+						axisLine: false,
+						titleOffsetY: -100
+					},
+					yAxis: {
+						gridType: "dash",
+						dashLength: 2,
+						disabled: true,
+						disableGrid: true,
+
+					},
+					extra: {
+						area: {
+							type: "curve",
+							opacity: 0.2,
+							addLine: true,
+							width: 2,
+							gradient: true,
+							activeType: "hollow"
 						}
 					}
 				},
@@ -203,20 +236,32 @@
 				tabsIndex: 0,
 				listIndex: 0,
 				tabsList: [{
-						name: "1W",
-						type:1
+						name: "1D",
+						type: 1
 					},
 					{
 						name: "2W",
-						type:2
+						type: 2
 					},
 					{
-						name: "3W",
-						type:3
+						name: "1M",
+						type: 3
 					},
 					{
-						name: "4W",
-						type:4
+						name: "3M",
+						type: 4
+					},
+					{
+						name: "6M",
+						type: 5
+					},
+					{
+						name: "1Y",
+						type: 6
+					},
+					{
+						name: "ALL",
+						type: 7
 					},
 				],
 				listData: [],
@@ -225,9 +270,9 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				timeType:1,//时间
-				currencyName:"",//货币名称
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				timeType: 1, //时间
+				currencyName: "", //货币名称
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 			}
 		},
 		onReady() {
@@ -240,66 +285,39 @@
 		},
 		created() {},
 		methods: {
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-
-				}, 500);
-			},
 			// 获取列表数据
 			getListData() {
 				uni.request({
-					url: `/aicommon/getMarket`,
+					url: `https://api.coincap.io/v2/assets`,
 					method: "GET",
+					data: {
+						limit: 10
+					},
 					success: (res) => {
-						this.listData = res.data;
-						this.currencyName=res.data[0].pairs;
+						this.listData = res.data.data;
+						this.currencyName = res.data.data[0].id;
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://api.coincap.io/v2/assets/${res.data.data[0].id}/history?interval=m1`,
 							method: "GET",
-							filter: false,
+							data: {
+								start: new Date(dayjs().startOf('date').subtract(1, 'day')).getTime(),
+								end: new Date(dayjs().startOf('date')).getTime()
+							},
 							success: (res1) => {
+								console.log(res1);
 								let parmas = {
 									categories: [],
 									series: []
 								}
 								let arr = []
 								res1.data.data.map((v) => {
-									parmas.categories.push(v.date)
-									arr.push(v.last.toFixed(2))
+									parmas.categories.push(dayjs(v.date).format(
+										"YYYY-MM-DD HH:mm:ss"))
+									arr.push(Number(v.priceUsd).toFixed(2))
 								})
 								parmas.series = [{
-									name: res.data[0].pairs,
+									name: res.data.data[0].symbol,
 									data: arr,
-									linearColor: [
-										[
-											0,
-											"#1890FF"
-										],
-										[
-											0.25,
-											"#00B5FF"
-										],
-										[
-											0.5,
-											"#00D1ED"
-										],
-										[
-											0.75,
-											"#00E6BB"
-										],
-										[
-											1,
-											"#90F489"
-										]
-									],
-									setShadow: [
-										3,
-										8,
-										10,
-										"#1890FF"
-									],
 								}]
 								this.chartData = JSON.parse(JSON.stringify(parmas));
 								// 	let res = {
@@ -313,52 +331,30 @@
 							}
 						});
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(3,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://api.coincap.io/v2/assets/${res.data.data[1].id}/history?interval=d1`,
 							method: "GET",
-							filter: false,
-							success: (res1) => {
+							data: {
+								start: new Date(dayjs().startOf('date').subtract(6, 'month'))
+									.getTime(),
+								end: new Date(dayjs().startOf('date')).getTime()
+							},
+							success: (res2) => {
 								let parmas = {
 									categories: [],
 									series: []
 								}
 								let arr = []
-								res1.data.data.map((v) => {
-									parmas.categories.push(v.date)
-									arr.push(v.last.toFixed(2))
+								res2.data.data.map((v) => {
+									parmas.categories.push(dayjs(v.date).format(
+										"YYYY-MM-DD HH:mm:ss"))
+									arr.push(Number(v.priceUsd).toFixed(2))
 								})
 								parmas.series = [{
-									name: res.data[0].pairs,
+									name: res.data.data[1].symbol,
 									data: arr,
-									linearColor: [
-										[
-											0,
-											"#1890FF"
-										],
-										[
-											0.25,
-											"#00B5FF"
-										],
-										[
-											0.5,
-											"#00D1ED"
-										],
-										[
-											0.75,
-											"#00E6BB"
-										],
-										[
-											1,
-											"#90F489"
-										]
-									],
-									setShadow: [
-										3,
-										8,
-										10,
-										"#1890FF"
-									],
 								}]
 								this.chartDatas = JSON.parse(JSON.stringify(parmas));
+
 							}
 						});
 					}
@@ -411,126 +407,141 @@
 			ftabsBtn(i) {
 				this.ftabsIndex = i
 			},
-			tabsBtn(type,i) {
+			tabsBtn(type, i) {
 				this.tabsIndex = i;
-				this.timeType=type;
+				this.timeType = type;
+				let interval = null;
+				let unit = null;
+				let time = null;
+				switch (type) {
+					case 1:
+						time = 1;
+						unit = "day";
+						interval = "m1";
+						break;
+					case 2:
+						time = 2;
+						unit = "week";
+						interval = "m30";
+						break;
+					case 3:
+						time = 1;
+						unit = "month";
+						interval = "h2";
+						break;
+					case 4:
+						time = 3;
+						unit = "month";
+						interval = "h6";
+						break;
+					case 5:
+						time = 6;
+						unit = "month";
+						interval = "h12";
+						break;
+					case 6:
+						time = 1;
+						unit = "year";
+						interval = "d1";
+						break;
+					case 7:
+						time = 2;
+						unit = "year";
+						interval = "d1";
+						break;
+				}
 				uni.request({
-					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${this.currencyName}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(type,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					url: `https://api.coincap.io/v2/assets/${this.currencyName}/history?interval=${interval}`,
 					method: "GET",
-					filter: false,
-					success: (res1) => {
+					data: {
+						start: new Date(dayjs().startOf('date').subtract(time, unit)).getTime(),
+						end: new Date(dayjs().startOf('date')).getTime()
+					},
+					success: (res2) => {
 						let parmas = {
 							categories: [],
 							series: []
 						}
 						let arr = []
-						res1.data.data.map((v) => {
-							parmas.categories.push(v.date)
-							arr.push(v.last.toFixed(2))
+						res2.data.data.map((v) => {
+							parmas.categories.push(dayjs(v.date).format("YYYY-MM-DD HH:mm:ss"))
+							arr.push(Number(v.priceUsd).toFixed(2))
 						})
 						parmas.series = [{
-							name: this.currencyName,
+							name: this.listData[this.listIndex].symbol,
 							data: arr,
-							linearColor: [
-								[
-									0,
-									"#1890FF"
-								],
-								[
-									0.25,
-									"#00B5FF"
-								],
-								[
-									0.5,
-									"#00D1ED"
-								],
-								[
-									0.75,
-									"#00E6BB"
-								],
-								[
-									1,
-									"#90F489"
-								]
-							],
-							setShadow: [
-								3,
-								8,
-								10,
-								"#1890FF"
-							],
 						}]
 						this.chartData = JSON.parse(JSON.stringify(parmas));
-						// 	let res = {
-						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-						// 		series: [{
-						// 			name: "成交量A",
-						// 			data: [10, 8, 10, 10, 4, 10]
-						// 		}, ]
-						// 	};
-						// 	this.chartData = JSON.parse(JSON.stringify(res));
+
 					}
 				});
 			},
-			listBtn(pairs,i) {
+			listBtn(id,symbol, i) {
 				this.listIndex = i;
-				this.currencyName=pairs;
+				this.currencyName = id;
+				let interval = null;
+				let unit = null;
+				let time = null;
+				switch (this.timeType) {
+					case 1:
+						time = 1;
+						unit = "day";
+						interval = "m1";
+						break;
+					case 2:
+						time = 2;
+						unit = "week";
+						interval = "m30";
+						break;
+					case 3:
+						time = 1;
+						unit = "month";
+						interval = "h2";
+						break;
+					case 4:
+						time = 3;
+						unit = "month";
+						interval = "h6";
+						break;
+					case 5:
+						time = 6;
+						unit = "month";
+						interval = "h12";
+						break;
+					case 6:
+						time = 1;
+						unit = "year";
+						interval = "d1";
+						break;
+					case 7:
+						time = 2;
+						unit = "year";
+						interval = "d1";
+						break;
+				}
 				uni.request({
-					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(this.timeType,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					url: `https://api.coincap.io/v2/assets/${id}/history?interval=${interval}`,
 					method: "GET",
-					filter: false,
-					success: (res1) => {
+					data: {
+						start: new Date(dayjs().startOf('date').subtract(time, unit)).getTime(),
+						end: new Date(dayjs().startOf('date')).getTime()
+					},
+					success: (res2) => {
 						let parmas = {
 							categories: [],
 							series: []
 						}
 						let arr = []
-						console.log("res1",res1);
-						res1.data.data.map((v) => {
-							parmas.categories.push(v.date)
-							arr.push(v.last.toFixed(2))
+						res2.data.data.map((v) => {
+							parmas.categories.push(dayjs(v.date).format("YYYY-MM-DD HH:mm:ss"))
+							arr.push(Number(v.priceUsd).toFixed(2))
 						})
 						parmas.series = [{
-							name: pairs,
+							name: symbol,
 							data: arr,
-							linearColor: [
-								[
-									0,
-									"#1890FF"
-								],
-								[
-									0.25,
-									"#00B5FF"
-								],
-								[
-									0.5,
-									"#00D1ED"
-								],
-								[
-									0.75,
-									"#00E6BB"
-								],
-								[
-									1,
-									"#90F489"
-								]
-							],
-							setShadow: [
-								3,
-								8,
-								10,
-								"#1890FF"
-							],
 						}]
 						this.chartData = JSON.parse(JSON.stringify(parmas));
-						// 	let res = {
-						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-						// 		series: [{
-						// 			name: "成交量A",
-						// 			data: [10, 8, 10, 10, 4, 10]
-						// 		}, ]
-						// 	};
-						// 	this.chartData = JSON.parse(JSON.stringify(res));
+				
 					}
 				});
 			},
@@ -603,24 +614,23 @@
 				right: 21px;
 				top: 16px;
 				z-index: 99;
-				width: 37px;
-				height: 37px;
+				width: 20px;
+				height: 20px;
 
 				.navbers_headers {
-					background: #333;
 					border-radius: 21px;
 
 					.mailright {
-						width: 37px;
-						height: 37px;
+						width: 20px;
+						height: 20px;
 						position: relative;
 						display: flex;
 						align-items: center;
 						justify-content: center;
 
 						.mailright_img {
-							width: 16px;
-							height: 16px;
+							width: 20px;
+							height: 20px;
 						}
 					}
 				}
@@ -752,7 +762,7 @@
 					display: flex;
 					align-items: center;
 
-					
+
 				}
 
 				.modellist {
@@ -857,7 +867,7 @@
 							position: relative;
 							box-sizing: border-box;
 							width: 100%;
-							
+
 
 							.box {
 								width: 100%;
@@ -912,6 +922,7 @@
 					font-weight: 600;
 					display: flex;
 					align-items: center;
+
 					.marketeverytitle_img {
 						width: 102px;
 						height: 56rpx;
@@ -923,7 +934,7 @@
 						margin-right: 5px;
 					}
 				}
-				
+
 				.widgttwo {
 					width: 100%;
 					margin: 0 auto;

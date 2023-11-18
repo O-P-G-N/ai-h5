@@ -9,7 +9,6 @@
 
 			</view>
 		</view>
-
 		<view class="container">
 			<view class="justcard">
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
@@ -50,17 +49,26 @@
 
 			<view class="aicreate">
 				<view class="heard">
-					<image class="homecs" src="~@/static/index/homecs.webp"></image>
-					<text>{{$t('index.ai.creation')}}</text>
-					<view class="rightyishu">
-						<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
+					<view class="heard_left">
+						<image class="homecs" src="~@/static/index/homecs.webp"></image>
+						<text>{{$t('index.ai.creation')}}</text>
+						<view class="rightyishu">
+							<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
+						</view>
+					</view>
+					<view class="heard_right" @click="viewPortfolio">
+						作品集
+						<image class="heard_right_img" src="@/static/index/heard_right.png" mode=""></image>
 					</view>
 				</view>
 			</view>
+			<u-sticky class="sticky_search"><u-search @custom="searchFrom" animation placeholder="搜索画面描述"
+					v-model="from.keyword"></u-search></u-sticky>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
+
 			<view class="content-mian">
 				<template v-if='constenList.length>0'>
 					<view @click="viewImg(v)" class="content-item" v-for='(v,index) in constenList' :key='index'>
@@ -91,6 +99,27 @@
 		</view>
 		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
+		<view class="smegma" v-if="tipsShow">
+			<view class="title_top">
+				<image class="title_top_img" src="@/static/index/title_top_img.png" mode=""></image>
+				<view class="title_top_text">将EXGPT添加至桌面，即可领取10积分</view>
+			</view>
+			<view class="title_bottom">
+				<view class="title_bottom_top">点击下方工具栏上的<image class="title_bottom_top_img"
+						src="@/static/index/paw_1.png"></image>
+				</view>
+				<view class="title_bottom_head">
+					并选择<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>“添加到主屏幕”，方便下次找到
+				</view>
+				<image class="title_bottom_body" src="@/static/index/paw_2.png" mode=""></image>
+				<view class="title_bottom_foot">
+					<button class="title_bottom_foot_left">取消</button>
+					<view class="btn_box">
+						<button class="title_bottom_foot_right">确定</button><image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -98,7 +127,8 @@
 <script>
 	export default {
 		components: {
-			Footer: () => import('@/components/footer.vue')
+			Footer: () => import('@/components/footer.vue'),
+			
 		},
 		data() {
 			return {
@@ -107,6 +137,7 @@
 					style: 1,
 					pageNum: 1,
 					pageSize: 10,
+					keyword: ""
 				},
 				status: "loadmore",
 				pagenum: 0, //总共页数
@@ -114,7 +145,8 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				tipsShow:false,//pwa提示
 			}
 		},
 		computed: {
@@ -204,13 +236,38 @@
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
+			// 搜索
+			searchFrom(val) {
+				console.log(777);
+				this.from.pageNum = 1;
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.pagenum = Math.ceil(res.data.total / 10);
+						console.log(this.pagenum);
+						this.constenList = res.data.rows;
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 300
+						});
+					}
+				});
+			},
+			// 作品集
+			viewPortfolio() {
+				uni.navigateTo({
+					url: `/pages/user/portfolio`
+				});
+			},
 			// 获取用户资料完整度
 			getAccountIsComplete() {
 				uni.request({
 					url: `/member/getAccountIsComplete`,
 					method: "GET",
 					success: (res) => {
-						if(res.code==200){
+						if (res.code == 200) {
 							if (!res.data.withdrawPassword) {
 								this.show = true;
 								this.setIndex = 2;
@@ -280,6 +337,8 @@
 			onLocaleChange(e) {
 				uni.setLocale(e.code);
 				this.$i18n.locale = e.code;
+				this.from.pageNum = 1;
+				this.getImgList();
 			},
 			loadMore() {
 				if (this.from.pageNum < this.pagenum) {
@@ -494,40 +553,69 @@
 			.heard {
 				display: flex;
 				align-items: center;
+				justify-content: space-between;
 
-				.homecs {
-					width: 50rpx;
-					height: 50rpx;
-				}
+				.heard_left {
+					display: flex;
+					align-items: center;
 
-				text {
-					margin-left: 10rpx;
-					color: #1b1b1b;
-					font-size: 38rpx;
-					font-weight: bold;
-
-				}
-
-				.rightyishu {
-					padding: 4rpx 8rpx 4rpx 0;
-					background-image: url('@/static/index/homecztiao.webp');
-					background-position: 50%;
-					background-repeat: no-repeat;
-					background-size: 100% 100%;
-					margin: 0 20rpx;
-
-					.text,
-					text {
-						font-size: 24rpx;
-						color: #2fa2e3;
-						letter-spacing: 8rpx;
-						background-size: 100% 100%;
-						margin: 0 10rpx;
-						letter-spacing: inherit;
+					.homecs {
+						width: 50rpx;
+						height: 50rpx;
 					}
 
+					text {
+						margin-left: 10rpx;
+						color: #1b1b1b;
+						font-size: 38rpx;
+						font-weight: bold;
+
+					}
+
+					.rightyishu {
+						padding: 4rpx 8rpx 4rpx 0;
+						background-image: url('@/static/index/homecztiao.webp');
+						background-position: 50%;
+						background-repeat: no-repeat;
+						background-size: 100% 100%;
+						margin: 0 20rpx;
+
+						.text,
+						text {
+							font-size: 24rpx;
+							color: #2fa2e3;
+							letter-spacing: 8rpx;
+							background-size: 100% 100%;
+							margin: 0 10rpx;
+							letter-spacing: inherit;
+						}
+
+					}
 				}
+
+				.heard_right {
+					display: flex;
+					align-items: center;
+					font-size: 14px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: 400;
+					color: #181818;
+
+					.heard_right_img {
+						margin-left: 2rpx;
+						width: 28rpx;
+						height: 28rpx;
+					}
+				}
+
 			}
+		}
+
+		.sticky_search {
+			background-color: #fff !important;
+			padding: 10rpx;
+			box-sizing: border-box;
+			margin-top: 20px;
 		}
 
 		.tabselect {
@@ -634,6 +722,146 @@
 		width: 100%;
 		height: 328rpx;
 		border-radius: 40rpx;
+	}
+
+	.smegma {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1000000;
+		background-color: rgba(3, 6, 18, .8);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		padding: 24rpx;
+		box-sizing: border-box;
+
+		.title_top {
+			width: 100%;
+			height: 144rpx;
+			background: #FFFFFF;
+			box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
+			border-radius: 12px 12px 12px 12px;
+			margin-top: 52px;
+			padding: 20rpx 20px;
+			box-sizing: border-box;
+
+			.title_top_img {
+				width: 93px;
+				height: 28px;
+			}
+
+			.title_top_text {
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #00070F;
+
+			}
+		}
+
+		.title_bottom {
+			width: 100%;
+			height: 604rpx;
+			background: url("@/static/index/paw_5.png") no-repeat;
+			background-size: cover;
+			margin-bottom: 136rpx;
+			padding: 30px 54rpx 30px;
+			box-sizing: border-box;
+
+			.title_bottom_top {
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #828282;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.title_bottom_top_img {
+					width: 24px;
+					height: 24px;
+				}
+			}
+
+			.title_bottom_head {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #828282;
+				margin-top: 10px;
+
+				.title_bottom_head_img {
+					width: 20px;
+					height: 20px;
+				}
+			}
+
+			.title_bottom_body {
+				width: 100%;
+				height: 180rpx;
+			}
+
+			.title_bottom_foot {
+				margin-top: 55px;
+				display: flex;
+				justify-content: space-between;
+
+				.title_bottom_foot_left {
+					width: 45%;
+					height: 48px;
+					background: #F6F6F6;
+					border-radius: 25px 25px 25px 25px;
+					font-size: 16px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #5F5F5F;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+				.btn_box{
+					position: relative;
+					width: 45%;
+					height: 48px;
+					.title_bottom_foot_right {
+						width: 100%;
+						height: 100%;
+						background: #0C84FF;
+						border-radius: 25px 25px 25px 25px;
+						font-size: 16px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						
+					}
+					.title_bottom_foot_right_img{
+						position: absolute;
+						right: -6px;
+						top:-12px;
+						z-index: 11111111;
+						width: 65px;
+						height: 23px;
+					}
+				}
+				
+
+				uni-button:after {
+					border: none;
+				}
+			}
+		}
 	}
 
 

@@ -209,6 +209,7 @@
 
 	"login.type.email": "Email login",
 	"login.type.phone": "Mobile login",
+	"login.type.wallet":"Wallet login",
 	"login.orloginto": "Or log in to",
 	"login.agreement1": "By logging in, you agree to our",
 	"login.agreement2": "terms of use",
@@ -530,7 +531,7 @@
 	"user.con_detail.i22": "Have run",
 	"user.con_detail.i23": "my contract",
 	"user.con_detail.i24": "create time",
-	"user.con_detail.i25": "Maturity time",
+	"user.con_detail.i25": "Estimated expiry time",
 	"user.con_detail.i26": "end time",
 	"user.con_detail.i27": "Terminate",
 	"user.con_detail.i28": "Cancel termination",
@@ -542,6 +543,8 @@
 	"user.con_detail.i34": "Are you sure you want to cancel and terminate the contract?",
 	"user.con_detail.i35": "Contract terminated",
 	"user.con_detail.i36": "The contract has been cancelled and terminated",
+	"user.con_detail.i37": "Loading for you...",
+	"user.con_detail.i38": "Generating an order for you...",
 	
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 	

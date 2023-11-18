@@ -18,14 +18,13 @@
 							<image class="left_img_content" src="@/static/user/eth.png" mode=""></image>
 						</view>
 						<view class="names">
-							<view class="n_title">红包-TRC20</view>
+							<view class="n_title"> USDT-TRC20</view>
 							<view class="n_del">TRON</view>
 						</view>
 						<view class="left_border" :class="from.type==1?'active':''"></view>
 						<view class="select_op">
-							<image class="tyes"
-								:src="from.type==1?'../../static/user/tick.png':'../../static/user/ty.png'" mode="">
-							</image>
+							<uni-icons :type="from.type==1?'checkbox-filled':'circle'" size="18"></uni-icons>
+							
 						</view>
 					</view>
 					<view class="rc_item" @click="checkEthBtn(2)">
@@ -33,14 +32,27 @@
 							<image class="left_img_content" src="@/static/user/eth2.png" mode=""></image>
 						</view>
 						<view class="names">
-							<view class="n_title">红包-ERC20</view>
+							<view class="n_title"> USDT-ERC20</view>
 							<view class="n_del">Ethereum</view>
 						</view>
 						<view class="left_border" :class="from.type==2?'active':''"></view>
 						<view class="select_op">
-							<image class="tyes"
-								:src="from.type==2?'../../static/user/tick.png':'../../static/user/ty.png'" mode="">
-							</image>
+							<uni-icons :type="from.type==2?'checkbox-filled':'circle'" size="18"></uni-icons>
+							
+						</view>
+					</view>
+					<view class="rc_item" @click="checkEthBtn(3)">
+						<view class="left_img">
+							<image class="left_img_content" src="@/static/user/BSC.png" mode=""></image>
+						</view>
+						<view class="names">
+							<view class="n_title"> USDT-BSC</view>
+							<view class="n_del">Binance</view>
+						</view>
+						<view class="left_border" :class="from.type==3?'active':''"></view>
+						<view class="select_op">
+							<uni-icons :type="from.type==3?'checkbox-filled':'circle'" size="18"></uni-icons>
+							
 						</view>
 					</view>
 				</view>
@@ -114,30 +126,37 @@
 			},
 			// 下一步
 			nextStep() {
-				if (!this.from.amount) {
-					uni.$u.toast(this.$t('user.capital_flow.i37'));
+				let that=this
+				if (!that.from.amount) {
+					uni.$u.toast(that.$t('user.capital_flow.i37'));
 					return
-				} else if (this.from.amount < 10) {
-					uni.$u.toast(this.$t('user.capital_flow.i38')+'10.00');
+				} else if (that.from.amount < 10) {
+					uni.$u.toast(that.$t('user.capital_flow.i38')+'10.00');
 					return
 				} else {
-					this.forbidden = true;
-					this.loading = true;
+					that.forbidden = true;
+					that.loading = true;
+					uni.showLoading({
+						title: that.$t('user.con_detail.i38'),
+						mask: true
+					})
 					uni.request({
 						url: '/recharge/getPayinfo',
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if( res.code==200){
-							this.forbidden = false;
-							this.loading = false;
+							that.forbidden = false;
+							that.loading = false;
 							// console.log(res.data);
+							uni.hideLoading()
 							uni.navigateTo({
-								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${this.from.amount}&type=${this.from.type==1?'红包-TRC20':'红包-ERC20'}`
+								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${that.from.amount}&type=${that.from.type==1?'红包-TRC20':'红包-ERC20'}`
 							});
 							}else if(res.code==500){
-								this.forbidden = false;
-								this.loading = false;
+								uni.hideLoading()
+								that.forbidden = false;
+								that.loading = false;
 							}
 						}
 					});

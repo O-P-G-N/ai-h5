@@ -125,7 +125,9 @@
 		},
 		onLoad(option) {
 			this.from.type=option.type;
-			this.getDayRevenue(option.type)
+		},
+		onShow() {
+			this.getDayRevenue(this.from.type);
 			this.getAccount();
 		},
 		methods: {

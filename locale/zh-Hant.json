@@ -210,6 +210,7 @@
 
 	"login.type.email": "郵箱登錄",
 	"login.type.phone": "手機登錄",
+	"login.type.wallet":"錢包登錄",
 	"login.orloginto": "或登錄以",
 	"login.agreement1": "登錄即表示您同意我們的",
 	"login.agreement2": "使用條款",
@@ -530,7 +531,7 @@
 	"user.con_detail.i22": "已運行",
 	"user.con_detail.i23": "我的合約",
 	"user.con_detail.i24": "創建時間",
-	"user.con_detail.i25": "到期時間",
+	"user.con_detail.i25": "預計到期時間",
 	"user.con_detail.i26": "結束時間",
 	"user.con_detail.i27": "終止",
 	"user.con_detail.i28": "取消終止",
@@ -542,6 +543,8 @@
 	"user.con_detail.i34": "您確定要取消中止合約嗎？",
 	"user.con_detail.i35": "合約已中止",
 	"user.con_detail.i36": "合約已取消中止",
+	"user.con_detail.i37": "正在為您拼命加載中...",
+	"user.con_detail.i38": "正在為您生成訂單中...",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試"
 

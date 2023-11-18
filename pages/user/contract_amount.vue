@@ -6,7 +6,7 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		
+
 		<view class="main" v-if="contractList.length>0&&!loadShow">
 			<view class="mymodelmain">
 				<u-list @scrolltolower="scrolltolower" lowerThreshold="70">
@@ -40,7 +40,7 @@
 									<view class="titles">{{$t('user.con_detail.i16')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">{{v.runday}}{{$t('user.con_detail.i18')}}</view>
+									<view class="intro">{{v.payedDays}}{{$t('user.con_detail.i18')}}</view>
 									<view class="titles">{{$t('user.con_detail.i22')}}</view>
 								</view>
 								<view class="contract_every">
@@ -48,7 +48,7 @@
 									<view class="titles">{{$t('user.con_detail.i20')}}</view>
 								</view>
 							</view>
-							<view class="order_sn">
+							<!-- <view class="order_sn">
 								Order ID：{{v.orderSn}}
 							</view>
 							<view class="order_sn">
@@ -59,6 +59,16 @@
 							</view>
 							<view class="order_sn" v-if="v.status==2||v.status==1">
 								{{$t('user.con_detail.i26')}}：{{v.updateTime}}
+							</view> -->
+							<view class="paogress_line">
+								<u-line-progress :percentage="30" activeColor="#000"
+									:showText="false"></u-line-progress>
+							</view>
+							<view class="paogress_tips">
+								<view style="display: flex;">
+									合约收益当前进度（剩余时间：天 时 分）
+								</view>
+								<view class="">35%</view>
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
 								<button class="zhongzhibtn" @click="contractSet(v.id,v.status)">
@@ -86,7 +96,7 @@
 			<image class="default_page_img" src="@/static/user/defaultPage.png" mode=""></image>
 			<view class="default_page_text">{{$t('user.con_detail.i32')}}~</view>
 		</view>
-		<u-loading-page icon-size="36" :loading="loadShow" loading-text="正在为您拼命加载中..."></u-loading-page>
+		<u-loading-page icon-size="36" :loading="loadShow" :loading-text="load"></u-loading-page>
 	</view>
 </template>
 
@@ -110,11 +120,20 @@
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				load: this.$t("user.con_detail.i37"), //加載国际化
 			};
 		},
 		onShow() {
 			this.getContractList();
 
+		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[0].route);
+			}
+			console.log(uni.getStorageSync("router"));
 		},
 		onHide() {
 			this.from.pageNum = 1;
@@ -130,27 +149,18 @@
 					});
 				} else {
 					uni.switchTab({
-						url: `/pages/market/index`
+						url: `/${uni.getStorageSync("router")}`
 					});
 				}
 			},
-			getaa() {
-
-			},
+			
 			// 获取合约列表
 			getContractList() {
 				uni.request({
 					url: `/island/contracts/${this.from.pageNum}`,
 					method: "GET",
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.runday = this.getDaysDiff(v.createTime, Date.now())
-							v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
-								'YYYY-MM-DD HH:mm:ss')
-							if (v.status == 4) {
-								v.countdown = this.getCountDown(v.updateTime)
-							}
-						})
+
 						this.contractList = res.data.rows;
 						let time = setTimeout(() => {
 							this.loadShow = false;
@@ -204,14 +214,7 @@
 						url: `/island/contracts/${this.from.pageNum}`,
 						method: "GET",
 						success: (res) => {
-							res.data.rows.map((v) => {
-								v.runday = this.getDaysDiff(v.createTime, Date.now())
-								v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
-									'YYYY-MM-DD HH:mm:ss')
-								if (v.status == 4) {
-									v.countdown = this.getCountDown(v.updateTime)
-								}
-							})
+
 							this.contractList.push(...res.data.rows);
 						}
 					});
@@ -402,6 +405,27 @@
 								color: #000;
 								font-weight: 300;
 								margin-top: 3px;
+								text-align: center;
+							}
+						}
+					}
+
+					.paogress_line {
+						margin-top: 68rpx;
+					}
+
+					.paogress_tips {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						.time {
+							@include flex;
+							align-items: center;
+
+							&__item {
+								color: #000;
+								font-size: 12px;
 								text-align: center;
 							}
 						}

@@ -210,6 +210,7 @@
 	
 	"login.type.email": "邮箱登录",
 	"login.type.phone":"手机登录",
+	"login.type.wallet":"钱包登录",
 	"login.orloginto":"或登录以",
 	"login.agreement1":"登录即表示您同意我们的",
 	"login.agreement2":"使用条款",
@@ -533,7 +534,7 @@
 	"user.con_detail.i22": "已运行",
 	"user.con_detail.i23": "我的合约",
 	"user.con_detail.i24": "创建时间",
-	"user.con_detail.i25": "到期时间",
+	"user.con_detail.i25": "预计到期时间",
 	"user.con_detail.i26": "结束时间",
 	"user.con_detail.i27": "终止",
 	"user.con_detail.i28": "取消终止",
@@ -545,7 +546,9 @@
 	"user.con_detail.i34": "您确定要取消终止该合约吗？",
 	"user.con_detail.i35": "合约已终止",
 	"user.con_detail.i36": "合约已取消终止",
+	"user.con_detail.i37": "正在为您拼命加载中...",
+	"user.con_detail.i38": "正在为您生成订单中...",
 	
-	"app.main.js.i1": "操作过于频繁,请稍后再试" 
+	"app.main.js.i1": "操作过于频繁,请稍后再试"
 	
 }

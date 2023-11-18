@@ -120,6 +120,8 @@ let req_handler = function() {
 					return true;
 				} else if (res.data.error == false) {
 					return true;
+				}else if (res.data.timestamp != "") {
+					return true;
 				} else {
 					uni.showToast({
 						title: res.data.msg,

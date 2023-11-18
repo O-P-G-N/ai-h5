@@ -45,15 +45,32 @@
 		onReachBottom() {
 			this.loadMore();
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[pages.length-2].route);
+			}
+		},
 		onHide() {
 			this.from.pageNum = 1;
 		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
+					uni.switchTab({
+						url: `/${uni.getStorageSync("router")}`
+					});
+				}
 			},
 			getNotice() {
 				// 0:维度

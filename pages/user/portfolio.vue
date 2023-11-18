@@ -100,7 +100,7 @@
 			// 返回积分查看
 			goBackUser() {
 				uni.switchTab({
-					url: `/pages/user/index`
+					url: `/pages/index/index`
 				});
 			},
 			// 菜单点击

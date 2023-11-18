@@ -3,8 +3,10 @@
 		<view class="navbar">
 			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
 			<view class="lang-down-menu" v-if="langShow">
-				<view class="extend-link"  v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">{{item.text}}</view>
-				
+				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
+					{{item.text}}
+				</view>
+
 			</view>
 		</view>
 		<view class="container_nei">
@@ -17,16 +19,35 @@
 						{{$t('login.type.phone')}}({{$t('login.notyetopened')}})
 					</view>
 				</button>
-				<view class="line">
-					<view class="divider"></view>
-					<view class="lint_text">{{$t('login.orloginto')}}</view>
-				</view>
 				<button class="subsectiontwo_every" @click="emailLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/emails.png" mode=""></image>
 						{{$t('login.type.email')}}
 					</view>
 				</button>
+				<!-- <a
+					href="tpoutside://pull.activity?param={callbackUrl:'http: / /115.205.0.178:9011\/taaBizApi /taaInitData',action: 'login',actionId:'1648522106711',blockchains:[{chainId:'1',network:'ethereum'}],dappIcon:'https: /\/eosknights.io /img /icon.png',dappName:'zs',protocol:'TokenPocket',version:'2.0'}">
+					<button class="subsectiontwo_every" @click="walletLogin">
+
+						<view class="flex_al_center">
+							<image class="icon" src="@/static/login/wallet.png" mode=""></image>
+							{{$t('login.type.wallet')}}
+						</view>
+					</button>
+				</a> -->
+				<a href="weixin://">
+					<button class="subsectiontwo_every" @click="walletLogin">
+
+						<view class="flex_al_center">
+							<image class="icon" src="@/static/login/wallet.png" mode=""></image>
+							{{$t('login.type.wallet')}}
+						</view>
+					</button>
+				</a>
+				<view class="line">
+					<view class="divider"></view>
+					<view class="lint_text">{{$t('login.orloginto')}}</view>
+				</view>
 			</view>
 			<view class="inputmain">
 				<view class="quicklogin">
@@ -41,7 +62,9 @@
 					</view>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur"
+						@click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text
+						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
 					{{$t('login.noaccount')}}？
@@ -56,8 +79,7 @@
 	export default {
 		data() {
 			return {
-				langShow:false,//选择语言
-				
+				langShow: false, //选择语言
 			};
 		},
 		computed: {
@@ -94,13 +116,13 @@
 				// });
 			},
 			// 查看用户协议
-			viewTerms(){
+			viewTerms() {
 				uni.navigateTo({
 					url: `/pages/loginReg/termsUse`
 				});
 			},
 			// 查看隐私协议
-			viewPolicy(){
+			viewPolicy() {
 				uni.navigateTo({
 					url: `/pages/loginReg/privacyPolicy`
 				});
@@ -110,15 +132,15 @@
 				this.$i18n.locale = e.code;
 			},
 			// 选择语言
-			selectLang(){
-				this.langShow=true
+			selectLang() {
+				this.langShow = true
 			},
 			// 关闭语言选择框
-			closeLang(){
-				this.langShow=false
+			closeLang() {
+				this.langShow = false
 			},
 			// 提示
-			loginItem(){
+			loginItem() {
 				uni.$u.toast(this.$t("login.tips17"));
 			},
 			// 邮箱登录
@@ -127,8 +149,12 @@
 					url: `/pages/loginReg/email_login`
 				});
 			},
+			// 钱包登录
+			walletLogin() {
+
+			},
 			// 注册账号
-			regAccount(){
+			regAccount() {
 				uni.navigateTo({
 					url: `/pages/loginReg/reg_account`
 				});
@@ -148,6 +174,11 @@
 		display: flex;
 		width: 100%;
 
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+
 		.navbar {
 			position: absolute;
 			right: 16px;
@@ -158,29 +189,31 @@
 				width: 37px;
 				height: 38px;
 			}
-			.lang-down-menu{
+
+			.lang-down-menu {
 				position: absolute;
-				    right: 10px;
-				    top: 26px;
-				    z-index: 10!important;
-				    text-align: center;
-				    background-color: #242424;
-				    color: #fff;
-				    left: unset;
-				    right: 0;
-				    min-width: 120px;
-				    padding: 8px 0;
-				    border: none;
-				    border-radius: 6px;
-				    box-shadow: 0 5px 10px 0 rgba(3,6,18,.5);
-				    transition: all .3s;
-					.extend-link{
-						line-height: 20px;
-						    padding: 12px 16px;
-						    display: block;
-						    font-size: 14px;
-						    font-weight: 500;
-					}
+				right: 10px;
+				top: 26px;
+				z-index: 10 !important;
+				text-align: center;
+				background-color: #242424;
+				color: #fff;
+				left: unset;
+				right: 0;
+				min-width: 120px;
+				padding: 8px 0;
+				border: none;
+				border-radius: 6px;
+				box-shadow: 0 5px 10px 0 rgba(3, 6, 18, .5);
+				transition: all .3s;
+
+				.extend-link {
+					line-height: 20px;
+					padding: 12px 16px;
+					display: block;
+					font-size: 14px;
+					font-weight: 500;
+				}
 			}
 		}
 

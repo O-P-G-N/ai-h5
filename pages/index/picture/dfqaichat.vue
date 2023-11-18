@@ -14,7 +14,7 @@
 				<view class="left">· {{$t('index.screendescription')}}</view>
 				<view class="right" @click="exchangePoints">
 					<image mode="aspectFit" class="davincupload" src="~@/static/index/jifen.png"></image>
-					<view>{{accountBalance}}{{$t('index.integral')}}</view>
+					<view>{{accountBalance}}&nbsp;{{$t('index.integral')}}</view>
 				</view>
 			</view>
 			<view class="textarea">
@@ -51,7 +51,9 @@
 		},
 		methods: {
 			back() {
-				uni.navigateBack()
+				uni.switchTab({
+					url: `/pages/index/index`
+				});
 			},
 			toWorks() {
 				uni.navigateTo({

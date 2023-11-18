@@ -86,6 +86,13 @@
 		onShow() {
 			this.getExchangeInfo()
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages);
+			}
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
@@ -95,8 +102,11 @@
 						delta: 1
 					});
 				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
 					uni.switchTab({
-						url: `/pages/user/index`
+						url: `/${uni.getStorageSync("router")}`
 					});
 				}
 			},
@@ -150,6 +160,10 @@
 				} else {
 					that.forbidden=true;
 					that.loading=true;
+					// uni.showLoading({
+					// 	title: that.$t('user.islands.ivt.qr_gen'),
+					// 	mask: true
+					// })
 					uni.request({
 						url: `/member/scoreConvert`,
 						method: "POST",
@@ -160,6 +174,7 @@
 							if(res.code==200){
 								that.forbidden=false;
 								that.loading=false;
+								// uni.hideLoading()
 								uni.showToast({
 									title: that.$t('user.capital_flow.i75'),
 									success: function() {
@@ -172,6 +187,7 @@
 									},
 								})
 							}else if(res.code==500){
+								// uni.hideLoading()
 								that.forbidden=false;
 								that.loading=false;
 							}
