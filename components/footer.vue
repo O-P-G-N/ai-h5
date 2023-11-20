@@ -13,7 +13,13 @@
 				<view class="footer_every" @click="toPath('partner')"
 					style="position: absolute; bottom: 32rpx; width: 28%;left: 50%;margin-left: -14%;">
 					<view class="tx_main">
-						<image class="tx_png" src="~@/static/tabbar/tx.webp"></image>
+						<image class="tx_png" src="~@/static/tabbar/tx.png"></image>
+					</view>
+					<view class="dialogue_box" v-if="$store.getters.pageShow">
+						<acousticWave></acousticWave>
+						<view class="dialogue_box_text">创建合约获取更多收益</view>
+						<acousticWave></acousticWave>
+						<image @click.stop="clear" class="dialogue_box_img" src="@/static/tabbar/clear.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -36,27 +42,33 @@
 				type: String,
 				default: ''
 			}
+			
+		},
+		components: {
+			acousticWave: () => import('@/components/acousticwave.vue'),
+
 		},
 		data() {
 			return {
-
 			}
 		},
-		created() {},
 		methods: {
 			toPath(name) {
 				if (name) {
-					if(name!="partner"){
+					if (name != "partner") {
 						uni.switchTab({
 							url: `/pages/${name}/index`
 						})
-					}else{
+					} else {
 						uni.navigateTo({
 							url: `/pages/${name}/index`
 						});
 					}
-					
+
 				}
+			},
+			clear(){
+				this.$store.commit('app/clear',false)
 			}
 		}
 	}
@@ -70,6 +82,7 @@
 		left: 0;
 		right: 0;
 		width: 100vw;
+
 		.footerContent {
 			width: calc(100vw - 76rpx);
 			margin-left: 38rpx;
@@ -79,6 +92,7 @@
 			justify-content: space-between;
 			align-items: center;
 			background: #ededed;
+
 			.footer_every {
 				width: 18%;
 				display: flex;
@@ -103,13 +117,40 @@
 					height: 122rpx;
 					padding: 2rpx;
 					border-radius: 50%;
-					border: 1rpx solid #c8c8c8;
+					border: 1rpx solid #7AFAD8;
 
 					.tx_png {
 						width: 122rpx;
 						height: 122rpx;
 						border-radius: 50%;
 
+					}
+				}
+
+				.dialogue_box {
+					position: absolute;
+					width: 226px;
+					height: 52px;
+					background: url("@/static/tabbar/dialogue.png") no-repeat;
+					background-size: cover;
+					top: -50px;
+					left: -58px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					.dialogue_box_text{
+						margin: 0 10rpx;
+						font-size: 14px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #7AFAD8;
+					}
+					.dialogue_box_img{
+						position: absolute;
+						right: 10px;
+						top: 6px;
+						width: 7px;
+						height: 7px;
 					}
 				}
 			}

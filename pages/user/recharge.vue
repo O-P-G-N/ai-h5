@@ -1,6 +1,7 @@
 <template>
 	<view class="recharge">
-		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i33')" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i33')"
+			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -24,7 +25,7 @@
 						<view class="left_border" :class="from.type==1?'active':''"></view>
 						<view class="select_op">
 							<uni-icons :type="from.type==1?'checkbox-filled':'circle'" size="18"></uni-icons>
-							
+
 						</view>
 					</view>
 					<view class="rc_item" @click="checkEthBtn(2)">
@@ -38,7 +39,7 @@
 						<view class="left_border" :class="from.type==2?'active':''"></view>
 						<view class="select_op">
 							<uni-icons :type="from.type==2?'checkbox-filled':'circle'" size="18"></uni-icons>
-							
+
 						</view>
 					</view>
 					<view class="rc_item" @click="checkEthBtn(3)">
@@ -52,7 +53,7 @@
 						<view class="left_border" :class="from.type==3?'active':''"></view>
 						<view class="select_op">
 							<uni-icons :type="from.type==3?'checkbox-filled':'circle'" size="18"></uni-icons>
-							
+
 						</view>
 					</view>
 				</view>
@@ -81,7 +82,12 @@
 						③{{$t('user.capital_flow.i93')}}
 					</text>
 				</view>
+				<u-checkbox-group activeColor="#333" v-model="checkboxValue" shape="circle">
+					<u-checkbox label="勾选后不再提示" :name="1">
+					</u-checkbox>
+				</u-checkbox-group>
 			</view>
+
 			<button slot="confirmButton" @click="determine" class="zhuiaddbtn">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
 	</view>
@@ -99,14 +105,31 @@
 				},
 				forbidden: false, //是否禁用
 				loading: false, //加载状态
+				checkboxValue: [], //勾选框
 			};
 		},
 		onLoad(option) {
-			if (option.show==1) {
+			if (option.show == 1) {
 				this.show = false;
 			} else {
+				uni.request({
+					url: '/help/getAlertInfo',
+					method: "GET",
+					data: {
+						type: 1
+					},
+					success: (res) => {
+						if (res.code == 200) {
+							if (res.data == 0) {
+								this.show = true;
+							} else {
+								this.show = false;
+							}
+						} else if (res.code == 500) {
 
-				this.show = true;
+						}
+					}
+				});
 			}
 		},
 		methods: {
@@ -122,22 +145,39 @@
 			},
 			// 关闭弹窗
 			determine() {
-				this.show = false
+				if (this.checkboxValue.length > 0) {
+					uni.request({
+						url: '/help/saveAlertInfo',
+						method: "GET",
+						data: {
+							type: 1
+						},
+						success: (res) => {
+							if (res.code == 200) {
+								this.show = false;
+							} else if (res.code == 500) {
+
+							}
+						}
+					});
+				} else {
+					this.show = false;
+				}
 			},
 			// 下一步
 			nextStep() {
-				let that=this
+				let that = this
 				if (!that.from.amount) {
 					uni.$u.toast(that.$t('user.capital_flow.i37'));
 					return
 				} else if (that.from.amount < 10) {
-					uni.$u.toast(that.$t('user.capital_flow.i38')+'10.00');
+					uni.$u.toast(that.$t('user.capital_flow.i38') + '10.00');
 					return
 				} else {
 					that.forbidden = true;
 					that.loading = true;
 					uni.showLoading({
-						title: that.$t('user.con_detail.i38'),
+						title: that.$t('user.con_detail.i46'),
 						mask: true
 					})
 					uni.request({
@@ -145,15 +185,15 @@
 						method: "POST",
 						data: that.from,
 						success: (res) => {
-							if( res.code==200){
-							that.forbidden = false;
-							that.loading = false;
-							// console.log(res.data);
-							uni.hideLoading()
-							uni.navigateTo({
-								url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${that.from.amount}&type=${that.from.type==1?'红包-TRC20':'红包-ERC20'}`
-							});
-							}else if(res.code==500){
+							if (res.code == 200) {
+								that.forbidden = false;
+								that.loading = false;
+								// console.log(res.data);
+								uni.hideLoading()
+								uni.navigateTo({
+									url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${that.from.amount}&type=${that.from.type==1?' USDT-TRC20':' USDT-ERC20'}`
+								});
+							} else if (res.code == 500) {
 								uni.hideLoading()
 								that.forbidden = false;
 								that.loading = false;
@@ -320,7 +360,8 @@
 					margin-top: 15px;
 					display: flex;
 					align-items: center;
-					.uni-input{
+
+					.uni-input {
 						width: 100%;
 					}
 				}
@@ -350,8 +391,11 @@
 			}
 		}
 
+		.u-checkbox-group {
+			margin-top: 20rpx;
+		}
+
 		.zhuiaddbtn {
-			margin-top: 25px;
 			width: 100%;
 			height: 46px;
 			line-height: 46px;

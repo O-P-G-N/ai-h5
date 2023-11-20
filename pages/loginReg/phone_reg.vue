@@ -25,13 +25,17 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
+					<u-input class="email_content_text" type="number" maxlength="6" :placeholder="traderPassword"
+						v-model="from.withdrawPassword"></u-input>
+				</view>
+				<view class="inputevery">
 					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.invitationCode" :placeholder="invitationcode">
+					<u-input :disabled="invitationDisa" v-model="from.invitationCode" :placeholder="invitationcode">
 					</u-input>
 				</view>
 				<view class="privacy">
@@ -65,6 +69,7 @@
 					password: "", //密码
 					invitationCode: "", //邀请码
 					countryCode: "", //国家编码
+					withdrawPassword:"",//交易密码
 				},
 				forbidden: false, //是否禁用
 				loading: false, //等待状态
@@ -77,11 +82,14 @@
 				entercode:this.$t('login.entercode'),//请输入验证码国际化
 				enterpassword:this.$t('login.enterpassword'),//请输入密码国际化
 				invitationcode:this.$t('login.invitationcode'),//请输入邀请码国际化
+				traderPassword: this.$t('login.traderPassword'), //请输入交易密码国际化
+				invitationDisa:false,//是否禁用邀请码输入框
 			};
 		},
 		onLoad(option) {
 			if (option.invitationCode) {
 				this.from.invitationCode = option.invitationCode;
+				this.invitationDisa=true
 			}
 		},
 		methods: {
@@ -177,6 +185,12 @@
 						icon: "none",
 						success: function(res) {},
 					})
+					return
+				}else if (that.from.withdrawPassword == "") {
+					uni.$u.toast(this.$t('login.traderPassword'));
+					return
+				} else if (that.from.withdrawPassword.length < 6) {
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i3'));
 					return
 				} else if (this.from.password == "") {
 					uni.showToast({

@@ -17,8 +17,7 @@
 			</view>
 			<view class="topcard">
 				<textarea maxlength="300" v-model="from.content" @input="inputTextarea" class="text_area"
-					placeholder-style="color:grey"
-					:placeholder="placeholder" />
+					placeholder-style="color:grey" :placeholder="placeholder" />
 				<view class="topcard_bottom">
 					<view class="verybottom_left" @click="layoutCopy">
 						{{$t("index.usingAI")}}
@@ -30,6 +29,7 @@
 					</view>
 				</view>
 			</view>
+			<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
 			<view class="videoeverytitle" style="margin-top: 26px;">
 				<view class="videoeverytitle_left">{{$t("index.pleaseselectadigitalhuman")}}</view>
 				<view class="videoeverytitle_right"></view>
@@ -55,7 +55,8 @@
 				</template>
 			</view>
 			<view class="verybottom_btn">
-				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="nextStepThree">{{$t("index.nextstep")}}
+				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn"
+					@click="nextStepThree">{{$t("index.nextstep")}}
 					2/3</ai-button>
 			</view>
 		</view>
@@ -98,8 +99,7 @@
 				</view>
 				<view class="topcard">
 					<textarea v-model="modelText" maxlength="1000" @input="modelInputTextarea" class="text_area"
-						placeholder-style="color:grey;fontSize:13px"
-						:placeholder="placeholder1" />
+						placeholder-style="color:grey;fontSize:13px" :placeholder="placeholder1" />
 					<view class="topcard_bottom">
 						{{modelTextareaLength}}<text class="topcard_bottom_text">/1000</text>
 						<view class="clearbtn" @click="modelText='',modelTextareaLength=0">{{$t("index.empty")}}</view>
@@ -120,7 +120,8 @@
 				<view class="topcards">
 					<textarea v-model="aiModelText" class="text_area" placeholder-style="color:grey" />
 				</view>
-				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn" @click="usingCopy">{{$t("index.use")}}</ai-button>
+				<ai-button :btnHeight="'53px'" :bg="'#333'" class="zhuiaddbtn"
+					@click="usingCopy">{{$t("index.use")}}</ai-button>
 				<ai-button :btnHeight="'53px'" :bg="'#fff'" :color="'#333'" class="zhongzhibtn"
 					@click="aiModelText=''">{{$t("index.regenerate")}}</ai-button>
 			</view>
@@ -151,21 +152,21 @@
 				voiceIndex: null, //选中索引
 				selectedVoice: {}, //选中的音色
 				displayedTimbre: {}, //展示的音色
-				creativecenter:this.$t("index.creativecenter"),//创作中心国际化
-				placeholder:this.$t("index.placeholder"),//提示语国际化
-				placeholder1:this.$t("index.placeholder1"),//提示语国际化
-				
+				creativecenter: this.$t("index.creativecenter"), //创作中心国际化
+				placeholder: this.$t("index.placeholder"), //提示语国际化
+				placeholder1: this.$t("index.placeholder1"), //提示语国际化
+
 			};
 		},
 		onShow() {
 
 		},
 		onLoad(option) {
-			if(option.text){
-				this.from.content=JSON.parse(option.text).content;
+			if (option.text) {
+				this.from.content = JSON.parse(option.text).content;
 			};
-			this.displayedTimbre=JSON.parse(option.from);
-			this.from.voiceId=this.displayedTimbre.voiceId;
+			this.displayedTimbre = JSON.parse(option.from);
+			this.from.voiceId = this.displayedTimbre.voiceId;
 			this.gettimbre(JSON.parse(option.from).sex)
 		},
 		methods: {
@@ -245,27 +246,27 @@
 							text: this.modelText
 						},
 						success: (res) => {
-							if(res.code==500){
+							if (res.code == 500) {
 								this.btnDisabled = false
 								this.loading = false
-							}else if(res.code==200){
+							} else if (res.code == 200) {
 								this.aiModelText = res.data;
 								this.btnDisabled = false
 								this.loading = false
 							}
-							
+
 						},
 						fail: (err) => {
 							this.btnDisabled = false
 							this.loading = false
 						}
 					});
-					let time=setTimeout(()=>{
+					let time = setTimeout(() => {
 						clearTimeout(time)
 						uni.$u.toast(this.$t("index.tips7"));
 						this.btnDisabled = false
 						this.loading = false
-					},30000)
+					}, 30000)
 				}
 			},
 			// 使用ai文案
@@ -288,10 +289,10 @@
 				if (this.from.content == "") {
 					uni.$u.toast(this.$t("index.enterdigitalspeakerspeech"));
 					return
-				}else if (this.from.voiceId == "") {
+				} else if (this.from.voiceId == "") {
 					uni.$u.toast(this.$t("index.pleaseselectadigitalhuman"));
 					return
-				}else {
+				} else {
 					uni.navigateTo({
 						url: `/pages/index/video/fundrecords?from=${JSON.stringify(this.from)}&displayedTimbre=${JSON.stringify(this.displayedTimbre)}`
 					});
@@ -428,6 +429,14 @@
 				}
 			}
 
+			.small_tip {
+				font-size: 14px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: 400;
+				color: #9FA19F;
+				text-align: right;
+				margin-top: 10rpx;
+			}
 
 
 			.yinsedetail {
@@ -579,6 +588,7 @@
 						}
 					}
 				}
+
 
 				.topcards {
 					overflow-y: auto;

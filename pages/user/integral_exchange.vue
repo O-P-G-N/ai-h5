@@ -12,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>1 红包={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
+				<text>1 USDT={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -20,7 +20,7 @@
 						<view class="iconImgs">
 							<image src="@/static/user/bbji.png" mode=""></image>
 						</view>
-						<view class="">红包</view>
+						<view class=""> USDT</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">
@@ -54,6 +54,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
 		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">立即兑换</ai-button>
 		<!-- <button class="ljdh" @click="redeemNow"></button> -->
 		<view class="tuiguang">
@@ -160,10 +161,10 @@
 				} else {
 					that.forbidden=true;
 					that.loading=true;
-					// uni.showLoading({
-					// 	title: that.$t('user.islands.ivt.qr_gen'),
-					// 	mask: true
-					// })
+					uni.showLoading({
+						title: that.$t('user.con_detail.i45'),
+						mask: true
+					})
 					uni.request({
 						url: `/member/scoreConvert`,
 						method: "POST",
@@ -174,7 +175,7 @@
 							if(res.code==200){
 								that.forbidden=false;
 								that.loading=false;
-								// uni.hideLoading()
+								uni.hideLoading()
 								uni.showToast({
 									title: that.$t('user.capital_flow.i75'),
 									success: function() {
@@ -187,7 +188,7 @@
 									},
 								})
 							}else if(res.code==500){
-								// uni.hideLoading()
+								uni.hideLoading()
 								that.forbidden=false;
 								that.loading=false;
 							}
@@ -368,6 +369,15 @@
 					}
 				}
 			}
+		}
+		.small_tip{
+			font-size: 14px;
+			font-family: PingFang SC, PingFang SC;
+			font-weight: 400;
+			color: #9FA19F;
+			text-align: right;
+			margin-top: 10rpx;
+			margin-right: 12px;
 		}
 
 		.ljdh {

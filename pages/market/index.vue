@@ -30,12 +30,12 @@
 						</view>
 					</view>
 					<view class="justcard_right">
-						<button class="justcard_right_btn" @click="activCode">
+						<!-- <button class="justcard_right_btn" @click="activCode">
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/code.png" mode=""></image>
 							</view>
 							<view class="justcard_text">{{$t('ac.actc')}}</view>
-						</button>
+						</button> -->
 						<button class="justcard_right_btn" @click="viewContract">
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/marketheyue.png" mode=""></image>
@@ -280,7 +280,7 @@
 		},
 		onShow() {
 			this.$store.dispatch('app/getUnread')
-			this.getAccountIsComplete();
+			// this.getAccountIsComplete();
 			this.getListData()
 		},
 		created() {},

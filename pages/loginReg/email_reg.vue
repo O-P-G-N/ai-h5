@@ -18,13 +18,18 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
+					<u-input class="email_content_text" type="number" maxlength="6" :placeholder="traderPassword"
+						v-model="from.withdrawPassword"></u-input>
+				</view>
+				<view class="inputevery">
 					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
+
 				<view class="inputevery">
-					<u-input v-model="from.invitationCode" :placeholder="invitationcode">
+					<u-input :disabled="invitationDisa" v-model="from.invitationCode" :placeholder="invitationcode">
 					</u-input>
 				</view>
 				<view class="privacy">
@@ -55,11 +60,13 @@
 					password: "", //密码
 					code: "", //验证码
 					invitationCode: "", //邀请码
+					withdrawPassword: "", //交易密码
 				},
 				eyeShow: true, //密码显示
 				forbidden: false, //是否禁用
 				loading: false, //等待状态
 				tips: "", //提示语
+
 				register: this.$t('login.register'), //注册国际化
 				back: this.$t('login.back'), //返回国际化
 				enteremail: this.$t('login.enteremail'), //请输入邮箱国际化
@@ -68,12 +75,14 @@
 				entercode: this.$t('login.entercode'), //请输入验证码国际化
 				enterpassword: this.$t('login.enterpassword'), //请输入密码国际化
 				invitationcode: this.$t('login.invitationcode'), //请输入邀请码国际化
-
+				traderPassword: this.$t('login.traderPassword'), //请输入交易密码国际化
+				invitationDisa: false, //是否禁用邀请码输入框
 			};
 		},
 		onLoad(option) {
 			if (option.invitationCode) {
 				this.from.invitationCode = option.invitationCode;
+				this.invitationDisa = true
 			}
 		},
 		methods: {
@@ -137,35 +146,52 @@
 			},
 			// 邮箱注册
 			regBtn() {
-				let that=this
+				let that = this
+				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
+				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (!emailPattern.test(that.from.email)) {
 					uni.showToast({
-						title:that.$t("login.tips9"),
+						title: that.$t("login.tips9"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (that.from.code == "") {
 					uni.showToast({
-						title:that.$t("login.tips14"),
+						title: that.$t("login.tips14"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
+				} else if (that.from.withdrawPassword == "") {
+					uni.$u.toast(this.$t('login.traderPassword'));
+					return
+				} else if (that.from.withdrawPassword.length < 6) {
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i3'));
+					return
+				} else if (patrn.test(this.from.withdrawPassword)) {
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i4'));
+					return
+				} else if (patrns.test(this.from.withdrawPassword)) {
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i5'));
+					return
+				} else if (patrnss.test(this.from.withdrawPassword)) {
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
+					return
 				} else if (that.from.password == "") {
 					uni.showToast({
-						title:that.$t("login.tips10"),
+						title: that.$t("login.tips10"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
 				} else if (that.from.password.length < 8) {
 					uni.showToast({
-						title:that.$t("login.tips4"),
+						title: that.$t("login.tips4"),
 						icon: "none",
 						success: function(res) {},
 					})
@@ -184,7 +210,7 @@
 									that.forbidden = false;
 									that.loading = false;
 									uni.showToast({
-										title:that.$t("login.tips15"),
+										title: that.$t("login.tips15"),
 										success: function(res1) {
 											let times = setTimeout(() => {
 												clearTimeout(times)
@@ -215,7 +241,7 @@
 									that.forbidden = false;
 									that.loading = false;
 									uni.showToast({
-										title:that.$t("login.tips15"),
+										title: that.$t("login.tips15"),
 										success: function(res1) {
 											let time = setTimeout(() => {
 												clearTimeout(time)

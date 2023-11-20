@@ -87,10 +87,10 @@
 						text: this.$t('locale.en'),
 						code: 'en'
 					},
-					{
-						text: this.$t('locale.zh-hans'),
-						code: 'zh-Hans'
-					},
+					// {
+					// 	text: this.$t('locale.zh-hans'),
+					// 	code: 'zh-Hans'
+					// },
 					{
 						text: this.$t('locale.zh-hant'),
 						code: 'zh-Hant'

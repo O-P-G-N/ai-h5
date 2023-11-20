@@ -3,22 +3,18 @@
 		<u-navbar @leftClick="goBackUser" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
+				<image class="t_bor_r_img" src="@/static/tabbar/tx.png" mode=""></image>
+				<view class="">
+					<text class="right_avatar_top">Alita</text>
+					<view class="right_avatar_text">在线</view>
+				</view>
 			</view>
+			<ai-button slot="right" @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'"
+				class="next-btn btn-view">{{$t("pa.prc1")}}</ai-button>
 		</u-navbar>
-		<view class="avatar_card">
-			<view class="t_bor_r">
-				<image class="t_bor_r_img" src="~@/static/tabbar/tx.webp" mode=""></image>
-			</view>
-			<view class="right_avatar">
-				<text class="right_avatar_top">nike</text>
-				<ai-button @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'"
-					class="next-btn btn-view">{{$t("pa.prc1")}}</ai-button>
-			</view>
-		</view>
 		<view class="chat-view">
-			<view class="chat">
-				<scroll-view class="chat_show" :scroll-y="true" :scroll-top="scrollTop">
-					<view :class="i% 2 == 0 && !v.who ?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
+			<scroll-view class="chat_show" :scroll-y="true" :scroll-top="scrollTop">
+				<!-- <view :class="i% 2 == 0 && !v.who ?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
 						<view class="css-18ak0yj" v-if="i% 2 == 0 && !v.who ">
 							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
 						</view>
@@ -28,14 +24,26 @@
 							</view>
 						</view>
 						<view :class="i% 2 == 0 && !v.who?'chakra-card':'chakra-cards'">{{v.reply}}</view>
-					</view>
-				</scroll-view>
-				<view class="chat_text">
-					<textarea class="chat_text_trea" v-model="question" placeholder-style="color:#24282C"
-						placeholder="Enter..." />
-					<image @click="getChat" class="chat_text_btn" src="@/static/market/PaperAirplane.png" mode="">
+					</view> -->
+				<view :class="i% 2 == 0 && !v.who ?'chat_show_box':'chat_show_box_one'" v-for="(v,i) in chatList"
+					:key="i">
+					<image class="chat_show_box_left" v-if="i% 2 == 0 && !v.who " src="@/static/tabbar/tx.png" mode="">
 					</image>
+					<view class="chat_show_box_center_one" v-if="i% 2 == 0 && !v.who ">
+						<text style="margin-right: 2px;">{{v.reply}}</text>
+						<!-- <acousticWave v-if="chatList.length>3&&i==chatList.length-3"></acousticWave> -->
+						<omit v-if="chatList[chatList.length-1].reply==''&&i==chatList.length-1"></omit>
+					</view>
+					<view class="chat_show_box_center_two" v-else>{{v.reply}}</view>
+					<image class="chat_show_box_right" v-if="i% 2 != 0 && v.who " src="@/static/market/human.png"
+						mode=""></image>
 				</view>
+			</scroll-view>
+			<view class="chat_text">
+				<textarea class="chat_text_trea" v-model="question" placeholder-style="color:#24282C"
+					placeholder="Enter..." />
+				<image @click="getChat" class="chat_text_btn" src="@/static/market/PaperAirplane.png" mode="">
+				</image>
 			</view>
 		</view>
 	</view>
@@ -43,15 +51,19 @@
 
 <script>
 	export default {
+		components: {
+			acousticWave: () => import('@/components/acousticwave.vue'),
+			omit: () => import('@/components/omit.vue'),
 
+		},
 		data() {
 			return {
 				chatList: [{
-					reply:this.$t("pa.prc2")
+					reply: this.$t("pa.prc2")
 				}],
 				question: "", //提问
 				scrollTop: 5000,
-				
+
 			};
 		},
 		methods: {
@@ -76,53 +88,59 @@
 					uni.$u.toast(this.$t("pa.prc3"))
 					return
 				} else {
-					try{
-						uni.request({
-							url: `/chat/quiz`,
-							method: "GET",
-							data: {
-								question: this.question
-							},
-							success: (res) => {
-								res.data.who = 0
-								this.chatList.push(res.data)
-								console.log(this.chatList);
-							},
-							fail() {
-								this.chatList.push({
-									reply: ""
-								})
-							}
-						});
-					}catch{
+					// try {
 						
-					}
-					
+					// } catch {
+
+					// }
 					this.chatList.push({
 						reply: this.question,
-						who:1
+						who: 1
 					})
+					this.chatList.push({
+						reply: "",
+						who:0
+					})
+					uni.request({
+						url: `/chat/quiz`,
+						method: "GET",
+						data: {
+							question: this.question
+						},
+						success: (res) => {
+							this.chatList[this.chatList.length-1].reply=res.data.reply
+							// res.data.reply = "nihaoya "
+							// this.chatList.push(res.data)
+							// console.log(this.chatList);
+						},
+						fail() {
+							this.chatList.push({
+								reply: ""
+							})
+						}
+					});
+
+					
 					this.question = ""
 				}
 
 			}
 		},
-		watch:{
-			chatList:{
-				deep:true,
-				handler(){
+		watch: {
+			chatList: {
+				deep: true,
+				handler() {
 					this.$nextTick(() =>
 						this.scrollTop = this.scrollTop + 100
 					)
 				}
 			}
 		}
-		
+
 	}
 </script>
 
 <style lang="scss" scoped>
-	
 	::v-deep.partner {
 		display: flex;
 		flex-direction: column;
@@ -131,199 +149,156 @@
 		background-color: #fff;
 
 		.u-navbar {
-			height: 44px;
+			height: 60px;
 
 			.u-navbar__content {
-				height: 44px !important;
+				height: 60px !important;
 
 				.u-navbar__content__left {
 					padding-left: 18px;
 
 					.u-nav-slot {
+						display: flex;
+						align-items: center;
+					}
+
+					.head_back_img {
+						margin-right: 17px;
 						width: 17px;
 						height: 15px;
 					}
 
-					.head_back_img {
-						width: 100%;
-						height: 100%;
+					.t_bor_r_img {
+						margin-right: 14px;
+						width: 66rpx;
+						height: 66rpx;
 					}
-				}
 
-				.u-navbar__content__title {
-					font-weight: 600;
-					font-size: 17px;
-				}
+					.right_avatar_top {
+						font-size: 15px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #000000;
+					}
 
-			}
-		}
-
-		.avatar_card {
-			width: 60%;
-			display: flex;
-			margin: 10px 0;
-			height: 80px;
-			margin: 10px auto;
-			justify-content: center;
-			box-sizing: border-box;
-
-			.t_bor_r {
-				width: 80px;
-				height: 80px;
-				border-radius: 50%;
-				overflow: hidden;
-
-				.t_bor_r_img {
-					width: 100%;
-					height: 100%;
-				}
-			}
-
-			.right_avatar {
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				padding: 10px 0;
-				margin-left: 10px;
-				text-align: center;
-				box-sizing: border-box;
-
-				.right_avatar_top {
-					color: #000;
-					font-size: 19px;
+					.right_avatar_text {
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #B9B9B9;
+					}
 				}
 
 				.btn-view {
 					width: 100%;
+					margin-right: 20px;
 					text-align: center;
 					line-height: 26px;
 					font-size: 12px;
 					color: #fff;
 					border-radius: 32px;
 				}
+
 			}
 		}
 
 		.chat-view {
 			// flex: 1;
-			height: calc(100% - 44px - 80px);
+			height: calc(100% - 60px);
 			width: 100%;
-			background: #fff;
+			background: #F5F6FA;
 			overflow-y: auto;
 
-			.chat {
-				height: 100%;
-				font-size: 50px;
+
+
+			.chat_show {
+				height: 80%;
+				padding: 10px;
 				box-sizing: border-box;
 
-				.chat_show {
-					height: 80%;
+				.chat_show_box {
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					margin-top: 20px;
+
+				}
+
+				.chat_show_box_one {
+					display: flex;
+					align-items: flex-end;
+					margin-top: 20px;
+					justify-content: flex-end;
+
+				}
+
+				.chat_show_box_left {
+					width: 40px;
+					height: 40px;
+					margin-right: 10px;
+				}
+
+				.chat_show_box_center_one {
 					padding: 10px;
 					box-sizing: border-box;
-					overflow-y: auto;
-
-					.css-7feio9 {
-						display: flex;
-						flex-direction: column;
-						align-items: flex-start;
-						padding: 1.25rem 0;
-
-						.css-18ak0yj {
-							width: 28px;
-							height: 28px;
-							padding: 2px;
-							border-radius: 0.5rem;
-							border: 1px solid rgb(222, 224, 226);
-							box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-							background: #f0f7ff;
-
-							.css-18ak0yj_img {
-								object-fit: cover;
-								border-radius: 50%;
-								width: 100%;
-								height: 100%;
-							}
-						}
-
-						.chakra-card {
-							border-radius: 0px 8px 8px;
-							box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-							background: #fff;
-							max-width: calc(100% - 65px);
-							font-size: 14px;
-							margin-top: 0.5rem;
-							padding: 0.75rem;
-						}
-					}
-
-					.css-p92e7h {
-						display: flex;
-						flex-direction: column;
-						align-items: flex-end;
-						padding: 1.25rem 0;
-
-						.css-v5t6b3 {
-							display: flex;
-							width: 100%;
-							-webkit-box-align: center;
-							align-items: center;
-							-webkit-box-pack: end;
-							justify-content: flex-end;
-
-							.css-f2diyg {
-								width: 28px;
-								height: 28px;
-								padding: 2px;
-								border-radius: 0.5rem;
-								border: 1px solid rgb(222, 224, 226);
-								box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-								background: #fff;
-
-								.css-f2diyg_img {
-									border-radius: 50%;
-									width: 100%;
-									height: 100%;
-								}
-							}
-						}
-
-						.chakra-cards {
-							max-width: calc(100% - 65px);
-							margin-top: 6px;
-							border-radius: 8px 0px 8px 8px;
-							box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-							background: #d6e8ff;
-							max-width: calc(100% - 25px);
-							font-size: 14px;
-							margin-top: 0.5rem;
-							padding: 0.75rem;
-						}
-					}
+					background: linear-gradient(118deg, #2E334F 0%, #090A10 100%);
+					border-radius: 11px 11px 11px 11px;
+					min-width: 54px;
+					min-height: 48px;
+					font-size: 14px;
+					max-width: calc(100% - 100px);
+					font-family: PingFang SC, PingFang SC;
+					font-weight: 400;
+					color: #7AFAD8;
+					display: flex;
+					align-items: center;
+					justify-content: center;
 				}
 
-				.chat_text {
-					height: 20%;
-					box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
-					padding: 18px 20px;
-					padding-right: 55px;
+				.chat_show_box_center_two {
+					background: #5288EC;
+					border-radius: 12px 12px 12px 12px;
+					padding: 10px;
 					box-sizing: border-box;
-					position: relative;
+					color: #fff;
+					min-width: 54px;
+					min-height: 48px;
+					max-width: calc(100% - 100px);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 
-					.chat_text_trea {
-						width: 100%;
-						height: 100%;
-					}
-
-					.chat_text_btn {
-						width: 25px;
-						height: 25px;
-						position: absolute;
-						right: 20px;
-						top: 20px;
-					}
+				.chat_show_box_right {
+					width: 40px;
+					height: 40px;
+					margin-left: 10px;
 				}
 			}
+
+			.chat_text {
+				height: 20%;
+				box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+				padding: 18px 20px;
+				padding-right: 55px;
+				box-sizing: border-box;
+				position: relative;
+				background-color: #fff;
+
+				.chat_text_trea {
+					width: 100%;
+					height: 100%;
+				}
+
+				.chat_text_btn {
+					width: 25px;
+					height: 25px;
+					position: absolute;
+					right: 20px;
+					top: 20px;
+				}
+			}
+
 		}
 	}
 </style>

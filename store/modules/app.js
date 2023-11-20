@@ -8,6 +8,7 @@ export default {
 		loading: [],
 		version: '',
 		unread_msg_amount: 0,
+		pageShow:false
 	},
 
 	mutations: {
@@ -22,6 +23,9 @@ export default {
 			} else {
 				state.loading.splice(state.loading.indexOf(effect), 1)
 			}
+		},
+		clear(state, val){
+			state.pageShow=val;
 		}
 	},
 
@@ -36,6 +40,7 @@ export default {
 					}
 				});
 			}, 1000);
-		}
+		},
+		
 	}
 }

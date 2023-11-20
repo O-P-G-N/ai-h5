@@ -4,9 +4,9 @@
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="" mode=""></image>
 			</view>
-			<view class="u-nav-slot" slot="right">
+			<!-- <view class="u-nav-slot" slot="right">
 				{{$t("comm.prc2")}}
-			</view>
+			</view> -->
 		</u-navbar>
 		<view class="">
 			<view class="pyzsOut">
@@ -21,9 +21,9 @@
 						{{$t("comm.prc5")}}
 						<text class="gx_text">0</text>
 					</view>
-					<view class="xh">{{$t("comm.prc6")}}
+					<!-- <view class="xh">{{$t("comm.prc6")}}
 						<text class="xh_text">0</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<u-tabs :list="tabList" keyName="name" :scrollable="false" @click="tabClick"></u-tabs>
@@ -126,7 +126,7 @@
 		},
 		onShow() {
 			this.getIslandData();
-			this.getAccountIsComplete()
+			// this.getAccountIsComplete()
 		},
 		methods: {
 			// 返回我的岛屿

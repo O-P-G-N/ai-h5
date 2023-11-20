@@ -57,13 +57,13 @@
 						</u-input>
 					</view>
 				</u-cell>
-				<u-cell :title="$t('user.capital_flow.i50')"
+				<!-- <u-cell :title="$t('user.capital_flow.i50')"
 					:value="withdrawalInfo.questionList.length>0?withdrawalInfo.questionList[0].value:''"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i51')">
 					<view slot="value" class="code_content">
 						<input v-model="from.answer" class="uni-input" maxlength="10" :placeholder="$t('user.capital_flow.i52')" />
 					</view>
-				</u-cell>
+				</u-cell> -->
 			</u-cell-group>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn"
 				@click="subApplication">{{$t('user.capital_flow.i53')}}</ai-button>
@@ -134,8 +134,12 @@
 						⑦{{$t('user.capital_flow.i87')}}
 					</text>
 				</view>
+				<u-checkbox-group activeColor="#333" v-model="checkboxValue" shape="circle">
+					<u-checkbox label="勾选后不再提示" :name="1">
+					</u-checkbox>
+				</u-checkbox-group>
 			</view>
-			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
+			<button class="tips_btn" @click="determine" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
 		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
@@ -147,7 +151,7 @@
 		data() {
 			return {
 				userName: "", //用户名
-				currencyType: "红包-TRC20", //币种名称
+				currencyType: " USDT-TRC20", //币种名称
 				realityAmount: "", //实际提现金额
 				from: {
 					type: "1", //币种
@@ -162,10 +166,10 @@
 				columns: [
 					[{
 						type: "1",
-						name: '红包-TRC20'
+						name: ' USDT-TRC20'
 					}, {
 						type: "2",
-						name: '红包-ERC20'
+						name: ' USDT-ERC20'
 					}]
 				],
 				tipsShow: false, //温馨提示弹窗状态
@@ -180,6 +184,7 @@
 				loading: false, //按钮等待状态
 				forbidden: false, //是否禁用按钮
 				tips: "", //提示语
+				checkboxValue:[],//勾选提示
 			}
 		},
 		onShow() {
@@ -187,7 +192,24 @@
 			this.getWithdrawalInfo()
 		},
 		onReady() {
-			this.tipsShow = true;
+			uni.request({
+				url: '/help/getAlertInfo',
+				method: "GET",
+				data: {
+					type: 2
+				},
+				success: (res) => {
+					if (res.code == 200) {
+						if (res.data == 0) {
+							this.tipsShow = true;
+						} else {
+							this.tipsShow = false;
+						}
+					} else if (res.code == 500) {
+			
+					}
+				}
+			});
 		},
 		methods: {
 			// 获取账号
@@ -227,6 +249,27 @@
 					this.realityAmount = 0
 				} else {
 					this.realityAmount = Number(val.detail.value) - Number(this.commissionRate)
+				}
+			},
+			// 关闭弹窗
+			determine() {
+				if (this.checkboxValue.length > 0) {
+					uni.request({
+						url: '/help/saveAlertInfo',
+						method: "GET",
+						data: {
+							type: 2
+						},
+						success: (res) => {
+							if (res.code == 200) {
+								this.tipsShow = false;
+							} else if (res.code == 500) {
+			
+							}
+						}
+					});
+				} else {
+					this.tipsShow = false;
 				}
 			},
 			// 获取验证码
@@ -292,20 +335,17 @@
 				} else if (that.from.withdrawPassword == "") {
 					uni.$u.toast(that.$t('user.capital_flow.i64'));
 					return
-				} else if (that.from.answer == "") {
-					uni.$u.toast(that.$t('user.capital_flow.i65'));
-					return
-				} else if (that.from.amount < that.withdrawalInfo.withdrawMin) {
+				}  else if (that.from.amount < that.withdrawalInfo.withdrawMin) {
 					uni.$u.toast(`that.$t('user.capital_flow.i66')：${that.withdrawalInfo.withdrawMin}`);
 					return
 				} else if (that.from.amount > that.withdrawalInfo.withdrawMax) {
 					uni.$u.toast(`that.$t('user.capital_flow.i67')：${that.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
-					// uni.showLoading({
-					// 	title: that.$t('user.islands.ivt.qr_gen'),
-					// 	mask: true
-					// })
+					uni.showLoading({
+						title: that.$t('user.con_detail.i47'),
+						mask: true
+					})
 					that.forbidden = true;
 					that.loading = true;
 					uni.request({
@@ -318,11 +358,11 @@
 								that.loading = false;
 								uni.$u.toast(that.$t('user.capital_flow.i68'));
 								that.pageIndex = 1;
-								// uni.hideLoading()
+								uni.hideLoading()
 							} else {
 								that.forbidden = false;
 								that.loading = false;
-								// uni.hideLoading()
+								uni.hideLoading()
 								
 							}
 
@@ -484,6 +524,9 @@
 
 		.u-toolbar__wrapper__confirm {
 			color: rgb(0, 0, 0) !important;
+		}
+		.u-checkbox-group{
+			margin-top: 20rpx;
 		}
 
 		.tips_btn {

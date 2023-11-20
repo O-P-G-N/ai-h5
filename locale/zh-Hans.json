@@ -94,6 +94,9 @@
 	"index.tips7":"网络超时，请重试!",
 	"index.tips8":"复制成功,请在浏览器打开!",
 	"index.tips9":"复制成功!",
+	"index.tips10":"作品集",
+	"index.tips11":"搜索画面描述",
+	"index.tips12":"搜索",
 	
 
 	"home.charge": "充值",
@@ -105,7 +108,7 @@
 	"home.asset.unit": "红包",
 	"home.asset.in_contract": "合约金额",
 	"home.asset.point": "积分",
-	"home.asset.hongbao_balance": "红包余额",
+	"home.asset.hongbao_balance": " USDT余额",
 	"home.asset.credit": "信用分",
 	"home.asset.exchange_point": "积分兑换",
 	"home.pic.about": "关于",
@@ -165,6 +168,7 @@
 	"ac.prc24":"获取时间",
 	"ac.prc25":"复制成功!",
 	"ac.prc26":"最大日收益",
+	"ac.prc27":"赠送积分",
 	
 	"pa.prc1":"升级训练",
 	"pa.prc2":"我是您的专属伴侣nike,为你效劳。我可以回答问题、提供信息，甚至与你闲聊，请随时向我询问",
@@ -283,6 +287,7 @@
 	"login.tips20":"手机注册暂未开通",
 	"login.tips21":"请选择国家",
 	"login.activity_code":"邀请码",
+	"login.traderPassword":"请输入交易密码",
 	
 	
 	"user.asset.details.index.asset_detail": "资产明细",
@@ -507,7 +512,7 @@
 	"user.capital_flow.i86": "用户有责任保管好个人账户及登录信息，平台不对用户因未妥善保管账户信息而导致的损失负责。",
 	"user.capital_flow.i87": "平台保留随时修改和更新本免责协议的权利。用户在使用服务前应仔细阅读最新版本的免责协议。",
 	"user.capital_flow.i90": "为了一直致力于为您提供安全、高效的服务在您进行储值时，请务必注意以下事项:",
-	"user.capital_flow.i91": "平台仅支持红包- ERC20 和 红包-TRC20 类型的区块链数字货币收款，为了确保您的充值顺畅请在转账前核对好所选择的渠道，并确保您的转账类型正确.对于转错其他类型的情况，我们将无法负责处理",
+	"user.capital_flow.i91": "平台仅支持 USDT- ERC20 和  USDT-TRC20 类型的区块链数字货币收款，为了确保您的充值顺畅请在转账前核对好所选择的渠道，并确保您的转账类型正确.对于转错其他类型的情况，我们将无法负责处理",
 	"user.capital_flow.i92": "为避免造成金额损失,请您切勿保存收款地址错误地址将导致您的存款无法到账等",
 	"user.capital_flow.i93": "储值时间7X24小时.但订单只存在60分钟,请及时完成账单",
 	"user.con_detail.i1": "返回",
@@ -548,6 +553,15 @@
 	"user.con_detail.i36": "合约已取消终止",
 	"user.con_detail.i37": "正在为您拼命加载中...",
 	"user.con_detail.i38": "正在为您生成订单中...",
+	"user.con_detail.i39": "购买合约可赠送积分",
+	"user.con_detail.i40": "合约收益当前进度",
+	"user.con_detail.i41": "剩余时间",
+	"user.con_detail.i42": "天",
+	"user.con_detail.i43": "时",
+	"user.con_detail.i44": "分",
+	"user.con_detail.i45": "积分正在为您兑换中...",
+	"user.con_detail.i46": "正在为您充值中...",
+	"user.con_detail.i47": "正在为您提现中...",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试"
 	

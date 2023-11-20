@@ -60,15 +60,15 @@
 							<view class="order_sn" v-if="v.status==2||v.status==1">
 								{{$t('user.con_detail.i26')}}：{{v.updateTime}}
 							</view> -->
-							<view class="paogress_line">
-								<u-line-progress :percentage="30" activeColor="#000"
+							<view class="paogress_line" v-if="v.status!=2&&v.status!=1">
+								<u-line-progress :percentage="v.paogress" activeColor="#000"
 									:showText="false"></u-line-progress>
 							</view>
-							<view class="paogress_tips">
+							<view class="paogress_tips" v-if="v.status!=2&&v.status!=1">
 								<view style="display: flex;">
-									合约收益当前进度（剩余时间：天 时 分）
+									{{$t("user.con_detail.i40")}}（{{$t("user.con_detail.i41")}}:{{v.day}}{{$t("user.con_detail.i42")}}{{v.hour}}{{$t("user.con_detail.i43")}}{{v.minu}}{{$t("user.con_detail.i44")}}）
 								</view>
-								<view class="">35%</view>
+								<view class="">{{v.paogress}}%</view>
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
 								<button class="zhongzhibtn" @click="contractSet(v.id,v.status)">
@@ -153,15 +153,26 @@
 					});
 				}
 			},
-			
+
 			// 获取合约列表
 			getContractList() {
 				uni.request({
 					url: `/island/contracts/${this.from.pageNum}`,
 					method: "GET",
 					success: (res) => {
-
+						res.data.rows.map((v) => {
+							let setTime = new Date(v.endTime);
+							let nowTime = new Date();
+							let restSec = setTime.getTime() - nowTime.getTime();
+							let count = nowTime.getTime() - new Date(v.createTime).getTime();
+							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+							v.minu = parseInt(restSec / (60 * 1000) % 60);
+							v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+								.toFixed(2);
+						})
 						this.contractList = res.data.rows;
+
 						let time = setTimeout(() => {
 							this.loadShow = false;
 							clearTimeout(time)
@@ -214,7 +225,17 @@
 						url: `/island/contracts/${this.from.pageNum}`,
 						method: "GET",
 						success: (res) => {
-
+							res.data.rows.map((v) => {
+								let setTime = new Date(v.endTime);
+								let nowTime = new Date();
+								let restSec = setTime.getTime() - nowTime.getTime();
+								let count = nowTime.getTime() - new Date(v.createTime).getTime();
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+									100).toFixed(2);
+							})
 							this.contractList.push(...res.data.rows);
 						}
 					});
@@ -418,6 +439,7 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
+						margin-top: 10px;
 
 						.time {
 							@include flex;

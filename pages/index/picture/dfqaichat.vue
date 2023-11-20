@@ -23,6 +23,7 @@
 					<view class="click" @click="parameter.prompt=''">{{$t('index.empty')}}</view>
 				</view>
 			</view>
+			<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
 			<view class="btnMain">
 				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">{{$t("index.sel1")}}</view>
 				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">{{$t("index.sel2")}}</view>
@@ -199,6 +200,14 @@
 				}
 			}
 		}
+		.small_tip{
+					font-size: 14px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: 400;
+					color: #9FA19F;
+					text-align: right;
+					margin-top: 10rpx;
+				}
 
 		.btnMain {
 			width: 100%;

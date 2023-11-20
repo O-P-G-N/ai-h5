@@ -444,6 +444,14 @@
 				"navigationBarTitleText" : "隐私政策",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "components/acousticwave",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"tabBar": {

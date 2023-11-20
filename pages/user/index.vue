@@ -27,7 +27,7 @@
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
-						<text class="cbac">{{$t('home.asset.total')}}</text>/ {{$t('home.asset.unit')}}
+						<text class="cbac">{{$t('home.asset.total')}}</text>
 					</view>
 					<view class="balancenum">
 						<text v-if="eyeShows">{{myInfo.total}}</text>
@@ -115,7 +115,7 @@
 			<view class="asset_details_left">
 				<view class="asset_details_left_top">
 					<view class="asset_details_left_top_style"></view>
-					<view class="asset_details_left_top_title">资产明细</view>
+					<view class="asset_details_left_top_title">{{$t('user.asset.details.index.asset_detail')}}</view>
 				</view>
 				<view class="asset_details_left_bottom">Asset details</view>
 			</view>
@@ -312,34 +312,37 @@
 			},
 			// 提现
 			withdrawal() {
-				uni.request({
-					url: `/member/getAccountIsComplete`,
-					method: "GET",
-					success: (res) => {
-						if (res.code == 200) {
-							if (!res.data.withdrawPassword) {
-								this.show = true;
-								this.setIndex = 2;
-								this.content = this.$t("model.tips1")
-							} else if (!res.data.question) {
-								this.show = true;
-								this.setIndex = 1;
-								this.content = this.$t("model.tips2")
-							} else if (!res.data.nickName) {
-								this.show = true;
-								this.setIndex = 0;
-								this.content = this.$t("model.tips3")
-							} else {
-								uni.navigateTo({
-									url: `/pages/user/withdrawal`
-								});
-							}
-						} else if (res.code == 500) {
-							uni.$u.toast(this.$t("model.tips4"))
-						}
-
-					}
+				uni.navigateTo({
+					url: `/pages/user/withdrawal`
 				});
+				// uni.request({
+				// 	url: `/member/getAccountIsComplete`,
+				// 	method: "GET",
+				// 	success: (res) => {
+				// 		if (res.code == 200) {
+				// 			if (!res.data.withdrawPassword) {
+				// 				this.show = true;
+				// 				this.setIndex = 2;
+				// 				this.content = this.$t("model.tips1")
+				// 			} else if (!res.data.question) {
+				// 				this.show = true;
+				// 				this.setIndex = 1;
+				// 				this.content = this.$t("model.tips2")
+				// 			} else if (!res.data.nickName) {
+				// 				this.show = true;
+				// 				this.setIndex = 0;
+				// 				this.content = this.$t("model.tips3")
+				// 			} else {
+				// 				uni.navigateTo({
+				// 					url: `/pages/user/withdrawal`
+				// 				});
+				// 			}
+				// 		} else if (res.code == 500) {
+				// 			uni.$u.toast(this.$t("model.tips4"))
+				// 		}
+
+				// 	}
+				// });
 
 			},
 			// 关于我们

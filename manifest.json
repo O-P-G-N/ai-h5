@@ -59,8 +59,14 @@
         "usingComponents" : true
     },
     "vueVersion" : "2",
-    "locale" : "auto",
+    "locale" : "en",
     "h5" : {
-        "template" : "index.html"
+        "template" : "",
+        "router" : {
+            "mode" : ""
+        },
+        "devServer" : {
+            "https" : true
+        }
     }
 }

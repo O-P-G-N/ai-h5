@@ -57,13 +57,13 @@
 						</view>
 					</view>
 					<view class="heard_right" @click="viewPortfolio">
-						作品集
+						{{$t("index.tips10")}}
 						<image class="heard_right_img" src="@/static/index/heard_right.png" mode=""></image>
 					</view>
 				</view>
 			</view>
-			<u-sticky class="sticky_search"><u-search @custom="searchFrom" animation placeholder="搜索画面描述"
-					v-model="from.keyword"></u-search></u-sticky>
+			<u-sticky class="sticky_search"><u-search @custom="searchFrom" animation :placeholder="tips11"
+					v-model="from.keyword" :actionText="tips12"></u-search></u-sticky>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
@@ -147,6 +147,9 @@
 				setIndex: null, //设置索引
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 				tipsShow:false,//pwa提示
+				tips11:this.$t("index.tips11"), //搜索画面描述国际化
+				tips12:this.$t("index.tips12"), //搜索国际化
+				pageShow:null,//
 			}
 		},
 		computed: {
@@ -201,10 +204,10 @@
 						text: this.$t('locale.en'),
 						code: 'en'
 					},
-					{
-						text: this.$t('locale.zh-hans'),
-						code: 'zh-Hans'
-					},
+					// {
+					// 	text: this.$t('locale.zh-hans'),
+					// 	code: 'zh-Hans'
+					// },
 					{
 						text: this.$t('locale.zh-hant'),
 						code: 'zh-Hant'
@@ -222,7 +225,7 @@
 		},
 		onShow() {
 			this.getImgList();
-			this.getAccountIsComplete()
+			// this.getAccountIsComplete()
 		},
 		onReachBottom() {
 			this.loadMore()

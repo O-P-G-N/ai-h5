@@ -19,10 +19,10 @@
 							:value="statusInfo.withdrawPassword?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
 							:is-link="true" @click="tradePassword">
 						</u-cell>
-						<u-cell :title="$t('user.islands.sc.idx.i6')"
+						<!-- <u-cell :title="$t('user.islands.sc.idx.i6')"
 							:value="statusInfo.question?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
 							:is-link="true" @click="securitySet">
-						</u-cell>
+						</u-cell> -->
 						<u-cell :title="$t('user.islands.sc.idx.i7')"
 							:value="statusInfo.nickName?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
 							:is-link="true" @click="setNickName">

@@ -39,16 +39,16 @@
 							500{{$t("ac.prc4")}}</view>
 						<view class="mairu">
 							<input class="uni-input" v-model="from.payNum"
-								placeholder-style="color:rgb(192, 196, 204)" @input="customAmount" type="number"
+								placeholder-style="color:rgb(192, 196, 204)" maxlength="12" @input="customAmount" type="number"
 								:placeholder="prc5" />
 						</view>
 					</view>
-					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}}{{$t("ac.prc7")}}</view>
+					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}} USDT</view>
 				</view>
 				<view class="yujimain" v-if="pageData.dictSort">
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc8")}}</view>
-						<text class="buymoney_num">{{from.payHongbao}} {{$t("ac.prc7")}}</text>
+						<text class="buymoney_num">{{from.payHongbao}}  USDT</text>
 					</view>
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc9")}}</view>
@@ -57,6 +57,10 @@
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc10")}}</view>
 						<text class="buymoney_text">{{gradeMax}}{{$t("ac.prc4")}}</text>
+					</view>
+					<view class="buymoney">
+						<view class="">{{$t("ac.prc27")}}</view>
+						<text class="buymoney_text_one">+{{from.integral}}</text>
 					</view>
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc11")}}</view>
@@ -110,6 +114,7 @@
 					bili:"",//每天收益
 					type:null,//购买类型
 					payHongbao:"",//购买红包数量
+					integral:1,//积分
 				},
 				forbidden:false,//是否禁用
 				loading:false,//加载状态
@@ -168,11 +173,13 @@
 			// 自定义份数
 			customAmount(val) {
 				this.from.payNum = val.detail.value;
+				this.from.integral=val.detail.value;
 				this.from.payHongbao=Number(val.detail.value)*Number(this.pageData.remark)
 			},
 			// 选择份数
 			selectCopies(val) {
 				this.from.payNum = val;
+				this.from.integral=val;
 				this.from.payHongbao=Number(val)*Number(this.pageData.remark)
 			},
 			// 选择天数
@@ -435,6 +442,12 @@
 						.buymoney_text {
 							color: #111;
 							margin-left: 10px;
+						}
+						.buymoney_text_one{
+							font-size: 15px;
+							font-family: PingFang SC, PingFang SC;
+							font-weight: 400;
+							color: #FF0000;
 						}
 					}
 				}

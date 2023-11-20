@@ -94,6 +94,9 @@
 	"index.tips7": "網絡超時，請重試!",
 	"index.tips8": "復製成功,請在瀏覽器打開!",
 	"index.tips9": "復製成功!",
+	"index.tips10":"作品集",
+	"index.tips11":"搜索畫面描述",
+	"index.tips12":"搜索",
 	
 	
 	"home.charge": "充值",
@@ -105,7 +108,7 @@
 	"home.asset.unit": "紅包",
 	"home.asset.in_contract": "合約金額",
 	"home.asset.point": "積分",
-	"home.asset.hongbao_balance": "紅包餘額",
+	"home.asset.hongbao_balance": " USDT餘額",
 	"home.asset.credit": "信用分",
 	"home.asset.exchange_point": "積分兌換",
 	"home.pic.about": "關於",
@@ -165,6 +168,7 @@
 	"ac.prc24": "獲取時間",
 	"ac.prc25": "複製成功!",
 	"ac.prc26": "最大日收益",
+	"ac.prc27":"贈送積分",
 
 	"pa.prc1": "升級訓練",
 	"pa.prc2": "我是您的專屬伴侶nike,為你效勞。我可以回答問題、提供資訊，甚至與你閒聊，請隨時向我詢問",
@@ -283,6 +287,7 @@
 	"login.tips20": "手機註冊暫未開通",
 	"login.tips21": "請選擇國家",
 	"login.activity_code": "邀請碼",
+	"login.traderPassword":"請輸入交易密碼",
 	
 	"user.asset.details.index.asset_detail": "資產明細",
 	"user.asset.details.index.charge_record": "充值記錄",
@@ -504,7 +509,7 @@
 	"user.capital_flow.i86": "用戶有責任保管好個人帳戶及登入訊息，平台不對用戶因未妥善保管帳戶資訊而導致的損失負責。",
 	"user.capital_flow.i87": "本平台保留隨時修改更新本免責協議的權利。 用戶在使用服務前應仔細閱讀最新版本的免責協議。",
 	"user.capital_flow.i90": "為了一直致力於為您提供安全、高效的服務在您進行儲值時，請務必注意以下事項:",
-	"user.capital_flow.i91": "平台僅支援紅包- ERC20 和紅包-TRC20 類型的區塊鏈數位貨幣收款，為了確保您的充值順暢請在轉帳前核對好所選的管道，並確保您的轉帳類型正確.對於轉錯其他類型 的情況，我們將無法負責處理",
+	"user.capital_flow.i91": "平台僅支援 USDT- ERC20 和 USDT-TRC20 類型的區塊鏈數位貨幣收款，為了確保您的充值順暢請在轉帳前核對好所選的管道，並確保您的轉帳類型正確.對於轉錯其他類型 的情況，我們將無法負責處理",
 	"user.capital_flow.i92": "為避免造成金額損失,請您切勿儲存收款地址錯誤地址將導致您的存款無法到帳等",
 	"user.capital_flow.i93": "儲值時間7X24小時.但訂單只存在60分鐘,請及時完成帳單",
 	"user.con_detail.i1": "返回",
@@ -545,6 +550,15 @@
 	"user.con_detail.i36": "合約已取消中止",
 	"user.con_detail.i37": "正在為您拼命加載中...",
 	"user.con_detail.i38": "正在為您生成訂單中...",
+	"user.con_detail.i39": "購買合約可贈送積分",
+	"user.con_detail.i40": "合約收益當前進度",
+	"user.con_detail.i41": "剩餘時間",
+	"user.con_detail.i42": "天",
+	"user.con_detail.i43": "時",
+	"user.con_detail.i44": "分",
+	"user.con_detail.i45": "積分正在為您兌換中...",
+	"user.con_detail.i46": "正在為您充值中...",
+	"user.con_detail.i47": "正在為您提現中...",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試"
 
