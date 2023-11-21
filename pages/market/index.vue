@@ -92,17 +92,16 @@
 						<view class="title_one">涨跌幅(%)<image class="title_img" src="@/static/user/sort.png"></image></view>
 					</u-col>
 				</u-row>
-				<u-row class="row_one" justify="space-between">
+				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
 					<u-col span="6" textAlign="center" justify="flex-start">
-						<view class="title"><text class="currency">BTC</text><text class="usdt">/USDT</text><text class="multiple">10x</text></view>
-						<view class="transaction_volume">成交额9.25亿</view>
+						<view class="title"><text class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text class="usdt">/USDT</text><text class="multiple">10x</text></view>
+						<view class="transaction_volume">成交额{{Number(v.volume).toFixed(2)}}</view>
 					</u-col>
 					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="price_one">37777</view>
-						<view class="price_two">￥2666222</view>
+						<view class="price_one">{{Number(v.lastPrice).toFixed(2)}}</view>
 					</u-col>
 					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
-						<view class="chg">+111%</view>
+						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%</view>
 					</u-col>
 				</u-row>
 				
@@ -300,6 +299,7 @@
 				timeType: 1, //时间
 				currencyName: "", //货币名称
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				exponentList:[],//指数列表
 			}
 		},
 		onReady() {
@@ -308,10 +308,22 @@
 		onShow() {
 			this.$store.dispatch('app/getUnread')
 			// this.getAccountIsComplete();
-			this.getListData()
+			// this.getListData()
+			this.getExponentData();
 		},
 		created() {},
 		methods: {
+			// 获取指数列表数据
+			getExponentData(){
+				uni.request({
+					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
+					method: "GET",
+					success: (res) => {
+						this.exponentList=res.data;
+						console.log(res.data[0].symbol.slice(0,res.data[0].symbol.indexOf("U")));
+					},
+				})
+			},
 			// 获取列表数据
 			getListData() {
 				uni.request({
@@ -627,7 +639,7 @@
 	::v-deep.market {
 		width: 100% !important;
 		min-height: 100vh;
-
+		background-color: #fff;
 
 		.container_nei {
 			padding: 0 21px;
@@ -948,9 +960,19 @@
 						align-items: center;
 						justify-content: center;
 					}
+					.chgg{
+						width: 78px;
+						height: 35px;
+						background: #F6455F;
+						color: #fff;
+						border-radius: 3px 3px 3px 3px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
 				}
 				.row_one:last-child{
-					margin-bottom: 30px;
+					margin-bottom: 130px;
 				}
 
 				.widgtthree {

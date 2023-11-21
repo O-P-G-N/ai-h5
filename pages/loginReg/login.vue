@@ -51,14 +51,14 @@
 			</view>
 			<view class="inputmain">
 				<view class="quicklogin">
-					<view class="login_item" @click="loginItem">
-						<image class="google" src="@/static/login/Google.png" mode=""></image>
+					<view class="login_item" @click="loginItemMeta">
+						<image class="google_one" src="@/static/login/MetaMask_Fox.svg.png" mode=""></image>
 					</view>
 					<view class="login_item" @click="loginItem">
-						<image class="google" src="@/static/login/window.png" mode=""></image>
+						<image class="google" src="@/static/login/mosaic.png" mode=""></image>
 					</view>
 					<view class="login_item" @click="loginItem">
-						<image class="google" src="@/static/login/gd.png" mode=""></image>
+						<image class="google" src="@/static/login/unnamed.png" mode=""></image>
 					</view>
 				</view>
 				<view class="privacy">
@@ -76,10 +76,21 @@
 </template>
 
 <script>
+	import {
+		MetaMaskSDK
+	} from '@metamask/sdk';
 	export default {
 		data() {
 			return {
 				langShow: false, //选择语言
+				sdk: null,
+				account: null,
+				chainId: null,
+				connected: false,
+				lastResponse: null,
+				provider: null,
+				availableLanguages: [],
+				selectedLanguage: '',
 			};
 		},
 		computed: {
@@ -106,6 +117,51 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
+
+			this.sdk = new MetaMaskSDK({
+				dappMetadata: {
+					url: window.location.href,
+					name: 'MetaMask VueJS Example Dapp',
+				},
+				// useDeeplink: true,
+				enableDebug: true,
+				checkInstallationImmediately: false,
+				logging: {
+					developerMode: true,
+				},
+				i18nOptions: {
+					enabled: true,
+				},
+			});
+			this.sdk?.init().then(() => {
+				this.provider = this.sdk?.getProvider();
+				// Chain changed
+				this.provider?.on("chainChanged", (chain) => {
+					console.log(`App::Chain changed:'`, chain);
+					this.chainId = chain;
+				});
+
+				// Accounts changed
+				this.provider?.on("accountsChanged", (accounts) => {
+					console.log(`App::Accounts changed:'`, accounts);
+					this.account = accounts[0];
+				});
+
+				// Connected event
+				this.provider?.on('connect', (_connectInfo) => {
+					console.log(`App::connect`, _connectInfo);
+					this.onConnect();
+					this.connected = true;
+				});
+
+				// Disconnect event
+				this.provider?.on('disconnect', (error) => {
+					console.log(`App::disconnect`, error);
+					this.connected = false;
+				});
+
+				this.availableLanguages = this.sdk?.availableLanguages ?? ['en']
+			});
 		},
 		methods: {
 			//手机登录
@@ -141,7 +197,23 @@
 			},
 			// 提示
 			loginItem() {
+
 				uni.$u.toast(this.$t("login.tips17"));
+			},
+			loginItemMeta() {
+				try {
+					const res = this.provider.request({
+						method: 'eth_requestAccounts',
+						params: [],
+					});
+					console.log(1111);
+					this.account = res[0];
+					console.log('request accounts', res);
+					this.lastResponse = "";
+					this.chainId = this.provider.chainId;
+				} catch (e) {
+					console.log('request accounts ERR', e);
+				}
 			},
 			// 邮箱登录
 			emailLogin() {
@@ -330,10 +402,14 @@
 						align-items: center;
 						justify-content: center;
 
+						.google_one {
+							width: 42px;
+							height: 42px;
+						}
+
 						.google {
-							width: 26px;
-							height: 26px;
-							border-radius: 50%;
+							width: 32px;
+							height: 32px;
 						}
 					}
 				}

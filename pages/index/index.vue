@@ -14,7 +14,7 @@
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
 				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
-					<text>1423</text>
+					<text>{{myInfo.nickName}}</text>
 					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
 				</view>
 			</view>
@@ -150,6 +150,7 @@
 				tips11:this.$t("index.tips11"), //搜索画面描述国际化
 				tips12:this.$t("index.tips12"), //搜索国际化
 				pageShow:null,//
+				myInfo:{},//人员信息
 			}
 		},
 		computed: {
@@ -326,6 +327,13 @@
 				uni.$u.toast('社区功能暂未开放');
 			},
 			getImgList() {
+				uni.request({
+					url: '/member/myWallet',
+					method: "GET",
+					success: (res) => {
+						this.myInfo = res.data;
+					}
+				});
 				uni.request({
 					url: `/workImage/list`,
 					method: "POST",
