@@ -19,7 +19,7 @@
 				<view class="dy">
 					<view class="gx">
 						{{$t("comm.prc5")}}
-						<text class="gx_text">0</text>
+						<text class="gx_text">{{myTeamInfo.contribution}}</text>
 					</view>
 					<!-- <view class="xh">{{$t("comm.prc6")}}
 						<text class="xh_text">0</text>

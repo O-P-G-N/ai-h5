@@ -9,7 +9,7 @@
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
-					<image class="level_img"
+					<image @click="levelDesc" class="level_img"
 						:src="myInfo.vip==1?'../../static/user/e1.png':myInfo.vip==2?'../../static/user/d1.png':myInfo.vip==3?'../../static/user/c1.png':myInfo.vip==4?'../../static/user/b1.png':myInfo.vip==5?'../../static/user/a1.png':myInfo.vip==6?'../../static/user/s1.png':''">
 					</image>
 				</view>
@@ -121,6 +121,7 @@
 			</view>
 			<image class="asset_details_right" src="@/static/user/property_img.png" mode=""></image>
 		</view>
+		<image class="ai_title" src="@/static/user/ai.png" mode=""></image>
 		<u-swiper class="swiper_list" radius="20" :list="list" keyName="address" showTitle imgMode="scaleToFill"  autoplay circular></u-swiper>
 
 		<!-- <view class="justcard">
@@ -250,7 +251,12 @@
 					}
 				});
 			},
-
+			// 等级说明
+			levelDesc(){
+				uni.navigateTo({
+					url: `/pages/user/leveldesc`
+				});
+			},
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
@@ -706,10 +712,15 @@
 				height: 116rpx;
 			}
 		}
+		.ai_title{
+			width: 70px;
+			height: 26px;
+			margin-top: 20px;
+			margin-bottom: 6px;
+		}
 
 		.swiper_list {
 			// height: 98px !important;
-			margin-top: 20px;
 
 			.u-swiper__wrapper__item__wrapper__title {
 				bottom: 0px;

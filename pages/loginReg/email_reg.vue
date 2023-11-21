@@ -18,8 +18,18 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
-					<u-input class="email_content_text" type="number" maxlength="6" :placeholder="traderPassword"
-						v-model="from.withdrawPassword"></u-input>
+					<u-input v-model="from.withdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword')" :password="eyeShows">
+						<image @click="showHiddens" slot="suffix" class="eye"
+							:src="eyeShows?'../../static/login/close.png':'../../static/login/open.png'"
+							mode=""></image>
+					</u-input>
+				</view>
+				<view class="inputevery">
+					<u-input v-model="from.newWithdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword1')" :password="eyeShowss">
+						<image @click="showHiddenss" slot="suffix" class="eye"
+							:src="eyeShowss?'../../static/login/close.png':'../../static/login/open.png'"
+							mode=""></image>
+					</u-input>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
@@ -31,6 +41,10 @@
 				<view class="inputevery">
 					<u-input :disabled="invitationDisa" v-model="from.invitationCode" :placeholder="invitationcode">
 					</u-input>
+				</view>
+				<view class="verify_item">
+					<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
+					<text class="verify_item_text">{{$t('user.islands.sc.fdp.i2')}}</text>
 				</view>
 				<view class="privacy">
 					{{$t('login.agreement5')}}<text class="blur"
@@ -61,8 +75,11 @@
 					code: "", //验证码
 					invitationCode: "", //邀请码
 					withdrawPassword: "", //交易密码
+					newWithdrawPassword:"",//确认交易密码
 				},
 				eyeShow: true, //密码显示
+				eyeShows: true, //密码显示
+				eyeShowss: true, //密码显示
 				forbidden: false, //是否禁用
 				loading: false, //等待状态
 				tips: "", //提示语
@@ -95,6 +112,14 @@
 			// 显示隐藏
 			showHidden() {
 				this.eyeShow = !this.eyeShow
+			},
+			// 显示隐藏
+			showHiddens() {
+				this.eyeShows = !this.eyeShows
+			},
+			// 显示隐藏
+			showHiddenss() {
+				this.eyeShowss = !this.eyeShowss
 			},
 			// 查看用户协议
 			viewTerms() {
@@ -149,7 +174,7 @@
 				let that = this
 				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？！’‘“”~ `]).*$/
 				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
@@ -182,7 +207,10 @@
 				} else if (patrnss.test(this.from.withdrawPassword)) {
 					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
 					return
-				} else if (that.from.password == "") {
+				} else if (this.from.withdrawPassword!=this.from.newWithdrawPassword) {
+					uni.$u.toast(this.$t('login.traderPassword2'));
+					return
+				}else if (that.from.password == "") {
 					uni.showToast({
 						title: that.$t("login.tips10"),
 						icon: "none",
@@ -393,6 +421,11 @@
 						width: 21px;
 						height: 21px;
 					}
+				}
+				.verify_item{
+					margin:10px 0; 
+					display: flex;
+					align-items: center;
 				}
 
 				.privacy {

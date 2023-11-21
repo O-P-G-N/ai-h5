@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="container_nei">
-			<view class="title_h1">EXGPT</view>
+			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="subsectiontwo">
 				<button class="subsectiontwo_every" @click="mobileLogin">
@@ -35,7 +35,7 @@
 						</view>
 					</button>
 				</a> -->
-				<a href="weixin://">
+				<!-- <a href="weixin://">
 					<button class="subsectiontwo_every" @click="walletLogin">
 
 						<view class="flex_al_center">
@@ -43,7 +43,7 @@
 							{{$t('login.type.wallet')}}
 						</view>
 					</button>
-				</a>
+				</a> -->
 				<view class="line">
 					<view class="divider"></view>
 					<view class="lint_text">{{$t('login.orloginto')}}</view>

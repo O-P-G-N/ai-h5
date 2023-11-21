@@ -17,10 +17,12 @@
 					</view>
 					<view class="dialogue_box" v-if="$store.getters.pageShow">
 						<acousticWave></acousticWave>
-						<view class="dialogue_box_text">创建合约获取更多收益</view>
+						<view class="dialogue_box_text">{{$t("user.con_detail.i48")}}</view>
 						<acousticWave></acousticWave>
 						<image @click.stop="clear" class="dialogue_box_img" src="@/static/tabbar/clear.png" mode=""></image>
+						<view class="triangle"></view>
 					</view>
+				<image class="robot_btn" v-if="!$store.getters.pageShow" src="@/static/tabbar/robot_btn.png" mode=""></image>
 				</view>
 			</view>
 			<view class="footer_every" @click="toPath('community')" :class="{'active':pageName=='community'}">
@@ -129,21 +131,23 @@
 
 				.dialogue_box {
 					position: absolute;
-					width: 226px;
+					min-width: 226px;
 					height: 52px;
-					background: url("@/static/tabbar/dialogue.png") no-repeat;
-					background-size: cover;
-					top: -50px;
-					left: -58px;
+					background: linear-gradient(118deg, #2E334F 0%, #090A10 100%);
+					border-radius: 10px;
+					top: -56px;
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					padding: 0 10rpx;
 					.dialogue_box_text{
 						margin: 0 10rpx;
 						font-size: 14px;
 						font-family: PingFang SC, PingFang SC;
+						white-space: nowrap;
 						font-weight: 400;
 						color: #7AFAD8;
+						
 					}
 					.dialogue_box_img{
 						position: absolute;
@@ -152,6 +156,19 @@
 						width: 7px;
 						height: 7px;
 					}
+					.triangle{
+						position: absolute;
+						bottom: -12px;
+						left: 48%;
+						border: 6px solid transparent;
+						  border-top-color: #2E334F;
+					}
+				}
+				.robot_btn{
+					position: absolute;
+					bottom: 0;
+					width: 66px;
+					height: 25px;
 				}
 			}
 

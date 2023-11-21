@@ -452,6 +452,14 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/user/leveldesc",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

@@ -125,7 +125,7 @@
 	"ac.avb": "available balance",
 	"ac.actc": "activity code",
 	"ac.myac": "my contract",
-	"ac.hongbao": "hongbao",
+	"ac.hongbao": " USDT",
 	"ac.lht": "quantitative trading",
 	"ac.int": "intelligent",
 	"ac.share": "Securities",
@@ -170,7 +170,7 @@
 	"ac.prc27": "Give away points",
 
 	"pa.prc1": "Upgrade training",
-	"pa.prc2": "I am your exclusive partner nike, at your service. I'm available to answer questions, provide information, and even chat with you, so feel free to ask me",
+	"pa.prc2": "I am your exclusive partner Alita, at your service. I'm available to answer questions, provide information, and even chat with you, so feel free to ask me",
 	"pa.prc3": "Please enter what you want to ask",
 	"pa.prc4": "Skill point balance",
 	"pa.prc5": "independent training",
@@ -222,7 +222,7 @@
 	"login.agreement5": "By registering, you agree to our",
 	"login.noaccount": "No account yet",
 	"login.registernow": "Register Now",
-	"login.registertitle": "Register your exclusive EXGPT account",
+	"login.registertitle": "Register your exclusive AlitaGPT account",
 	"login.register": "register",
 	"login.login": "log in",
 	"login.back": "back",
@@ -233,7 +233,7 @@
 	"login.notyetopened": "Not opened",
 	"login.orregisterto": "Or register to",
 	"login.loginnow": "Log in now",
-	"login.welcome": "Welcome to EXGPT",
+	"login.welcome": "Welcome to AlitaGPT",
 	"login.rememberpassword": "remember password",
 	"login.forgotpassword": "forgot password",
 	"login.retrievepassword": "Retrieve password",
@@ -287,6 +287,8 @@
 	"login.tips21": "Please select a country",
 	"login.activity_code": "invite code",
 	"login.traderPassword":"Please enter transaction password",
+	"login.traderPassword1":"Please confirm the transaction password",
+	"login.traderPassword2":"The transaction password entered twice is inconsistent",
 
 	"user.asset.details.index.asset_detail": "asset detail",
 	"user.asset.details.index.charge_record": "charge record",
@@ -558,6 +560,7 @@
 	"user.con_detail.i45": "Points are being redeemed for you...",
 	"user.con_detail.i46": "Recharging for you...",
 	"user.con_detail.i47": "Withdrawing money for you...",
+	"user.con_detail.i48": "Create contracts to get more benefits",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 

@@ -79,7 +79,34 @@
 						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
 				</view>
-				<view class="widgtthree">
+				<view class="market_monitor">行情监测</view>
+				<u-row class="row_one" justify="space-between">
+					<u-col class="col_one" span="6" textAlign="center" justify="flex-start">
+						<view class="title">名称<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title">/成交量<image class="title_img" src="@/static/user/sort.png"></image></view>
+					</u-col>
+					<u-col  span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">最新价<image class="title_img" src="@/static/user/sort.png"></image></view>
+					</u-col>
+					<u-col  span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">涨跌幅(%)<image class="title_img" src="@/static/user/sort.png"></image></view>
+					</u-col>
+				</u-row>
+				<u-row class="row_one" justify="space-between">
+					<u-col span="6" textAlign="center" justify="flex-start">
+						<view class="title"><text class="currency">BTC</text><text class="usdt">/USDT</text><text class="multiple">10x</text></view>
+						<view class="transaction_volume">成交额9.25亿</view>
+					</u-col>
+					<u-col  span="3" textAlign="right" justify="flex-end">
+						<view class="price_one">37777</view>
+						<view class="price_two">￥2666222</view>
+					</u-col>
+					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
+						<view class="chg">+111%</view>
+					</u-col>
+				</u-row>
+				
+				<!-- <view class="widgtthree">
 					<view class="newwidgtthree">
 						<view class="shouyilv">{{$t('ac.pic1')}}:</view>
 						<view class="redbfb">525.43% <image class="redbfb_img" src="@/static/market/marketqushi.png">
@@ -131,7 +158,7 @@
 							</view>
 						</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<Footer pageName='market'></Footer>
@@ -821,6 +848,109 @@
 							margin-top: 16px;
 						}
 					}
+				}
+				.market_monitor{
+					margin-top: 16px;
+					margin-bottom: 13px;
+					font-size: 22px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #00070F;
+				}
+				.row_one{
+					margin-bottom: 16px;
+					.col_one{
+						display: flex;
+						flex-direction: row;
+					}
+					
+					.title{
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #949494;
+						display: flex;
+						align-items: center;
+						.title_img{
+							width: 14px;
+							height: 14px;
+						}
+					}
+					.title_one{
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #949494;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+						.title_img{
+							width: 14px;
+							height: 14px;
+						}
+					}
+					.currency{
+						font-size: 14px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 500;
+						color: #00070F;
+					}
+					.usdt{
+						font-size: 11px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+					.multiple{
+						display: inline-block;
+						width: 24px;
+						height: 16px;
+						background: #F7F7F7;
+						border-radius: 1px 1px 1px 1px;
+						font-size: 10px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #FFD220;
+						line-height: 16px;
+						text-align: center;
+						margin-left: 8px;
+					}
+					.transaction_volume{
+						font-size: 11px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+						text-align: left;
+					}
+					.price_one{
+						font-size: 14px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #9FA19F;
+					}
+					.price_two{
+						font-size: 10px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+					.col_last{
+						display: flex;
+						flex-direction: row;
+					}
+					.chg{
+						width: 78px;
+						height: 35px;
+						background: #2EBD85;
+						color: #fff;
+						border-radius: 3px 3px 3px 3px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+				.row_one:last-child{
+					margin-bottom: 30px;
 				}
 
 				.widgtthree {

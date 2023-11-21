@@ -8,7 +8,7 @@ export default {
 		loading: [],
 		version: '',
 		unread_msg_amount: 0,
-		pageShow:false
+		pageShow:true
 	},
 
 	mutations: {
