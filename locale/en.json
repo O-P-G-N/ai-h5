@@ -168,6 +168,15 @@
 	"ac.prc25": "Copied successfully!",
 	"ac.prc26": "Maximum daily income",
 	"ac.prc27": "Give away points",
+	"ac.prc28":"Market monitoring",
+	"ac.prc29":"name",
+	"ac.prc30":"Volume",
+	"ac.prc31":"Latest price",
+	"ac.prc32":"Quote change",
+	"ac.prc33":"Turnover",
+	"ac.prc34":"Ten thousand",
+	"ac.prc35":"100 million",
+	"ac.prc36":"trillions",
 
 	"pa.prc1": "Upgrade training",
 	"pa.prc2": "I am your exclusive partner Alita, at your service. I'm available to answer questions, provide information, and even chat with you, so feel free to ask me",
@@ -561,6 +570,15 @@
 	"user.con_detail.i46": "Recharging for you...",
 	"user.con_detail.i47": "Withdrawing money for you...",
 	"user.con_detail.i48": "Create contracts to get more benefits",
+	"user.con_detail.i49": "Not good enough",
+	"user.con_detail.i50": "Reach next level",
+	"user.con_detail.i51": "Enjoy membership benefits",
+	"user.con_detail.i52": "securities",
+	"user.con_detail.i53": "cryptocurrency",
+	"user.con_detail.i54": "grade",
+	"user.con_detail.i55": "Recharge amount",
+	"user.con_detail.i56": "Contract running days",
+	"user.con_detail.i56": "Maximum daily income",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 

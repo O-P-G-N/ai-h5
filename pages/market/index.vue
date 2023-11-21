@@ -13,7 +13,7 @@
 			<view class="main">
 				<u-navbar :fixed="false" height="53px" :safeAreaInsetTop="false">
 					<view class="u-nav-slot" slot="left">
-						<image class="head_back_img" src="@/static/market/marketlogo.png" mode=""></image>
+						<image class="head_back_img" src="@/static/market/logo.png" mode=""></image>
 					</view>
 				</u-navbar>
 				<view class="justcard">
@@ -79,26 +79,26 @@
 						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
 				</view>
-				<view class="market_monitor">行情监测</view>
+				<view class="market_monitor">{{$t("ac.prc28")}}</view>
 				<u-row class="row_one" justify="space-between">
 					<u-col class="col_one" span="6" textAlign="center" justify="flex-start">
-						<view class="title">名称<image class="title_img" src="@/static/user/sort.png"></image></view>
-						<view class="title">/成交量<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title">{{$t("ac.prc29")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title">/{{$t("ac.prc30")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
 					</u-col>
 					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="title_one">最新价<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title_one">{{$t("ac.prc31")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
 					</u-col>
 					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="title_one">涨跌幅(%)<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title_one">{{$t("ac.prc32")}}(%)<image class="title_img" src="@/static/user/sort.png"></image></view>
 					</u-col>
 				</u-row>
 				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
 					<u-col span="6" textAlign="center" justify="flex-start">
-						<view class="title"><text class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text class="usdt">/USDT</text><text class="multiple">10x</text></view>
-						<view class="transaction_volume">成交额{{Number(v.volume).toFixed(2)}}</view>
+						<view class="title"><text class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text class="usdt">/USDT</text></view>
+						<view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}</view>
 					</u-col>
 					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="price_one">{{Number(v.lastPrice).toFixed(2)}}</view>
+						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
 					</u-col>
 					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
 						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%</view>
@@ -319,11 +319,32 @@
 					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
 					method: "GET",
 					success: (res) => {
+						res.data.map((v)=>{
+							v.quoteVolume=this.bigNumberTransform(v.quoteVolume)
+						})
 						this.exponentList=res.data;
-						console.log(res.data[0].symbol.slice(0,res.data[0].symbol.indexOf("U")));
+						console.log(this.exponentList);
 					},
 				})
 			},
+			bigNumberTransform (value) {
+			  let param = {};
+			  let k = 10000,
+			  sizes = ['', this.$t("ac.prc34"), this.$t("ac.prc35"), this.$t("ac.prc36")],
+			  i;
+			  if(value < k){
+			      param.value =value.toFixed(2)
+			      param.unit=''
+			  }else{
+			      i = Math.floor(Math.log(value) / Math.log(k)); 
+			      param.value = ((value / Math.pow(k, i))).toFixed(2);
+			      param.unit = sizes[i];
+			  }
+			return param;
+			
+			
+			},
+
 			// 获取列表数据
 			getListData() {
 				uni.request({
@@ -686,8 +707,8 @@
 							padding-left: 18px;
 
 							.u-nav-slot {
-								width: 188rpx;
-								height: 60rpx;
+								width: 100rpx;
+								height: 100rpx;
 							}
 
 							.head_back_img {

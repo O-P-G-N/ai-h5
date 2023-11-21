@@ -8,7 +8,7 @@
 		<view class="avatar_card">
 			<view class="left_avatar">
 				<view class="t_bor_r">
-					<image class="t_bor_r_img" src="~@/static/tabbar/tx.webp" mode=""></image>
+					<image class="t_bor_r_img" src="~@/static/tabbar/tx.png" mode=""></image>
 				</view>
 			</view>
 			<view class="right_avatar">

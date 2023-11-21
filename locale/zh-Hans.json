@@ -169,6 +169,15 @@
 	"ac.prc25":"复制成功!",
 	"ac.prc26":"最大日收益",
 	"ac.prc27":"赠送积分",
+	"ac.prc28":"行情监测",
+	"ac.prc29":"名称",
+	"ac.prc30":"成交量",
+	"ac.prc31":"最新价",
+	"ac.prc32":"涨跌幅",
+	"ac.prc33":"成交额",
+	"ac.prc34":"万",
+	"ac.prc35":"亿",
+	"ac.prc36":"万亿",
 	
 	"pa.prc1":"升级训练",
 	"pa.prc2":"我是您的专属伴侣Alita,为你效劳。我可以回答问题、提供信息，甚至与你闲聊，请随时向我询问",
@@ -565,6 +574,15 @@
 	"user.con_detail.i46": "正在为您充值中...",
 	"user.con_detail.i47": "正在为您提现中...",
 	"user.con_detail.i48": "创建合约获取更多收益",
+	"user.con_detail.i49": "还差",
+	"user.con_detail.i50": "达到下一等级",
+	"user.con_detail.i51": "尊享会员权益",
+	"user.con_detail.i52": "证券",
+	"user.con_detail.i53": "加密货币",
+	"user.con_detail.i54": "等级",
+	"user.con_detail.i55": "充值数额",
+	"user.con_detail.i56": "合约运行天数",
+	"user.con_detail.i56": "最大日收益",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试"
 	

@@ -139,6 +139,7 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					z-index: 9999999999999;
 					padding: 0 10rpx;
 					.dialogue_box_text{
 						margin: 0 10rpx;

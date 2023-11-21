@@ -170,6 +170,9 @@
 					}, {
 						type: "2",
 						name: ' USDT-ERC20'
+					},{
+						type: "3",
+						name: ' USDT-BSC'
 					}]
 				],
 				tipsShow: false, //温馨提示弹窗状态

@@ -242,6 +242,7 @@
 					padding: 10px;
 					box-sizing: border-box;
 					background: linear-gradient(118deg, #2E334F 0%, #090A10 100%);
+					background-size: 400% 400%;
 					border-radius: 11px 11px 11px 11px;
 					min-width: 54px;
 					min-height: 48px;
@@ -253,6 +254,18 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					animation: glowing 5s linear normal ;
+				}
+				@keyframes glowing {
+					0%{
+						background-position: 400% 0;
+					}
+					50%{
+						background-position:200% 0;
+					}
+					100%{
+						background-position: 0 0;
+					}
 				}
 
 				.chat_show_box_center_two {

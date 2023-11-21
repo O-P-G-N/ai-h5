@@ -22,7 +22,7 @@
 		<view class="divider">
 			<view class="divider_left"></view>
 			<view class="divider_center">
-				尊享会员权益
+				{{$t("user.con_detail.i51")}}
 			</view>
 			<view class="divider_right"></view>
 		</view>
@@ -36,7 +36,7 @@
 					<view class="title">等级</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">信用积分</view>
+					<view class="title">充值数额</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
 					<view class="title">合约运行天数</view>
@@ -70,7 +70,7 @@
 					<view class="title">等级</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">信用积分</view>
+					<view class="title">充值数额</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
 					<view class="title">合约运行天数</view>
@@ -224,7 +224,7 @@
 			}
 
 			.divider_left {
-				width: calc((100% - 145px)/2);
+				width: 84px;
 				height: 1px;
 				background: linear-gradient(270deg, #A8A7BE 0%, rgba(168, 167, 190, 0) 100%);
 				border-radius: 100px 100px 100px 100px;
@@ -232,7 +232,7 @@
 			}
 
 			.divider_right {
-				width: calc((100% - 145px)/2);
+				width: 84px;
 				// width: 84px;
 				height: 1px;
 				background: linear-gradient(90deg, #A8A7BE 0%, rgba(168, 167, 190, 0) 100%);
