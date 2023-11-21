@@ -9,14 +9,14 @@
 			<image class="level_img"
 				:src="myInfo.vip==1?'../../static/user/ve.png':myInfo.vip==2?'../../static/user/vd.png':myInfo.vip==3?'../../static/user/vc.png':myInfo.vip==4?'../../static/user/vb.png':myInfo.vip==5?'../../static/user/va.png':myInfo.vip==6?'../../static/user/vs.png':''">
 			</image>
-			<u-line-progress activeColor="#B1B3FF" inactiveColor="#46465A" :percentage="30"
+			<u-line-progress activeColor="#B1B3FF" inactiveColor="#46465A" :percentage="amountPropes"
 				:showText="false"></u-line-progress>
 			<view class="required_value">
-				<view class="">1111</view>
-				<view class="">3333</view>
+				<view class="">{{amountMin}}</view>
+				<view class="">{{amountMax}}</view>
 			</view>
 			<view class="difference_value">
-				还差<text style="font-size: 20px;margin-left: 5px; margin-right: 5px;">20233</text>达到下一等级
+				还差<text style="font-size: 20px;margin-left: 5px; margin-right: 5px;">{{amountSum}}</text>达到下一等级
 			</view>
 		</view>
 		<view class="divider">
@@ -45,18 +45,20 @@
 					<view class="title">最大日收益</view>
 				</u-col>
 			</u-row>
-			<u-row class="row_two">
+			<u-row class="row_two" v-for="(v,i) in securityList" :key="i">
 				<u-col span="2" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">
+						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}
+					</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{v.amount}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{v.days}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{Number(v.bili)*100}}%</view>
 				</u-col>
 			</u-row>
 		</view>
@@ -79,18 +81,20 @@
 					<view class="title">最大日收益</view>
 				</u-col>
 			</u-row>
-			<u-row class="row_two">
+			<u-row class="row_two" v-for="(v,i) in currencyList" :key="i">
 				<u-col span="2" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">
+						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}
+					</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{v.amount}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{v.days}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="text">11</view>
+					<view class="text">{{Number(v.bili)*100}}%</view>
 				</u-col>
 			</u-row>
 		</view>
@@ -102,6 +106,12 @@
 		data() {
 			return {
 				myInfo: {}, //我的信息
+				securityList: [], //证券列表
+				currencyList: [], //货币列表
+				amountMax:"",//下一等级
+				amountMin:0,//上一等级
+				amountPropes:0,//进度条
+				amountSum:0,//历史充值金额
 			};
 		},
 		onShow() {
@@ -115,15 +125,48 @@
 				});
 			},
 			// 获取我的信息
-			getMyInfo() {
-				uni.request({
+			async getMyInfo() {
+				await uni.request({
 					url: '/member/myWallet',
 					method: "GET",
 					success: (res) => {
 						this.myInfo = res.data;
 					}
 				});
-
+				this.securityList = [];
+				this.currencyList = []
+				await uni.request({
+					url: '/island/vip-rules',
+					method: "GET",
+					success: (res) => {
+						res.data.lists.map((v) => {
+							if (v.type == 1) {
+								this.securityList.push(v);
+								this.securityList = this.securityList.sort(function(a, b) {
+									return (a.vip - b.vip)
+								});
+								
+							} else {
+								this.currencyList.push(v);
+								this.currencyList = this.currencyList.sort(function(a, b) {
+									return (a.vip - b.vip)
+								});
+							}
+						})
+						this.securityList.map((e) => {
+							if (e.amount > this.amountMin) {
+								if (this.amountMax=="") {
+									this.amountMax = e.amount
+								}
+							} else {
+								this.amountMin = e.amount
+							}
+							
+						})
+						this.amountSum=this.amountMax-res.data.sum;
+						this.propes=(this.amountSum-this.amountMin)/this.amountMax
+					}
+				});
 			},
 		}
 	}
@@ -285,11 +328,13 @@
 					color: #FBFAFF;
 					background: rgba(255, 255, 255, 0.08);
 				}
-				
+
 			}
-			.row_two{
+
+			.row_two {
 				height: 26px;
-				.text{
+
+				.text {
 					height: 26px;
 					line-height: 26px;
 					font-size: 12px;
@@ -297,9 +342,11 @@
 					font-weight: 400;
 					color: #FBFAFF;
 				}
-				.text:nth-child(2n){
-					background: rgba(255,255,255,0.12);
-				}
+
+			}
+
+			.row_two:nth-child(2n) {
+				background: rgba(255, 255, 255, 0.12);
 			}
 		}
 	}

@@ -27,6 +27,14 @@
 							:value="statusInfo.nickName?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
 							:is-link="true" @click="setNickName">
 						</u-cell>
+						<u-cell :title="$t('user.islands.sc.sn.i6')"
+							:value="statusInfo.phone?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
+							:is-link="true" @click="setPhone">
+						</u-cell>
+						<u-cell :title="$t('user.islands.sc.sn.i7')"
+							:value="statusInfo.email?$t('user.islands.sc.idx.i2'):$t('user.islands.sc.idx.i3')"
+							:is-link="true" @click="setEmail">
+						</u-cell>
 					</u-cell-group>
 				</view>
 			</view>
@@ -104,6 +112,18 @@
 						url: `/pages/user/securitycenter/settingName`
 					});
 				}
+			},
+			// 设置手机号
+			setPhone(){
+				uni.navigateTo({
+					url: `/pages/user/securitycenter/setPhone`
+				});
+			},
+			// 设置邮箱号
+			setEmail(){
+				uni.navigateTo({
+					url: `/pages/user/securitycenter/setEmail`
+				});
 			},
 			// 退出登录
 			outLogin() {

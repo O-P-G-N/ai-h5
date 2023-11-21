@@ -110,14 +110,7 @@
 				]
 			}
 		},
-		onLoad() {
-			let systemInfo = uni.getSystemInfoSync();
-			this.systemLocale = systemInfo.language;
-			this.applicationLocale = uni.getLocale();
-			uni.onLocaleChange((e) => {
-				this.applicationLocale = e.locale;
-			})
-
+		created() {
 			this.sdk = new MetaMaskSDK({
 				dappMetadata: {
 					url: window.location.href,
@@ -133,35 +126,61 @@
 					enabled: true,
 				},
 			});
-			this.sdk?.init().then(() => {
-				this.provider = this.sdk?.getProvider();
-				// Chain changed
-				this.provider?.on("chainChanged", (chain) => {
-					console.log(`App::Chain changed:'`, chain);
-					this.chainId = chain;
-				});
+		},
+		async onLoad() {
+			let systemInfo = uni.getSystemInfoSync();
+			this.systemLocale = systemInfo.language;
+			this.applicationLocale = uni.getLocale();
+			uni.onLocaleChange((e) => {
+				this.applicationLocale = e.locale;
+			})
 
-				// Accounts changed
-				this.provider?.on("accountsChanged", (accounts) => {
-					console.log(`App::Accounts changed:'`, accounts);
-					this.account = accounts[0];
-				});
+			if (uni.getSystemInfoSync().deviceType == "phone") {
+				// this.sdk = new MetaMaskSDK({
+				// 	dappMetadata: {
+				// 		url: window.location.href,
+				// 		name: 'MetaMask VueJS Example Dapp',
+				// 	},
+				// 	// useDeeplink: true,
+				// 	enableDebug: true,
+				// 	checkInstallationImmediately: false,
+				// 	logging: {
+				// 		developerMode: true,
+				// 	},
+				// 	i18nOptions: {
+				// 		enabled: true,
+				// 	},
+				// });
+				await this.sdk?.init().then(() => {
+					this.provider = this.sdk?.getProvider();
+					// Chain changed
+					this.provider?.on("chainChanged", (chain) => {
+						console.log(`App::Chain changed:'`, chain);
+						this.chainId = chain;
+					});
 
-				// Connected event
-				this.provider?.on('connect', (_connectInfo) => {
-					console.log(`App::connect`, _connectInfo);
-					this.onConnect();
-					this.connected = true;
-				});
+					// Accounts changed
+					this.provider?.on("accountsChanged", (accounts) => {
+						console.log(`App::Accounts changed:'`, accounts);
+						this.account = accounts[0];
+					});
 
-				// Disconnect event
-				this.provider?.on('disconnect', (error) => {
-					console.log(`App::disconnect`, error);
-					this.connected = false;
-				});
+					// Connected event
+					this.provider?.on('connect', (_connectInfo) => {
+						console.log(`App::connect`, _connectInfo);
+						this.onConnect();
+						this.connected = true;
+					});
 
-				this.availableLanguages = this.sdk?.availableLanguages ?? ['en']
-			});
+					// Disconnect event
+					this.provider?.on('disconnect', (error) => {
+						console.log(`App::disconnect`, error);
+						this.connected = false;
+					});
+
+					this.availableLanguages = this.sdk?.availableLanguages ?? ['en']
+				});
+			}
 		},
 		methods: {
 			//手机登录
@@ -200,9 +219,10 @@
 
 				uni.$u.toast(this.$t("login.tips17"));
 			},
-			loginItemMeta() {
+			async onConnect() {
+				console.log(789);
 				try {
-					const res = this.provider.request({
+					const res = await this.provider.request({
 						method: 'eth_requestAccounts',
 						params: [],
 					});
@@ -212,8 +232,48 @@
 					this.lastResponse = "";
 					this.chainId = this.provider.chainId;
 				} catch (e) {
+					console.log(987);
 					console.log('request accounts ERR', e);
 				}
+			},
+			async loginItemMeta() {
+				try {
+					const signResult = await this.sdk?.connectAndSign({
+						msg: 'Connect + Sign message'
+					});
+					// this.result = signResult;
+					uni.request({
+						url: '/nt/externalLogin',
+						method: "POST",
+						data: {addr:signResult},
+						success: (res) => {
+
+						},
+					})
+
+
+				} catch (err) {
+					this.errorStr = err
+					console.warn(`failed to connect..`, err);
+				}
+				// console.info("----------------",result);
+
+
+				// try {
+				// 	// 请求用户签名消息
+				// 	const message = 'Hello, Metamask!';
+				// 	const accounts = await ethereum.request({
+				// 		method: 'eth_requestAccounts'
+				// 	});
+				// 	const signature = await ethereum.request({
+				// 		method: 'personal_sign',
+				// 		params: [message, accounts[0]],
+				// 	});
+				// 	console.log('Message:', message);
+				// 	console.log('Signature:', signature);
+				// } catch (error) {
+				// 	console.error('Error signing message:', error);
+				// }
 			},
 			// 邮箱登录
 			emailLogin() {

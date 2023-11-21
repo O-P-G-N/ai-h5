@@ -14,7 +14,7 @@
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
 				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
-					<text>{{myInfo.nickName}}</text>
+					<text class="nick_name">{{myInfo.nickName}}</text>
 					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
 				</view>
 			</view>
@@ -62,8 +62,8 @@
 					</view>
 				</view>
 			</view>
-			<u-sticky class="sticky_search"><u-search @custom="searchFrom" animation :placeholder="tips11"
-					v-model="from.keyword" :actionText="tips12"></u-search></u-sticky>
+			<u-search class="sticky_search" @clear="clearFrom" @custom="searchFrom" animation :placeholder="tips11"
+					v-model="from.keyword" :actionText="tips12"></u-search>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
@@ -102,7 +102,7 @@
 		<view class="smegma" v-if="tipsShow">
 			<view class="title_top">
 				<image class="title_top_img" src="@/static/index/title_top_img.png" mode=""></image>
-				<view class="title_top_text">将EXGPT添加至桌面，即可领取10积分</view>
+				<view class="title_top_text">将AlitaGPT添加至桌面，即可领取10积分</view>
 			</view>
 			<view class="title_bottom">
 				<view class="title_bottom_top">点击下方工具栏上的<image class="title_bottom_top_img"
@@ -115,7 +115,8 @@
 				<view class="title_bottom_foot">
 					<button class="title_bottom_foot_left">取消</button>
 					<view class="btn_box">
-						<button class="title_bottom_foot_right">确定</button><image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
+						<button class="title_bottom_foot_right">确定</button>
+						<image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
 					</view>
 				</view>
 			</view>
@@ -128,7 +129,7 @@
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue'),
-			
+
 		},
 		data() {
 			return {
@@ -146,11 +147,11 @@
 				content: "", //提示框内容
 				setIndex: null, //设置索引
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
-				tipsShow:false,//pwa提示
-				tips11:this.$t("index.tips11"), //搜索画面描述国际化
-				tips12:this.$t("index.tips12"), //搜索国际化
-				pageShow:null,//
-				myInfo:{},//人员信息
+				tipsShow: false, //pwa提示
+				tips11: this.$t("index.tips11"), //搜索画面描述国际化
+				tips12: this.$t("index.tips12"), //搜索国际化
+				pageShow: null, //
+				myInfo: {}, //人员信息
 			}
 		},
 		computed: {
@@ -226,7 +227,7 @@
 		},
 		onShow() {
 			this.getImgList();
-			// this.getAccountIsComplete()
+			this.getAccountIsComplete()
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -242,7 +243,24 @@
 			},
 			// 搜索
 			searchFrom(val) {
-				console.log(777);
+				this.from.pageNum = 1;
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.pagenum = Math.ceil(res.data.total / 10);
+						console.log(this.pagenum);
+						this.constenList = res.data.rows;
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 300
+						});
+					}
+				});
+			},
+			// 清除
+			clearFrom(){
 				this.from.pageNum = 1;
 				uni.request({
 					url: `/workImage/list`,
@@ -272,19 +290,22 @@
 					method: "GET",
 					success: (res) => {
 						if (res.code == 200) {
-							if (!res.data.withdrawPassword) {
+							if (!res.data.phone) {
 								this.show = true;
-								this.setIndex = 2;
-								this.content = this.$t("model.tips1")
-							} else if (!res.data.question) {
-								this.show = true;
-								this.setIndex = 1;
-								this.content = this.$t("model.tips2")
-							} else if (!res.data.nickName) {
-								this.show = true;
-								this.setIndex = 0;
-								this.content = this.$t("model.tips3")
 							}
+							// if (!res.data.withdrawPassword) {
+							// 	this.show = true;
+							// 	this.setIndex = 2;
+							// 	this.content = this.$t("model.tips1")
+							// } else if (!res.data.question) {
+							// 	this.show = true;
+							// 	this.setIndex = 1;
+							// 	this.content = this.$t("model.tips2")
+							// } else if (!res.data.nickName) {
+							// 	this.show = true;
+							// 	this.setIndex = 0;
+							// 	this.content = this.$t("model.tips3")
+							// }
 						}
 					}
 				});
@@ -297,22 +318,22 @@
 			},
 			// 设置完整性判断
 			setConfirm() {
-				if (this.setIndex == 0) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/settingName`
-					});
-				} else if (this.setIndex == 1) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/Confidentiality`
-					});
-				} else if (this.setIndex == 2) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/fundeditpass`
-					});
-				}
+				// if (this.setIndex == 0) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/settingName`
+				// 	});
+				// } else if (this.setIndex == 1) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/Confidentiality`
+				// 	});
+				// } else if (this.setIndex == 2) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/fundeditpass`
+				// 	});
+				// }
 			},
 			// 选择语言
 			selectLang() {
@@ -324,7 +345,10 @@
 			},
 			// 社区
 			communityBtn() {
-				uni.$u.toast('社区功能暂未开放');
+				// uni.$u.toast('社区功能暂未开放');
+				uni.switchTab({
+					url: `/pages/user/index`
+				});
 			},
 			getImgList() {
 				uni.request({
@@ -476,12 +500,19 @@
 					margin-right: 10rpx;
 				}
 
-				text {
+				.nick_name {
 					display: inline-block;
 					color: #fff;
 					font-size: 14px;
 					font-weight: bold;
 					line-height: 1;
+					width: 54px;
+					white-space: nowrap;
+					/*不换行强制文本在一行显示*/
+					overflow: hidden;
+					/*超出盒子宽度部分文字被隐藏*/
+					text-overflow: ellipsis
+						/*当文本溢出包含元素时发生的事情 ellipsis*/
 				}
 
 				.homejiantou {
@@ -626,7 +657,7 @@
 			background-color: #fff !important;
 			padding: 10rpx;
 			box-sizing: border-box;
-			margin-top: 20px;
+			margin-top: 20px !important;
 		}
 
 		.tabselect {
@@ -839,10 +870,12 @@
 					align-items: center;
 					justify-content: center;
 				}
-				.btn_box{
+
+				.btn_box {
 					position: relative;
 					width: 45%;
 					height: 48px;
+
 					.title_bottom_foot_right {
 						width: 100%;
 						height: 100%;
@@ -855,18 +888,19 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						
+
 					}
-					.title_bottom_foot_right_img{
+
+					.title_bottom_foot_right_img {
 						position: absolute;
 						right: -6px;
-						top:-12px;
+						top: -12px;
 						z-index: 11111111;
 						width: 65px;
 						height: 23px;
 					}
 				}
-				
+
 
 				uni-button:after {
 					border: none;

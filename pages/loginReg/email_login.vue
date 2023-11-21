@@ -3,7 +3,7 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="typeEmail" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
-			<view class="title_h1">EXGPT</view>
+			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
