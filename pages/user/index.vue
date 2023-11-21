@@ -18,7 +18,7 @@
 		<view class="user_head_right">
 			<image src="@/static/user/set.png" class="user_head_right_set" @click="securityCenter" mode=""></image>
 			<view class="user_head_right_content" @click="viewNotices">
-				<u-badge :offset="[0, -3]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+				<u-badge :offset="[0, -1]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
 					type="error"></u-badge>
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
@@ -478,14 +478,14 @@
 			top: 15px;
 			z-index: 99;
 			.user_head_right_set{
-				width: 40rpx;
-				height: 40rpx;
+				width: 60rpx;
+				height:60rpx;
 			}
 
 			.user_head_right_content {
 				margin-left: 48rpx;
-				width: 40rpx;
-				height: 40rpx;
+				width: 64rpx;
+				height: 64rpx;
 				border-radius: 20px;
 				display: flex;
 				align-items: center;
@@ -493,8 +493,8 @@
 				position: relative;
 
 				.user_head_right_content_img {
-					width: 40rpx;
-					height: 40rpx;
+					width: 60rpx;
+					height: 60rpx;
 				}
 			}
 		}

@@ -147,6 +147,7 @@
 </template>
 
 <script>
+	import currency from "currency.js"
 	export default {
 		data() {
 			return {
@@ -251,7 +252,9 @@
 				if (Number(val.detail.value) - Number(this.commissionRate) < 0) {
 					this.realityAmount = 0
 				} else {
-					this.realityAmount = Number(val.detail.value) - Number(this.commissionRate)
+					
+					// this.realityAmount = Number() - Number()
+					this.realityAmount = currency(val.detail.value).subtract(this.commissionRate).value;
 				}
 			},
 			// 关闭弹窗
@@ -475,6 +478,7 @@
 			}
 
 			.code_content {
+				flex: 1;
 				.uni-input-placeholder {
 					text-align: end;
 					color: rgb(192, 196, 204);

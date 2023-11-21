@@ -13,7 +13,7 @@
 			<view class="main">
 				<u-navbar :fixed="false" height="53px" :safeAreaInsetTop="false">
 					<view class="u-nav-slot" slot="left">
-						<image class="head_back_img" src="@/static/market/logo.png" mode=""></image>
+						<image class="head_back_img" src="@/static/market/market_logo.png" mode=""></image>
 					</view>
 				</u-navbar>
 				<view class="justcard">
@@ -681,16 +681,16 @@
 					border-radius: 21px;
 
 					.mailright {
-						width: 20px;
-						height: 20px;
+						width: 60rpx;
+						height: 60rpx;
 						position: relative;
 						display: flex;
 						align-items: center;
 						justify-content: center;
 
 						.mailright_img {
-							width: 20px;
-							height: 20px;
+							width: 60rpx;
+							height: 60rpx;
 						}
 					}
 				}
@@ -704,11 +704,11 @@
 						height: 53px !important;
 
 						.u-navbar__content__left {
-							padding-left: 18px;
+							padding-left: 0px;
 
 							.u-nav-slot {
-								width: 100rpx;
-								height: 100rpx;
+								width: 96px;
+								height: 30px;
 							}
 
 							.head_back_img {
