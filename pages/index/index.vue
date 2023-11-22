@@ -50,7 +50,7 @@
 			<view class="aicreate">
 				<view class="heard">
 					<view class="heard_left">
-						<image class="homecs" src="~@/static/index/homecs.webp"></image>
+						<image class="homecs" src="~@/static/index/homecs.png"></image>
 						<text>{{$t('index.ai.creation')}}</text>
 						<view class="rightyishu">
 							<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
@@ -95,12 +95,14 @@
 				</template>
 				<template v-else-if="constenList.length==0&&constenShow">
 					<view class="data_none">
-						<u-empty :text="$t('index.tips21')" mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png">
+						<u-empty :text="$t('index.tips21')" mode="data"
+							icon="http://cdn.uviewui.com/uview/empty/data.png">
 						</u-empty>
 					</view>
 				</template>
 			</view>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')"
+				:status="status" />
 			<Footer pageName='index'></Footer>
 		</view>
 		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
@@ -119,16 +121,22 @@
 					<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>
 					“{{$t("index.tips16")}}”，{{$t("index.tips17")}}
 				</view>
-				<image class="title_bottom_body" src="@/static/index/paw_2.png" mode=""></image>
+				<image class="title_bottom_body" v-if="$store.getters.languageType==1" src="@/static/index/paw_2.png"
+					mode=""></image>
+				<image class="title_bottom_body" v-if="$store.getters.languageType==0" src="@/static/index/paw_2_1.png"
+					mode=""></image>
 				<view class="title_bottom_foot">
 					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
 					<view class="btn_box">
 						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
-						<image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==1"
+							src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_imgs" v-if="$store.getters.languageType==0"
+							src="@/static/index/paw_4_1.png"></image>
 					</view>
 				</view>
 			</view>
-			<view class="title_bottoms" v-if="deviceType=='android'">
+			<view class="s" v-if="deviceType=='android'">
 				<view class="title_bottom_tops">{{$t("index.tips20")}}
 				</view>
 				<view class="title_bottom_heads">
@@ -142,7 +150,10 @@
 					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
 					<view class="btn_box">
 						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
-						<image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==1"
+							src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==0"
+							src="@/static/index/paw_4_1.png"></image>
 					</view>
 				</view>
 			</view>
@@ -256,6 +267,12 @@
 		onShow() {
 			this.getImgList();
 			this.getAccountIsComplete();
+			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+				this.$store.commit('app/judgLanguage', 1)
+			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+				this.$store.commit('app/judgLanguage', 0)
+			}
+
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -435,6 +452,11 @@
 				uni.setLocale(e.code);
 				this.$i18n.locale = e.code;
 				this.from.pageNum = 1;
+				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+					this.$store.commit('app/judgLanguage', 1)
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					this.$store.commit('app/judgLanguage', 0)
+				}
 				this.getImgList();
 			},
 			loadMore() {
@@ -867,7 +889,7 @@
 			}
 
 			.title_top_text {
-				font-size: 15px;
+				font-size: 12px;
 				font-family: PingFang SC, PingFang SC;
 				font-weight: bold;
 				color: #00070F;
@@ -966,6 +988,14 @@
 						top: -12px;
 						z-index: 11111111;
 						width: 65px;
+						height: 23px;
+					}
+					.title_bottom_foot_right_imgs{
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 78px;
 						height: 23px;
 					}
 				}
@@ -1070,6 +1100,14 @@
 						top: -12px;
 						z-index: 11111111;
 						width: 65px;
+						height: 23px;
+					}
+					.title_bottom_foot_right_imgs{
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 78px;
 						height: 23px;
 					}
 				}

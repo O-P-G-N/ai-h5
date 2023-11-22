@@ -24,7 +24,7 @@
 				<!-- <view class="copy-btn" @click="copyFn">复制视频链接</view> -->
 				<ai-button :btnHeight="'62px'" :color="'#fff'" :bg="'#333'" class="copy-btn" @click="copyVideoLink(v.address)">{{$t("index.copyvideolink")}}</ai-button>
 			</view>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 		</view>
 	</view>
 </template>

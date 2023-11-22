@@ -55,9 +55,9 @@
 			</view>
 		</view>
 		<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
-		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">立即兑换</ai-button>
+		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">{{$t("user.capital_flow.i26")}}</ai-button>
 		<!-- <button class="ljdh" @click="redeemNow"></button> -->
-		<view class="tuiguang">
+		<!-- <view class="tuiguang">
 			<view>
 				<view class="title">{{$t('user.capital_flow.i27')}}</view>
 				<view class="neirong">{{$t('user.capital_flow.i28')}}</view>
@@ -67,7 +67,7 @@
 				<image src="@/static/user/weiks.png" mode=""></image>
 			</view>
 			<view class="zwkf">{{$t('user.capital_flow.i30')}}</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 

@@ -8,12 +8,15 @@
 		<view class="container_nei">
 			<view class="main">
 				<u-cell-group :border="false">
-					<u-cell >
+					<u-cell>
 						<view slot="value" class="email_content">
-							<u-input :placeholder="$t('login.enteremail')" class="email_content_text" v-model="from.email">
+							<u-input :placeholder="$t('login.enteremail')" class="email_content_text"
+								v-model="from.email">
 								<view slot="suffix" class="email_content_btn">
-									<u-code unique-key="editpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode" @change="codeChange"
-										:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text @click="getCode">{{tips}}</text>
+									<u-code unique-key="editpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"
+										@change="codeChange"
+										:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text
+										@click="getCode">{{tips}}</text>
 								</view>
 							</u-input>
 						</view>
@@ -54,18 +57,18 @@
 			},
 			// 获取验证码
 			getCode() {
-				if(this.from.email!=""){
+				if (this.from.email != "") {
 					if (this.$refs.uCode.canGetCode) {
+					this.$refs.uCode.start();
 						uni.request({
 							url: `/aicommon/sendCode`,
 							method: "GET",
 							data: {
 								type: 2,
-								to:this.from.email
+								to: this.from.email
 							},
 							success: (res) => {
 								if (res.code == 200) {
-									this.$refs.uCode.start();
 									uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 								}
 							}
@@ -73,34 +76,34 @@
 					} else {
 						uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 					}
-				}else{
+				} else {
 					uni.$u.toast(this.$t('login.enteremail'));
 				}
-				
+
 			},
 			// 提示语
 			codeChange(text) {
 				this.tips = text;
 			},
 			// 立即绑定
-			ConfMod(){
-				if(this.from.email==""){
+			ConfMod() {
+				if (this.from.email == "") {
 					uni.$u.toast(this.$t('login.enteremail'));
 					return
-				}else if(this.from.code==""){
+				} else if (this.from.code == "") {
 					uni.$u.toast(this.$t('user.islands.sc.edp.i61'));
 					return;
-				}else{
-					this.loading=true
-					this.btnDisabled=true;
+				} else {
+					this.loading = true
+					this.btnDisabled = true;
 					uni.request({
 						url: `/member/bindEmail`,
 						method: "GET",
-						data:  this.from,
+						data: this.from,
 						success: (res) => {
 							if (res.code == 200) {
-								this.loading=false
-								this.btnDisabled=false;
+								this.loading = false
+								this.btnDisabled = false;
 								uni.showToast({
 									title: this.$t('user.con_detail.i61'),
 									success: function(res) {
@@ -112,9 +115,9 @@
 										}, 1000)
 									},
 								})
-							}else{
-								this.loading=false
-								this.btnDisabled=false;
+							} else {
+								this.loading = false
+								this.btnDisabled = false;
 							}
 						}
 					});
@@ -158,33 +161,34 @@
 
 			}
 		}
+
 		.container_nei {
 			padding: 21px 21px;
-		
+
 			.main {
 				.u-line {
 					display: none;
 				}
-		
+
 				.u-cell {
 					background: #f5f6fa;
 					border-radius: 17px;
 					margin-bottom: 15px;
-		
+
 					.u-cell__body {
 						width: 100%;
 						height: 62px;
 						padding: 20px 15px;
 						justify-content: space-between;
-		
+
 						.u-cell__body__content {
 							flex: unset !important;
 							margin-right: 10px;
-		
+
 							.u-cell__label {
 								margin-top: 0;
 							}
-		
+
 							.u-cell__title-text {
 								font-size: 15px;
 								line-height: 22px;
@@ -193,16 +197,16 @@
 						}
 					}
 				}
-		
+
 				.email_content {
 					width: 100%;
 					display: flex;
 					align-items: center;
-		
+
 					.email_content_text {
 						padding: 0 !important;
 					}
-		
+
 					.email_content_btn {
 						padding: 2px 5px;
 						border-radius: 10px;
@@ -215,28 +219,30 @@
 						align-items: center;
 						justify-content: center;
 					}
-		
+
 					uni-button:after {
 						border: none;
 					}
 				}
-		
+
 				.code_content {
 					width: 100%;
+
 					.uni-input-placeholder {
-						
+
 						color: rgb(192, 196, 204);
 					}
-					.u-input{
+
+					.u-input {
 						padding: 0 !important;
 					}
-		
-					
-		
-					
+
+
+
+
 				}
-		
-		
+
+
 				.editpassbtn {
 					// background: #333;
 					// height: 53px;

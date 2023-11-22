@@ -8,8 +8,8 @@
 		<view class="container_nei">
 			<view class="main">
 				<view class="inputevery_content">
-					<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone" @onChange="onChange"
-						v-model="from.countryCode"></vue-country-intl>
+					<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone"
+						@onChange="onChange" v-model="from.countryCode"></vue-country-intl>
 				</view>
 				<u-cell-group :border="false">
 					<u-cell>
@@ -47,8 +47,8 @@
 					countryCode: "", //国家
 					phone: "", //手机号
 					code: "", //验证码
-					addr:"",//地址
-					type:4,//类型
+					addr: "", //地址
+					type: 4, //类型
 				}, //表单验证
 				tips: "", //提示语
 				loading: false, //模态框按钮等待状态
@@ -56,7 +56,7 @@
 			};
 		},
 		onLoad(option) {
-			this.from.addr=option.addr;
+			this.from.addr = option.addr;
 		},
 		methods: {
 			// 返回积分查看
@@ -69,6 +69,7 @@
 			getCode() {
 				if (this.from.phone != "") {
 					if (this.$refs.uCode.canGetCode) {
+						this.$refs.uCode.start();
 						uni.request({
 							url: `/aicommon/sendCode`,
 							method: "GET",
@@ -79,9 +80,8 @@
 							},
 							success: (res) => {
 								if (res.code == 200) {
-									this.$refs.uCode.start();
 									uni.$u.countryCodeast(this.$t('user.islands.sc.edp.i15'));
-								} 
+								}
 							}
 						});
 					} else {
@@ -94,7 +94,7 @@
 			// 提示语
 			codeChange(text) {
 				this.tips = text;
-				
+
 			},
 			// 选择国家
 			onChange(selected) {
@@ -134,7 +134,7 @@
 										}, 2000)
 									},
 								})
-							}else{
+							} else {
 								this.loading = false
 								this.btnDisabled = false;
 							}

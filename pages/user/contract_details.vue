@@ -47,7 +47,8 @@
 						{{$t('user.con_detail.i24')}}：{{contractDetails.createTime}}
 					</view>
 					<view class="order_sn" v-if="contractDetails.status==0">
-						{{$t('user.con_detail.i25')}}：{{contractDetails.endTime}}
+						
+						<u-notice-bar :text="$t('user.con_detail.i25')"></u-notice-bar>：{{contractDetails.endTime}}
 					</view>
 					<view class="order_sn" v-if="contractDetails.status==2||contractDetails.status==1">
 						{{$t('user.con_detail.i26')}}：{{contractDetails.updateTime}}

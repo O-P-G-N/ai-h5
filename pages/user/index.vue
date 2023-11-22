@@ -18,7 +18,7 @@
 		<view class="user_head_right">
 			<image src="@/static/user/set.png" class="user_head_right_set" @click="securityCenter" mode=""></image>
 			<view class="user_head_right_content" @click="viewNotices">
-				<u-badge :offset="[0, -1]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+				<u-badge class="badge" :offset="[0, -1]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
 					type="error"></u-badge>
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
@@ -121,8 +121,12 @@
 			</view>
 			<image class="asset_details_right" src="@/static/user/property_img.png" mode=""></image>
 		</view>
-		<image class="ai_title" src="@/static/user/ai.png" mode=""></image>
-		<u-swiper class="swiper_list" radius="20" :list="list" keyName="address" showTitle imgMode="scaleToFill"  autoplay circular></u-swiper>
+		<view class="heard_left">
+			<image class="homecs" src="~@/static/index/homecs.png"></image>
+			<text>{{$t('index.ai.creation')}}</text>
+			
+		</view>
+		<u-swiper class="swiper_list" radius="20" :list="list" keyName="address" showTitle imgMode="widthFix"  autoplay circular></u-swiper>
 
 		<!-- <view class="justcard">
 			<view class="justcard_bottom">
@@ -238,7 +242,7 @@
 					}
 				});
 				uni.request({
-					url: `/workImage/listForUser`,
+					url: `/workImage/list`,
 					method: "POST",
 					data: {
 						keyword: "",
@@ -491,7 +495,9 @@
 				align-items: center;
 				justify-content: center;
 				position: relative;
-
+				.badge{
+					z-index: 111;
+				}
 				.user_head_right_content_img {
 					width: 60rpx;
 					height: 60rpx;
@@ -712,15 +718,32 @@
 				height: 116rpx;
 			}
 		}
-		.ai_title{
-			width: 70px;
-			height: 26px;
+		
+		.heard_left {
 			margin-top: 20px;
 			margin-bottom: 6px;
+			display: flex;
+			align-items: center;
+		
+			.homecs {
+				width: 50rpx;
+				height: 50rpx;
+			}
+		
+			text {
+				margin-left: 10rpx;
+				color: #1b1b1b;
+				font-size: 38rpx;
+				font-weight: bold;
+		
+			}
 		}
 
 		.swiper_list {
-			// height: 98px !important;
+			height: 368px !important;
+			.u-swiper__wrapper{
+				height: 368px !important;
+			}
 
 			.u-swiper__wrapper__item__wrapper__title {
 				bottom: 0px;

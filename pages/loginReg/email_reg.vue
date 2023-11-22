@@ -24,17 +24,19 @@
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.withdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword')" :password="eyeShows">
+					<u-input v-model="from.withdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword')"
+						:password="eyeShows">
 						<image @click="showHiddens" slot="suffix" class="eye"
-							:src="eyeShows?'../../static/login/close.png':'../../static/login/open.png'"
-							mode=""></image>
+							:src="eyeShows?'../../static/login/close.png':'../../static/login/open.png'" mode="">
+						</image>
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.newWithdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword1')" :password="eyeShowss">
+					<u-input v-model="from.newWithdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword1')"
+						:password="eyeShowss">
 						<image @click="showHiddenss" slot="suffix" class="eye"
-							:src="eyeShowss?'../../static/login/close.png':'../../static/login/open.png'"
-							mode=""></image>
+							:src="eyeShowss?'../../static/login/close.png':'../../static/login/open.png'" mode="">
+						</image>
 					</u-input>
 				</view>
 				<view class="inputevery">
@@ -74,7 +76,7 @@
 					code: "", //验证码
 					invitationCode: "", //邀请码
 					withdrawPassword: "", //交易密码
-					newWithdrawPassword:"",//确认交易密码
+					newWithdrawPassword: "", //确认交易密码
 				},
 				eyeShow: true, //密码显示
 				eyeShows: true, //密码显示
@@ -145,6 +147,7 @@
 					return
 				} else {
 					if (this.$refs.uCode.canGetCode) {
+						this.$refs.uCode.start();
 						uni.request({
 							url: `/aicommon/sendCode`,
 							method: "GET",
@@ -154,7 +157,6 @@
 							},
 							success: (res) => {
 								if (res.code == 200) {
-									this.$refs.uCode.start();
 									uni.$u.toast(this.$t("login.tips13"));
 								}
 							}
@@ -206,10 +208,10 @@
 				} else if (patrnss.test(this.from.withdrawPassword)) {
 					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
 					return
-				} else if (this.from.withdrawPassword!=this.from.newWithdrawPassword) {
+				} else if (this.from.withdrawPassword != this.from.newWithdrawPassword) {
 					uni.$u.toast(this.$t('login.traderPassword2'));
 					return
-				}else if (that.from.password == "") {
+				} else if (that.from.password == "") {
 					uni.showToast({
 						title: that.$t("login.tips10"),
 						icon: "none",
@@ -421,8 +423,9 @@
 						height: 21px;
 					}
 				}
-				.verify_item{
-					margin:10px 0; 
+
+				.verify_item {
+					margin: 10px 0;
 					display: flex;
 					align-items: center;
 				}

@@ -64,6 +64,7 @@
 			getCode() {
 				if (this.from.phone != "") {
 					if (this.$refs.uCode.canGetCode) {
+					this.$refs.uCode.start();
 						uni.request({
 							url: `/aicommon/sendCode`,
 							method: "GET",
@@ -74,7 +75,7 @@
 							},
 							success: (res) => {
 								if (res.code == 200) {
-									this.$refs.uCode.start();
+									
 									uni.$u.countryCodeast(this.$t('user.islands.sc.edp.i15'));
 								} 
 							}

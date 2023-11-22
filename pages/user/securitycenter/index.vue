@@ -42,7 +42,7 @@
 		<view class="login_box">
 			<view class="funlist_exit" @click="outLogin">{{$t('home.menu.logout')}}</view>
 		</view>
-		<u-modal :show="outLoginShow" @confirm="confirm" class="login_out" :title="tips" @cancel="cancel" width="300px"
+		<u-modal :show="outLoginShow" :confirmText="$t('user.con_detail.i69')" :cancelText="$t('user.con_detail.i70')" @confirm="confirm" class="login_out" :title="tips" @cancel="cancel" width="300px"
 			showCancelButton>
 			<view class="slot-content">
 				{{$t('home.confirm.logout')}}

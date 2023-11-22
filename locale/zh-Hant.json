@@ -106,6 +106,9 @@
 	"index.tips19": "確定",
 	"index.tips20": "將AlitaGPT添加到桌面上，方便下次找到，添加到桌面贈送10積分",
 	"index.tips21": "數據為空",
+	"index.tips22": "加載更多",
+	"index.tips23": "加載中...",
+	"index.tips24": "沒有數據",
 
 
 	"home.charge": "充值",
@@ -187,6 +190,8 @@
 	"ac.prc34": "萬",
 	"ac.prc35": "億",
 	"ac.prc36": "萬億",
+	"ac.prc37": "美股/A股/港股",
+	"ac.prc38": "加密貨幣TOP10",
 
 	"pa.prc1": "升級訓練",
 	"pa.prc2": "我是您的專屬伴侶Alita,為你效勞。我可以回答問題、提供資訊，甚至與你閒聊，請隨時向我詢問",
@@ -605,6 +610,8 @@
 	"user.con_detail.i66": "用AI創作圖片和視頻",
 	"user.con_detail.i67": "邀請好友一起賺錢",
 	"user.con_detail.i68": "設置你的交易安全",
+	"user.con_detail.i69": "確認",
+	"user.con_detail.i70": "取消",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試"
 

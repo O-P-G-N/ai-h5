@@ -106,6 +106,9 @@
 	"index.tips19": "Sure",
 	"index.tips20": "Add AlitaGPT to your desktop to make it easier to find it next time. Add it to your desktop to get 10 points.",
 	"index.tips21": "Data is empty",
+	"index.tips22": "load more",
+	"index.tips23": "loading...",
+	"index.tips24": "no more",
 
 	"home.charge": "charge",
 	"home.withdraw": "withdraw",
@@ -186,6 +189,8 @@
 	"ac.prc34": "Ten thousand",
 	"ac.prc35": "100 million",
 	"ac.prc36": "trillions",
+	"ac.prc37": "US sharesA shares/HK shares",
+	"ac.prc38": "Cryptocurrency TOP10",
 
 	"pa.prc1": "Upgrade training",
 	"pa.prc2": "I am your exclusive partner Alita, at your service. I'm available to answer questions, provide information, and even chat with you, so feel free to ask me",
@@ -466,7 +471,7 @@
 	"user.capital_flow.i23": "balance",
 	"user.capital_flow.i24": "acquire",
 	"user.capital_flow.i25": "give",
-	"user.capital_flow.i26": "Immediate exchange",
+	"user.capital_flow.i26": "Redeem now",
 	"user.capital_flow.i27": "Promotion Revenue (points)",
 	"user.capital_flow.i28": "Use by all your referred members",
 	"user.capital_flow.i29": "You will be rewarded with a percentage of points",
@@ -588,10 +593,10 @@
 	"user.con_detail.i51": "Enjoy VIP Benefits",
 	"user.con_detail.i52": "securities",
 	"user.con_detail.i53": "cryptocurrency",
-	"user.con_detail.i54": "grade",
+	"user.con_detail.i54": "Garde",
 	"user.con_detail.i55": "Recharge amount",
-	"user.con_detail.i56": "Contract running days",
-	"user.con_detail.i57": "Maximum daily income",
+	"user.con_detail.i56": "Run Days",
+	"user.con_detail.i57": "Max daily income",
 	"user.con_detail.i58": "Bind mobile phone",
 	"user.con_detail.i59": "Bind email",
 	"user.con_detail.i60": "Bind now",
@@ -603,6 +608,8 @@
 	"user.con_detail.i66": "Create images and videos with AI",
 	"user.con_detail.i67": "Invite friends to make money together",
 	"user.con_detail.i68": "Set up your transaction security",
+	"user.con_detail.i69": "sure",
+	"user.con_detail.i70": "cancel",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 

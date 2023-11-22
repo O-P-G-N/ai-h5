@@ -1,6 +1,7 @@
 <template>
 	<view class="phone_asswordRet">
-		<u-navbar @leftClick="goBackUser" :leftText="back" height="53px" :title="forgotpassword" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="back" height="53px" :title="forgotpassword"
+			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -31,10 +32,12 @@
 				<view class="codeinput">
 					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
 				</view>
-				<ai-button :disabled="value?false:true" class="next-btn loginbtn" @click="nextStepTwo">{{$t('login.nextstep')}}</ai-button>
-				<view class="register">{{$t('login.notreceived')}}?<u-code ref="uCode" @change="codeChange" unique-key="phone_asswordRet"
-						keep-running :start-text="retrieve" :changeText="acquire"></u-code><text class="retrieve_btn"
-						@click="getCode">{{tips}}</text></view>
+				<ai-button :disabled="value?false:true" class="next-btn loginbtn"
+					@click="nextStepTwo">{{$t('login.nextstep')}}</ai-button>
+				<view class="register">{{$t('login.notreceived')}}?<u-code ref="uCode" @change="codeChange"
+						unique-key="phone_asswordRet" keep-running :start-text="retrieve"
+						:changeText="acquire"></u-code><text class="retrieve_btn" @click="getCode">{{tips}}</text>
+				</view>
 			</view>
 		</view>
 		<view class="pageThree" v-else-if="pageIndex==2">
@@ -55,7 +58,8 @@
 				</view>
 				<view class="ps_tip">{{$t('login.tip')}}</view>
 				<ai-button class="next-btn loginbtn" @click="reset">{{$t('login.reset')}}</ai-button>
-				<view class="lx">{{$t('login.problem')}}?<text class="blur">{{$t('login.customerservice')}}</text></view>
+				<view class="lx">{{$t('login.problem')}}?<text class="blur">{{$t('login.customerservice')}}</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -81,13 +85,13 @@
 				},
 				eyeShow: true, //第一个密码状态
 				eyeShows: true, //第二个密码状态
-				back:this.$t('login.back'),//返回国际化
-				forgotpassword:this.$t('login.forgotpassword'),//忘记密码国际化
-				enterphone:this.$t('login.enterphone'),//请输入手机号国际化
-				retrieve:this.$t('login.retrieve'),//重新获取国际化
-				enterpassword:this.$t('login.enterpassword'),//请输入密码国际化
-				confirmpassword:this.$t('login.confirmpassword'),//请确认密码国际化
-				acquire:this.$t('login.acquire'),//X秒后获取国际化
+				back: this.$t('login.back'), //返回国际化
+				forgotpassword: this.$t('login.forgotpassword'), //忘记密码国际化
+				enterphone: this.$t('login.enterphone'), //请输入手机号国际化
+				retrieve: this.$t('login.retrieve'), //重新获取国际化
+				enterpassword: this.$t('login.enterpassword'), //请输入密码国际化
+				confirmpassword: this.$t('login.confirmpassword'), //请确认密码国际化
+				acquire: this.$t('login.acquire'), //X秒后获取国际化
 			};
 		},
 		created() {
@@ -142,6 +146,7 @@
 			// 重新获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
+					this.$refs.uCode.start();
 					uni.request({
 						url: '/aicommon/sendCode',
 						method: "GET",
@@ -149,7 +154,6 @@
 						success: (res) => {
 							uni.$u.toast(this.$t("login.tips2"));
 							// 通知验证码组件内部开始倒计时
-							this.$refs.uCode.start();
 						},
 					})
 
@@ -192,8 +196,8 @@
 				if (this.formData.password.length < 8) {
 					uni.$u.toast(this.$t("login.tips4"));
 					return
-				} else{
-					if(patrn.test(this.formData.password)){
+				} else {
+					if (patrn.test(this.formData.password)) {
 						if (!num.test(this.formData.password)) {
 							uni.$u.toast(this.$t("login.tips5"));
 							return
@@ -225,7 +229,7 @@
 								}
 							});
 						}
-					}else if(patrns.test(this.formData.password)){
+					} else if (patrns.test(this.formData.password)) {
 						if (!num.test(this.formData.password)) {
 							uni.$u.toast(this.$t("login.tips5"));
 							return
@@ -257,13 +261,13 @@
 								}
 							});
 						}
-					}else {
+					} else {
 						uni.$u.toast(this.$t("login.tips8"));
 						return
 					}
 				}
-				 
-				 
+
+
 			}
 		}
 	}

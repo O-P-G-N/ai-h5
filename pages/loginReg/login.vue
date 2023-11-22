@@ -242,6 +242,10 @@
 					const signResult = await this.sdk?.connectAndSign({
 						msg: 'Connect + Sign message'
 					});
+					uni.showLoading({
+						title: that.$t('user.con_detail.i37'),
+						mask: true
+					})
 					// this.result = signResult;
 					uni.request({
 						url: '/nt/externalLogin',
@@ -252,8 +256,10 @@
 								uni.navigateTo({
 									url: `/pages/loginReg/thirdPartyLogins?addr=${signResult}`
 								});
+								uni.hideLoading()
 							}else{
 								uni.setStorageSync("user", res.data)
+								uni.hideLoading()
 								uni.switchTab({
 									url: `/pages/index/index`
 								});

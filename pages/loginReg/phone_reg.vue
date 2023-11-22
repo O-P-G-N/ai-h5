@@ -7,8 +7,8 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone" @onChange="onChange"
-							v-model="countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true"
+							type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -165,6 +165,7 @@
 					return
 				} else {
 					if (this.$refs.uCode.canGetCode) {
+						this.$refs.uCode.start();
 						uni.request({
 							url: `/aicommon/sendCode`,
 							method: "GET",
@@ -175,7 +176,6 @@
 							},
 							success: (res) => {
 								if (res.code == 200) {
-									this.$refs.uCode.start();
 									uni.$u.toast(this.$t("login.tips13"));
 								}
 							}

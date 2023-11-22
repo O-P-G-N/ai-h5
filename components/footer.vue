@@ -25,7 +25,8 @@
 						<image @click.stop="clear" class="dialogue_box_img" src="@/static/tabbar/clear.png" mode=""></image>
 						<view class="triangle"></view>
 					</view>
-				<image class="robot_btn" v-if="!$store.getters.pageShow" src="@/static/tabbar/robot_btn.png" mode=""></image>
+				<image class="robot_btn" v-if="!$store.getters.pageShow&&$store.getters.languageType==0" src="../static/tabbar/robot_btn_1.png" mode=""></image>
+				<image class="robot_btn" v-if="!$store.getters.pageShow&&$store.getters.languageType==1" src="../static/tabbar/robot_btn.png" mode=""></image>
 				</view>
 			</view>
 			<view class="footer_every" @click="toPath('community')" :class="{'active':pageName=='community'}">

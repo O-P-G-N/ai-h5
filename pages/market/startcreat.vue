@@ -25,7 +25,8 @@
 					</view>
 					<view class="jiaoyimubiao">
 						<text>{{$t("ac.prc2")}}</text>
-						<text class="jiaoyimubiao_text">{{pageData.cssClass}}</text>
+						<text class="jiaoyimubiao_text" v-if="pageData.dictSort==1">{{$t("ac.prc37")}}</text>
+						<text class="jiaoyimubiao_text" v-else>{{$t("ac.prc38")}}</text>
 					</view>
 					<view class="tuoguan">{{$t("ac.prc3")}}</view>
 					<view class="transactionList">

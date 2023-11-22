@@ -4,8 +4,8 @@
 			<view class="navbers">
 				<view class="navbers_headers">
 					<view class="mailright" @click="viewNotices">
-						<u-badge :offset="[0, -3]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
-							type="error"></u-badge>
+						<u-badge class="badge" :offset="[0, -3]" :absolute="true" v-if="$store.getters.unr>0"
+							:isDot="true" type="error"></u-badge>
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
 				</view>
@@ -82,29 +82,42 @@
 				<view class="market_monitor">{{$t("ac.prc28")}}</view>
 				<u-row class="row_one" justify="space-between">
 					<u-col class="col_one" span="6" textAlign="center" justify="flex-start">
-						<view class="title">{{$t("ac.prc29")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
-						<view class="title">/{{$t("ac.prc30")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
+						<view class="title">{{$t("ac.prc29")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
+						<view class="title">/{{$t("ac.prc30")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
 					</u-col>
-					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="title_one">{{$t("ac.prc31")}}<image class="title_img" src="@/static/user/sort.png"></image></view>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">{{$t("ac.prc31")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
 					</u-col>
-					<u-col  span="3" textAlign="right" justify="flex-end">
-						<view class="title_one">{{$t("ac.prc32")}}(%)<image class="title_img" src="@/static/user/sort.png"></image></view>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">{{$t("ac.prc32")}}(%)<image class="title_img"
+								src="@/static/user/sort.png"></image>
+						</view>
 					</u-col>
 				</u-row>
 				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
 					<u-col span="6" textAlign="center" justify="flex-start">
-						<view class="title"><text class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text class="usdt">/USDT</text></view>
-						<view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}</view>
+						<view class="title"><text
+								class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text
+								class="usdt">/USDT</text></view>
+						<view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
+						</view>
 					</u-col>
-					<u-col  span="3" textAlign="right" justify="flex-end">
+					<u-col span="3" textAlign="right" justify="flex-end">
 						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
 					</u-col>
 					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
-						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%</view>
+						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%
+						</view>
 					</u-col>
 				</u-row>
-				
+				<view style="height: 300px; width: 100%;"></view>
+
 				<!-- <view class="widgtthree">
 					<view class="newwidgtthree">
 						<view class="shouyilv">{{$t('ac.pic1')}}:</view>
@@ -299,7 +312,7 @@
 				timeType: 1, //时间
 				currencyName: "", //货币名称
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
-				exponentList:[],//指数列表
+				exponentList: [], //指数列表
 			}
 		},
 		onReady() {
@@ -314,35 +327,35 @@
 		created() {},
 		methods: {
 			// 获取指数列表数据
-			getExponentData(){
+			getExponentData() {
 				uni.request({
 					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
 					method: "GET",
 					success: (res) => {
-						res.data.map((v)=>{
-							v.quoteVolume=this.bigNumberTransform(v.quoteVolume)
+						res.data.map((v) => {
+							v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
 						})
-						this.exponentList=res.data;
+						this.exponentList = res.data;
 						console.log(this.exponentList);
 					},
 				})
 			},
-			bigNumberTransform (value) {
-			  let param = {};
-			  let k = 10000,
-			  sizes = ['', this.$t("ac.prc34"), this.$t("ac.prc35"), this.$t("ac.prc36")],
-			  i;
-			  if(value < k){
-			      param.value =value.toFixed(2)
-			      param.unit=''
-			  }else{
-			      i = Math.floor(Math.log(value) / Math.log(k)); 
-			      param.value = ((value / Math.pow(k, i))).toFixed(2);
-			      param.unit = sizes[i];
-			  }
-			return param;
-			
-			
+			bigNumberTransform(value) {
+				let param = {};
+				let k = 10000,
+					sizes = ['', this.$t("ac.prc34"), this.$t("ac.prc35"), this.$t("ac.prc36")],
+					i;
+				if (value < k) {
+					param.value = value.toFixed(2)
+					param.unit = ''
+				} else {
+					i = Math.floor(Math.log(value) / Math.log(k));
+					param.value = ((value / Math.pow(k, i))).toFixed(2);
+					param.unit = sizes[i];
+				}
+				return param;
+
+
 			},
 
 			// 获取列表数据
@@ -536,7 +549,7 @@
 					}
 				});
 			},
-			listBtn(id,symbol, i) {
+			listBtn(id, symbol, i) {
 				this.listIndex = i;
 				this.currencyName = id;
 				let interval = null;
@@ -601,7 +614,7 @@
 							data: arr,
 						}]
 						this.chartData = JSON.parse(JSON.stringify(parmas));
-				
+
 					}
 				});
 			},
@@ -687,6 +700,10 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
+
+						.badge {
+							z-index: 111;
+						}
 
 						.mailright_img {
 							width: 60rpx;
@@ -882,7 +899,8 @@
 						}
 					}
 				}
-				.market_monitor{
+
+				.market_monitor {
 					margin-top: 16px;
 					margin-bottom: 13px;
 					font-size: 22px;
@@ -890,26 +908,30 @@
 					font-weight: bold;
 					color: #00070F;
 				}
-				.row_one{
+
+				.row_one {
 					margin-bottom: 16px;
-					.col_one{
+
+					.col_one {
 						display: flex;
 						flex-direction: row;
 					}
-					
-					.title{
+
+					.title {
 						font-size: 12px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 400;
 						color: #949494;
 						display: flex;
 						align-items: center;
-						.title_img{
+
+						.title_img {
 							width: 14px;
 							height: 14px;
 						}
 					}
-					.title_one{
+
+					.title_one {
 						font-size: 12px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 400;
@@ -917,24 +939,28 @@
 						display: flex;
 						align-items: center;
 						justify-content: flex-end;
-						.title_img{
+
+						.title_img {
 							width: 14px;
 							height: 14px;
 						}
 					}
-					.currency{
+
+					.currency {
 						font-size: 14px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 500;
 						color: #00070F;
 					}
-					.usdt{
+
+					.usdt {
 						font-size: 11px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 400;
 						color: #9FA19F;
 					}
-					.multiple{
+
+					.multiple {
 						display: inline-block;
 						width: 24px;
 						height: 16px;
@@ -948,30 +974,35 @@
 						text-align: center;
 						margin-left: 8px;
 					}
-					.transaction_volume{
+
+					.transaction_volume {
 						font-size: 11px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 400;
 						color: #9FA19F;
 						text-align: left;
 					}
-					.price_one{
+
+					.price_one {
 						font-size: 14px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: bold;
 						color: #9FA19F;
 					}
-					.price_two{
+
+					.price_two {
 						font-size: 10px;
 						font-family: PingFang SC, PingFang SC;
 						font-weight: 400;
 						color: #9FA19F;
 					}
-					.col_last{
+
+					.col_last {
 						display: flex;
 						flex-direction: row;
 					}
-					.chg{
+
+					.chg {
 						width: 78px;
 						height: 35px;
 						background: #2EBD85;
@@ -981,7 +1012,8 @@
 						align-items: center;
 						justify-content: center;
 					}
-					.chgg{
+
+					.chgg {
 						width: 78px;
 						height: 35px;
 						background: #F6455F;
@@ -992,7 +1024,8 @@
 						justify-content: center;
 					}
 				}
-				.row_one:last-child{
+
+				.row_one:last-child {
 					margin-bottom: 130px;
 				}
 

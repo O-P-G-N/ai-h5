@@ -35,7 +35,7 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 		</view>
 	</view>
 </template>

@@ -26,7 +26,7 @@
 					</view> -->
 				</view>
 			</view>
-			<u-tabs :list="tabList" keyName="name" :scrollable="false" @click="tabClick"></u-tabs>
+			<u-tabs :list="tabList" keyName="name" current="0" :scrollable="false" @click="tabClick"></u-tabs>
 			<view class="dyselect">
 				<view class="nd" :class="dyShow==1?'dyactive':''" @click="dyShowBtn(1)">
 					{{$t("comm.prc7")}}
@@ -82,6 +82,7 @@
 						<view style="height: 90px;"></view>
 					</view>
 				</view>
+				<view style="height: 300px; width: 100%;"></view>
 			</view>
 		</view>
 		<Footer pageName='community'></Footer>
@@ -97,19 +98,7 @@
 		},
 		data() {
 			return {
-				tabList: [{
-					name:this.$t("comm.prc21"),
-					value: 'all'
-				}, {
-					name:this.$t("comm.prc22"),
-					value: 'today'
-				}, {
-					name: this.$t("comm.prc23"),
-					value: 'week'
-				}, {
-					name: this.$t("comm.prc24"),
-					value: 'month'
-				}], //tab标签
+				// tabList:[] , //tab标签
 				dyShow: 1, //内外岛索引
 				recordList: [], //记录
 				selectDate: "all", //选择的日期
@@ -119,14 +108,35 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				effectivePeople:0,//有效人数
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
-				prc1:this.$t("comm.prc1"),//我的岛屿国际化
+				effectivePeople: 0, //有效人数
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				prc1: this.$t("comm.prc1"), //我的岛屿国际化
 			};
+		},
+		computed: {
+			tabList() {
+				return [{
+					name: this.$t("comm.prc21"),
+					value: 'all'
+				}, {
+					name: this.$t("comm.prc22"),
+					value: 'today'
+				}, {
+					name: this.$t("comm.prc23"),
+					value: 'week'
+				}, {
+					name: this.$t("comm.prc24"),
+					value: 'month'
+				}]
+			},
+			selectDate() {
+				return "all"
+			}
 		},
 		onShow() {
 			this.getIslandData();
 			// this.getAccountIsComplete()
+
 		},
 		methods: {
 			// 返回我的岛屿
@@ -142,11 +152,11 @@
 					method: "GET",
 					success: (res) => {
 						this.myTeamInfo = res.data;
-						if(this.myTeamInfo.data.length>0){
-							let num=this.myTeamInfo.data.filter((v)=>{
-								return v.isActive!=1
+						if (this.myTeamInfo.data.length > 0) {
+							let num = this.myTeamInfo.data.filter((v) => {
+								return v.isActive != 1
 							})
-							this.effectivePeople=num.length;
+							this.effectivePeople = num.length;
 						}
 					}
 				});
@@ -169,12 +179,12 @@
 				this.getIslandData()
 			},
 			// 邀请社区
-			inviteFriends(){
+			inviteFriends() {
 				uni.navigateTo({
 					url: `/pages/user/islands/identity_judge`
 				});
 			},
-			
+
 			// 获取用户资料完整度
 			getAccountIsComplete() {
 				uni.request({
@@ -189,7 +199,7 @@
 							} else if (!res.data.question) {
 								this.show = true;
 								this.setIndex = 1;
-								this.content =this.$t("model.tips2")
+								this.content = this.$t("model.tips2")
 							} else if (!res.data.nickName) {
 								this.show = true;
 								this.setIndex = 0;
@@ -230,6 +240,7 @@
 		padding: 0 21px;
 		background-color: #fff;
 		box-sizing: border-box;
+		
 
 		.u-navbar {
 			height: 53px;
@@ -270,14 +281,15 @@
 			background-repeat: no-repeat;
 			color: #fff;
 			position: relative;
-			.pyzsOut_btn{
+
+			.pyzsOut_btn {
 				position: absolute;
 				top: 20px;
 				right: 20px;
 				margin-top: 20px;
 				width: 92px;
 				height: 34px;
-				background:#517EFF;
+				background: #517EFF;
 				border-radius: 25px 25px 25px 25px;
 				font-size: 12px;
 				font-family: PingFang SC-Regular, PingFang SC;
@@ -390,6 +402,8 @@
 
 		.tabs {
 			margin-bottom: 120px;
+			
+
 			.listmain {
 				margin: 0;
 				padding: 16px 0;
@@ -422,26 +436,28 @@
 					}
 				}
 			}
+
 			.tips_box {
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				flex-direction: column;
-				margin-top: 70px;
-			
+
+
 				.community_img {
 					width: 138px;
 					height: 105px;
 				}
-			
+
 				.community_text {
-					margin-top:12px;
+					margin-top: 12px;
 					font-size: 15px;
 					font-family: PingFang SC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #535353;
 				}
-				.community_btn{
+
+				.community_btn {
 					margin-top: 20px;
 					width: 110px;
 					height: 36px;

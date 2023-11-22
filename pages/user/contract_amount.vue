@@ -36,7 +36,7 @@
 							</view>
 							<view class="contractthree">
 								<view class="contract_every">
-									<view class="intro">{{v.payNum}}份</view>
+									<view class="intro">{{v.payNum}}{{$t('ac.prc4')}}</view>
 									<view class="titles">{{$t('user.con_detail.i16')}}</view>
 								</view>
 								<view class="contract_every">
@@ -87,7 +87,7 @@
 					</u-list-item>
 				</u-list>
 
-				<u-loadmore :status="status" />
+				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" :title="tips"
 					:content='modalContent'></u-modal>
 			</view>
