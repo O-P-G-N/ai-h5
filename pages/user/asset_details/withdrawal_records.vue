@@ -11,7 +11,7 @@
 					<view class="capital">
 						<view class="capital_top">
 							<text>{{$t('user.asset.details.wr.withdraw_type')}}</text>
-							<text>{{v.type==1?'红包-TRC20':'红包-ERC20'}}</text>
+							<text>{{v.type==1?' USDT-TRC20':' USDT-ERC20'}}</text>
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.wr.order_sn')}}</text>

@@ -107,7 +107,7 @@
 		</view>
 		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
-		<view class="smegma" v-if="tipsShow">
+		<view class="smegma" v-if="tipsShow" @touchmove.stop.prevent="moveHandle">
 			<view class="title_top" v-if="deviceType=='ios'">
 				<image class="title_top_img" src="@/static/market/market_logo.png" mode=""></image>
 				<view class="title_top_text">{{$t("index.tips13")}}</view>
@@ -136,14 +136,14 @@
 					</view>
 				</view>
 			</view>
-			<view class="s" v-if="deviceType=='android'">
+			<view class="title_bottoms" v-if="deviceType=='android'">
 				<view class="title_bottom_tops">{{$t("index.tips20")}}
 				</view>
 				<view class="title_bottom_heads">
 					<image class="title_bottom_heads_img1" src="@/static/index/logo.png" mode=""></image>
 					<view class="title_bottom_heads_right">
 						<image class="title_bottom_heads_right_top" src="@/static/index/logo1.png" mode=""></image>
-						<view class="title_bottom_heads_right_foot">http://www.alitagpt.io</view>
+						<view class="title_bottom_heads_right_foot">{{onlineUrl}}</view>
 					</view>
 				</view>
 				<view class="title_bottom_foot">
@@ -152,7 +152,7 @@
 						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
 						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==1"
 							src="@/static/index/paw_4.png"></image>
-						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==0"
+						<image class="title_bottom_foot_right_imgs" v-if="$store.getters.languageType==0"
 							src="@/static/index/paw_4_1.png"></image>
 					</view>
 				</view>
@@ -163,6 +163,7 @@
 
 
 <script>
+	import app_config from '../../common/config.js';
 	export default {
 		components: {
 			Footer: () => import('@/components/footer.vue'),
@@ -191,6 +192,7 @@
 				myInfo: {}, //人员信息
 				deviceType: "", //设备类型
 				constenShow: false, //状态判断
+				onlineUrl:""
 			}
 		},
 		computed: {
@@ -272,7 +274,7 @@
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
 				this.$store.commit('app/judgLanguage', 0)
 			}
-
+			this.onlineUrl = app_config.onlineUrl
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -304,6 +306,9 @@
 						});
 					}
 				});
+			},
+			moveHandle(){
+				return false
 			},
 			// 清除
 			clearFrom() {
