@@ -105,6 +105,7 @@
 	"index.tips18":"取消",
 	"index.tips19":"确定",
 	"index.tips20":"将AlitaGPT添加到桌面上，方便下次找到，添加到桌面赠送10积分",
+	"index.tips21":"数据为空",
 	
 
 	"home.charge": "充值",
@@ -197,6 +198,7 @@
 	"pa.prc8":"兑换",
 	"pa.prc9":"技能点余额不足",
 	"pa.prc10":"暂未开放!",
+	"pa.prc11":"在线",
 	
 	"comm.prc1":"我的岛屿",
 	"comm.prc2":"我的卡券",
@@ -600,6 +602,11 @@
 	"user.con_detail.i61": "绑定成功!",
 	"user.con_detail.i62": "手机已设置!",
 	"user.con_detail.i63": "邮箱已设置!",
+	"user.con_detail.i64": "勾选后不再提示",
+	"user.con_detail.i65": "10.00 USD起",
+	"user.con_detail.i66": "用AI创作图片和视频",
+	"user.con_detail.i67": "邀请好友一起赚钱",
+	"user.con_detail.i68": "设置你的交易安全",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试"
 	

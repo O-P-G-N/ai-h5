@@ -141,7 +141,7 @@
 					</text>
 				</view>
 				<u-checkbox-group activeColor="#333" v-model="checkboxValue" shape="circle">
-					<u-checkbox label="勾选后不再提示" :name="1">
+					<u-checkbox :label="$t('user.con_detail.i64')" :name="1">
 					</u-checkbox>
 				</u-checkbox-group>
 			</view>

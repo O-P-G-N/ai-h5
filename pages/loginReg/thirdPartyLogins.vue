@@ -8,7 +8,7 @@
 		<view class="container_nei">
 			<view class="main">
 				<view class="inputevery_content">
-					<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange"
+					<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone" @onChange="onChange"
 						v-model="from.countryCode"></vue-country-intl>
 				</view>
 				<u-cell-group :border="false">

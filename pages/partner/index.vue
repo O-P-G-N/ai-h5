@@ -6,7 +6,7 @@
 				<image class="t_bor_r_img" src="@/static/tabbar/tx.png" mode=""></image>
 				<view class="">
 					<text class="right_avatar_top">Alita</text>
-					<view class="right_avatar_text">在线</view>
+					<view class="right_avatar_text">{{$t("pa.prc11")}}</view>
 				</view>
 			</view>
 			<ai-button slot="right" @click="upTrain" :btnHeight="'26px'" :fontSize="'12px'" :bg="'#333'"

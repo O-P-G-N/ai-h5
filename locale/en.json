@@ -6,7 +6,7 @@
 	"index.ai.creation": "creation",
 	"index.ai.creatioin.text": "creativity gallery",
 	"index.ai.experience": "experience",
-	"index.ai.slogan": "everyone can ben artist",
+	"index.ai.slogan": "Can be artist",
 	"index.ai.video": "marketing video",
 	"index.ai.video.text": "digital man",
 	"index.ai.creationstyle.freedom": "freedom",
@@ -105,6 +105,7 @@
 	"index.tips18": "Cancel",
 	"index.tips19": "Sure",
 	"index.tips20": "Add AlitaGPT to your desktop to make it easier to find it next time. Add it to your desktop to get 10 points.",
+	"index.tips21": "Data is empty",
 
 	"home.charge": "charge",
 	"home.withdraw": "withdraw",
@@ -130,7 +131,7 @@
 	"home.menu.logout": "Log Out",
 	"home.confirm.logout": "Are you sure log out?",
 
-	"ac.avb": "available balance",
+	"ac.avb": "Balance",
 	"ac.actc": "activity code",
 	"ac.myac": "my contract",
 	"ac.hongbao": " USDT",
@@ -196,6 +197,7 @@
 	"pa.prc8": "exchange",
 	"pa.prc9": "Insufficient skill point balance",
 	"pa.prc10": "Not open yet!",
+	"pa.prc11": "online",
 
 	"comm.prc1": "my island",
 	"comm.prc2": "My coupons",
@@ -596,6 +598,11 @@
 	"user.con_detail.i61": "Binding successful!",
 	"user.con_detail.i62": "Phone has been set up!",
 	"user.con_detail.i63": "Email has been set up!",
+	"user.con_detail.i64": "Don’t prompt again after checking",
+	"user.con_detail.i65": "Starting from 10.00 USD",
+	"user.con_detail.i66": "Create images and videos with AI",
+	"user.con_detail.i67": "Invite friends to make money together",
+	"user.con_detail.i68": "Set up your transaction security",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later."
 

@@ -66,9 +66,9 @@
 					pageSize: 10
 				},
 				list: [{
-					name: 'AI创作',
+					name: this.$t('user.con_detail.i6'),
 				}, {
-					name: '视频营销',
+					name: this.$t('user.con_detail.i7'),
 				}, ],
 				contentList: [], //ai作品合集
 				videoList: [], //ai视频合集

@@ -1,6 +1,6 @@
 <template>
 	<view class="capital_flow">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" title="资金流水"
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" :title="$t('user.asset.details.index.flow')"
 			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>

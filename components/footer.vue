@@ -17,7 +17,10 @@
 					</view>
 					<view class="dialogue_box" v-if="$store.getters.pageShow">
 						<acousticWave></acousticWave>
-						<view class="dialogue_box_text">{{$t("user.con_detail.i48")}}</view>
+						<view class="dialogue_box_text" v-if="pageName=='market'">{{$t("user.con_detail.i48")}}</view>
+						<view class="dialogue_box_text" v-if="pageName=='index'">{{$t("user.con_detail.i66")}}</view>
+						<view class="dialogue_box_text" v-if="pageName=='community'">{{$t("user.con_detail.i67")}}</view>
+						<view class="dialogue_box_text" v-if="pageName=='user'">{{$t("user.con_detail.i68")}}</view>
 						<acousticWave></acousticWave>
 						<image @click.stop="clear" class="dialogue_box_img" src="@/static/tabbar/clear.png" mode=""></image>
 						<view class="triangle"></view>
@@ -152,10 +155,10 @@
 					}
 					.dialogue_box_img{
 						position: absolute;
-						right: 10px;
-						top: 6px;
-						width: 7px;
-						height: 7px;
+						right: 2px;
+						top: -2px;
+						width: 24px;
+						height: 52px;
 					}
 					.triangle{
 						position: absolute;

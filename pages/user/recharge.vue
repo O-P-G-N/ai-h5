@@ -59,7 +59,7 @@
 				</view>
 				<view class="ctitle">{{$t('user.capital_flow.i35')}}</view>
 				<view class="czj_sss">
-					<input type="number" v-model="from.amount" class="uni-input" placeholder="10.00 USD起" />
+					<input type="number" v-model="from.amount" class="uni-input" :placeholder="$t('user.con_detail.i65')" />
 				</view>
 				<ai-button :btnHeight="'51px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian"
 					@click="nextStep">{{$t('user.capital_flow.i36')}}</ai-button>
@@ -83,7 +83,7 @@
 					</text>
 				</view>
 				<u-checkbox-group activeColor="#333" v-model="checkboxValue" shape="circle">
-					<u-checkbox label="勾选后不再提示" :name="1">
+					<u-checkbox :label="$t('user.con_detail.i64')" :name="1">
 					</u-checkbox>
 				</u-checkbox-group>
 			</view>

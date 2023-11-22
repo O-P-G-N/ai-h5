@@ -62,15 +62,15 @@
 					</view>
 				</view>
 			</view>
-			<u-search class="sticky_search" @clear="clearFrom" @custom="searchFrom" animation :placeholder="tips11"
-				v-model="from.keyword" :actionText="tips12"></u-search>
+			<u-search class="sticky_search" @clear="clearFrom" @custom="searchFrom" animation
+				:placeholder="$t('index.tips11')" v-model="from.keyword" :actionText="$t('index.tips12')"></u-search>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
 
 			<view class="content-mian">
-				<template v-if='constenList.length>0'>
+				<template v-if='constenList.length>0&&constenShow'>
 					<view @click="viewImg(v)" class="content-item" v-for='(v,index) in constenList' :key='index'>
 						<image mode="widthFix" :src="v.address"></image>
 						<view class="mian-text">
@@ -78,7 +78,7 @@
 						</view>
 					</view>
 				</template>
-				<template v-else>
+				<template v-else-if="constenList.length==0&&!constenShow">
 					<!-- 骨架屏 -->
 					<view class="skeleton one"></view>
 					<view class="skeletonLi">
@@ -93,6 +93,12 @@
 						<view class="skeleton four"></view>
 					</view>
 				</template>
+				<template v-else-if="constenList.length==0&&constenShow">
+					<view class="data_none">
+						<u-empty :text="$t('index.tips21')" mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png">
+						</u-empty>
+					</view>
+				</template>
 			</view>
 			<u-loadmore :status="status" />
 			<Footer pageName='index'></Footer>
@@ -105,11 +111,13 @@
 				<view class="title_top_text">{{$t("index.tips13")}}</view>
 			</view>
 			<view class="title_bottom" v-if="deviceType=='ios'">
-				<view class="title_bottom_top">{{$t("index.tips14")}}<image class="title_bottom_top_img"
-						src="@/static/index/paw_1.png"></image>
+				<view class="title_bottom_top">{{$t("index.tips14")}}
+					<image class="title_bottom_top_img" src="@/static/index/paw_1.png"></image>
 				</view>
 				<view class="title_bottom_head">
-					{{$t("index.tips15")}}<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>“{{$t("index.tips16")}}”，{{$t("index.tips17")}}
+					{{$t("index.tips15")}}
+					<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>
+					“{{$t("index.tips16")}}”，{{$t("index.tips17")}}
 				</view>
 				<image class="title_bottom_body" src="@/static/index/paw_2.png" mode=""></image>
 				<view class="title_bottom_foot">
@@ -171,6 +179,7 @@
 				pageShow: null, //
 				myInfo: {}, //人员信息
 				deviceType: "", //设备类型
+				constenShow: false, //状态判断
 			}
 		},
 		computed: {
@@ -268,6 +277,7 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
+						this.constenShow = true
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -286,6 +296,7 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
+						this.constenShow = true
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -355,7 +366,7 @@
 					success: (res) => {
 						if (res.code == 200) {
 							this.tipsShow = false;
-							
+
 						}
 					}
 				});
@@ -413,6 +424,7 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
+						this.constenShow = true
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -434,6 +446,7 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							this.constenShow = true
 							this.status = "loadmore"
 							this.constenList.push(...res.data.rows);
 						}
@@ -719,6 +732,11 @@
 			width: 100%;
 			display: flex;
 			flex-wrap: wrap;
+
+			.data_none {
+				width: 100%;
+				height: 300px;
+			}
 
 			.content-item {
 				width: calc((100% - 20rpx)/2);
