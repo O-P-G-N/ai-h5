@@ -16,7 +16,7 @@
 				<view class="">{{amountMax}}</view>
 			</view>
 			<view class="difference_value">
-				还差<text style="font-size: 20px;margin-left: 5px; margin-right: 5px;">{{amountSum}}</text>达到下一等级
+				{{$t("user.con_detail.i49")}}<text style="font-size: 20px;margin-left: 5px; margin-right: 5px;">{{amountSum}}</text>{{$t("user.con_detail.i50")}}
 			</view>
 		</view>
 		<view class="divider">
@@ -29,20 +29,20 @@
 		<view class="security_currency">
 			<view class="security_currency_top">
 				<image class="security_currency_top_img" src="@/static/user/security.png" mode=""></image>
-				<text class="security_currency_top_text">证券</text>
+				<text class="security_currency_top_text">{{$t("user.con_detail.i52")}}</text>
 			</view>
 			<u-row class="row_one">
 				<u-col span="2" textAlign="center">
-					<view class="title">等级</view>
+					<view class="title">{{$t("user.con_detail.i54")}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">充值数额</view>
+					<view class="title">{{$t("user.con_detail.i55")}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="title">合约运行天数</view>
+					<view class="title">{{$t("user.con_detail.i56")}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">最大日收益</view>
+					<view class="title">{{$t("user.con_detail.i57")}}</view>
 				</u-col>
 			</u-row>
 			<u-row class="row_two" v-for="(v,i) in securityList" :key="i">
@@ -65,20 +65,20 @@
 		<view class="security_currency">
 			<view class="security_currency_top">
 				<image class="security_currency_top_img" src="@/static/user/currency.png" mode=""></image>
-				<text class="security_currency_top_text">加密货币</text>
+				<text class="security_currency_top_text">{{$t("user.con_detail.i53")}}</text>
 			</view>
 			<u-row class="row_one">
 				<u-col span="2" textAlign="center">
-					<view class="title">等级</view>
+					<view class="title">{{$t("user.con_detail.i54")}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">充值数额</view>
+					<view class="title">{{$t("user.con_detail.i55")}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="title">合约运行天数</view>
+					<view class="title">{{$t("user.con_detail.i56")}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
-					<view class="title">最大日收益</view>
+					<view class="title">{{$t("user.con_detail.i57")}}</view>
 				</u-col>
 			</u-row>
 			<u-row class="row_two" v-for="(v,i) in currencyList" :key="i">
@@ -264,6 +264,9 @@
 				font-weight: bold;
 				letter-spacing: 0.2rem;
 				margin: 0 10px;
+				white-space: nowrap;
+				  overflow: hidden;
+				  text-overflow: ellipsis; 
 			}
 
 			.divider_left {

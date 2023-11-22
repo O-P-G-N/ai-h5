@@ -115,15 +115,24 @@
 			},
 			// 设置手机号
 			setPhone(){
-				uni.navigateTo({
-					url: `/pages/user/securitycenter/setPhone`
-				});
+				if (this.statusInfo.phone) {
+					uni.$u.toast(this.$t('user.con_detail.i62'))
+				} else {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/setPhone`
+					});
+				}
 			},
 			// 设置邮箱号
 			setEmail(){
-				uni.navigateTo({
-					url: `/pages/user/securitycenter/setEmail`
-				});
+				if (this.statusInfo.email) {
+					uni.$u.toast(this.$t('user.con_detail.i63'))
+				} else {
+					uni.navigateTo({
+						url: `/pages/user/securitycenter/setEmail`
+					});
+				}
+				
 			},
 			// 退出登录
 			outLogin() {

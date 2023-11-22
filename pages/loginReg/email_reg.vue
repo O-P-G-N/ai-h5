@@ -18,6 +18,12 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
+					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
+						<image @click="showHidden" slot="suffix" class="eye"
+							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
+					</u-input>
+				</view>
+				<view class="inputevery">
 					<u-input v-model="from.withdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword')" :password="eyeShows">
 						<image @click="showHiddens" slot="suffix" class="eye"
 							:src="eyeShows?'../../static/login/close.png':'../../static/login/open.png'"
@@ -32,19 +38,12 @@
 					</u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
-						<image @click="showHidden" slot="suffix" class="eye"
-							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
-					</u-input>
-				</view>
-
-				<view class="inputevery">
 					<u-input :disabled="invitationDisa" v-model="from.invitationCode" :placeholder="invitationcode">
 					</u-input>
 				</view>
 				<view class="verify_item">
 					<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-					<text class="verify_item_text">{{$t('user.islands.sc.fdp.i2')}}</text>
+					<text class="verify_item_text">{{$t('login.traderPassword3')}}</text>
 				</view>
 				<view class="privacy">
 					{{$t('login.agreement5')}}<text class="blur"

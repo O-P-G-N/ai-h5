@@ -97,6 +97,14 @@
 	"index.tips10":"作品集",
 	"index.tips11":"搜索画面描述",
 	"index.tips12":"搜索",
+	"index.tips13":"将AlitaGPT添加至桌面，即可领取10积分",
+	"index.tips14":"点击下方工具栏上的",
+	"index.tips15":"并选择",
+	"index.tips16":"添加到主屏幕",
+	"index.tips17":"方便下次找到",
+	"index.tips18":"取消",
+	"index.tips19":"确定",
+	"index.tips20":"将AlitaGPT添加到桌面上，方便下次找到，添加到桌面赠送10积分",
 	
 
 	"home.charge": "充值",
@@ -299,6 +307,7 @@
 	"login.traderPassword":"请输入交易密码",
 	"login.traderPassword1":"请确认交易密码",
 	"login.traderPassword2":"两次输入交易密码不一致",
+	"login.traderPassword3":"交易密码请设置为6位纯数字",
 	
 	
 	"user.asset.details.index.asset_detail": "资产明细",
@@ -335,7 +344,7 @@
 	"user.asset.islands.ctf.Not_yet_open": "暂未开放",
 	
 	"user.asset.islands.idj.Share_with_friends": "分享给你的朋友",
-	"user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you": "exgpt为你打开新世界的大门",
+	"user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you": "AlitaGPT为你打开新世界的大门",
 	"user.asset.islands.idj.copy_the_link": "复制链接",
 	"user.asset.islands.idj.my_inviter": "我的上级",
 	"user.asset.islands.idj.invite_by_me": "我的分享",
@@ -584,7 +593,13 @@
 	"user.con_detail.i54": "等级",
 	"user.con_detail.i55": "充值数额",
 	"user.con_detail.i56": "合约运行天数",
-	"user.con_detail.i56": "最大日收益",
+	"user.con_detail.i57": "最大日收益",
+	"user.con_detail.i58": "绑定手机",
+	"user.con_detail.i59": "绑定邮箱",
+	"user.con_detail.i60": "立即绑定",
+	"user.con_detail.i61": "绑定成功!",
+	"user.con_detail.i62": "手机已设置!",
+	"user.con_detail.i63": "邮箱已设置!",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试"
 	

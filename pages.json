@@ -476,6 +476,14 @@
 				"navigationBarTitleText" : "设置邮箱",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "pages/loginReg/thirdPartyLogins",
+			"style" : 
+			{
+				"navigationBarTitleText" : "第三方登录",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

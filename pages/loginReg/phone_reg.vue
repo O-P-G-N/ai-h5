@@ -52,7 +52,7 @@
 				</view>
 				<view class="verify_item">
 					<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
-					<text class="verify_item_text">{{$t('user.islands.sc.fdp.i2')}}</text>
+					<text class="verify_item_text">{{$t('login.traderPassword3')}}</text>
 				</view>
 				<view class="privacy">
 					{{$t('login.agreement5')}}<text class="blur"

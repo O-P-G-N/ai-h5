@@ -47,17 +47,22 @@
 					countryCode: "", //国家
 					phone: "", //手机号
 					code: "", //验证码
+					addr:"",//地址
+					type:4,//类型
 				}, //表单验证
 				tips: "", //提示语
 				loading: false, //模态框按钮等待状态
 				btnDisabled: false, //模态框是否禁用按钮
 			};
 		},
+		onLoad(option) {
+			this.from.addr=option.addr;
+		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
 				uni.navigateTo({
-					url: `/pages/user/securitycenter/index`
+					url: `/pages/loginReg/login`
 				});
 			},
 			// 获取验证码
@@ -89,6 +94,7 @@
 			// 提示语
 			codeChange(text) {
 				this.tips = text;
+				
 			},
 			// 选择国家
 			onChange(selected) {
@@ -109,22 +115,23 @@
 					this.loading = true
 					this.btnDisabled = true;
 					uni.request({
-						url: `/member/bindPhone`,
-						method: "GET",
+						url: `/nt/externalLogin`,
+						method: "POST",
 						data: this.from,
 						success: (res) => {
 							if (res.code == 200) {
 								this.loading = false
 								this.btnDisabled = false;
+								uni.setStorageSync("user", res.data)
 								uni.showToast({
 									title: this.$t('user.con_detail.i61'),
 									success: function(res) {
 										let time = setTimeout(() => {
 											clearTimeout(time)
-											uni.redirectTo({
-												url: `/pages/user/securitycenter/index`
+											uni.switchTab({
+												url: `/pages/index/index`
 											});
-										}, 1000)
+										}, 2000)
 									},
 								})
 							}else{

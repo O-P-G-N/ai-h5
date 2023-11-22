@@ -63,7 +63,7 @@
 				</view>
 			</view>
 			<u-search class="sticky_search" @clear="clearFrom" @custom="searchFrom" animation :placeholder="tips11"
-					v-model="from.keyword" :actionText="tips12"></u-search>
+				v-model="from.keyword" :actionText="tips12"></u-search>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
@@ -100,22 +100,40 @@
 		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
 		<view class="smegma" v-if="tipsShow">
-			<view class="title_top">
-				<image class="title_top_img" src="@/static/index/title_top_img.png" mode=""></image>
-				<view class="title_top_text">将AlitaGPT添加至桌面，即可领取10积分</view>
+			<view class="title_top" v-if="deviceType=='ios'">
+				<image class="title_top_img" src="@/static/market/market_logo.png" mode=""></image>
+				<view class="title_top_text">{{$t("index.tips13")}}</view>
 			</view>
-			<view class="title_bottom">
-				<view class="title_bottom_top">点击下方工具栏上的<image class="title_bottom_top_img"
+			<view class="title_bottom" v-if="deviceType=='ios'">
+				<view class="title_bottom_top">{{$t("index.tips14")}}<image class="title_bottom_top_img"
 						src="@/static/index/paw_1.png"></image>
 				</view>
 				<view class="title_bottom_head">
-					并选择<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>“添加到主屏幕”，方便下次找到
+					{{$t("index.tips15")}}<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>“{{$t("index.tips16")}}”，{{$t("index.tips17")}}
 				</view>
 				<image class="title_bottom_body" src="@/static/index/paw_2.png" mode=""></image>
 				<view class="title_bottom_foot">
-					<button class="title_bottom_foot_left">取消</button>
+					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
 					<view class="btn_box">
-						<button class="title_bottom_foot_right">确定</button>
+						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
+						<image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
+					</view>
+				</view>
+			</view>
+			<view class="title_bottoms" v-if="deviceType=='android'">
+				<view class="title_bottom_tops">{{$t("index.tips20")}}
+				</view>
+				<view class="title_bottom_heads">
+					<image class="title_bottom_heads_img1" src="@/static/index/logo.png" mode=""></image>
+					<view class="title_bottom_heads_right">
+						<image class="title_bottom_heads_right_top" src="@/static/index/logo1.png" mode=""></image>
+						<view class="title_bottom_heads_right_foot">http://www.alitagpt.io</view>
+					</view>
+				</view>
+				<view class="title_bottom_foot">
+					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
+					<view class="btn_box">
+						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
 						<image class="title_bottom_foot_right_img" src="@/static/index/paw_4.png"></image>
 					</view>
 				</view>
@@ -152,6 +170,7 @@
 				tips12: this.$t("index.tips12"), //搜索国际化
 				pageShow: null, //
 				myInfo: {}, //人员信息
+				deviceType: "", //设备类型
 			}
 		},
 		computed: {
@@ -227,7 +246,7 @@
 		},
 		onShow() {
 			this.getImgList();
-			this.getAccountIsComplete()
+			this.getAccountIsComplete();
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -260,7 +279,7 @@
 				});
 			},
 			// 清除
-			clearFrom(){
+			clearFrom() {
 				this.from.pageNum = 1;
 				uni.request({
 					url: `/workImage/list`,
@@ -286,26 +305,57 @@
 			// 获取用户资料完整度
 			getAccountIsComplete() {
 				uni.request({
-					url: `/member/getAccountIsComplete`,
+					url: `/help/queryAwayPoints`,
 					method: "GET",
 					success: (res) => {
 						if (res.code == 200) {
-							if (!res.data.phone) {
-								this.show = true;
+							if (res.data == 0) {
+								this.tipsShow = true;
+								if (uni.getSystemInfoSync().osName == 'ios') {
+									this.deviceType = "ios"
+								} else {
+									this.deviceType = "android"
+								}
 							}
-							// if (!res.data.withdrawPassword) {
-							// 	this.show = true;
-							// 	this.setIndex = 2;
-							// 	this.content = this.$t("model.tips1")
-							// } else if (!res.data.question) {
-							// 	this.show = true;
-							// 	this.setIndex = 1;
-							// 	this.content = this.$t("model.tips2")
-							// } else if (!res.data.nickName) {
-							// 	this.show = true;
-							// 	this.setIndex = 0;
-							// 	this.content = this.$t("model.tips3")
-							// }
+						}
+					}
+				});
+
+				// uni.request({
+				// 	url: `/member/getAccountIsComplete`,
+				// 	method: "GET",
+				// 	success: (res) => {
+				// 		if (res.code == 200) {
+
+				// 			// if (!res.data.withdrawPassword) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 2;
+				// 			// 	this.content = this.$t("model.tips1")
+				// 			// } else if (!res.data.question) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 1;
+				// 			// 	this.content = this.$t("model.tips2")
+				// 			// } else if (!res.data.nickName) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 0;
+				// 			// 	this.content = this.$t("model.tips3")
+				// 			// }
+				// 		}
+				// 	}
+				// });
+			},
+			// pwa关闭
+			pwaBtn(val) {
+				uni.request({
+					url: `/help/awayPoints`,
+					method: "GET",
+					data: {
+						type: val
+					},
+					success: (res) => {
+						if (res.code == 200) {
+							this.tipsShow = false;
+							
 						}
 					}
 				});
@@ -790,12 +840,12 @@
 			box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 			border-radius: 12px 12px 12px 12px;
 			margin-top: 52px;
-			padding: 20rpx 20px;
+			padding: 8rpx 20px 20rpx;
 			box-sizing: border-box;
 
 			.title_top_img {
-				width: 93px;
-				height: 28px;
+				width: 108px;
+				height: 34px;
 			}
 
 			.title_top_text {
@@ -809,9 +859,9 @@
 
 		.title_bottom {
 			width: 100%;
-			height: 604rpx;
+			// height: 604rpx;
 			background: url("@/static/index/paw_5.png") no-repeat;
-			background-size: cover;
+			background-size: 100% 100%;
 			margin-bottom: 136rpx;
 			padding: 30px 54rpx 30px;
 			box-sizing: border-box;
@@ -830,6 +880,7 @@
 					height: 24px;
 				}
 			}
+
 
 			.title_bottom_head {
 				display: flex;
@@ -869,6 +920,110 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+				}
+
+				.btn_box {
+					position: relative;
+					width: 45%;
+					height: 48px;
+
+					.title_bottom_foot_right {
+						width: 100%;
+						height: 100%;
+						background: #0C84FF;
+						border-radius: 25px 25px 25px 25px;
+						font-size: 16px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+					}
+
+					.title_bottom_foot_right_img {
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 65px;
+						height: 23px;
+					}
+				}
+
+
+				uni-button:after {
+					border: none;
+				}
+			}
+		}
+
+		.title_bottoms {
+			position: absolute;
+			right: 12px;
+			bottom: 0;
+			width: calc(100% - 24px);
+			height: 250px;
+			background: url("@/static/index/paw_5.png") no-repeat;
+			background-size: 100% 100%;
+			margin-bottom: 136rpx;
+			padding: 30px 54rpx 30px;
+			box-sizing: border-box;
+
+			.title_bottom_tops {
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #00070F;
+			}
+
+			.title_bottom_heads {
+				margin-top: 15px;
+				display: flex;
+				align-items: center;
+
+				.title_bottom_heads_img1 {
+					width: 54px;
+					height: 54px;
+				}
+
+				.title_bottom_heads_right {
+					.title_bottom_heads_right_top {
+						width: 76px;
+						height: 24px;
+					}
+
+					.title_bottom_heads_right_foot {
+						font-size: 15px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+				}
+			}
+
+			.title_bottom_foot {
+				margin-top: 30px;
+				display: flex;
+				justify-content: space-between;
+
+				.title_bottom_foot_left {
+					width: 45%;
+					height: 48px;
+					background: #F6F6F6;
+					border-radius: 25px 25px 25px 25px;
+					font-size: 16px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #5F5F5F;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+				uni-button {
+					margin: 0;
 				}
 
 				.btn_box {

@@ -94,11 +94,19 @@
 	"index.tips7": "網絡超時，請重試!",
 	"index.tips8": "復製成功,請在瀏覽器打開!",
 	"index.tips9": "復製成功!",
-	"index.tips10":"作品集",
-	"index.tips11":"搜索畫面描述",
-	"index.tips12":"搜索",
-	
-	
+	"index.tips10": "作品集",
+	"index.tips11": "搜索畫面描述",
+	"index.tips12": "搜索",
+	"index.tips13": "將AlitaGPT添加至桌面，即可領取10積分",
+	"index.tips14": "點擊下方工具欄上的",
+	"index.tips15": "並選擇",
+	"index.tips16": "添加到主螢幕",
+	"index.tips17": "方便下次找到",
+	"index.tips18": "取消",
+	"index.tips19": "確定",
+	"index.tips20": "將AlitaGPT添加到桌面上，方便下次找到，添加到桌面贈送10積分",
+
+
 	"home.charge": "充值",
 	"home.withdraw": "提現",
 	"home.today_earnings": "今日收益",
@@ -168,16 +176,16 @@
 	"ac.prc24": "獲取時間",
 	"ac.prc25": "複製成功!",
 	"ac.prc26": "最大日收益",
-	"ac.prc27":"贈送積分",
-	"ac.prc28":"行情監測",
-	"ac.prc29":"名稱",
-	"ac.prc30":"成交量",
-	"ac.prc31":"最新價",
-	"ac.prc32":"漲跌幅",
-	"ac.prc33":"成交額",
-	"ac.prc34":"萬",
-	"ac.prc35":"億",
-	"ac.prc36":"萬億",
+	"ac.prc27": "贈送積分",
+	"ac.prc28": "行情監測",
+	"ac.prc29": "名稱",
+	"ac.prc30": "成交量",
+	"ac.prc31": "最新價",
+	"ac.prc32": "漲跌幅",
+	"ac.prc33": "成交額",
+	"ac.prc34": "萬",
+	"ac.prc35": "億",
+	"ac.prc36": "萬億",
 
 	"pa.prc1": "升級訓練",
 	"pa.prc2": "我是您的專屬伴侶Alita,為你效勞。我可以回答問題、提供資訊，甚至與你閒聊，請隨時向我詢問",
@@ -214,8 +222,8 @@
 	"comm.prc22": "今日",
 	"comm.prc23": "本周",
 	"comm.prc24": "本月",
-	"comm.prc25":"人",
-	
+	"comm.prc25": "人",
+
 	"model.tips1": "您的交易密碼未設置,請設置您的交易密碼",
 	"model.tips2": "您的密保問題未設置,請設置您的密保問題",
 	"model.tips3": "您的暱稱未設置,請設置您的暱稱",
@@ -223,7 +231,7 @@
 
 	"login.type.email": "郵箱登錄",
 	"login.type.phone": "手機登錄",
-	"login.type.wallet":"錢包登錄",
+	"login.type.wallet": "錢包登錄",
 	"login.orloginto": "或登錄以",
 	"login.agreement1": "登錄即表示您同意我們的",
 	"login.agreement2": "使用條款",
@@ -296,11 +304,12 @@
 	"login.tips20": "手機註冊暫未開通",
 	"login.tips21": "請選擇國家",
 	"login.activity_code": "邀請碼",
-	"login.traderPassword":"請輸入交易密碼",
-	"login.traderPassword1":"請確認交易密碼",
-	"login.traderPassword2":"兩次輸入交易密碼不一致",
-	
-	
+	"login.traderPassword": "請輸入交易密碼",
+	"login.traderPassword1": "請確認交易密碼",
+	"login.traderPassword2": "兩次輸入交易密碼不一致",
+	"login.traderPassword3": "交易密碼請設置為6位純數字",
+
+
 	"user.asset.details.index.asset_detail": "資產明細",
 	"user.asset.details.index.charge_record": "充值記錄",
 	"user.asset.details.index.withdraw_record": "體現記錄",
@@ -335,7 +344,7 @@
 	"user.asset.islands.ctf.Not_yet_open": "暫未開放",
 
 	"user.asset.islands.idj.Share_with_friends": "分享給你的朋友",
-	"user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you": "exgpt爲你打開新世界大門",
+	"user.asset.islands.idj.exgpt_opens_up_new_worlds_for_you": "AlitaGPT爲你打開新世界大門",
 	"user.asset.islands.idj.copy_the_link": "複製鏈接",
 	"user.asset.islands.idj.my_inviter": "我的上級",
 	"user.asset.islands.idj.invite_by_me": "我的分享",
@@ -582,7 +591,13 @@
 	"user.con_detail.i54": "等級",
 	"user.con_detail.i55": "充值數額",
 	"user.con_detail.i56": "合約運行天數",
-	"user.con_detail.i56": "最大日收益",
+	"user.con_detail.i57": "最大日收益",
+	"user.con_detail.i58": "綁定手機",
+	"user.con_detail.i59": "綁定郵箱",
+	"user.con_detail.i60": "立即綁定",
+	"user.con_detail.i61": "綁定成功!",
+	"user.con_detail.i62": "手機已設置!",
+	"user.con_detail.i63": "郵箱已設置!",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試"
 

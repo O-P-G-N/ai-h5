@@ -65,7 +65,7 @@
 								</view>
 								<view class="orderhao">
 									<text>{{$t("comm.prc17")}}</text>
-									<text>0</text>
+									<text>{{v.contractCount}}</text>
 								</view>
 								<view class="orderhao">
 									<text>{{dyShow==1?$t("comm.prc19"):$t("comm.prc20")}}</text>

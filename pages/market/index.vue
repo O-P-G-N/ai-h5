@@ -707,8 +707,8 @@
 							padding-left: 0px;
 
 							.u-nav-slot {
-								width: 96px;
-								height: 30px;
+								width: 108px;
+								height: 34px;
 							}
 
 							.head_back_img {

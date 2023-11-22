@@ -237,6 +237,7 @@
 				}
 			},
 			async loginItemMeta() {
+				
 				try {
 					const signResult = await this.sdk?.connectAndSign({
 						msg: 'Connect + Sign message'
@@ -247,7 +248,17 @@
 						method: "POST",
 						data: {addr:signResult},
 						success: (res) => {
-
+							if(res.data.token==undefined){
+								uni.navigateTo({
+									url: `/pages/loginReg/thirdPartyLogins?addr=${signResult}`
+								});
+							}else{
+								uni.setStorageSync("user", res.data)
+								uni.switchTab({
+									url: `/pages/index/index`
+								});
+							}
+							
 						},
 					})
 
@@ -256,7 +267,7 @@
 					this.errorStr = err
 					console.warn(`failed to connect..`, err);
 				}
-				// console.info("----------------",result);
+				console.info("----------------",result);
 
 
 				// try {
