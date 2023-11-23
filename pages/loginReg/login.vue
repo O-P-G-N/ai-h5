@@ -16,7 +16,7 @@
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						{{$t('login.type.phone')}}({{$t('login.notyetopened')}})
+						{{$t('login.type.phone')}}
 					</view>
 				</button>
 				<button class="subsectiontwo_every" @click="emailLogin">
@@ -116,6 +116,7 @@
 					url: window.location.href,
 					name: 'MetaMask VueJS Example Dapp',
 				},
+				infuraAPIKey: 'cfc3f49d0ec4455c93784a79a9217c0b',
 				// useDeeplink: true,
 				enableDebug: true,
 				checkInstallationImmediately: false,
@@ -127,6 +128,41 @@
 				},
 			});
 		},
+		async mounted() {
+			// Init SDK
+
+			await this.sdk?.init().then(() => {
+
+				this.provider = this.sdk?.getProvider();
+				// Chain changed
+				this.provider?.on("chainChanged", (chain) => {
+					console.log(`App::Chain changed:'`, chain);
+					this.chainId = chain;
+				});
+
+				// Accounts changed
+				this.provider?.on("accountsChanged", (accounts) => {
+					console.log(`App::Accounts changed:'`, accounts);
+					this.account = accounts[0];
+				});
+
+				// Connected event
+				this.provider?.on('connect', (_connectInfo) => {
+					console.log(`App::connect`, _connectInfo);
+					this.onConnect();
+					this.connected = true;
+				});
+
+				// Disconnect event
+				this.provider?.on('disconnect', (error) => {
+					console.log(`App::disconnect`, error);
+					this.connected = false;
+				});
+
+				this.availableLanguages = this.sdk?.availableLanguages ?? ['en']
+			});
+
+		},
 		async onLoad() {
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
@@ -134,53 +170,6 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
-
-			if (uni.getSystemInfoSync().deviceType == "phone") {
-				// this.sdk = new MetaMaskSDK({
-				// 	dappMetadata: {
-				// 		url: window.location.href,
-				// 		name: 'MetaMask VueJS Example Dapp',
-				// 	},
-				// 	// useDeeplink: true,
-				// 	enableDebug: true,
-				// 	checkInstallationImmediately: false,
-				// 	logging: {
-				// 		developerMode: true,
-				// 	},
-				// 	i18nOptions: {
-				// 		enabled: true,
-				// 	},
-				// });
-				await this.sdk?.init().then(() => {
-					this.provider = this.sdk?.getProvider();
-					// Chain changed
-					this.provider?.on("chainChanged", (chain) => {
-						console.log(`App::Chain changed:'`, chain);
-						this.chainId = chain;
-					});
-
-					// Accounts changed
-					this.provider?.on("accountsChanged", (accounts) => {
-						console.log(`App::Accounts changed:'`, accounts);
-						this.account = accounts[0];
-					});
-
-					// Connected event
-					this.provider?.on('connect', (_connectInfo) => {
-						console.log(`App::connect`, _connectInfo);
-						this.onConnect();
-						this.connected = true;
-					});
-
-					// Disconnect event
-					this.provider?.on('disconnect', (error) => {
-						console.log(`App::disconnect`, error);
-						this.connected = false;
-					});
-
-					this.availableLanguages = this.sdk?.availableLanguages ?? ['en']
-				});
-			}
 		},
 		methods: {
 			//手机登录
@@ -237,10 +226,14 @@
 				}
 			},
 			async loginItemMeta() {
-				
+
 				try {
-					const signResult = await this.sdk?.connectAndSign({
-						msg: 'Connect + Sign message'
+					// const signResult = await this.sdk?.connectAndSign({
+					// 	msg: 'Connect + Sign message'
+					// });
+					const signResult = await this.provider.request({
+						method: 'eth_requestAccounts',
+						params: [],
 					});
 					uni.showLoading({
 						title: that.$t('user.con_detail.i37'),
@@ -250,21 +243,23 @@
 					uni.request({
 						url: '/nt/externalLogin',
 						method: "POST",
-						data: {addr:signResult},
+						data: {
+							addr: signResult
+						},
 						success: (res) => {
-							if(res.data.token==undefined){
+							if (res.data.token == undefined) {
 								uni.navigateTo({
 									url: `/pages/loginReg/thirdPartyLogins?addr=${signResult}`
 								});
 								uni.hideLoading()
-							}else{
+							} else {
 								uni.setStorageSync("user", res.data)
 								uni.hideLoading()
 								uni.switchTab({
 									url: `/pages/index/index`
 								});
 							}
-							
+
 						},
 					})
 
@@ -273,7 +268,7 @@
 					this.errorStr = err
 					console.warn(`failed to connect..`, err);
 				}
-				console.info("----------------",result);
+				console.info("----------------", result);
 
 
 				// try {

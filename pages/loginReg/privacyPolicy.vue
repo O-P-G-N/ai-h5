@@ -1477,7 +1477,7 @@
 			return {
 				privacypolicy: this.$t('login.privacypolicy'), //隐私协议国际化
 				back: this.$t('login.back'), //返回国际化
-				pageShow: 0,
+				pageShow: 2,
 			};
 		},
 		onShow() {

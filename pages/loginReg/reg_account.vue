@@ -17,7 +17,7 @@
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						{{$t('login.type.phones.register')}}({{$t('login.notyetopened')}})
+						{{$t('login.type.phones.register')}}
 					</view>
 				</button>
 				<view class="line">

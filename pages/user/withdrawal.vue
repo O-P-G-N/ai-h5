@@ -239,7 +239,7 @@
 					method: "GET",
 					success: (res) => {
 						this.withdrawalInfo = res.data;
-						this.from.questionKey = res.data.questionList[0].key;
+						// this.from.questionKey = res.data.questionList[0].key;
 					}
 				});
 				uni.request({
@@ -283,6 +283,7 @@
 			// 获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
+					this.$refs.uCode.start();
 					uni.request({
 						url: `/aicommon/sendCodeMustToken`,
 						method: "GET",
@@ -291,7 +292,6 @@
 						},
 						success: (res) => {
 							if (res.code == 200) {
-								this.$refs.uCode.start();
 								uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 							}
 						}
@@ -344,10 +344,10 @@
 					uni.$u.toast(that.$t('user.capital_flow.i64'));
 					return
 				} else if (that.from.amount < that.withdrawalInfo.withdrawMin) {
-					uni.$u.toast(`that.$t('user.capital_flow.i66')：${that.withdrawalInfo.withdrawMin}`);
+					uni.$u.toast(`${that.$t('user.capital_flow.i66')}：${that.withdrawalInfo.withdrawMin}`);
 					return
 				} else if (that.from.amount > that.withdrawalInfo.withdrawMax) {
-					uni.$u.toast(`that.$t('user.capital_flow.i67')：${that.withdrawalInfo.withdrawMax}`);
+					uni.$u.toast(`${that.$t('user.capital_flow.i67')}：${that.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
 					uni.showLoading({

@@ -880,8 +880,8 @@
 
 		.title_top {
 			width: 100%;
-			height: 144rpx;
-			background: #FFFFFF;
+			height: 144rpx; 
+			background: rgba(255, 255, 255, .8);
 			box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 			border-radius: 12px 12px 12px 12px;
 			margin-top: 52px;

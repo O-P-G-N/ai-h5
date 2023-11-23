@@ -7042,7 +7042,7 @@
 			return {
 				termsuse: this.$t('login.termsuse'), //用户协议国际化
 				back: this.$t('login.back'), //返回国际化
-				pageShow: 0,
+				pageShow: 2,
 			};
 		},
 		onShow() {

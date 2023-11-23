@@ -25,7 +25,7 @@
 					<view class="">{{$t('login.selectmobileverification4')}}</view>
 				</view>
 				<view class="codeinput">
-					<u-code-input v-model="value" :focus="true" :maxlength="4"></u-code-input>
+					<u-code-input v-model="value" :focus="true" :maxlength="6"></u-code-input>
 				</view>
 				<ai-button :disabled="value?false:true" class="next-btn loginbtn"
 					@click="nextStepTwo">{{$t('login.nextstep')}}</ai-button>
@@ -192,7 +192,7 @@
 			// 重置
 			reset() {
 				let num = /[0-9]/im
-				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrn = /^(?=.*?[A-Z]).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.formData.password.length < 8) {
 					uni.$u.toast(this.$t("login.tips8"));
