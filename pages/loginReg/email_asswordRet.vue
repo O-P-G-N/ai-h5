@@ -97,9 +97,16 @@
 		methods: {
 			// 返回登录首页
 			goBackUser() {
-				uni.navigateTo({
-					url: `/pages/loginReg/login`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.navigateTo({
+						url: `/pages/loginReg/login`
+					});
+				}
 			},
 			// 第一步下一步
 			nextStep() {

@@ -114,7 +114,7 @@
 
 			</template>
 		</view>
-		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
+		<u-popup :show="show" closeOnClickOverlay @close="show=false" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="generateImg"></image>
 			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
 		</u-popup>

@@ -210,23 +210,23 @@
 			},
 			async onConnect() {
 				console.log(789);
-				try {
-					const res = await this.provider.request({
-						method: 'eth_requestAccounts',
-						params: [],
-					});
-					console.log(1111);
-					this.account = res[0];
-					console.log('request accounts', res);
-					this.lastResponse = "";
-					this.chainId = this.provider.chainId;
-				} catch (e) {
-					console.log(987);
-					console.log('request accounts ERR', e);
-				}
+				// try {
+				// 	const res = await this.provider.request({
+				// 		method: 'eth_requestAccounts',
+				// 		params: [],
+				// 	});
+				// 	console.log(1111);
+				// 	this.account = res[0];
+				// 	console.log('request accounts', res);
+				// 	this.lastResponse = "";
+				// 	this.chainId = this.provider.chainId;
+				// } catch (e) {
+				// 	console.log(987);
+				// 	console.log('request accounts ERR', e);
+				// }
 			},
 			async loginItemMeta() {
-
+				let that = this
 				try {
 					// const signResult = await this.sdk?.connectAndSign({
 					// 	msg: 'Connect + Sign message'
