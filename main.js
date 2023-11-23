@@ -58,9 +58,7 @@ let req_handler = function() {
 				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
 					config.url = config.url + "?lang=en"
 				}
-
 			}
-
 			this_url = config.url
 			if (store.state.app.loading.indexOf(this_url) >= 0) {
 				console.error('intercepted duplicate request', this_url)
@@ -77,7 +75,6 @@ let req_handler = function() {
 					on: true
 				})
 			}
-
 			if (app_config.debug > 2) {
 				console.log('invoke-success', config);
 			}
@@ -141,8 +138,6 @@ let req_handler = function() {
 						position: true
 					});
 					// 约定401未登录请求
-
-
 				} else if (res.statusCode == 404) {
 					uni.showToast({
 						title: 'API 接口不存在',
@@ -169,6 +164,10 @@ let req_handler = function() {
 			}
 		},
 		fail(err) {
+			store.commit('app/SET_LOADING', {
+				effect: this_url,
+				on: false
+			})
 			if (app_config.debug) {
 				console.log('http-fail', err)
 			}
