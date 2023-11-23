@@ -23,7 +23,9 @@
 					</u-checkbox-group>
 				</view>
 				<view class="privacy">
-					{{$t('login.agreement1')}}<text class="blur" @click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
+					{{$t('login.agreement1')}}<text class="blur"
+						@click="viewTerms">《{{$t('login.agreement2')}}》</text>{{$t('login.agreement3')}}<text
+						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
@@ -52,11 +54,11 @@
 				},
 				loading: false, //等待
 				forbidden: true, //是否禁用按钮
-				rememberPassword:this.$t('login.rememberpassword'),//记住密码国际化
-				back:this.$t('login.back'),//返回国际化
-				typeEmail:this.$t('login.type.email'),//邮箱登录国际化
-				password:this.$t('login.password'),//密码国际化
-				Email:this.$t('login.Email'),//密码国际化
+				rememberPassword: this.$t('login.rememberpassword'), //记住密码国际化
+				back: this.$t('login.back'), //返回国际化
+				typeEmail: this.$t('login.type.email'), //邮箱登录国际化
+				password: this.$t('login.password'), //密码国际化
+				Email: this.$t('login.Email'), //密码国际化
 			};
 		},
 		onShow() {
@@ -80,13 +82,13 @@
 				});
 			},
 			// 查看用户协议
-			viewTerms(){
+			viewTerms() {
 				uni.navigateTo({
 					url: `/pages/loginReg/termsUse`
 				});
 			},
 			// 查看隐私协议
-			viewPolicy(){
+			viewPolicy() {
 				uni.navigateTo({
 					url: `/pages/loginReg/privacyPolicy`
 				});
@@ -97,8 +99,7 @@
 			},
 			// 勾选记住密码
 			checkboxChange(val) {
-				if (val[0] == 1) {
-				} else {
+				if (val[0] == 1) {} else {
 					uni.removeStorageSync("emailCheck")
 					uni.removeStorageSync("email")
 				}
@@ -106,108 +107,157 @@
 			// 登录
 			loginBtn() {
 				let that = this
-				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
-				let emailPattern =
-					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
-				if (!emailPattern.test(this.from.username)) {
-					uni.showToast({
-						title: this.$t("login.tips9"),
-						icon: "none",
-						success: function(res) {},
-					})
-					return
-				} else if (this.from.password == "") {
-					uni.showToast({
-						title: this.$t("login.tips10"),
-						icon: "none",
-						success: function(res) {},
-					})
-					return
-				} else if (this.from.password.length < 8) {
-					uni.showToast({
-						title:this.$t("login.tips4"),
-						icon: "none",
-						success: function(res) {},
-					})
-					return
-				} else {
-					if (patrn.test(this.from.password)) {
-						this.loading = true
-						this.forbidden = false
-						uni.request({
-							url: '/nt/login',
-							method: "POST",
-							data: this.from,
-							success: (res) => {
-								if (res.code == 200) {
-									if (that.checkboxValue[0] == 1) {
-										uni.setStorageSync("emailCheck", that.checkboxValue[0])
-										uni.setStorageSync("email", this.from)
-									}
-									this.$store.commit('app/clear',true)
-									uni.showToast({
-										title:this.$t("login.tips11"),
-										success: function() {
-											let time = setTimeout(() => {
-												that.loading = false;
-												that.forbidden = true;
-												clearTimeout(time)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
-								} else if (res.code == 500) {
-									that.loading = false;
-									that.forbidden = true;
 
+				if (that.from.username == "") {
+					uni.$u.toast(that.$t('login.enteremail'));
+					return
+				}else if (that.from.password == "") {
+					uni.showToast({
+						title: that.$t("login.tips10"),
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				}else{
+					that.loading = true
+					that.forbidden = false
+					uni.request({
+						url: '/nt/login',
+						method: "POST",
+						data: that.from,
+						success: (res) => {
+							if (res.code == 200) {
+								if (that.checkboxValue[0] == 1) {
+									uni.setStorageSync("emailCheck", that.checkboxValue[0])
+									uni.setStorageSync("email", that.from)
 								}
-
+								that.$store.commit('app/clear', true)
+								uni.showToast({
+									title: that.$t("login.tips11"),
+									success: function() {
+										let time = setTimeout(() => {
+											that.loading = false;
+											that.forbidden = true;
+											clearTimeout(time)
+											uni.setStorageSync("user", res.data)
+											uni.switchTab({
+												url: `/pages/index/index`
+											});
+										}, 1000)
+									},
+								})
+							} else {
+								that.loading = false;
+								that.forbidden = true;
+					
 							}
-						});
-					} else if (patrns.test(this.from.password)) {
-						this.loading = true
-						this.forbidden = false
-						uni.request({
-							url: '/nt/login',
-							method: "POST",
-							data: this.from,
-							success: (res) => {
-								if (res.code == 200) {
-									if (that.checkboxValue[0] == 1) {
-										uni.setStorageSync("emailCheck", that.checkboxValue[0])
-										uni.setStorageSync("email", this.from)
-									}
-									uni.showToast({
-										title: this.$t("login.tips11"),
-										success: function() {
-											let times = setTimeout(() => {
-												that.loading = false;
-												that.forbidden = true;
-												clearTimeout(times)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
-								} else if (res.code == 500) {
-									that.loading = false;
-									that.forbidden = true;
-
-								}
-
-							}
-						});
-					} else {
-						uni.$u.toast(this.$t("login.tips8"));
-						return
-					}
+					
+						}
+					});
 				}
+
+				// let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				// let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
+				// let emailPattern =
+				// 	/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
+				// if (!emailPattern.test(this.from.username)) {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips9"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else if (this.from.password == "") {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips10"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else if (this.from.password.length < 8) {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips4"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else {
+				// 	if (patrn.test(this.from.password)) {
+				// 		this.loading = true
+				// 		this.forbidden = false
+				// 		uni.request({
+				// 			url: '/nt/login',
+				// 			method: "POST",
+				// 			data: this.from,
+				// 			success: (res) => {
+				// 				if (res.code == 200) {
+				// 					if (that.checkboxValue[0] == 1) {
+				// 						uni.setStorageSync("emailCheck", that.checkboxValue[0])
+				// 						uni.setStorageSync("email", this.from)
+				// 					}
+				// 					this.$store.commit('app/clear', true)
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips11"),
+				// 						success: function() {
+				// 							let time = setTimeout(() => {
+				// 								that.loading = false;
+				// 								that.forbidden = true;
+				// 								clearTimeout(time)
+				// 								uni.setStorageSync("user", res.data)
+				// 								uni.switchTab({
+				// 									url: `/pages/index/index`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				} else if (res.code == 500) {
+				// 					that.loading = false;
+				// 					that.forbidden = true;
+
+				// 				}
+
+				// 			}
+				// 		});
+				// 	} else if (patrns.test(this.from.password)) {
+				// 		this.loading = true
+				// 		this.forbidden = false
+				// 		uni.request({
+				// 			url: '/nt/login',
+				// 			method: "POST",
+				// 			data: this.from,
+				// 			success: (res) => {
+				// 				if (res.code == 200) {
+				// 					if (that.checkboxValue[0] == 1) {
+				// 						uni.setStorageSync("emailCheck", that.checkboxValue[0])
+				// 						uni.setStorageSync("email", this.from)
+				// 					}
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips11"),
+				// 						success: function() {
+				// 							let times = setTimeout(() => {
+				// 								that.loading = false;
+				// 								that.forbidden = true;
+				// 								clearTimeout(times)
+				// 								uni.setStorageSync("user", res.data)
+				// 								uni.switchTab({
+				// 									url: `/pages/index/index`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				} else if (res.code == 500) {
+				// 					that.loading = false;
+				// 					that.forbidden = true;
+
+				// 				}
+
+				// 			}
+				// 		});
+				// 	} else {
+				// 		uni.$u.toast(this.$t("login.tips8"));
+				// 		return
+				// 	}
+				// }
 			},
 			// 注册账号
 			regAccount() {

@@ -430,6 +430,7 @@
 	"user.islands.sc.fdp.i4": "交易密碼不能有大寫字母",
 	"user.islands.sc.fdp.i5": "交易密碼不能有特殊字符",
 	"user.islands.sc.fdp.i6": "交易密碼不能有小寫字母",
+	"user.islands.sc.fdp.i7": "交易密碼只能是純數字，其他字母禁止輸入",
 
 	"user.islands.sc.idx.i1": "安全中心",
 	"user.islands.sc.idx.i2": "已設置",

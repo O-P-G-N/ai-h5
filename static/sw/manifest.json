@@ -1,25 +1,25 @@
 {
-  "name": "PWA Lite",
-  "short_name": "PWA",
+  "name": "AlitaGPT",
+  "short_name": "AlitaGPT",
   "display": "standalone",
-  "start_url": "./template.h5.html",
+  "start_url": "/",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "gcm_sender_id": "PWA_LITE_GCMAPIKey",
+  "gcm_sender_id": "AlitaGPT",
   "icons": [
     {
-      "src": "./static/appicon_144.png",
+      "src": "../appicon_144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "./static/appicon_96.png",
+      "src": "../appicon_96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
 
     {
-      "src": "./static/appicon_48.png",
+      "src": "../appicon_48.png",
       "sizes": "48x48",
       "type": "image/png"
     }

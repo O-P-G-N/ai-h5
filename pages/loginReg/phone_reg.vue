@@ -223,16 +223,16 @@
 					uni.$u.toast(that.$t('login.traderPassword'));
 					return
 				} else if (that.from.withdrawPassword.length < 6) {
-					uni.$u.toast(that.$t('user.islands.sc.fdp.i3'));
+					uni.$u.toast(that.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrn.test(that.from.withdrawPassword)) {
-					uni.$u.toast(that.$t('user.islands.sc.fdp.i4'));
+					uni.$u.toast(that.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrns.test(that.from.withdrawPassword)) {
-					uni.$u.toast(that.$t('user.islands.sc.fdp.i5'));
+					uni.$u.toast(that.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrnss.test(that.from.withdrawPassword)) {
-					uni.$u.toast(that.$t('user.islands.sc.fdp.i6'));
+					uni.$u.toast(that.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (that.from.withdrawPassword != that.from.newWithdrawPassword) {
 					uni.$u.toast(that.$t('login.traderPassword2'));

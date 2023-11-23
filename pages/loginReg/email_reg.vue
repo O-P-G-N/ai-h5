@@ -18,7 +18,8 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" :placeholder="$t('login.tips10')" maxlength="32" :password="eyeShow">
+					<u-input v-model="from.password" :placeholder="$t('login.tips10')" maxlength="32"
+						:password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
@@ -197,16 +198,16 @@
 					uni.$u.toast(this.$t('login.traderPassword'));
 					return
 				} else if (that.from.withdrawPassword.length < 6) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i3'));
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrn.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i4'));
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrns.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i5'));
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (patrnss.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
+					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
 					return
 				} else if (this.from.withdrawPassword != this.from.newWithdrawPassword) {
 					uni.$u.toast(this.$t('login.traderPassword2'));
@@ -311,10 +312,10 @@
 
 	::v-deep.email_reg {
 		width: 100wh;
-		height: 100vh;
+		min-height: 100vh;
 		display: flex;
 		align-items: center;
-
+		background-color: #fff;
 		box-sizing: border-box;
 
 		.container_nei {

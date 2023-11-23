@@ -429,6 +429,7 @@
 	"user.islands.sc.fdp.i4": "Transaction password cannot have capital letters",
 	"user.islands.sc.fdp.i5": "The transaction password cannot have special characters",
 	"user.islands.sc.fdp.i6": "Transaction password cannot contain lowercase letters",
+	"user.islands.sc.fdp.i7": "The transaction password can only be pure numbers, and other letters are prohibited from being entered.",
 
 	"user.islands.sc.idx.i1": "security center",
 	"user.islands.sc.idx.i2": "have set",
