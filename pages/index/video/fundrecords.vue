@@ -148,7 +148,7 @@
 								});
 							}, 6000)
 						} else if (res.code == 500) {
-							uni.$u.toast(this.$t("index.tips7"));
+							// uni.$u.toast(this.$t("index.tips7"));
 							clearInterval(this.time)
 							this.time = null;
 							let timer = setTimeout(() => {

@@ -31,14 +31,15 @@
 						{{item.name}}
 					</view>
 				</view>
-				<ai-button :btnHeight="'72px'" class="clickView" @click="generateFn">{{$t("index.generatenow")}}</ai-button>
+				<ai-button :btnHeight="'72px'" class="clickView"
+					@click="generateFn">{{$t("index.generatenow")}}</ai-button>
 			</template>
 			<template v-else>
 				<view class="generateDiv">
 					<template v-if="imgUrl.length>0">
-						<view class="generateImg_box" >
-							<image :class="imgUrl.length>1?'generateImgs':'generateImg'" v-for="(v,i) in imgUrl" :key="i"
-								@load="load" :src="v" @click="showFn(v)"></image>
+						<view class="generateImg_box">
+							<image :class="imgUrl.length>1?'generateImgs':'generateImg'" v-for="(v,i) in imgUrl"
+								:key="i" @load="load" :src="v" @click="showFn(v,i)"></image>
 						</view>
 						<view class="img_load" v-if="!loadComplete"><u-loading-icon
 								:show="!loadComplete"></u-loading-icon>{{$t("index.loadingforyou")}}...</view>
@@ -52,7 +53,8 @@
 					</template>
 				</view>
 				<view class="hint" v-if='imgUrl.length>0'>{{$t("index.savelocally")}}</view>
-				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text></view>
+				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text>
+				</view>
 				<view class="detail-content">{{parameter.prompt}}</view>
 
 				<view class="content-title"><text>{{$t("index.creativeinfo")}}</text></view>
@@ -114,8 +116,11 @@
 
 			</template>
 		</view>
-		<u-popup :show="show" closeOnClickOverlay @close="show=false" mode="center" customStyle="{'background-color':'transparent'}">
-			<image mode="widthFix" class="privImg" :src="generateImg"></image>
+		<u-popup :show="show" closeOnClickOverlay @close="show=false" mode="center"
+			customStyle="{'background-color':'transparent'}">
+			<!-- <image mode="widthFix" class="privImg" :src="generateImg"></image> -->
+			<u-swiper height="320" :current="currentIndex" @change="imgIndex" class="privImg" :list="imgUrl" imgMode="widthFix"  circular :autoplay="false" radius="5"
+				bgColor="#ffffff"></u-swiper>
 			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
@@ -142,7 +147,7 @@
 				generateImg: '',
 				progress: 0,
 				typeList: [{
-					name:this.$t("index.theme.becurrent"),
+					name: this.$t("index.theme.becurrent"),
 					imgUrl: require('@/static/index/preempt5.png'),
 					topic: 1,
 				}, {
@@ -166,15 +171,15 @@
 					imgUrl: require('@/static/index/model10.webp'),
 					topic: 6,
 				}, {
-					name:this.$t("index.theme.characterportrait"),
+					name: this.$t("index.theme.characterportrait"),
 					imgUrl: require('@/static/index/model11.webp'),
 					topic: 7,
 				}, {
-					name:this.$t("index.theme.3Dmarvel"),
+					name: this.$t("index.theme.3Dmarvel"),
 					imgUrl: require('@/static/index/model9.webp'),
 					topic: 8,
 				}, {
-					name:this.$t("index.theme.CGphoto"),
+					name: this.$t("index.theme.CGphoto"),
 					imgUrl: require('@/static/index/model5.webp'),
 					topic: 9,
 				}],
@@ -185,25 +190,25 @@
 					name: this.$t("index.ai.creationstyle.cyberpunk"),
 					style: 2,
 				}, {
-					name:this.$t("index.ai.creationstyle.watercolor"),
+					name: this.$t("index.ai.creationstyle.watercolor"),
 					style: 3,
 				}, {
-					name:this.$t("index.ai.creationstyle.chinese_ink"),
+					name: this.$t("index.ai.creationstyle.chinese_ink"),
 					style: 4,
 				}, {
-					name:this.$t("index.ai.creationstyle.black_and_white"),
+					name: this.$t("index.ai.creationstyle.black_and_white"),
 					style: 5,
 				}, {
-					name:this.$t("index.ai.creationstyle.oil_painting"),
+					name: this.$t("index.ai.creationstyle.oil_painting"),
 					style: 6,
 				}, {
 					name: this.$t("index.ai.creationstyle.dreamlike"),
 					style: 7,
 				}, {
-					name:this.$t("index.ai.creationstyle.sketch"),
+					name: this.$t("index.ai.creationstyle.sketch"),
 					style: 8,
 				}, {
-					name:this.$t("index.ai.creationstyle.graffiti"),
+					name: this.$t("index.ai.creationstyle.graffiti"),
 					style: 9,
 				}],
 				showPopup: false,
@@ -213,7 +218,9 @@
 				},
 				imgUrl: [], //图片地址
 				loadComplete: false, //图片加载完成
-				create:this.$t("index.ai.create"),//AI创作国际化
+				create: this.$t("index.ai.create"), //AI创作国际化
+				currentIndex:0,//点击的图片
+				imgUrlIndex:0,//滑动的图片
 			}
 		},
 		onLoad(e) {
@@ -222,12 +229,14 @@
 			this.parameter.topic = 1;
 		},
 		onShow() {
-			document.oncontextmenu=function(){return false;}
-			document.onkeydown=function(event){
-			        var e = event ||window.event || arguments.callee.caller.arguments[0];
-			        if(e && e.keyCode==116){
-			            return false;
-			        }
+			document.oncontextmenu = function() {
+				return false;
+			}
+			document.onkeydown = function(event) {
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				if (e && e.keyCode == 116) {
+					return false;
+				}
 			}
 		},
 		methods: {
@@ -239,7 +248,7 @@
 				if (type == 1) {
 					this.showDetail = {
 						title: this.$t("index.tips3"),
-						content:this.$t("index.tips4")
+						content: this.$t("index.tips4")
 					}
 				} else {
 					this.showDetail = {
@@ -262,9 +271,14 @@
 					url: '/pages/index/picture/modelworks'
 				})
 			},
-			showFn(src) {
+			showFn(src,i) {
 				this.show = true
+				this.currentIndex=i
+				this.imgUrlIndex=i
 				this.generateImg = src
+			},
+			imgIndex(index){
+				this.imgUrlIndex=index.current
 			},
 			// 主题选择
 			themeSelect(index, topic) {
@@ -291,7 +305,7 @@
 						} else if (res.code == 500) {
 							this.isGenerate = false;
 							if (this.setIntervalL) clearInterval(this.setIntervalL)
-							
+
 						}
 					},
 					fail: (err) => {
@@ -317,11 +331,12 @@
 			},
 			copyBtn() {
 				let that = this
+				console.log(that.imgUrl[that.imgUrlIndex]);
 				uni.setClipboardData({
-					data: this.generateImg,
+					data: that.imgUrl[that.imgUrlIndex],
 					success: function() {
 						uni.showToast({
-							title:that.$t("index.tips8"),
+							title: that.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}
@@ -538,24 +553,27 @@
 		flex-direction: column;
 		overflow: hidden;
 		position: relative;
-		.generateImg_box{
+
+		.generateImg_box {
 			width: 100%;
 			height: 100%;
 			display: flex;
 			flex-wrap: wrap;
+
 			.generateImgs {
 				width: calc(100% / 2);
 				height: calc(100% / 2);
-			
-				
+
+
 			}
+
 			.generateImg {
 				width: 100%;
 				height: 100%;
 			}
 		}
 
-		
+
 
 		.generateImg {
 			width: 100%;
@@ -668,8 +686,10 @@
 		background-color: transparent;
 	}
 
-	.privImg {
+	::v-deep.privImg {
+		
 		width: 80vw;
+		
 	}
 
 	.buttonDown {
