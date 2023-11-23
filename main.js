@@ -98,7 +98,7 @@ let req_handler = function() {
 					// 屏蔽其他第三方报错
 				} else if (res.data.code == 401) {
 					uni.showToast({
-						title: "登录过期失效",
+						title: "账户已在其他设备登录",
 						icon: 'error',
 						position: true,
 					});

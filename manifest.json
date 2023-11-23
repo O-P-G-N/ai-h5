@@ -63,7 +63,7 @@
     "h5" : {
         "template" : "",
         "router" : {
-            "mode" : ""
+            "mode" : "hash"
         },
         "devServer" : {
             "https" : false
