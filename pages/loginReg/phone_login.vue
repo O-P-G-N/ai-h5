@@ -8,8 +8,8 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone" @onChange="onChange"
-							v-model="from.countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true"
+							type="phone" @onChange="onChange" v-model="from.countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -117,8 +117,6 @@
 			// 登录
 			loginBtn() {
 				let that = this
-				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({
 						title: this.$t("login.tips18"),
@@ -140,89 +138,149 @@
 						success: function(res) {},
 					})
 					return
-				} else if (this.from.password.length < 8) {
-					uni.showToast({
-						title: this.$t("login.tips4"),
-						icon: "none",
-						success: function(res) {},
-					})
-					return
 				} else {
-					if (patrn.test(this.from.password)) {
-						this.loading = true
-						this.forbidden = false
-						uni.request({
-							url: '/nt/login',
-							method: "POST",
-							data: this.from,
-							success: (res) => {
-								if (res.code == 500) {
-									that.loading = false;
-									that.forbidden = true;
-								} else if (res.code == 200) {
-									if (that.checkboxValue[0] == 1) {
-										uni.setStorageSync("phoneCheck", that.checkboxValue[0])
-										uni.setStorageSync("phone", that.from)
-									}
-									uni.showToast({
-										title: this.$t("login.tips11"),
-										success: function() {
-											let times = setTimeout(() => {
-												that.loading = false;
-												that.forbidden = true;
-												clearTimeout(times)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
+					this.loading = true
+					this.forbidden = false
+					uni.request({
+						url: '/nt/login',
+						method: "POST",
+						data: this.from,
+						success: (res) => {
+							if (res.code == 500) {
+								that.loading = false;
+								that.forbidden = true;
+							} else if (res.code == 200) {
+								if (that.checkboxValue[0] == 1) {
+									uni.setStorageSync("phoneCheck", that.checkboxValue[0])
+									uni.setStorageSync("phone", that.from)
 								}
-
-
+								uni.showToast({
+									title: this.$t("login.tips11"),
+									success: function() {
+										let times = setTimeout(() => {
+											that.loading = false;
+											that.forbidden = true;
+											clearTimeout(times)
+											uni.setStorageSync("user", res.data)
+											uni.switchTab({
+												url: `/pages/index/index`
+											});
+										}, 1000)
+									},
+								})
 							}
-						});
-					} else if (patrns.test(this.from.password)) {
-						this.loading = true
-						this.forbidden = false
-						uni.request({
-							url: '/nt/login',
-							method: "POST",
-							data: this.from,
-							success: (res) => {
-								if (res.code == 500) {
-									that.loading = false;
-									that.forbidden = true;
-								} else if (res.code == 200) {
-									if (that.checkboxValue[0] == 1) {
-										uni.setStorageSync("phoneCheck", that.checkboxValue[0])
-										uni.setStorageSync("phone", that.from)
-									}
-									uni.showToast({
-										title:this.$t("login.tips11"),
-										success: function() {
-											let time = setTimeout(() => {
-												that.loading = false;
-												that.forbidden = true;
-												clearTimeout(time)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
-								}
 
 
-							}
-						});
-					} else {
-						uni.$u.toast(this.$t("login.tips8"));
-						return
-					}
+						}
+					});
 				}
+
+				// let patrn = /^(?=.*?[A-Z]).*$/
+				// let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
+				// if (this.from.countryCode == "") {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips18"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else if (this.from.username == "") {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips19"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else if (this.from.password == "") {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips10"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else if (this.from.password.length < 8) {
+				// 	uni.showToast({
+				// 		title: this.$t("login.tips4"),
+				// 		icon: "none",
+				// 		success: function(res) {},
+				// 	})
+				// 	return
+				// } else {
+				// 	if (patrn.test(this.from.password)) {
+				// 		this.loading = true
+				// 		this.forbidden = false
+				// 		uni.request({
+				// 			url: '/nt/login',
+				// 			method: "POST",
+				// 			data: this.from,
+				// 			success: (res) => {
+				// 				if (res.code == 500) {
+				// 					that.loading = false;
+				// 					that.forbidden = true;
+				// 				} else if (res.code == 200) {
+				// 					if (that.checkboxValue[0] == 1) {
+				// 						uni.setStorageSync("phoneCheck", that.checkboxValue[0])
+				// 						uni.setStorageSync("phone", that.from)
+				// 					}
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips11"),
+				// 						success: function() {
+				// 							let times = setTimeout(() => {
+				// 								that.loading = false;
+				// 								that.forbidden = true;
+				// 								clearTimeout(times)
+				// 								uni.setStorageSync("user", res.data)
+				// 								uni.switchTab({
+				// 									url: `/pages/index/index`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				}
+
+
+				// 			}
+				// 		});
+				// 	} else if (patrns.test(this.from.password)) {
+				// 		this.loading = true
+				// 		this.forbidden = false
+				// 		uni.request({
+				// 			url: '/nt/login',
+				// 			method: "POST",
+				// 			data: this.from,
+				// 			success: (res) => {
+				// 				if (res.code == 500) {
+				// 					that.loading = false;
+				// 					that.forbidden = true;
+				// 				} else if (res.code == 200) {
+				// 					if (that.checkboxValue[0] == 1) {
+				// 						uni.setStorageSync("phoneCheck", that.checkboxValue[0])
+				// 						uni.setStorageSync("phone", that.from)
+				// 					}
+				// 					uni.showToast({
+				// 						title:this.$t("login.tips11"),
+				// 						success: function() {
+				// 							let time = setTimeout(() => {
+				// 								that.loading = false;
+				// 								that.forbidden = true;
+				// 								clearTimeout(time)
+				// 								uni.setStorageSync("user", res.data)
+				// 								uni.switchTab({
+				// 									url: `/pages/index/index`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				}
+
+
+				// 			}
+				// 		});
+				// 	} else {
+				// 		uni.$u.toast(this.$t("login.tips8"));
+				// 		return
+				// 	}
+				// }
 			},
 			// 注册账号
 			regAccount() {
