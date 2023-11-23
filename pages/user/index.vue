@@ -9,15 +9,16 @@
 					<!-- <view >buyit714@gmail.com</view> -->
 					<image class="account_img" :show="true" @click="showHidden"
 						:src="eyeShow?'../../static/user/eye.png':'../../static/user/hide.png'"></image>
-					<image class="level_img"
+					<image @click="levelDesc" class="level_img"
 						:src="myInfo.vip==1?'../../static/user/e1.png':myInfo.vip==2?'../../static/user/d1.png':myInfo.vip==3?'../../static/user/c1.png':myInfo.vip==4?'../../static/user/b1.png':myInfo.vip==5?'../../static/user/a1.png':myInfo.vip==6?'../../static/user/s1.png':''">
 					</image>
 				</view>
 			</view>
 		</view>
-		<view class="user_head_right" @click="viewNotices">
-			<view class="user_head_right_content">
-				<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
+		<view class="user_head_right">
+			<image src="@/static/user/set.png" class="user_head_right_set" @click="securityCenter" mode=""></image>
+			<view class="user_head_right_content" @click="viewNotices">
+				<u-badge class="badge" :offset="[0, -1]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
 					type="error"></u-badge>
 				<image class="user_head_right_content_img" src="../../static/user/small_bell.png"></image>
 			</view>
@@ -26,7 +27,7 @@
 			<view class="allbalance">
 				<view class="left">
 					<view class="titles">
-						<text class="cbac">{{$t('home.asset.total')}}</text>/ {{$t('home.asset.unit')}}
+						<text class="cbac">{{$t('home.asset.total')}}</text>
 					</view>
 					<view class="balancenum">
 						<text v-if="eyeShows">{{myInfo.total}}</text>
@@ -110,7 +111,24 @@
 			<button class="everyone" size="default" type="default" @click="recharge">{{$t('home.charge')}}</button>
 			<button class="everytwo" size="default" type="default" @click="withdrawal">{{$t('home.withdraw')}}</button>
 		</view>
-		<view class="justcard">
+		<view class="asset_details" @click="viewAssetDetails">
+			<view class="asset_details_left">
+				<view class="asset_details_left_top">
+					<view class="asset_details_left_top_style"></view>
+					<view class="asset_details_left_top_title">{{$t('user.asset.details.index.asset_detail')}}</view>
+				</view>
+				<view class="asset_details_left_bottom">Asset details</view>
+			</view>
+			<image class="asset_details_right" src="@/static/user/property_img.png" mode=""></image>
+		</view>
+		<view class="heard_left">
+			<image class="homecs" src="~@/static/index/homecs.png"></image>
+			<text>{{$t('index.ai.creation')}}</text>
+			
+		</view>
+		<u-swiper class="swiper_list" radius="20" :list="list" keyName="address" showTitle imgMode="widthFix"  autoplay circular></u-swiper>
+
+		<!-- <view class="justcard">
 			<view class="justcard_bottom">
 				{{$t('home.pic.about')}}
 				<image class="justcard_bottom_img" src="@/static/user/homecs1.png" mode=""></image>
@@ -122,24 +140,24 @@
 					<image class="justcard_right_img" src="@/static/user/homejiantou.png" mode=""></image>
 				</view>
 			</button>
-		</view>
+		</view> -->
 		<view class="funlist">
-			<view @click="viewPortfolio">
+			<!-- <view @click="viewPortfolio">
 				<view class="funlist_every">
 					<view class="left"><text>{{$t('home.menu.showreel')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
-			<view>
+			</view> -->
+			<!-- <view>
 				<view class="funlist_every" @click="viewAssetDetails">
 					<view class="left"><text>{{$t('home.menu.asset_record')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<!-- <view>
 				<view class="funlist_every" @click="viewIslands">
 					<view class="left"><text>{{$t('home.menu.islande')}}</text></view>
@@ -148,14 +166,14 @@
 					</view>
 				</view>
 			</view> -->
-			<view>
+			<!-- <view>
 				<view class="funlist_every" @click="securityCenter">
 					<view class="left"><text>{{$t('home.menu.security')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<!-- <view>
 				<view class="funlist_every" @click="helpCenter">
 					<view class="left"><text>{{$t('home.menu.assist')}}</text></view>
@@ -164,25 +182,18 @@
 					</view>
 				</view>
 			</view> -->
-			<view>
+			<!-- <view>
 				<view class="funlist_every" @click="viewNotice">
 					<view class="left"><text>{{$t('home.menu.notice')}}</text></view>
 					<view class="right">
 						<image class="right_img" src="@/static/user/rightjt.png"></image>
 					</view>
 				</view>
-			</view>
-			<view>
-				<view class="funlist_exit" @click="outLogin">{{$t('home.menu.logout')}}</view>
-			</view>
+			</view> -->
+			
 		</view>
 		<Footer pageName='user'></Footer>
-		<u-modal :show="outLoginShow" @confirm="confirm" class="login_out" :title="tips" @cancel="cancel" width="300px"
-			showCancelButton>
-			<view class="slot-content">
-				{{$t('home.confirm.logout')}}
-			</view>
-		</u-modal>
+		
 		<u-modal @confirm="setConfirm" :show="show" :title="tips" :content='content'></u-modal>
 	</view>
 </template>
@@ -197,14 +208,15 @@
 			return {
 				eyeShow: false, //用户名展示
 				eyeShows: true, //金额展示
-				outLoginShow: false, //确定退出弹窗
+			
 				myInfo: {}, //我的信息
 				infoShow: false, //是否显示
 				myUserName: "", //我的用户名
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				list: [], //轮播图列表
 			}
 		},
 		created() {},
@@ -229,8 +241,26 @@
 						console.log(res);
 					}
 				});
-			},
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: {
+						keyword: "",
+						pageNum: 1,
+						pageSize: 10
+					},
+					success: (res) => {
+						this.list = res.data.rows;
 
+					}
+				});
+			},
+			// 等级说明
+			levelDesc(){
+				uni.navigateTo({
+					url: `/pages/user/leveldesc`
+				});
+			},
 			// 设置完整性判断
 			setConfirm() {
 				if (this.setIndex == 0) {
@@ -292,34 +322,37 @@
 			},
 			// 提现
 			withdrawal() {
-				uni.request({
-					url: `/member/getAccountIsComplete`,
-					method: "GET",
-					success: (res) => {
-						if (res.code == 200) {
-							if (!res.data.withdrawPassword) {
-								this.show = true;
-								this.setIndex = 2;
-								this.content = this.$t("model.tips1")
-							} else if (!res.data.question) {
-								this.show = true;
-								this.setIndex = 1;
-								this.content = this.$t("model.tips2")
-							} else if (!res.data.nickName) {
-								this.show = true;
-								this.setIndex = 0;
-								this.content = this.$t("model.tips3")
-							} else {
-								uni.navigateTo({
-									url: `/pages/user/withdrawal`
-								});
-							}
-						}else if(res.code==500){
-							uni.$u.toast(this.$t("model.tips4"))
-						}
-						
-					}
+				uni.navigateTo({
+					url: `/pages/user/withdrawal`
 				});
+				// uni.request({
+				// 	url: `/member/getAccountIsComplete`,
+				// 	method: "GET",
+				// 	success: (res) => {
+				// 		if (res.code == 200) {
+				// 			if (!res.data.withdrawPassword) {
+				// 				this.show = true;
+				// 				this.setIndex = 2;
+				// 				this.content = this.$t("model.tips1")
+				// 			} else if (!res.data.question) {
+				// 				this.show = true;
+				// 				this.setIndex = 1;
+				// 				this.content = this.$t("model.tips2")
+				// 			} else if (!res.data.nickName) {
+				// 				this.show = true;
+				// 				this.setIndex = 0;
+				// 				this.content = this.$t("model.tips3")
+				// 			} else {
+				// 				uni.navigateTo({
+				// 					url: `/pages/user/withdrawal`
+				// 				});
+				// 			}
+				// 		} else if (res.code == 500) {
+				// 			uni.$u.toast(this.$t("model.tips4"))
+				// 		}
+
+				// 	}
+				// });
 
 			},
 			// 关于我们
@@ -345,28 +378,6 @@
 				uni.navigateTo({
 					url: `/pages/user/islands/index`
 				});
-			},
-			// 退出登录
-			outLogin() {
-				this.outLoginShow = true;
-			},
-			// 弹窗取消
-			cancel() {
-				this.outLoginShow = false;
-			},
-			// 弹窗确定
-			confirm() {
-				this.outLoginShow = false;
-				uni.request({
-					url: '/member/logout',
-					method: "GET",
-					success: (res) => {
-						uni.removeStorageSync("user");
-						uni.navigateTo({
-							url: `/pages/loginReg/login`
-						});
-					},
-				})
 			},
 			// 安全中心
 			securityCenter() {
@@ -470,22 +481,26 @@
 			right: 20px;
 			top: 15px;
 			z-index: 99;
-			width: 36px;
-			height: 36px;
+			.user_head_right_set{
+				width: 60rpx;
+				height:60rpx;
+			}
 
 			.user_head_right_content {
-				width: 100%;
-				height: 100%;
-				background: #333;
+				margin-left: 48rpx;
+				width: 64rpx;
+				height: 64rpx;
 				border-radius: 20px;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				position: relative;
-
+				.badge{
+					z-index: 111;
+				}
 				.user_head_right_content_img {
-					width: 15px;
-					height: 15px;
+					width: 60rpx;
+					height: 60rpx;
 				}
 			}
 		}
@@ -660,6 +675,80 @@
 				font-size: 14px;
 			}
 		}
+		.asset_details{
+			width: 100%;
+			height: 148rpx;
+			margin-top: 40rpx;
+			background:url("@/static/user/property_bg.png") no-repeat;
+			background-size: cover;
+			padding: 20rpx 46rpx;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.asset_details_left{
+				.asset_details_left_top{
+					display: flex;
+					align-items: center;
+					margin-bottom: 4rpx;
+					.asset_details_left_top_style{
+						width: 4px;
+						height: 16px;
+						background: #0077FF;
+						border-radius: 0px 0px 0px 0px;
+					}
+					.asset_details_left_top_title{
+						margin-left: 8rpx;
+						font-size: 18px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #4A567D;
+					}
+				}
+				.asset_details_left_bottom{
+					margin-left: 16rpx;
+					font-size: 10px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: rgba(89,98,126,0.38);
+				}
+			}
+			.asset_details_right{
+				width: 116rpx;
+				height: 116rpx;
+			}
+		}
+		
+		.heard_left {
+			margin-top: 20px;
+			margin-bottom: 6px;
+			display: flex;
+			align-items: center;
+		
+			.homecs {
+				width: 50rpx;
+				height: 50rpx;
+			}
+		
+			text {
+				margin-left: 10rpx;
+				color: #1b1b1b;
+				font-size: 38rpx;
+				font-weight: bold;
+		
+			}
+		}
+
+		.swiper_list {
+			height: 368px !important;
+			.u-swiper__wrapper{
+				height: 368px !important;
+			}
+
+			.u-swiper__wrapper__item__wrapper__title {
+				bottom: 0px;
+			}
+		}
 
 		.justcard {
 			padding: 15px 18px;
@@ -728,7 +817,7 @@
 		.funlist {
 			background: #fff;
 			margin-top: 25px;
-			margin-bottom: 90px;
+			margin-bottom: 132px;
 			width: 100%;
 
 			.funlist_every {
@@ -772,23 +861,7 @@
 				border: unset !important;
 			}
 
-			.funlist_exit {
-				width: 100%;
-				height: 53px;
-				box-sizing: border-box;
-				background: #eff3fa;
-				display: flex;
-				align-items: center;
-				padding: 0 20px;
-				margin-bottom: 10px;
-				border-radius: 20px;
-				background: #eff4fa;
-				border-bottom: 1px solid hsla(0, 0%, 97.3%, .2);
-				justify-content: center;
-				font-size: 16px;
-				font-weight: 600;
-				color: #7b7c82;
-			}
+			
 		}
 
 		.slot-content {

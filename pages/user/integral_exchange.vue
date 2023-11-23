@@ -12,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>1 红包={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
+				<text>1 USDT={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -20,7 +20,7 @@
 						<view class="iconImgs">
 							<image src="@/static/user/bbji.png" mode=""></image>
 						</view>
-						<view class="">红包</view>
+						<view class=""> USDT</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">
@@ -54,9 +54,10 @@
 				</view>
 			</view>
 		</view>
-		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">立即兑换</ai-button>
+		<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
+		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">{{$t("user.capital_flow.i26")}}</ai-button>
 		<!-- <button class="ljdh" @click="redeemNow"></button> -->
-		<view class="tuiguang">
+		<!-- <view class="tuiguang">
 			<view>
 				<view class="title">{{$t('user.capital_flow.i27')}}</view>
 				<view class="neirong">{{$t('user.capital_flow.i28')}}</view>
@@ -66,7 +67,7 @@
 				<image src="@/static/user/weiks.png" mode=""></image>
 			</view>
 			<view class="zwkf">{{$t('user.capital_flow.i30')}}</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -86,12 +87,29 @@
 		onShow() {
 			this.getExchangeInfo()
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages);
+			}
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
+					uni.switchTab({
+						url: `/${uni.getStorageSync("router")}`
+					});
+				}
 			},
 			// 获取兑换信息
 			getExchangeInfo() {
@@ -133,27 +151,33 @@
 			},
 			// 确定兑换
 			redeemNow() {
-				if (this.redPacket == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i31'));
+				let that=this
+				if (that.redPacket == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i31'));
 					return
-				} else if (this.redPacket > this.redPacket) {
-					uni.$u.toast(this.$t('user.capital_flow.i32'));
+				} else if (that.redPacket > that.redPacket) {
+					uni.$u.toast(that.$t('user.capital_flow.i32'));
 					return
 				} else {
-					this.forbidden=true;
-					this.loading=true;
+					that.forbidden=true;
+					that.loading=true;
+					uni.showLoading({
+						title: that.$t('user.con_detail.i45'),
+						mask: true
+					})
 					uni.request({
 						url: `/member/scoreConvert`,
 						method: "POST",
 						data: {
-							hongbao: this.redPacket
+							hongbao: that.redPacket
 						},
 						success: (res) => {
 							if(res.code==200){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
+								uni.hideLoading()
 								uni.showToast({
-									title: this.$t('user.capital_flow.i75'),
+									title: that.$t('user.capital_flow.i75'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)
@@ -164,8 +188,9 @@
 									},
 								})
 							}else if(res.code==500){
-								this.forbidden=false;
-								this.loading=false;
+								uni.hideLoading()
+								that.forbidden=false;
+								that.loading=false;
 							}
 							
 						}
@@ -344,6 +369,15 @@
 					}
 				}
 			}
+		}
+		.small_tip{
+			font-size: 14px;
+			font-family: PingFang SC, PingFang SC;
+			font-weight: 400;
+			color: #9FA19F;
+			text-align: right;
+			margin-top: 10rpx;
+			margin-right: 12px;
 		}
 
 		.ljdh {

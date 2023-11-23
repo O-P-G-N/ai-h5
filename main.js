@@ -52,11 +52,11 @@ let req_handler = function() {
 				// #设置其他的请求头
 				// 带语言
 				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
-					config.url = config.url + "?lang=zh_HK" 
-				}else if(uni.getStorageSync("UNI_LOCALE") == "zh-Hans"){
-					config.url = config.url + "?lang=zh_CN" 
-				}else if(uni.getStorageSync("UNI_LOCALE") == "en"){
-					config.url = config.url + "?lang=en" 
+					config.url = config.url + "?lang=zh_HK"
+				} else if (uni.getStorageSync("UNI_LOCALE") == "zh-Hans") {
+					config.url = config.url + "?lang=zh_CN"
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					config.url = config.url + "?lang=en"
 				}
 
 			}
@@ -65,12 +65,12 @@ let req_handler = function() {
 			if (store.state.app.loading.indexOf(this_url) >= 0) {
 				console.error('intercepted duplicate request', this_url)
 				uni.showToast({
-					title: this.$t('app.main.js.i1'),
+					title: i18n.t('app.main.js.i1'),
 					icon: 'error',
 					position: true,
 				});
 				throw 'IGNORE_ERROR'
-				
+
 			} else {
 				store.commit('app/SET_LOADING', {
 					effect: this_url,
@@ -119,6 +119,8 @@ let req_handler = function() {
 					});
 					return true;
 				} else if (res.data.error == false) {
+					return true;
+				}else if (res.data.timestamp != "") {
 					return true;
 				} else {
 					uni.showToast({

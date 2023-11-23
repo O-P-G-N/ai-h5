@@ -11,7 +11,7 @@
 			</view>
 		</view>
 		<view class="container_nei">
-			<view class="title_h1">EXGPT</view>
+			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.registertitle')}}</view>
 			<view class="subsectiontwo">
 				<button class="subsectiontwo_every" @click="mobileLogin">
@@ -87,10 +87,10 @@
 						text: this.$t('locale.en'),
 						code: 'en'
 					},
-					{
-						text: this.$t('locale.zh-hans'),
-						code: 'zh-Hans'
-					},
+					// {
+					// 	text: this.$t('locale.zh-hans'),
+					// 	code: 'zh-Hans'
+					// },
 					{
 						text: this.$t('locale.zh-hant'),
 						code: 'zh-Hant'
@@ -239,6 +239,7 @@
 				color: #000;
 				line-height: 21px;
 				margin-bottom: 57px;
+				text-align: center;
 				display: flex;
 				justify-content: center;
 			}

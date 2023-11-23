@@ -24,7 +24,7 @@
 				<!-- <view class="copy-btn" @click="copyFn">复制视频链接</view> -->
 				<ai-button :btnHeight="'62px'" :color="'#fff'" :bg="'#333'" class="copy-btn" @click="copyVideoLink(v.address)">{{$t("index.copyvideolink")}}</ai-button>
 			</view>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 		</view>
 	</view>
 </template>
@@ -64,9 +64,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						res.data.rows.map((v) => {
-							v.address = app_config.apiUrl + "/" + v.address
-						})
 						this.videoList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
 						if (this.pagenum <= this.videoList.length) {
@@ -85,9 +82,6 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
-							res.data.rows.map((v) => {
-								v.address = app_config.apiUrl + "/" + v.address
-							})
 							this.status = "loadmore"
 							this.videoList.push(...res.data.rows);
 						}
@@ -109,12 +103,13 @@
 			},
 			// 复制视频链接
 			copyVideoLink(val) {
+				let that=this
 				uni.setClipboardData({
 					data: val,
 					showToast: true,
 					success: function() {
 						uni.showToast({
-							title: this.$t("index.tips9"),
+							title: that.$t("index.tips9"),
 							success: function(res) {}
 						})
 					}

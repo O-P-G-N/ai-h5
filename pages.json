@@ -444,6 +444,46 @@
 				"navigationBarTitleText" : "隐私政策",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "components/acousticwave",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/user/leveldesc",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/user/securitycenter/setPhone",
+			"style" : 
+			{
+				"navigationBarTitleText" : "设置手机号",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/user/securitycenter/setEmail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "设置邮箱",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/loginReg/thirdPartyLogins",
+			"style" : 
+			{
+				"navigationBarTitleText" : "第三方登录",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

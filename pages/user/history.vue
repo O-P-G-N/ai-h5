@@ -26,7 +26,7 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore :status="loadStatus" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="loadStatus" />
 		</view>
 	</view>
 </template>
@@ -42,13 +42,28 @@
 		},
 		onLoad() {
 			this.getList(1);
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[pages.length-2].route);
+			}
 		},
 		methods: {
 			// 返回积分查看
 			goBackUser() {
-				uni.navigateBack({
-					delta: 1
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
+					uni.switchTab({
+						url: `/${uni.getStorageSync("router")}`
+					});
+				}
 			},
 
 		},

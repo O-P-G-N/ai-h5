@@ -1,6 +1,7 @@
 <template>
 	<view class="withdrawal">
-		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i41')" :safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i41')"
+			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -11,8 +12,9 @@
 					<view slot="value" class="email_content">
 						<u-input class="email_content_text" v-model="userName">
 							<view slot="suffix" class="email_content_btn">
-								<u-code unique-key="withdrawal" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode" @change="codeChange"
-									:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text @click="getCode">{{tips}}</text>
+								<u-code unique-key="withdrawal" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"
+									@change="codeChange" :changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text
+									@click="getCode">{{tips}}</text>
 							</view>
 						</u-input>
 					</view>
@@ -25,7 +27,8 @@
 				</u-cell>
 				<u-cell :title="$t('user.capital_flow.i411')" :isLink="true" @click="withdrawalCurrency">
 					<view slot="value" class="withdrawal_currency">
-						<input disabled class="uni-input" v-model="currencyType" placeholder="$t('user.capital_flow.i412')" />
+						<input disabled class="uni-input" v-model="currencyType"
+							placeholder="$t('user.capital_flow.i412')" />
 					</view>
 				</u-cell>
 				<u-cell :title="$t('user.capital_flow.i59')">
@@ -36,41 +39,44 @@
 				</u-cell>
 				<u-cell :title="$t('user.capital_flow.i42')">
 					<view slot="value" class="code_content">
-						<input class="uni-input" type="number" @input="calculateAmount" v-model="from.amount"
+						<input class="uni-input" type="number" v-model="from.amount"
 							:placeholder="$t('user.capital_flow.i43')" />
 					</view>
 				</u-cell>
 				<u-cell :title="$t('user.capital_flow.i44')">
 					<view slot="value" class="code_content">
-						<input disabled class="uni-input" type="number" v-model="realityAmount" :placeholder="$t('user.capital_flow.i43')" />
+						<input disabled class="uni-input" type="number" v-model="realityAmount"
+							:placeholder="$t('user.capital_flow.i43')" />
 					</view>
 				</u-cell>
-				<u-cell :title="$t('user.capital_flow.i45')" :value="commissionRate" :label="$t('user.capital_flow.i451')"></u-cell>
+				<u-cell :title="$t('user.capital_flow.i45')" :value="commissionRate"
+					:label="$t('user.capital_flow.i451')"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i46')" :value="withdrawalInfo.withdrawMin"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i47')" :value="withdrawalInfo.withdrawMax"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i48')">
 					<view slot="value" class="code_content">
-						<u-input v-model="from.withdrawPassword" :placeholder="$t('user.capital_flow.i49')" :password="eyeShow">
+						<u-input v-model="from.withdrawPassword" :placeholder="$t('user.capital_flow.i49')"
+							:password="eyeShow">
 							<image @click="showHidden" slot="suffix" class="eye"
 								:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 							</image>
 						</u-input>
 					</view>
 				</u-cell>
-				<u-cell :title="$t('user.capital_flow.i50')"
+				<!-- <u-cell :title="$t('user.capital_flow.i50')"
 					:value="withdrawalInfo.questionList.length>0?withdrawalInfo.questionList[0].value:''"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i51')">
 					<view slot="value" class="code_content">
 						<input v-model="from.answer" class="uni-input" maxlength="10" :placeholder="$t('user.capital_flow.i52')" />
 					</view>
-				</u-cell>
+				</u-cell> -->
 			</u-cell-group>
 			<ai-button :btnHeight="'53px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="editpassbtn"
 				@click="subApplication">{{$t('user.capital_flow.i53')}}</ai-button>
 			<!-- <button class="editpassbtn" @click="subApplication">提交</button> -->
 		</view>
 		<view class="miain" v-else-if="pageIndex==1">
-			
+
 			<view class="step">
 				<view class="steps">
 					<view class="steps_item">
@@ -116,26 +122,30 @@
 				<view class="footercontent">
 					<text class="text">
 						{{$t('user.capital_flow.i800')}}:
-						<br/>
+						<br />
 						{{$t('user.capital_flow.i80')}}
-						<br/>
+						<br />
 						① {{$t('user.capital_flow.i81')}}
-						<br/>
+						<br />
 						② {{$t('user.capital_flow.i82')}}
-						<br/>
+						<br />
 						③{{$t('user.capital_flow.i83')}}
-						<br/>
+						<br />
 						④{{$t('user.capital_flow.i84')}}
-						<br/>
+						<br />
 						⑤{{$t('user.capital_flow.i85')}}
-						<br/>
+						<br />
 						⑥{{$t('user.capital_flow.i86')}}
-						<br/>
+						<br />
 						⑦{{$t('user.capital_flow.i87')}}
 					</text>
 				</view>
+				<u-checkbox-group activeColor="#333" v-model="checkboxValue" shape="circle">
+					<u-checkbox :label="$t('user.con_detail.i64')" :name="1">
+					</u-checkbox>
+				</u-checkbox-group>
 			</view>
-			<button class="tips_btn" @click="tipsShow = false" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
+			<button class="tips_btn" @click="determine" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
 		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
@@ -143,17 +153,18 @@
 </template>
 
 <script>
+	import currency from "currency.js"
 	export default {
 		data() {
 			return {
 				userName: "", //用户名
-				currencyType: "红包-TRC20", //币种名称
+				currencyType: " USDT-TRC20", //币种名称
 				realityAmount: "", //实际提现金额
 				from: {
 					type: "1", //币种
+					amount: "", //提币数量
 					payAddress: "", //提现地址
 					code: "", //验证码
-					amount: "", //提币数量
 					questionKey: "", //密保Key
 					withdrawPassword: "", //交易密码
 					answer: "", //密保答案
@@ -162,16 +173,19 @@
 				columns: [
 					[{
 						type: "1",
-						name: '红包-TRC20'
+						name: ' USDT-TRC20'
 					}, {
 						type: "2",
-						name: '红包-ERC20'
+						name: ' USDT-ERC20'
+					}, {
+						type: "3",
+						name: ' USDT-BSC'
 					}]
 				],
 				tipsShow: false, //温馨提示弹窗状态
 				content: "", //弹窗内容
 				userType: "", //用户类型
-				pageIndex:0, //页面索引,
+				pageIndex: 0, //页面索引,
 				withdrawalInfo: {
 					questionList: []
 				}, //提现相关信息
@@ -180,6 +194,7 @@
 				loading: false, //按钮等待状态
 				forbidden: false, //是否禁用按钮
 				tips: "", //提示语
+				checkboxValue: [], //勾选提示
 			}
 		},
 		onShow() {
@@ -187,7 +202,24 @@
 			this.getWithdrawalInfo()
 		},
 		onReady() {
-			this.tipsShow = true;
+			uni.request({
+				url: '/help/getAlertInfo',
+				method: "GET",
+				data: {
+					type: 2
+				},
+				success: (res) => {
+					if (res.code == 200) {
+						if (res.data == 0) {
+							this.tipsShow = true;
+						} else {
+							this.tipsShow = false;
+						}
+					} else if (res.code == 500) {
+
+					}
+				}
+			});
 		},
 		methods: {
 			// 获取账号
@@ -223,28 +255,47 @@
 			},
 			// 计算金额
 			calculateAmount(val) {
-				if (Number(val.detail.value) - Number(this.commissionRate) < 0) {
-					this.realityAmount = 0
+				console.log("1", this.amount);
+
+			},
+
+			// 关闭弹窗
+			determine() {
+				if (this.checkboxValue.length > 0) {
+					uni.request({
+						url: '/help/saveAlertInfo',
+						method: "GET",
+						data: {
+							type: 2
+						},
+						success: (res) => {
+							if (res.code == 200) {
+								this.tipsShow = false;
+							} else if (res.code == 500) {
+
+							}
+						}
+					});
 				} else {
-					this.realityAmount = Number(val.detail.value) - Number(this.commissionRate)
+					this.tipsShow = false;
 				}
 			},
 			// 获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-				uni.request({
-					url: `/aicommon/sendCodeMustToken`,
-					method: "GET",
-					data: {
-						type: this.userType
-					},
-					success: (res) => {
-						if (res.code == 200) {
-							this.$refs.uCode.start();
-							uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
+					uni.request({
+						url: `/aicommon/sendCodeMustToken`,
+						method: "GET",
+						data: {
+							type: this.userType
+						},
+						success: (res) => {
+							if (res.code == 200) {
+								this.$refs.uCode.start();
+								uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
+							}
 						}
-					}
-				});
+					});
 				} else {
 					uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 				}
@@ -279,44 +330,48 @@
 			},
 			// 提交提现申请
 			subApplication() {
-				if (this.from.code == "") {
-					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
+				let that = this
+				if (that.from.code == "") {
+					uni.$u.toast(that.$t('user.islands.sc.edp.i16'));
 					return
-				} else if (this.from.payAddress == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i62'));
+				} else if (that.from.payAddress == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i62'));
 					return
-				} else if (this.from.amount == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i63'));
+				} else if (that.from.amount == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i63'));
 					return
-				} else if (this.from.withdrawPassword == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i64'));
+				} else if (that.from.withdrawPassword == "") {
+					uni.$u.toast(that.$t('user.capital_flow.i64'));
 					return
-				} else if (this.from.answer == "") {
-					uni.$u.toast(this.$t('user.capital_flow.i65'));
+				} else if (that.from.amount < that.withdrawalInfo.withdrawMin) {
+					uni.$u.toast(`that.$t('user.capital_flow.i66')：${that.withdrawalInfo.withdrawMin}`);
 					return
-				} else if (this.from.amount < this.withdrawalInfo.withdrawMin) {
-					uni.$u.toast(`this.$t('user.capital_flow.i66')：${this.withdrawalInfo.withdrawMin}`);
-					return
-				} else if (this.from.amount > this.withdrawalInfo.withdrawMax) {
-					uni.$u.toast(`this.$t('user.capital_flow.i67')：${this.withdrawalInfo.withdrawMax}`);
+				} else if (that.from.amount > that.withdrawalInfo.withdrawMax) {
+					uni.$u.toast(`that.$t('user.capital_flow.i67')：${that.withdrawalInfo.withdrawMax}`);
 					return
 				} else {
-					this.forbidden = true;
-					this.loading = true;
+					uni.showLoading({
+						title: that.$t('user.con_detail.i47'),
+						mask: true
+					})
+					that.forbidden = true;
+					that.loading = true;
 					uni.request({
 						url: `/withdraw/withdrawApply`,
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if (res.code == 200) {
-								this.forbidden = false;
-								this.loading = false;
-								uni.$u.toast(this.$t('user.capital_flow.i68'));
-								this.pageIndex = 1;
+								that.forbidden = false;
+								that.loading = false;
+								uni.$u.toast(that.$t('user.capital_flow.i68'));
+								that.pageIndex = 1;
+								uni.hideLoading()
 							} else {
-								this.forbidden = false;
-								this.loading = false;
-								
+								that.forbidden = false;
+								that.loading = false;
+								uni.hideLoading()
+
 							}
 
 						}
@@ -328,6 +383,37 @@
 				uni.switchTab({
 					url: `/pages/user/index`
 				});
+			}
+		},
+		watch: {
+			"from.amount": {
+				handler(val) {
+					if (Number(val) - Number(this.commissionRate) < 0) {
+						this.realityAmount = 0
+					} else {
+						if (val.split(".").length > 1) {
+							if (val.split(".")[1].length <= 6) {
+								this.realityAmount = currency(val, {
+									precision: 6
+								}).subtract(this.commissionRate).value;
+							} else {
+								this.$nextTick(() => {
+									this.from.amount = val.split(".")[0].concat(".").concat(val.split(".")[1]
+										.substring(0, 6))
+								})
+								this.realityAmount = currency(val.split(".")[0].concat(".").concat(val.split(".")[1]
+									.substring(0, 6)), {
+									precision: 6
+								}).subtract(this.commissionRate).value;
+							}
+						} else {
+							this.realityAmount = currency(val, {
+								precision: 6
+							}).subtract(this.commissionRate).value;
+						}
+					}
+				},
+				deep: true
 			}
 		}
 	}
@@ -425,6 +511,8 @@
 			}
 
 			.code_content {
+				flex: 1;
+
 				.uni-input-placeholder {
 					text-align: end;
 					color: rgb(192, 196, 204);
@@ -479,6 +567,10 @@
 			color: rgb(0, 0, 0) !important;
 		}
 
+		.u-checkbox-group {
+			margin-top: 20rpx;
+		}
+
 		.tips_btn {
 			width: 100%;
 			height: 48px;
@@ -496,50 +588,58 @@
 				height: 300px;
 				display: flex;
 				flex-direction: column;
-				.steps{
+
+				.steps {
 					width: 100%;
 					height: 100px;
 					display: flex;
 					align-items: center;
-					.steps_item{
+
+					.steps_item {
 						display: flex;
 						flex-direction: column;
 						height: 100%;
 						width: 30px;
 						align-items: center;
 						margin-top: 5px;
-						.slot-icon_one{
+
+						.slot-icon_one {
 							width: 14px;
 							height: 14px;
 						}
-						.steps_item_line_one{
+
+						.steps_item_line_one {
 							height: calc(100% - 14px);
 							border-left: 1px dashed #5ABC6F;
 						}
-						
-						.slot-icon_three{
+
+						.slot-icon_three {
 							width: 14px;
 							height: 14px;
 							background-color: #E5E5E5;
 							border-radius: 50%;
 						}
 					}
-					.steps_item_two{
+
+					.steps_item_two {
 						display: flex;
 						flex-direction: column;
 						height: 100%;
 						width: 30px;
 						align-items: center;
-						.steps_item_line_two{
+
+						.steps_item_line_two {
 							height: calc(100% - 30px);
 							border-left: 1px dashed #E5E5E5;
 						}
-						.slot-icon_two{
+
+						.slot-icon_two {
 							width: 30px;
 							height: 30px;
 						}
 					}
-					.steps_content{
+
+					.steps_content {
 						margin-left: 10px;
 						flex: 1;
 						height: 100%;
@@ -547,16 +647,17 @@
 						flex-direction: column;
 						justify-content: flex-start;
 						color: #7D7D7D;
-						.steps_content_title{
-							
-						}
-						.steps_content_title_two{
+
+						.steps_content_title {}
+
+						.steps_content_title_two {
 							display: flex;
 							align-items: center;
 							height: 30px;
 							color: #1D1D1D;
 						}
-						.desc{
+
+						.desc {
 							font-size: 15px;
 							font-family: PingFang SC-Regular, PingFang SC;
 							font-weight: 400;
@@ -565,8 +666,8 @@
 					}
 				}
 
-				
-				
+
+
 			}
 
 			.divider {
@@ -625,15 +726,17 @@
 				width: 176px;
 				border: none;
 			}
-			uni-button:after{
+
+			uni-button:after {
 				border: none;
 			}
 		}
+
 		.footercontent {
 			width: 100%;
 			height: 258px;
 			overflow: auto;
-		
+
 			.text {
 				font-size: 14px;
 				font-weight: 400;

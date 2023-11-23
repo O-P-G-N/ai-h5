@@ -14,7 +14,7 @@
 				<view class="left">· {{$t('index.screendescription')}}</view>
 				<view class="right" @click="exchangePoints">
 					<image mode="aspectFit" class="davincupload" src="~@/static/index/jifen.png"></image>
-					<view>{{accountBalance}}{{$t('index.integral')}}</view>
+					<view>{{accountBalance}}&nbsp;{{$t('index.integral')}}</view>
 				</view>
 			</view>
 			<view class="textarea">
@@ -23,6 +23,7 @@
 					<view class="click" @click="parameter.prompt=''">{{$t('index.empty')}}</view>
 				</view>
 			</view>
+			<view class="small_tip">{{$t("user.con_detail.i39")}}</view>
 			<view class="btnMain">
 				<view class="btn" :class="{'btn-active':parameter.n==1}" @click="parameter.n=1">{{$t("index.sel1")}}</view>
 				<view class="btn" :class="{'btn-active':parameter.n==4}" @click="parameter.n=4">{{$t("index.sel2")}}</view>
@@ -51,7 +52,9 @@
 		},
 		methods: {
 			back() {
-				uni.navigateBack()
+				uni.switchTab({
+					url: `/pages/index/index`
+				});
 			},
 			toWorks() {
 				uni.navigateTo({
@@ -197,6 +200,14 @@
 				}
 			}
 		}
+		.small_tip{
+					font-size: 14px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: 400;
+					color: #9FA19F;
+					text-align: right;
+					margin-top: 10rpx;
+				}
 
 		.btnMain {
 			width: 100%;

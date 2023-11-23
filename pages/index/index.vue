@@ -9,13 +9,12 @@
 
 			</view>
 		</view>
-
 		<view class="container">
 			<view class="justcard">
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
 				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
-					<text>1423</text>
+					<text class="nick_name">{{myInfo.nickName}}</text>
 					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
 				</view>
 			</view>
@@ -50,19 +49,28 @@
 
 			<view class="aicreate">
 				<view class="heard">
-					<image class="homecs" src="~@/static/index/homecs.webp"></image>
-					<text>{{$t('index.ai.creation')}}</text>
-					<view class="rightyishu">
-						<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
+					<view class="heard_left">
+						<image class="homecs" src="~@/static/index/homecs.png"></image>
+						<text>{{$t('index.ai.creation')}}</text>
+						<view class="rightyishu">
+							<view class="text"><text>· {{$t('index.ai.slogan')}}</text></view>
+						</view>
+					</view>
+					<view class="heard_right" @click="viewPortfolio">
+						{{$t("index.tips10")}}
+						<image class="heard_right_img" src="@/static/index/heard_right.png" mode=""></image>
 					</view>
 				</view>
 			</view>
+			<u-search class="sticky_search" @clear="clearFrom" @custom="searchFrom" animation
+				:placeholder="$t('index.tips11')" v-model="from.keyword" :actionText="$t('index.tips12')"></u-search>
 			<view class="tabselect">
 				<u-tabs :list="tabsList" lineColor='transparent' :inactiveStyle='inactiveStyle'
 					:activeStyle="activeStyle" @click="tabSelectClick"></u-tabs>
 			</view>
+
 			<view class="content-mian">
-				<template v-if='constenList.length>0'>
+				<template v-if='constenList.length>0&&constenShow'>
 					<view @click="viewImg(v)" class="content-item" v-for='(v,index) in constenList' :key='index'>
 						<image mode="widthFix" :src="v.address"></image>
 						<view class="mian-text">
@@ -70,7 +78,7 @@
 						</view>
 					</view>
 				</template>
-				<template v-else>
+				<template v-else-if="constenList.length==0&&!constenShow">
 					<!-- 骨架屏 -->
 					<view class="skeleton one"></view>
 					<view class="skeletonLi">
@@ -85,20 +93,81 @@
 						<view class="skeleton four"></view>
 					</view>
 				</template>
+				<template v-else-if="constenList.length==0&&constenShow">
+					<view class="data_none">
+						<u-empty :text="$t('index.tips21')" mode="data"
+							icon="http://cdn.uviewui.com/uview/empty/data.png">
+						</u-empty>
+					</view>
+				</template>
 			</view>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')"
+				:status="status" />
 			<Footer pageName='index'></Footer>
 		</view>
 		<u-modal showCancelButton @confirm="setConfirm" @cancel="show=false" :show="show" :title="tips"
 			:content='content'></u-modal>
+		<view class="smegma" v-if="tipsShow" @touchmove.stop.prevent="moveHandle">
+			<view class="title_top" v-if="deviceType=='ios'">
+				<image class="title_top_img" src="@/static/market/market_logo.png" mode=""></image>
+				<view class="title_top_text">{{$t("index.tips13")}}</view>
+			</view>
+			<view class="title_bottom" v-if="deviceType=='ios'">
+				<view class="title_bottom_top">{{$t("index.tips14")}}
+					<image class="title_bottom_top_img" src="@/static/index/paw_1.png"></image>
+				</view>
+				<view class="title_bottom_head">
+					{{$t("index.tips15")}}
+					<image class="title_bottom_head_img" src="@/static/index/paw_3.png"></image>
+					“{{$t("index.tips16")}}”，{{$t("index.tips17")}}
+				</view>
+				<image class="title_bottom_body" v-if="$store.getters.languageType==1" src="@/static/index/paw_2.png"
+					mode=""></image>
+				<image class="title_bottom_body" v-if="$store.getters.languageType==0" src="@/static/index/paw_2_1.png"
+					mode=""></image>
+				<view class="title_bottom_foot">
+					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
+					<view class="btn_box">
+						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
+						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==1"
+							src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_imgs" v-if="$store.getters.languageType==0"
+							src="@/static/index/paw_4_1.png"></image>
+					</view>
+				</view>
+			</view>
+			<view class="title_bottoms" v-if="deviceType=='android'">
+				<view class="title_bottom_tops">{{$t("index.tips20")}}
+				</view>
+				<view class="title_bottom_heads">
+					<image class="title_bottom_heads_img1" src="@/static/index/logo.png" mode=""></image>
+					<view class="title_bottom_heads_right">
+						<image class="title_bottom_heads_right_top" src="@/static/index/logo1.png" mode=""></image>
+						<view class="title_bottom_heads_right_foot">{{onlineUrl}}</view>
+					</view>
+				</view>
+				<view class="title_bottom_foot">
+					<button class="title_bottom_foot_left" @click="pwaBtn(0)">{{$t("index.tips18")}}</button>
+					<view class="btn_box">
+						<button class="title_bottom_foot_right" @click="pwaBtn(1)">{{$t("index.tips19")}}</button>
+						<image class="title_bottom_foot_right_img" v-if="$store.getters.languageType==1"
+							src="@/static/index/paw_4.png"></image>
+						<image class="title_bottom_foot_right_imgs" v-if="$store.getters.languageType==0"
+							src="@/static/index/paw_4_1.png"></image>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 
 <script>
+	import app_config from '../../common/config.js';
 	export default {
 		components: {
-			Footer: () => import('@/components/footer.vue')
+			Footer: () => import('@/components/footer.vue'),
+
 		},
 		data() {
 			return {
@@ -107,6 +176,7 @@
 					style: 1,
 					pageNum: 1,
 					pageSize: 10,
+					keyword: ""
 				},
 				status: "loadmore",
 				pagenum: 0, //总共页数
@@ -114,7 +184,15 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				tipsShow: false, //pwa提示
+				tips11: this.$t("index.tips11"), //搜索画面描述国际化
+				tips12: this.$t("index.tips12"), //搜索国际化
+				pageShow: null, //
+				myInfo: {}, //人员信息
+				deviceType: "", //设备类型
+				constenShow: false, //状态判断
+				onlineUrl:""
 			}
 		},
 		computed: {
@@ -169,10 +247,10 @@
 						text: this.$t('locale.en'),
 						code: 'en'
 					},
-					{
-						text: this.$t('locale.zh-hans'),
-						code: 'zh-Hans'
-					},
+					// {
+					// 	text: this.$t('locale.zh-hans'),
+					// 	code: 'zh-Hans'
+					// },
 					{
 						text: this.$t('locale.zh-hant'),
 						code: 'zh-Hant'
@@ -190,7 +268,13 @@
 		},
 		onShow() {
 			this.getImgList();
-			this.getAccountIsComplete()
+			this.getAccountIsComplete();
+			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+				this.$store.commit('app/judgLanguage', 1)
+			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+				this.$store.commit('app/judgLanguage', 0)
+			}
+			this.onlineUrl = app_config.onlineUrl
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -204,26 +288,107 @@
 				this.from.pageNum = 1;
 				this.getImgList();
 			},
+			// 搜索
+			searchFrom(val) {
+				this.from.pageNum = 1;
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.constenShow = true
+						this.pagenum = Math.ceil(res.data.total / 10);
+						console.log(this.pagenum);
+						this.constenList = res.data.rows;
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 300
+						});
+					}
+				});
+			},
+			moveHandle(){
+				return false
+			},
+			// 清除
+			clearFrom() {
+				this.from.pageNum = 1;
+				uni.request({
+					url: `/workImage/list`,
+					method: "POST",
+					data: this.from,
+					success: (res) => {
+						this.constenShow = true
+						this.pagenum = Math.ceil(res.data.total / 10);
+						console.log(this.pagenum);
+						this.constenList = res.data.rows;
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 300
+						});
+					}
+				});
+			},
+			// 作品集
+			viewPortfolio() {
+				uni.navigateTo({
+					url: `/pages/user/portfolio`
+				});
+			},
 			// 获取用户资料完整度
 			getAccountIsComplete() {
 				uni.request({
-					url: `/member/getAccountIsComplete`,
+					url: `/help/queryAwayPoints`,
 					method: "GET",
 					success: (res) => {
-						if(res.code==200){
-							if (!res.data.withdrawPassword) {
-								this.show = true;
-								this.setIndex = 2;
-								this.content = this.$t("model.tips1")
-							} else if (!res.data.question) {
-								this.show = true;
-								this.setIndex = 1;
-								this.content = this.$t("model.tips2")
-							} else if (!res.data.nickName) {
-								this.show = true;
-								this.setIndex = 0;
-								this.content = this.$t("model.tips3")
+						if (res.code == 200) {
+							if (res.data == 0) {
+								this.tipsShow = true;
+								if (uni.getSystemInfoSync().osName == 'ios') {
+									this.deviceType = "ios"
+								} else {
+									this.deviceType = "android"
+								}
 							}
+						}
+					}
+				});
+
+				// uni.request({
+				// 	url: `/member/getAccountIsComplete`,
+				// 	method: "GET",
+				// 	success: (res) => {
+				// 		if (res.code == 200) {
+
+				// 			// if (!res.data.withdrawPassword) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 2;
+				// 			// 	this.content = this.$t("model.tips1")
+				// 			// } else if (!res.data.question) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 1;
+				// 			// 	this.content = this.$t("model.tips2")
+				// 			// } else if (!res.data.nickName) {
+				// 			// 	this.show = true;
+				// 			// 	this.setIndex = 0;
+				// 			// 	this.content = this.$t("model.tips3")
+				// 			// }
+				// 		}
+				// 	}
+				// });
+			},
+			// pwa关闭
+			pwaBtn(val) {
+				uni.request({
+					url: `/help/awayPoints`,
+					method: "GET",
+					data: {
+						type: val
+					},
+					success: (res) => {
+						if (res.code == 200) {
+							this.tipsShow = false;
+
 						}
 					}
 				});
@@ -236,22 +401,22 @@
 			},
 			// 设置完整性判断
 			setConfirm() {
-				if (this.setIndex == 0) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/settingName`
-					});
-				} else if (this.setIndex == 1) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/Confidentiality`
-					});
-				} else if (this.setIndex == 2) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/fundeditpass`
-					});
-				}
+				// if (this.setIndex == 0) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/settingName`
+				// 	});
+				// } else if (this.setIndex == 1) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/Confidentiality`
+				// 	});
+				// } else if (this.setIndex == 2) {
+				// 	this.show = false;
+				// 	uni.navigateTo({
+				// 		url: `/pages/user/securitycenter/fundeditpass`
+				// 	});
+				// }
 			},
 			// 选择语言
 			selectLang() {
@@ -263,14 +428,25 @@
 			},
 			// 社区
 			communityBtn() {
-				uni.$u.toast('社区功能暂未开放');
+				// uni.$u.toast('社区功能暂未开放');
+				uni.switchTab({
+					url: `/pages/user/index`
+				});
 			},
 			getImgList() {
+				uni.request({
+					url: '/member/myWallet',
+					method: "GET",
+					success: (res) => {
+						this.myInfo = res.data;
+					}
+				});
 				uni.request({
 					url: `/workImage/list`,
 					method: "POST",
 					data: this.from,
 					success: (res) => {
+						this.constenShow = true
 						this.pagenum = Math.ceil(res.data.total / 10);
 						console.log(this.pagenum);
 						this.constenList = res.data.rows;
@@ -280,6 +456,13 @@
 			onLocaleChange(e) {
 				uni.setLocale(e.code);
 				this.$i18n.locale = e.code;
+				this.from.pageNum = 1;
+				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+					this.$store.commit('app/judgLanguage', 1)
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					this.$store.commit('app/judgLanguage', 0)
+				}
+				this.getImgList();
 			},
 			loadMore() {
 				if (this.from.pageNum < this.pagenum) {
@@ -290,6 +473,7 @@
 						method: "POST",
 						data: this.from,
 						success: (res) => {
+							this.constenShow = true
 							this.status = "loadmore"
 							this.constenList.push(...res.data.rows);
 						}
@@ -406,12 +590,19 @@
 					margin-right: 10rpx;
 				}
 
-				text {
+				.nick_name {
 					display: inline-block;
 					color: #fff;
 					font-size: 14px;
 					font-weight: bold;
 					line-height: 1;
+					width: 54px;
+					white-space: nowrap;
+					/*不换行强制文本在一行显示*/
+					overflow: hidden;
+					/*超出盒子宽度部分文字被隐藏*/
+					text-overflow: ellipsis
+						/*当文本溢出包含元素时发生的事情 ellipsis*/
 				}
 
 				.homejiantou {
@@ -494,40 +685,69 @@
 			.heard {
 				display: flex;
 				align-items: center;
+				justify-content: space-between;
 
-				.homecs {
-					width: 50rpx;
-					height: 50rpx;
-				}
+				.heard_left {
+					display: flex;
+					align-items: center;
 
-				text {
-					margin-left: 10rpx;
-					color: #1b1b1b;
-					font-size: 38rpx;
-					font-weight: bold;
-
-				}
-
-				.rightyishu {
-					padding: 4rpx 8rpx 4rpx 0;
-					background-image: url('@/static/index/homecztiao.webp');
-					background-position: 50%;
-					background-repeat: no-repeat;
-					background-size: 100% 100%;
-					margin: 0 20rpx;
-
-					.text,
-					text {
-						font-size: 24rpx;
-						color: #2fa2e3;
-						letter-spacing: 8rpx;
-						background-size: 100% 100%;
-						margin: 0 10rpx;
-						letter-spacing: inherit;
+					.homecs {
+						width: 50rpx;
+						height: 50rpx;
 					}
 
+					text {
+						margin-left: 10rpx;
+						color: #1b1b1b;
+						font-size: 38rpx;
+						font-weight: bold;
+
+					}
+
+					.rightyishu {
+						padding: 4rpx 8rpx 4rpx 0;
+						background-image: url('@/static/index/homecztiao.webp');
+						background-position: 50%;
+						background-repeat: no-repeat;
+						background-size: 100% 100%;
+						margin: 0 20rpx;
+
+						.text,
+						text {
+							font-size: 24rpx;
+							color: #2fa2e3;
+							letter-spacing: 8rpx;
+							background-size: 100% 100%;
+							margin: 0 10rpx;
+							letter-spacing: inherit;
+						}
+
+					}
 				}
+
+				.heard_right {
+					display: flex;
+					align-items: center;
+					font-size: 14px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: 400;
+					color: #181818;
+
+					.heard_right_img {
+						margin-left: 2rpx;
+						width: 28rpx;
+						height: 28rpx;
+					}
+				}
+
 			}
+		}
+
+		.sticky_search {
+			background-color: #fff !important;
+			padding: 10rpx;
+			box-sizing: border-box;
+			margin-top: 20px !important;
 		}
 
 		.tabselect {
@@ -539,6 +759,11 @@
 			width: 100%;
 			display: flex;
 			flex-wrap: wrap;
+
+			.data_none {
+				width: 100%;
+				height: 300px;
+			}
 
 			.content-item {
 				width: calc((100% - 20rpx)/2);
@@ -634,6 +859,270 @@
 		width: 100%;
 		height: 328rpx;
 		border-radius: 40rpx;
+	}
+
+	.smegma {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1000000;
+		background-color: rgba(3, 6, 18, .8);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		padding: 24rpx;
+		box-sizing: border-box;
+
+		.title_top {
+			width: 100%;
+			height: 144rpx;
+			background: #FFFFFF;
+			box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
+			border-radius: 12px 12px 12px 12px;
+			margin-top: 52px;
+			padding: 8rpx 20px 20rpx;
+			box-sizing: border-box;
+
+			.title_top_img {
+				width: 108px;
+				height: 34px;
+			}
+
+			.title_top_text {
+				font-size: 12px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #00070F;
+
+			}
+		}
+
+		.title_bottom {
+			width: 100%;
+			// height: 604rpx;
+			background: url("@/static/index/paw_5.png") no-repeat;
+			background-size: 100% 100%;
+			margin-bottom: 136rpx;
+			padding: 30px 54rpx 30px;
+			box-sizing: border-box;
+
+			.title_bottom_top {
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #828282;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.title_bottom_top_img {
+					width: 24px;
+					height: 24px;
+				}
+			}
+
+
+			.title_bottom_head {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #828282;
+				margin-top: 10px;
+
+				.title_bottom_head_img {
+					width: 20px;
+					height: 20px;
+				}
+			}
+
+			.title_bottom_body {
+				width: 100%;
+				height: 180rpx;
+			}
+
+			.title_bottom_foot {
+				margin-top: 55px;
+				display: flex;
+				justify-content: space-between;
+
+				.title_bottom_foot_left {
+					width: 45%;
+					height: 48px;
+					background: #F6F6F6;
+					border-radius: 25px 25px 25px 25px;
+					font-size: 16px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #5F5F5F;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.btn_box {
+					position: relative;
+					width: 45%;
+					height: 48px;
+
+					.title_bottom_foot_right {
+						width: 100%;
+						height: 100%;
+						background: #0C84FF;
+						border-radius: 25px 25px 25px 25px;
+						font-size: 16px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+					}
+
+					.title_bottom_foot_right_img {
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 65px;
+						height: 23px;
+					}
+					.title_bottom_foot_right_imgs{
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 78px;
+						height: 23px;
+					}
+				}
+
+
+				uni-button:after {
+					border: none;
+				}
+			}
+		}
+
+		.title_bottoms {
+			position: absolute;
+			right: 12px;
+			bottom: 0;
+			width: calc(100% - 24px);
+			height: 250px;
+			background: url("@/static/index/paw_5.png") no-repeat;
+			background-size: 100% 100%;
+			margin-bottom: 136rpx;
+			padding: 30px 54rpx 30px;
+			box-sizing: border-box;
+
+			.title_bottom_tops {
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC;
+				font-weight: bold;
+				color: #00070F;
+			}
+
+			.title_bottom_heads {
+				margin-top: 15px;
+				display: flex;
+				align-items: center;
+
+				.title_bottom_heads_img1 {
+					width: 54px;
+					height: 54px;
+				}
+
+				.title_bottom_heads_right {
+					.title_bottom_heads_right_top {
+						width: 76px;
+						height: 24px;
+					}
+
+					.title_bottom_heads_right_foot {
+						font-size: 15px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+				}
+			}
+
+			.title_bottom_foot {
+				margin-top: 30px;
+				display: flex;
+				justify-content: space-between;
+
+				.title_bottom_foot_left {
+					width: 45%;
+					height: 48px;
+					background: #F6F6F6;
+					border-radius: 25px 25px 25px 25px;
+					font-size: 16px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #5F5F5F;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+				uni-button {
+					margin: 0;
+				}
+
+				.btn_box {
+					position: relative;
+					width: 45%;
+					height: 48px;
+
+					.title_bottom_foot_right {
+						width: 100%;
+						height: 100%;
+						background: #0C84FF;
+						border-radius: 25px 25px 25px 25px;
+						font-size: 16px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+					}
+
+					.title_bottom_foot_right_img {
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 65px;
+						height: 23px;
+					}
+					.title_bottom_foot_right_imgs{
+						position: absolute;
+						right: -6px;
+						top: -12px;
+						z-index: 11111111;
+						width: 78px;
+						height: 23px;
+					}
+				}
+
+
+				uni-button:after {
+					border: none;
+				}
+			}
+		}
 	}
 
 

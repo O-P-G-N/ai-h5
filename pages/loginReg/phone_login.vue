@@ -3,12 +3,12 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="phone" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
-			<view class="title_h1">EXGPT</view>
+			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange"
+						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone" @onChange="onChange"
 							v-model="from.countryCode"></vue-country-intl>
 					</view>
 				</view>

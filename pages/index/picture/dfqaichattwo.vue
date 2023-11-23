@@ -223,7 +223,6 @@
 		},
 		onShow() {
 			document.oncontextmenu=function(){return false;}
-			 
 			document.onkeydown=function(event){
 			        var e = event ||window.event || arguments.callee.caller.arguments[0];
 			        if(e && e.keyCode==116){
@@ -322,7 +321,7 @@
 					data: this.generateImg,
 					success: function() {
 						uni.showToast({
-							title:this.$t("index.tips8"),
+							title:that.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}

@@ -11,7 +11,7 @@
 			<view class="main">
 				<view class="cellgroup">
 					<u-cell-group :border="false">
-						<u-cell :title="$t('user.asset.details.index.asset_detail')" :is-link="true" @click="rechargeRecord">
+						<u-cell :title="$t('user.asset.details.index.charge_record')" :is-link="true" @click="rechargeRecord">
 						</u-cell>
 						<u-cell :title="$t('user.asset.details.index.withdraw_record')" :is-link="true" @click="withdrawalRecords">
 						</u-cell>

@@ -53,7 +53,7 @@
 				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">{{$t('user.con_detail.i5')}}</view>
 			</view>
 		</view>
-		<u-loadmore :status="status" />
+		<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 	</view>
 </template>
 
@@ -100,7 +100,7 @@
 			// 返回积分查看
 			goBackUser() {
 				uni.switchTab({
-					url: `/pages/user/index`
+					url: `/pages/index/index`
 				});
 			},
 			// 菜单点击
@@ -195,7 +195,7 @@
 					data: val,
 					success: function() {
 						uni.showToast({
-							title: this.$t('user.con_detail.i8'),
+							title: that.$t('user.con_detail.i8'),
 							success: function(res) {
 								that.bigImg = false;
 							}
@@ -218,12 +218,13 @@
 			},
 			// 复制视频链接
 			copyVideoLink(val) {
+				let that=this
 				uni.setClipboardData({
 					data: val,
 					showToast: true,
 					success: function() {
 						uni.showToast({
-							title: this.$t('user.con_detail.i10'),
+							title: that.$t('user.con_detail.i10'),
 							success: function(res) {}
 						})
 					}

@@ -58,21 +58,22 @@
 			},
 			// 确认绑定
 			ConfirmSet() {
-				if (this.from.key == "") {
-					uni.$u.toast(this.$t('user.islands.sc.cd.scq'));
+				let that=this
+				if (that.from.key == "") {
+					uni.$u.toast(that.$t('user.islands.sc.cd.scq'));
 					return
-				} else if (this.from.content == "") {
-					uni.$u.toast(this.$t('user.islands.sc.cd.cbe'));
+				} else if (that.from.content == "") {
+					uni.$u.toast(that.$t('user.islands.sc.cd.cbe'));
 					return
 				} else {
 					uni.request({
 						url: '/member/saveSecurityQuestion',
 						method: "POST",
-						data: [this.from],
+						data: [that.from],
 						success: (res) => {
 							if (res.code == 200) {
 								uni.showToast({
-									title: this.$t('user.islands.sc.cd.sttscc'),
+									title: that.$t('user.islands.sc.cd.sttscc'),
 									success: function() {
 										let time = setTimeout(() => {
 											clearTimeout(time)

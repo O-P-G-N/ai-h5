@@ -6,7 +6,8 @@
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
 		</u-navbar>
-		<view class="main" v-if="contractList.length>0">
+
+		<view class="main" v-if="contractList.length>0&&!loadShow">
 			<view class="mymodelmain">
 				<u-list @scrolltolower="scrolltolower" lowerThreshold="70">
 					<u-list-item v-for="(v, i) in contractList" :key="i">
@@ -35,11 +36,11 @@
 							</view>
 							<view class="contractthree">
 								<view class="contract_every">
-									<view class="intro">{{v.payNum}}份</view>
+									<view class="intro">{{v.payNum}}{{$t('ac.prc4')}}</view>
 									<view class="titles">{{$t('user.con_detail.i16')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">{{v.runday}}{{$t('user.con_detail.i18')}}</view>
+									<view class="intro">{{v.payedDays}}{{$t('user.con_detail.i18')}}</view>
 									<view class="titles">{{$t('user.con_detail.i22')}}</view>
 								</view>
 								<view class="contract_every">
@@ -47,7 +48,7 @@
 									<view class="titles">{{$t('user.con_detail.i20')}}</view>
 								</view>
 							</view>
-							<view class="order_sn">
+							<!-- <view class="order_sn">
 								Order ID：{{v.orderSn}}
 							</view>
 							<view class="order_sn">
@@ -58,13 +59,20 @@
 							</view>
 							<view class="order_sn" v-if="v.status==2||v.status==1">
 								{{$t('user.con_detail.i26')}}：{{v.updateTime}}
+							</view> -->
+							<view class="paogress_line" v-if="v.status!=2&&v.status!=1">
+								<u-line-progress :percentage="v.paogress" activeColor="#000"
+									:showText="false"></u-line-progress>
+							</view>
+							<view class="paogress_tips" v-if="v.status!=2&&v.status!=1">
+								<view style="display: flex;">
+									{{$t("user.con_detail.i40")}}（{{$t("user.con_detail.i41")}}:{{v.day}}{{$t("user.con_detail.i42")}}{{v.hour}}{{$t("user.con_detail.i43")}}{{v.minu}}{{$t("user.con_detail.i44")}}）
+								</view>
+								<view class="">{{v.paogress}}%</view>
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
 								<button class="zhongzhibtn" @click="contractSet(v.id,v.status)">
-									{{
-										v.status==0?$t('user.con_detail.i27'):
-									v.status==4 ? $t('user.con_detail.i28') :""}}
-									{{$t('user.con_detail.i29')}}
+									{{v.status==0?$t('user.con_detail.i27'):v.status==4 ? $t('user.con_detail.i28') :""}}{{$t('user.con_detail.i29')}}
 								</button>
 							</view>
 							<view class="modelendtime" v-if="v.status==4">
@@ -79,15 +87,16 @@
 					</u-list-item>
 				</u-list>
 
-				<u-loadmore :status="status" />
+				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" :title="tips"
 					:content='modalContent'></u-modal>
 			</view>
 		</view>
-		<view class="default_page" v-else>
+		<view class="default_page" v-else-if="contractList.length==0&&!loadShow">
 			<image class="default_page_img" src="@/static/user/defaultPage.png" mode=""></image>
 			<view class="default_page_text">{{$t('user.con_detail.i32')}}~</view>
 		</view>
+		<u-loading-page icon-size="36" :loading="loadShow" :loading-text="load"></u-loading-page>
 	</view>
 </template>
 
@@ -100,8 +109,9 @@
 		data() {
 			return {
 				from: {
-					page: 1, //页数
+					pageNum: 1, //页数
 				}, //请求数据
+				loadShow: true, //加载页状态
 				contractList: [], //合约列表
 				total: 0, //总条数
 				status: "", //状态
@@ -109,15 +119,24 @@
 				modalContent: "", //模态框提示语
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				load: this.$t("user.con_detail.i37"), //加載国际化
 			};
 		},
 		onShow() {
 			this.getContractList();
 
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[0].route);
+			}
+			console.log(uni.getStorageSync("router"));
+		},
 		onHide() {
-			this.from.page = 1;
+			this.from.pageNum = 1;
 			this.contractList = [];
 		},
 		methods: {
@@ -130,28 +149,35 @@
 					});
 				} else {
 					uni.switchTab({
-						url: `/pages/market/index`
+						url: `/${uni.getStorageSync("router")}`
 					});
 				}
 			},
-			getaa() {
 
-			},
 			// 获取合约列表
 			getContractList() {
 				uni.request({
-					url: `/island/contracts/${this.from.page}`,
+					url: `/island/contracts/${this.from.pageNum}`,
 					method: "GET",
 					success: (res) => {
 						res.data.rows.map((v) => {
-							v.runday = this.getDaysDiff(v.createTime, Date.now())
-							v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
-								'YYYY-MM-DD HH:mm:ss')
-							if (v.status == 4) {
-								v.countdown = this.getCountDown(v.updateTime)
-							}
+							let setTime = new Date(v.endTime);
+							let nowTime = new Date();
+							let restSec = setTime.getTime() - nowTime.getTime();
+							let count = nowTime.getTime() - new Date(v.createTime).getTime();
+							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+							v.minu = parseInt(restSec / (60 * 1000) % 60);
+							v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+								.toFixed(2);
 						})
 						this.contractList = res.data.rows;
+
+						let time = setTimeout(() => {
+							this.loadShow = false;
+							clearTimeout(time)
+
+						}, 1500)
 						this.status = "loadmore";
 						this.total = res.data.total;
 					}
@@ -193,21 +219,24 @@
 			// 上划加载
 			scrolltolower() {
 				this.status = "loading"
-				if (this.from.page < (this.total / 10)) {
-					this.from.page++;
+				if (this.from.pageNum < Math.ceil((this.total / 10))) {
+					this.from.pageNum++;
 					uni.request({
-						url: `/island/contracts/${this.from.page}`,
+						url: `/island/contracts/${this.from.pageNum}`,
 						method: "GET",
 						success: (res) => {
 							res.data.rows.map((v) => {
-								v.runday = this.getDaysDiff(v.createTime, Date.now())
-								v.endTime = dayjs(v.createTime).add(v.payDays, 'day').format(
-									'YYYY-MM-DD HH:mm:ss')
-								if (v.status == 1) {
-									v.countdown = this.getCountDown(v.updateTime)
-								}
+								let setTime = new Date(v.endTime);
+								let nowTime = new Date();
+								let restSec = setTime.getTime() - nowTime.getTime();
+								let count = nowTime.getTime() - new Date(v.createTime).getTime();
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+									100).toFixed(2);
 							})
-							this.contractList.push(res.data.rows);
+							this.contractList.push(...res.data.rows);
 						}
 					});
 				} else {
@@ -238,7 +267,7 @@
 					success: (res) => {
 						if (that.status == 0) {
 							uni.showToast({
-								title: this.$t('user.con_detail.i35'),
+								title: that.$t('user.con_detail.i35'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();
@@ -247,7 +276,7 @@
 							})
 						} else {
 							uni.showToast({
-								title: this.$t('user.con_detail.i36'),
+								title: that.$t('user.con_detail.i36'),
 								success: function(res) {
 									that.from.page = 1;
 									that.getContractList();
@@ -397,6 +426,28 @@
 								color: #000;
 								font-weight: 300;
 								margin-top: 3px;
+								text-align: center;
+							}
+						}
+					}
+
+					.paogress_line {
+						margin-top: 68rpx;
+					}
+
+					.paogress_tips {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						margin-top: 10px;
+
+						.time {
+							@include flex;
+							align-items: center;
+
+							&__item {
+								color: #000;
+								font-size: 12px;
 								text-align: center;
 							}
 						}

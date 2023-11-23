@@ -13,8 +13,9 @@
 						<view slot="value" class="email_content">
 							<u-input class="email_content_text" v-model="name">
 								<view slot="suffix" class="email_content_btn">
-									<u-code unique-key="fundeditpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"
-										@change="codeChange" :changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text
+									<u-code unique-key="fundeditpass" :start-text="$t('user.islands.sc.edp.i4')"
+										ref="uCode" @change="codeChange"
+										:changeText="'X'+ $t('user.islands.sc.edp.i5')"></u-code><text
 										@click="getCode">{{tips}}</text>
 								</view>
 							</u-input>
@@ -29,7 +30,8 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i7')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.newPassword" maxlength="6" :placeholder="$t('user.islands.sc.edp.i8')" :password="eyeShow">
+							<u-input v-model="from.newPassword" maxlength="6"
+								:placeholder="$t('user.islands.sc.edp.i8')" :password="eyeShow">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -38,7 +40,8 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.confirmPassword" :placeholder="$t('user.islands.sc.edp.i0')" :password="eyeShows">
+							<u-input v-model="from.confirmPassword" :placeholder="$t('user.islands.sc.edp.i0')"
+								:password="eyeShows">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -121,6 +124,7 @@
 			// 获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
+				this.$refs.uCode.start();
 					uni.request({
 						url: `/aicommon/sendCodeMustToken`,
 						method: "GET",
@@ -129,7 +133,6 @@
 						},
 						success: (res) => {
 							if (res.code == 200) {
-								this.$refs.uCode.start();
 								uni.$u.toast(this.$t('user.islands.sc.edp.i15'));
 							}
 						}
@@ -167,10 +170,10 @@
 				} else if (patrnss.test(this.from.newPassword)) {
 					uni.$u.toast(this.$t('user.islands.sc.fdp.i6'));
 					return
-				} else if (this.from.newPassword!=this.from.confirmPassword) {
+				} else if (this.from.newPassword != this.from.confirmPassword) {
 					uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
 					return
-				}else {
+				} else {
 					this.btnDisabled = true
 					this.loading = true
 					uni.request({

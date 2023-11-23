@@ -25,7 +25,8 @@
 					</view>
 					<view class="jiaoyimubiao">
 						<text>{{$t("ac.prc2")}}</text>
-						<text class="jiaoyimubiao_text">{{pageData.cssClass}}</text>
+						<text class="jiaoyimubiao_text" v-if="pageData.dictSort==1">{{$t("ac.prc37")}}</text>
+						<text class="jiaoyimubiao_text" v-else>{{$t("ac.prc38")}}</text>
 					</view>
 					<view class="tuoguan">{{$t("ac.prc3")}}</view>
 					<view class="transactionList">
@@ -39,16 +40,16 @@
 							500{{$t("ac.prc4")}}</view>
 						<view class="mairu">
 							<input class="uni-input" v-model="from.payNum"
-								placeholder-style="color:rgb(192, 196, 204)" @input="customAmount" type="number"
+								placeholder-style="color:rgb(192, 196, 204)" maxlength="12" @input="customAmount" type="number"
 								:placeholder="prc5" />
 						</view>
 					</view>
-					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}}{{$t("ac.prc7")}}</view>
+					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}} USDT</view>
 				</view>
 				<view class="yujimain" v-if="pageData.dictSort">
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc8")}}</view>
-						<text class="buymoney_num">{{from.payHongbao}} {{$t("ac.prc7")}}</text>
+						<text class="buymoney_num">{{from.payHongbao}}  USDT</text>
 					</view>
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc9")}}</view>
@@ -57,6 +58,10 @@
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc10")}}</view>
 						<text class="buymoney_text">{{gradeMax}}{{$t("ac.prc4")}}</text>
+					</view>
+					<view class="buymoney">
+						<view class="">{{$t("ac.prc27")}}</view>
+						<text class="buymoney_text_one">+{{from.integral}}</text>
 					</view>
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc11")}}</view>
@@ -110,6 +115,7 @@
 					bili:"",//每天收益
 					type:null,//购买类型
 					payHongbao:"",//购买红包数量
+					integral:1,//积分
 				},
 				forbidden:false,//是否禁用
 				loading:false,//加载状态
@@ -125,7 +131,9 @@
 		},
 		onLoad(option) {
 			this.from.type=option.type;
-			this.getDayRevenue(option.type)
+		},
+		onShow() {
+			this.getDayRevenue(this.from.type);
 			this.getAccount();
 		},
 		methods: {
@@ -166,11 +174,13 @@
 			// 自定义份数
 			customAmount(val) {
 				this.from.payNum = val.detail.value;
+				this.from.integral=val.detail.value;
 				this.from.payHongbao=Number(val.detail.value)*Number(this.pageData.remark)
 			},
 			// 选择份数
 			selectCopies(val) {
 				this.from.payNum = val;
+				this.from.integral=val;
 				this.from.payHongbao=Number(val)*Number(this.pageData.remark)
 			},
 			// 选择天数
@@ -184,32 +194,33 @@
 			},
 			// 创建合约
 			createContract(){
+				let that=this
 				console.log(this.from);
-				if(this.from.payNum==""){
-					uni.$u.toast(this.$t("ac.prc16"));
+				if(that.from.payNum==""){
+					uni.$u.toast(that.$t("ac.prc16"));
 					return
-				}else if(this.from.payNum>(Number(this.balanceMax)/Number(this.pageData.remark))){
-					uni.$u.toast(`${this.$t("ac.prc9")}${Number(this.balanceMax)/Number(this.pageData.remark)}${this.$t("ac.prc4")}`);
+				}else if(that.from.payNum>(Number(that.balanceMax)/Number(that.pageData.remark))){
+					uni.$u.toast(`${that.$t("ac.prc9")}${Number(that.balanceMax)/Number(that.pageData.remark)}${that.$t("ac.prc4")}`);
 					return
-				}else if(this.from.payNum>this.gradeMax){
-					uni.$u.toast(`${this.$t("ac.prc10")}${this.gradeMax}${this.$t("ac.prc4")}`);
+				}else if(that.from.payNum>that.gradeMax){
+					uni.$u.toast(`${that.$t("ac.prc10")}${that.gradeMax}${that.$t("ac.prc4")}`);
 					return
-				}else if(this.from.payDays==""){
-					uni.$u.toast(this.$t("ac.prc17"));
+				}else if(that.from.payDays==""){
+					uni.$u.toast(that.$t("ac.prc17"));
 					return
 				}else{
-					this.forbidden=true;
-					this.loading=true;
+					that.forbidden=true;
+					that.loading=true;
 					uni.request({
 						url: '/island/contract',
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if(res.code==200){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 								uni.showToast({
-									title: this.$t("ac.prc18"),
+									title: that.$t("ac.prc18"),
 									success: function() {
 										 let time=setTimeout(()=>{
 											 clearTimeout(time)
@@ -217,12 +228,12 @@
 											uni.navigateTo({
 												url: `/pages/user/contract_amount`
 											});
-										},1000)
+										},2000)
 									},
 								})
 							}else if(res.code==500){
-								this.forbidden=false;
-								this.loading=false;
+								that.forbidden=false;
+								that.loading=false;
 							}
 						}
 					});
@@ -432,6 +443,12 @@
 						.buymoney_text {
 							color: #111;
 							margin-left: 10px;
+						}
+						.buymoney_text_one{
+							font-size: 15px;
+							font-family: PingFang SC, PingFang SC;
+							font-weight: 400;
+							color: #FF0000;
 						}
 					}
 				}

@@ -3,7 +3,7 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="typeEmail" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="container_nei">
-			<view class="title_h1">EXGPT</view>
+			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
@@ -98,7 +98,6 @@
 			// 勾选记住密码
 			checkboxChange(val) {
 				if (val[0] == 1) {
-
 				} else {
 					uni.removeStorageSync("emailCheck")
 					uni.removeStorageSync("email")
@@ -146,6 +145,7 @@
 										uni.setStorageSync("emailCheck", that.checkboxValue[0])
 										uni.setStorageSync("email", this.from)
 									}
+									this.$store.commit('app/clear',true)
 									uni.showToast({
 										title:this.$t("login.tips11"),
 										success: function() {

@@ -4,8 +4,8 @@
 			<view class="navbers">
 				<view class="navbers_headers">
 					<view class="mailright" @click="viewNotices">
-						<u-badge :offset="[2, -4]" :absolute="true" v-if="$store.getters.unr>0" :isDot="true"
-							type="error"></u-badge>
+						<u-badge class="badge" :offset="[0, -3]" :absolute="true" v-if="$store.getters.unr>0"
+							:isDot="true" type="error"></u-badge>
 						<image class="mailright_img" src="@/static/user/small_bell.png" mode=""></image>
 					</view>
 				</view>
@@ -13,7 +13,7 @@
 			<view class="main">
 				<u-navbar :fixed="false" height="53px" :safeAreaInsetTop="false">
 					<view class="u-nav-slot" slot="left">
-						<image class="head_back_img" src="@/static/market/marketlogo.png" mode=""></image>
+						<image class="head_back_img" src="@/static/market/market_logo.png" mode=""></image>
 					</view>
 				</u-navbar>
 				<view class="justcard">
@@ -30,12 +30,12 @@
 						</view>
 					</view>
 					<view class="justcard_right">
-						<button class="justcard_right_btn" @click="activCode">
+						<!-- <button class="justcard_right_btn" @click="activCode">
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/code.png" mode=""></image>
 							</view>
 							<view class="justcard_text">{{$t('ac.actc')}}</view>
-						</button>
+						</button> -->
 						<button class="justcard_right_btn" @click="viewContract">
 							<view class="justcard_icon">
 								<image class="justcard_icon_img" src="@/static/market/marketheyue.png" mode=""></image>
@@ -79,7 +79,46 @@
 						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
 				</view>
-				<view class="widgtthree">
+				<view class="market_monitor">{{$t("ac.prc28")}}</view>
+				<u-row class="row_one" justify="space-between">
+					<u-col class="col_one" span="6" textAlign="center" justify="flex-start">
+						<view class="title">{{$t("ac.prc29")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
+						<view class="title">/{{$t("ac.prc30")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
+					</u-col>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">{{$t("ac.prc31")}}
+							<image class="title_img" src="@/static/user/sort.png"></image>
+						</view>
+					</u-col>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="title_one">{{$t("ac.prc32")}}(%)<image class="title_img"
+								src="@/static/user/sort.png"></image>
+						</view>
+					</u-col>
+				</u-row>
+				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
+					<u-col span="6" textAlign="center" justify="flex-start">
+						<view class="title"><text
+								class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text
+								class="usdt">/USDT</text></view>
+						<view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
+						</view>
+					</u-col>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
+					</u-col>
+					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
+						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%
+						</view>
+					</u-col>
+				</u-row>
+				<view style="height: 300px; width: 100%;"></view>
+
+				<!-- <view class="widgtthree">
 					<view class="newwidgtthree">
 						<view class="shouyilv">{{$t('ac.pic1')}}:</view>
 						<view class="redbfb">525.43% <image class="redbfb_img" src="@/static/market/marketqushi.png">
@@ -98,7 +137,7 @@
 										<text class="red">+221.71&nbsp;&nbsp;&nbsp;+0.67%</text>
 									</view>
 								</view>
-								<qiun-data-charts type="line" :opts="opts" :chartData="chartDatas" />
+								<qiun-data-charts type="area" :opts="opt" :chartData="chartDatas" />
 							</view>
 						</view>
 					</view>
@@ -114,24 +153,24 @@
 								<view class="ftabs_item" :class="i==ftabsIndex?'factive':''" @click="ftabsBtn(i)"
 									v-for="(v,i) in ftabsList" :key="i">{{v.name}}</view>
 							</view>
-							<qiun-data-charts height="240px" type="line" :opts="opts" :chartData="chartData" />
+							<qiun-data-charts height="240px" type="area" :opts="opts" :chartData="chartData" />
 							<view class="tabs">
 								<view class="tabs_item" :class="i==tabsIndex?'active':''" @click="tabsBtn(v.type,i)"
 									v-for="(v,i) in tabsList" :key="i">{{v.name}}</view>
 							</view>
 							<view class="listdata">
 								<view class="listdata_item" :class="i==listIndex?'listdataactive':''"
-									@click="listBtn(v.pairs,i)" v-for="(v,i) in listData" :key="i">
-									<view class="first">{{v.pairs}}</view>
+									@click="listBtn(v.id,v.symbol,i)" v-for="(v,i) in listData" :key="i">
+									<view class="first">{{v.symbol}}</view>
 									<view class="end">
-										<text class="end_top">{{v.bid}}</text>
-										<text class="red">{{v.ask}} {{v.change24h}}%</text>
+										<text class="end_top">{{Number(v.priceUsd).toFixed(2)}}</text>
+										<text class="red">{{(Number(v.priceUsd)-Number(v.vwap24Hr)).toFixed(2)}}&ensp;&ensp;{{Number(v.changePercent24Hr).toFixed(2)}}%</text>
 									</view>
 								</view>
 							</view>
 						</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<Footer pageName='market'></Footer>
@@ -152,12 +191,11 @@
 				chartData: {},
 				chartDatas: {},
 				opts: {
-					color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
-						"#ea7ccc"
-					],
+					color: ["#3F65FD"],
 					padding: [15, 10, 0, 15],
 					enableScroll: false,
-					// dataLabel:false,
+					dataLabel: false,
+					dataPointShape: false,
 					legend: {
 						show: false,
 						position: "top"
@@ -176,13 +214,47 @@
 
 					},
 					extra: {
-						line: {
+						area: {
 							type: "curve",
+							opacity: 0.2,
+							addLine: true,
 							width: 2,
-							activeType: "hollow",
-							linearType: "custom",
-							onShadow: true,
-							animation: "horizontal"
+							gradient: true,
+							activeType: "hollow"
+						}
+					}
+				},
+				opt: {
+					color: ["#4EAD9B"],
+					padding: [15, 10, 0, 15],
+					enableScroll: false,
+					dataLabel: false,
+					dataPointShape: false,
+					legend: {
+						show: false,
+						position: "top"
+					},
+					xAxis: {
+						disableGrid: true,
+						disabled: true,
+						axisLine: false,
+						titleOffsetY: -100
+					},
+					yAxis: {
+						gridType: "dash",
+						dashLength: 2,
+						disabled: true,
+						disableGrid: true,
+
+					},
+					extra: {
+						area: {
+							type: "curve",
+							opacity: 0.2,
+							addLine: true,
+							width: 2,
+							gradient: true,
+							activeType: "hollow"
 						}
 					}
 				},
@@ -203,20 +275,32 @@
 				tabsIndex: 0,
 				listIndex: 0,
 				tabsList: [{
-						name: "1W",
-						type:1
+						name: "1D",
+						type: 1
 					},
 					{
 						name: "2W",
-						type:2
+						type: 2
 					},
 					{
-						name: "3W",
-						type:3
+						name: "1M",
+						type: 3
 					},
 					{
-						name: "4W",
-						type:4
+						name: "3M",
+						type: 4
+					},
+					{
+						name: "6M",
+						type: 5
+					},
+					{
+						name: "1Y",
+						type: 6
+					},
+					{
+						name: "ALL",
+						type: 7
 					},
 				],
 				listData: [],
@@ -225,9 +309,10 @@
 				show: false, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
-				timeType:1,//时间
-				currencyName:"",//货币名称
-				tips:this.$t("user.islands.sc.sn.i1"),//温馨提示国际化
+				timeType: 1, //时间
+				currencyName: "", //货币名称
+				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
+				exponentList: [], //指数列表
 			}
 		},
 		onReady() {
@@ -235,71 +320,77 @@
 		},
 		onShow() {
 			this.$store.dispatch('app/getUnread')
-			this.getAccountIsComplete();
-			this.getListData()
+			// this.getAccountIsComplete();
+			// this.getListData()
+			this.getExponentData();
 		},
 		created() {},
 		methods: {
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-
-				}, 500);
+			// 获取指数列表数据
+			getExponentData() {
+				uni.request({
+					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
+					method: "GET",
+					success: (res) => {
+						res.data.map((v) => {
+							v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
+						})
+						this.exponentList = res.data;
+						console.log(this.exponentList);
+					},
+				})
 			},
+			bigNumberTransform(value) {
+				let param = {};
+				let k = 10000,
+					sizes = ['', this.$t("ac.prc34"), this.$t("ac.prc35"), this.$t("ac.prc36")],
+					i;
+				if (value < k) {
+					param.value = value.toFixed(2)
+					param.unit = ''
+				} else {
+					i = Math.floor(Math.log(value) / Math.log(k));
+					param.value = ((value / Math.pow(k, i))).toFixed(2);
+					param.unit = sizes[i];
+				}
+				return param;
+
+
+			},
+
 			// 获取列表数据
 			getListData() {
 				uni.request({
-					url: `/aicommon/getMarket`,
+					url: `https://api.coincap.io/v2/assets`,
 					method: "GET",
+					data: {
+						limit: 10
+					},
 					success: (res) => {
-						this.listData = res.data;
-						this.currencyName=res.data[0].pairs;
+						this.listData = res.data.data;
+						this.currencyName = res.data.data[0].id;
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(1,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://api.coincap.io/v2/assets/${res.data.data[0].id}/history?interval=m1`,
 							method: "GET",
-							filter: false,
+							data: {
+								start: new Date(dayjs().startOf('date').subtract(1, 'day')).getTime(),
+								end: new Date(dayjs().startOf('date')).getTime()
+							},
 							success: (res1) => {
+								console.log(res1);
 								let parmas = {
 									categories: [],
 									series: []
 								}
 								let arr = []
 								res1.data.data.map((v) => {
-									parmas.categories.push(v.date)
-									arr.push(v.last.toFixed(2))
+									parmas.categories.push(dayjs(v.date).format(
+										"YYYY-MM-DD HH:mm:ss"))
+									arr.push(Number(v.priceUsd).toFixed(2))
 								})
 								parmas.series = [{
-									name: res.data[0].pairs,
+									name: res.data.data[0].symbol,
 									data: arr,
-									linearColor: [
-										[
-											0,
-											"#1890FF"
-										],
-										[
-											0.25,
-											"#00B5FF"
-										],
-										[
-											0.5,
-											"#00D1ED"
-										],
-										[
-											0.75,
-											"#00E6BB"
-										],
-										[
-											1,
-											"#90F489"
-										]
-									],
-									setShadow: [
-										3,
-										8,
-										10,
-										"#1890FF"
-									],
 								}]
 								this.chartData = JSON.parse(JSON.stringify(parmas));
 								// 	let res = {
@@ -313,52 +404,30 @@
 							}
 						});
 						uni.request({
-							url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${res.data[0].pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(3,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+							url: `https://api.coincap.io/v2/assets/${res.data.data[1].id}/history?interval=d1`,
 							method: "GET",
-							filter: false,
-							success: (res1) => {
+							data: {
+								start: new Date(dayjs().startOf('date').subtract(6, 'month'))
+									.getTime(),
+								end: new Date(dayjs().startOf('date')).getTime()
+							},
+							success: (res2) => {
 								let parmas = {
 									categories: [],
 									series: []
 								}
 								let arr = []
-								res1.data.data.map((v) => {
-									parmas.categories.push(v.date)
-									arr.push(v.last.toFixed(2))
+								res2.data.data.map((v) => {
+									parmas.categories.push(dayjs(v.date).format(
+										"YYYY-MM-DD HH:mm:ss"))
+									arr.push(Number(v.priceUsd).toFixed(2))
 								})
 								parmas.series = [{
-									name: res.data[0].pairs,
+									name: res.data.data[1].symbol,
 									data: arr,
-									linearColor: [
-										[
-											0,
-											"#1890FF"
-										],
-										[
-											0.25,
-											"#00B5FF"
-										],
-										[
-											0.5,
-											"#00D1ED"
-										],
-										[
-											0.75,
-											"#00E6BB"
-										],
-										[
-											1,
-											"#90F489"
-										]
-									],
-									setShadow: [
-										3,
-										8,
-										10,
-										"#1890FF"
-									],
 								}]
 								this.chartDatas = JSON.parse(JSON.stringify(parmas));
+
 							}
 						});
 					}
@@ -411,126 +480,141 @@
 			ftabsBtn(i) {
 				this.ftabsIndex = i
 			},
-			tabsBtn(type,i) {
+			tabsBtn(type, i) {
 				this.tabsIndex = i;
-				this.timeType=type;
+				this.timeType = type;
+				let interval = null;
+				let unit = null;
+				let time = null;
+				switch (type) {
+					case 1:
+						time = 1;
+						unit = "day";
+						interval = "m1";
+						break;
+					case 2:
+						time = 2;
+						unit = "week";
+						interval = "m30";
+						break;
+					case 3:
+						time = 1;
+						unit = "month";
+						interval = "h2";
+						break;
+					case 4:
+						time = 3;
+						unit = "month";
+						interval = "h6";
+						break;
+					case 5:
+						time = 6;
+						unit = "month";
+						interval = "h12";
+						break;
+					case 6:
+						time = 1;
+						unit = "year";
+						interval = "d1";
+						break;
+					case 7:
+						time = 2;
+						unit = "year";
+						interval = "d1";
+						break;
+				}
 				uni.request({
-					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${this.currencyName}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(type,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					url: `https://api.coincap.io/v2/assets/${this.currencyName}/history?interval=${interval}`,
 					method: "GET",
-					filter: false,
-					success: (res1) => {
+					data: {
+						start: new Date(dayjs().startOf('date').subtract(time, unit)).getTime(),
+						end: new Date(dayjs().startOf('date')).getTime()
+					},
+					success: (res2) => {
 						let parmas = {
 							categories: [],
 							series: []
 						}
 						let arr = []
-						res1.data.data.map((v) => {
-							parmas.categories.push(v.date)
-							arr.push(v.last.toFixed(2))
+						res2.data.data.map((v) => {
+							parmas.categories.push(dayjs(v.date).format("YYYY-MM-DD HH:mm:ss"))
+							arr.push(Number(v.priceUsd).toFixed(2))
 						})
 						parmas.series = [{
-							name: this.currencyName,
+							name: this.listData[this.listIndex].symbol,
 							data: arr,
-							linearColor: [
-								[
-									0,
-									"#1890FF"
-								],
-								[
-									0.25,
-									"#00B5FF"
-								],
-								[
-									0.5,
-									"#00D1ED"
-								],
-								[
-									0.75,
-									"#00E6BB"
-								],
-								[
-									1,
-									"#90F489"
-								]
-							],
-							setShadow: [
-								3,
-								8,
-								10,
-								"#1890FF"
-							],
 						}]
 						this.chartData = JSON.parse(JSON.stringify(parmas));
-						// 	let res = {
-						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-						// 		series: [{
-						// 			name: "成交量A",
-						// 			data: [10, 8, 10, 10, 4, 10]
-						// 		}, ]
-						// 	};
-						// 	this.chartData = JSON.parse(JSON.stringify(res));
+
 					}
 				});
 			},
-			listBtn(pairs,i) {
+			listBtn(id, symbol, i) {
 				this.listIndex = i;
-				this.currencyName=pairs;
+				this.currencyName = id;
+				let interval = null;
+				let unit = null;
+				let time = null;
+				switch (this.timeType) {
+					case 1:
+						time = 1;
+						unit = "day";
+						interval = "m1";
+						break;
+					case 2:
+						time = 2;
+						unit = "week";
+						interval = "m30";
+						break;
+					case 3:
+						time = 1;
+						unit = "month";
+						interval = "h2";
+						break;
+					case 4:
+						time = 3;
+						unit = "month";
+						interval = "h6";
+						break;
+					case 5:
+						time = 6;
+						unit = "month";
+						interval = "h12";
+						break;
+					case 6:
+						time = 1;
+						unit = "year";
+						interval = "d1";
+						break;
+					case 7:
+						time = 2;
+						unit = "year";
+						interval = "d1";
+						break;
+				}
 				uni.request({
-					url: `https://tokenlon-core-market.tokenlon.im/rest/get_ticker_history?pairs=${pairs}&beginTimestamp=${new Date(dayjs().startOf('date').subtract(this.timeType,'week')).getTime()/1000}&endTimestamp=${new Date(dayjs().startOf('date')).getTime()/1000}`,
+					url: `https://api.coincap.io/v2/assets/${id}/history?interval=${interval}`,
 					method: "GET",
-					filter: false,
-					success: (res1) => {
+					data: {
+						start: new Date(dayjs().startOf('date').subtract(time, unit)).getTime(),
+						end: new Date(dayjs().startOf('date')).getTime()
+					},
+					success: (res2) => {
 						let parmas = {
 							categories: [],
 							series: []
 						}
 						let arr = []
-						console.log("res1",res1);
-						res1.data.data.map((v) => {
-							parmas.categories.push(v.date)
-							arr.push(v.last.toFixed(2))
+						res2.data.data.map((v) => {
+							parmas.categories.push(dayjs(v.date).format("YYYY-MM-DD HH:mm:ss"))
+							arr.push(Number(v.priceUsd).toFixed(2))
 						})
 						parmas.series = [{
-							name: pairs,
+							name: symbol,
 							data: arr,
-							linearColor: [
-								[
-									0,
-									"#1890FF"
-								],
-								[
-									0.25,
-									"#00B5FF"
-								],
-								[
-									0.5,
-									"#00D1ED"
-								],
-								[
-									0.75,
-									"#00E6BB"
-								],
-								[
-									1,
-									"#90F489"
-								]
-							],
-							setShadow: [
-								3,
-								8,
-								10,
-								"#1890FF"
-							],
 						}]
 						this.chartData = JSON.parse(JSON.stringify(parmas));
-						// 	let res = {
-						// 		categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
-						// 		series: [{
-						// 			name: "成交量A",
-						// 			data: [10, 8, 10, 10, 4, 10]
-						// 		}, ]
-						// 	};
-						// 	this.chartData = JSON.parse(JSON.stringify(res));
+
 					}
 				});
 			},
@@ -589,7 +673,7 @@
 	::v-deep.market {
 		width: 100% !important;
 		min-height: 100vh;
-
+		background-color: #fff;
 
 		.container_nei {
 			padding: 0 21px;
@@ -603,24 +687,27 @@
 				right: 21px;
 				top: 16px;
 				z-index: 99;
-				width: 37px;
-				height: 37px;
+				width: 20px;
+				height: 20px;
 
 				.navbers_headers {
-					background: #333;
 					border-radius: 21px;
 
 					.mailright {
-						width: 37px;
-						height: 37px;
+						width: 60rpx;
+						height: 60rpx;
 						position: relative;
 						display: flex;
 						align-items: center;
 						justify-content: center;
 
+						.badge {
+							z-index: 111;
+						}
+
 						.mailright_img {
-							width: 16px;
-							height: 16px;
+							width: 60rpx;
+							height: 60rpx;
 						}
 					}
 				}
@@ -634,11 +721,11 @@
 						height: 53px !important;
 
 						.u-navbar__content__left {
-							padding-left: 18px;
+							padding-left: 0px;
 
 							.u-nav-slot {
-								width: 188rpx;
-								height: 60rpx;
+								width: 108px;
+								height: 34px;
 							}
 
 							.head_back_img {
@@ -752,7 +839,7 @@
 					display: flex;
 					align-items: center;
 
-					
+
 				}
 
 				.modellist {
@@ -813,6 +900,135 @@
 					}
 				}
 
+				.market_monitor {
+					margin-top: 16px;
+					margin-bottom: 13px;
+					font-size: 22px;
+					font-family: PingFang SC, PingFang SC;
+					font-weight: bold;
+					color: #00070F;
+				}
+
+				.row_one {
+					margin-bottom: 16px;
+
+					.col_one {
+						display: flex;
+						flex-direction: row;
+					}
+
+					.title {
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #949494;
+						display: flex;
+						align-items: center;
+
+						.title_img {
+							width: 14px;
+							height: 14px;
+						}
+					}
+
+					.title_one {
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #949494;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+
+						.title_img {
+							width: 14px;
+							height: 14px;
+						}
+					}
+
+					.currency {
+						font-size: 14px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 500;
+						color: #00070F;
+					}
+
+					.usdt {
+						font-size: 11px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+
+					.multiple {
+						display: inline-block;
+						width: 24px;
+						height: 16px;
+						background: #F7F7F7;
+						border-radius: 1px 1px 1px 1px;
+						font-size: 10px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #FFD220;
+						line-height: 16px;
+						text-align: center;
+						margin-left: 8px;
+					}
+
+					.transaction_volume {
+						font-size: 11px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+						text-align: left;
+					}
+
+					.price_one {
+						font-size: 14px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: bold;
+						color: #9FA19F;
+					}
+
+					.price_two {
+						font-size: 10px;
+						font-family: PingFang SC, PingFang SC;
+						font-weight: 400;
+						color: #9FA19F;
+					}
+
+					.col_last {
+						display: flex;
+						flex-direction: row;
+					}
+
+					.chg {
+						width: 78px;
+						height: 35px;
+						background: #2EBD85;
+						color: #fff;
+						border-radius: 3px 3px 3px 3px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+
+					.chgg {
+						width: 78px;
+						height: 35px;
+						background: #F6455F;
+						color: #fff;
+						border-radius: 3px 3px 3px 3px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+
+				.row_one:last-child {
+					margin-bottom: 130px;
+				}
+
 				.widgtthree {
 					padding-top: 10px;
 					border-radius: 26px;
@@ -857,7 +1073,7 @@
 							position: relative;
 							box-sizing: border-box;
 							width: 100%;
-							
+
 
 							.box {
 								width: 100%;
@@ -912,6 +1128,7 @@
 					font-weight: 600;
 					display: flex;
 					align-items: center;
+
 					.marketeverytitle_img {
 						width: 102px;
 						height: 56rpx;
@@ -923,7 +1140,7 @@
 						margin-right: 5px;
 					}
 				}
-				
+
 				.widgttwo {
 					width: 100%;
 					margin: 0 auto;

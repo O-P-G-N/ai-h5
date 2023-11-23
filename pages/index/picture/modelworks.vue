@@ -52,7 +52,7 @@
 				<view class="copy_btn" @click.stop="copyLink(bigImgRoute)">{{$t("index.copylink")}}</view>
 			</view>
 		</view>
-		<u-loadmore :status="status" />
+		<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 	</view>
 </template>
 
@@ -66,9 +66,9 @@
 					pageSize: 10
 				},
 				list: [{
-					name: 'AI创作',
+					name: this.$t('user.con_detail.i6'),
 				}, {
-					name: '视频营销',
+					name: this.$t('user.con_detail.i7'),
 				}, ],
 				contentList: [], //ai作品合集
 				videoList: [], //ai视频合集
@@ -143,7 +143,6 @@
 					method: "POST",
 					data: this.from,
 					success: (res) => {
-						
 						this.videoList = res.data.rows;
 						this.pagenum = Math.ceil(res.data.total / 10);
 						if (this.pagenum <= this.videoList.length) {
@@ -163,7 +162,6 @@
 							method: "POST",
 							data: this.from,
 							success: (res) => {
-								
 								this.status = "loadmore"
 								this.contentList.push(...res.data.rows);
 							}

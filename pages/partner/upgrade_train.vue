@@ -8,7 +8,7 @@
 		<view class="avatar_card">
 			<view class="left_avatar">
 				<view class="t_bor_r">
-					<image class="t_bor_r_img" src="~@/static/tabbar/tx.webp" mode=""></image>
+					<image class="t_bor_r_img" src="~@/static/tabbar/tx.png" mode=""></image>
 				</view>
 			</view>
 			<view class="right_avatar">
@@ -46,7 +46,7 @@
 				</view>
 			</view>
 		</view>
-		<u-loadmore :status="status" />
+		<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 	</view>
 </template>
 

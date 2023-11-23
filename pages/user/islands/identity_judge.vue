@@ -4,8 +4,10 @@
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
-			<image v-if="rechargeAmount" slot="center" class="head_center_img" src="@/static/user/HTXE1.png"
+			<image v-if="rechargeAmount&&$store.getters.languageType==1" slot="center" class="head_center_img" src="@/static/user/HTXE1.png"
 				mode=""></image>
+				<image v-if="rechargeAmount&&$store.getters.languageType==0" slot="center" class="head_center_imgs" src="@/static/user/HTXE1_1.png"
+					mode=""></image>
 		</u-navbar>
 		<view class="banana_bg">
 			<view class="banana_bg_first">{{ $t('user.asset.islands.idj.Share_with_friends') }}</view>
@@ -121,10 +123,19 @@
 				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
 		</view>
-		<view class="activate_popup" v-if="!activateShow">
+		<view class="activate_popup" v-if="!activateShow&&$store.getters.languageType==1">
 			<view class="activate_popup_box">
 
 				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode="">
+				</image>
+				<image class="activate_popup_box_del" @click.stop="activateShow=true" src="@/static/user/del.png"
+					mode=""></image>
+			</view>
+		</view>
+		<view class="activate_popups" v-if="!activateShow&&$store.getters.languageType==0">
+			<view class="activate_popup_box">
+		
+				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn_1.png" mode="">
 				</image>
 				<image class="activate_popup_box_del" @click.stop="activateShow=true" src="@/static/user/del.png"
 					mode=""></image>
@@ -150,6 +161,11 @@
 		onShow() {
 			this.getTotalRechargeAmount();
 			this.getSupSub();
+			if(uni.getStorageSync("UNI_LOCALE")=="zh-Hant"){
+				this.$store.commit('app/judgLanguage',1)
+			}else if(uni.getStorageSync("UNI_LOCALE")=="en"){
+				this.$store.commit('app/judgLanguage',0)
+			}
 		},
 		methods: {
 			dyShowBtn(val) {
@@ -237,6 +253,10 @@
 
 				.head_center_img {
 					width: 230px;
+					height: 38px;
+				}
+				.head_center_imgs{
+					width: 250px;
 					height: 38px;
 				}
 
@@ -450,6 +470,43 @@
 					left: 16%;
 				}
 
+				.activate_popup_box_del {
+					width: 30px;
+					height: 30px;
+					position: absolute;
+					bottom: -55px;
+					left: 44%;
+				}
+			}
+		}
+		.activate_popups {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 999999;
+			background-color: rgba(0, 0, 0, 0.6);
+			padding-top: 70px;
+		
+			.activate_popup_box {
+				margin: 0 auto;
+				width: 312px;
+				height: 408px;
+				background: url("@/static/user/HTXE4_1.png") no-repeat;
+				background-size: 100% 100%;
+				position: relative;
+		
+				.activate_popup_box_open {
+					width: 210px;
+					height: 80px;
+					position: absolute;
+					bottom: 22px;
+					left: 16%;
+				}
+		
 				.activate_popup_box_del {
 					width: 30px;
 					height: 30px;

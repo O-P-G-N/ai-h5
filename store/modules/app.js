@@ -8,6 +8,8 @@ export default {
 		loading: [],
 		version: '',
 		unread_msg_amount: 0,
+		pageShow:true,
+		languageType:0,//0为英文，1为繁体中文
 	},
 
 	mutations: {
@@ -22,6 +24,14 @@ export default {
 			} else {
 				state.loading.splice(state.loading.indexOf(effect), 1)
 			}
+		},
+		// 清除弹窗
+		clear(state, val){
+			state.pageShow=val;
+		},
+		// 判断语言
+		judgLanguage(state, val){
+			state.languageType=val;
 		}
 	},
 
@@ -36,6 +46,7 @@ export default {
 					}
 				});
 			}, 1000);
-		}
+		},
+		
 	}
 }

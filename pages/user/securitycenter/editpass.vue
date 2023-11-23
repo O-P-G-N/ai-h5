@@ -99,6 +99,7 @@
 			// 获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
+				this.$refs.uCode.start();
 					uni.request({
 						url: `/aicommon/sendCodeMustToken`,
 						method: "GET",
@@ -147,32 +148,32 @@
 				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (that.from.code == "") {
-					uni.$u.toast(this.$t('user.islands.sc.edp.i16'));
+					uni.$u.toast(that.$t('user.islands.sc.edp.i16'));
 					return
 				} else if (that.from.newPassword.length < 8) {
-					uni.$u.toast(this.$t('user.islands.sc.edp.i11'));
+					uni.$u.toast(that.$t('user.islands.sc.edp.i11'));
 					return
 				} else {
 					if (patrn.test(that.from.newPassword)) {
 						if (!num.test(that.from.newPassword)) {
-							uni.$u.toast(this.$t('user.islands.sc.edp.i13'));
+							uni.$u.toast(that.$t('user.islands.sc.edp.i13'));
 							return
 						} else if (that.from.newPassword != that.confirmPassword) {
-							uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
+							uni.$u.toast(that.$t('user.islands.sc.edp.i18'));
 							return
 						} else {
-							this.btnDisabled = true
-							this.loading = true
+							that.btnDisabled = true
+							that.loading = true
 							uni.request({
 								url: '/member/updatePassword',
 								method: "POST",
 								data: that.from,
 								success: (res) => {
 									if (res.code == 200) {
-										this.btnDisabled = false
-										this.loading = false
+										that.btnDisabled = false
+										that.loading = false
 										uni.showToast({
-											title: this.$t('user.islands.sc.edp.i19'),
+											title: that.$t('user.islands.sc.edp.i19'),
 											success: function(res) {
 												uni.removeStorageSync("user")
 												if (that.titleShow == 1) {
@@ -191,8 +192,8 @@
 											},
 										})
 									} else if (res.code == 500) {
-										this.btnDisabled = false
-										this.loading = false
+										that.btnDisabled = false
+										that.loading = false
 									}
 
 								}
@@ -200,24 +201,24 @@
 						}
 					} else if (patrns.test(that.from.newPassword)) {
 						if (!num.test(that.from.newPassword)) {
-							uni.$u.toast(this.$t('user.islands.sc.edp.i13'));
+							uni.$u.toast(that.$t('user.islands.sc.edp.i13'));
 							return
 						} else if (that.from.newPassword != that.confirmPassword) {
-							uni.$u.toast(this.$t('user.islands.sc.edp.i18'));
+							uni.$u.toast(that.$t('user.islands.sc.edp.i18'));
 							return
 						} else {
-							this.btnDisabled = true
-							this.loading = true
+							that.btnDisabled = true
+							that.loading = true
 							uni.request({
 								url: '/member/updatePassword',
 								method: "POST",
 								data: that.from,
 								success: (res) => {
 									if (res.code == 200) {
-										this.btnDisabled = false
-										this.loading = false
+										that.btnDisabled = false
+										that.loading = false
 										uni.showToast({
-											title: this.$t('user.islands.sc.edp.i19'),
+											title: that.$t('user.islands.sc.edp.i19'),
 											success: function(res) {
 												uni.removeStorageSync("user")
 												if (that.titleShow == 1) {
@@ -236,15 +237,15 @@
 											},
 										})
 									} else if (res.code == 500) {
-										this.btnDisabled = false
-										this.loading = false
+										that.btnDisabled = false
+										that.loading = false
 									}
 
 								}
 							});
 						}
 					} else {
-						uni.$u.toast(this.$t('user.islands.sc.edp.i12'));
+						uni.$u.toast(that.$t('user.islands.sc.edp.i12'));
 						return
 					}
 				}

@@ -13,7 +13,7 @@
 						type="error"></u-badge>
 				</u-collapse-item>
 			</u-collapse>
-			<u-loadmore :status="status" />
+			<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 		</view>
 		<view class="container_nei" v-else>
 			<view class="content">
@@ -45,15 +45,32 @@
 		onReachBottom() {
 			this.loadMore();
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[pages.length-2].route);
+			}
+		},
 		onHide() {
 			this.from.pageNum = 1;
 		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
+					uni.switchTab({
+						url: `/${uni.getStorageSync("router")}`
+					});
+				}
 			},
 			getNotice() {
 				// 0:维度

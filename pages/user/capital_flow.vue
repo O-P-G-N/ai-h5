@@ -1,6 +1,6 @@
 <template>
 	<view class="capital_flow">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" title="资金流水"
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" :title="$t('user.asset.details.index.flow')"
 			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
@@ -27,7 +27,7 @@
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" />
+				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
 			</view>
 		</view>
 		<u-popup :show="show" mode="center" class="popup_content_center">
@@ -82,15 +82,34 @@
 		onHide() {
 			this.from.pageNum = 1;
 		},
+		onLoad() {
+			const pages = getCurrentPages();
+			console.log(pages);
+			if (pages.length > 1) {
+				uni.setStorageSync('router', pages[pages.length-2].route);
+			}
+		},
 		methods: {
 			// 返回个人中心
 			goBackUser() {
-				uni.switchTab({
-					url: `/pages/user/index`
-				});
+				const pages = getCurrentPages();
+				if (pages.length > 1) {
+					uni.navigateBack({
+						delta: 1
+					});
+				} else {
+					uni.redirectTo({
+						url: `/${uni.getStorageSync("router")}`
+					});
+					uni.switchTab({
+						url: `/${uni.getStorageSync("router")}`
+					});
+				}
 			},
 			// 筛选
 			viewHistory() {
+				this.from.begin="";
+				this.from.end="";
 				this.show = true;
 			},
 			// 选择开始和结束时间
@@ -152,9 +171,6 @@
 				this.timeShow = false;
 				this.from.pageNum = 1;
 				this.getCapitalFlow();
-				this.from.begin="";
-				this.from.end="";
-					
 			},
 			// 获取提现记录
 			getCapitalFlow() {
