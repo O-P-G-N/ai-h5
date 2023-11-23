@@ -291,7 +291,7 @@
 						} else if (res.code == 500) {
 							this.isGenerate = false;
 							if (this.setIntervalL) clearInterval(this.setIntervalL)
-							uni.$u.toast(this.$t("index.tips7"));
+							
 						}
 					},
 					fail: (err) => {

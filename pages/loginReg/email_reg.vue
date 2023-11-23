@@ -18,7 +18,7 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
+					<u-input v-model="from.password" :placeholder="$t('login.tips10')" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
@@ -174,9 +174,9 @@
 			regBtn() {
 				let that = this
 				let num = /[0-9]/im
-				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrn = /^(?=.*?[A-Z]).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？！’‘“”~ `]).*$/
-				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
+				let patrnss = /^(?=.*?[a-z]).*$/;
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (!emailPattern.test(that.from.email)) {

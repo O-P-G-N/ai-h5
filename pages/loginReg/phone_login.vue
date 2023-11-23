@@ -117,7 +117,7 @@
 			// 登录
 			loginBtn() {
 				let that = this
-				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrn = /^(?=.*?[A-Z]).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
 				if (this.from.countryCode == "") {
 					uni.showToast({

@@ -16,13 +16,20 @@
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
 						<view slot="suffix" class="email_content_btn">
 							<u-code :start-text="getcode" ref="uCode" @change="codeChange"
-								:changeText="acquire"></u-code><text @click="getCode">{{tips}}</text>
+								:changeText="acquire"></u-code><text class="get_code" @click="getCode">{{tips}}</text>
 						</view>
 					</u-input>
 				</view>
 				<view class="inputevery">
 					<u-input class="email_content_text" type="number" :placeholder="entercode"
 						v-model="from.code"></u-input>
+				</view>
+				
+				<view class="inputevery">
+					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
+						<image @click="showHidden" slot="suffix" class="eye"
+							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
+					</u-input>
 				</view>
 				<view class="inputevery">
 					<u-input v-model="from.withdrawPassword" maxlength="6" :placeholder="$t('login.traderPassword')"
@@ -38,12 +45,6 @@
 						<image @click="showHiddenss" slot="suffix" class="eye"
 							:src="eyeShowss?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 						</image>
-					</u-input>
-				</view>
-				<view class="inputevery">
-					<u-input v-model="from.password" :placeholder="enterpassword" :password="eyeShow">
-						<image @click="showHidden" slot="suffix" class="eye"
-							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
 				</view>
 				<view class="inputevery">
@@ -194,9 +195,9 @@
 			regBtn() {
 				let that = this
 				let num = /[0-9]/im
-				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrn = /^(?=.*?[A-Z]).*$/
 				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？！’‘“”~ `]).*$/
-				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
+				let patrnss = /^(?=.*?[a-z]).*$/;
 				if (that.from.countryCode == "") {
 					uni.showToast({
 						title: that.$t("login.tips18"),
@@ -275,7 +276,7 @@
 											}, 1000)
 										},
 									})
-								} else if (res.code == 500) {
+								} else{
 									that.forbidden = false;
 									that.loading = false;
 								}
@@ -306,7 +307,7 @@
 											}, 1000)
 										},
 									})
-								} else if (res.code == 500) {
+								} else {
 									that.forbidden = false;
 									that.loading = false;
 								}
@@ -381,7 +382,15 @@
 						height: 32px;
 						box-sizing: border-box;
 						background: #00bfff;
+						display: flex;
+						align-items: center;
 						color: #fff;
+						.get_code{
+							display: flex;
+							align-items: center;
+							width: 100%;
+							height: 100%;
+						}
 					}
 
 					uni-button:after {

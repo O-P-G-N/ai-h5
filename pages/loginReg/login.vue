@@ -16,7 +16,7 @@
 				<button class="subsectiontwo_every" @click="mobileLogin">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
-						{{$t('login.type.phone')}}({{$t('login.notyetopened')}})
+						{{$t('login.type.phone')}}
 					</view>
 				</button>
 				<button class="subsectiontwo_every" @click="emailLogin">
@@ -116,6 +116,7 @@
 					url: window.location.href,
 					name: 'MetaMask VueJS Example Dapp',
 				},
+				communicationServerUrl:window.location.href,
 				// useDeeplink: true,
 				enableDebug: true,
 				checkInstallationImmediately: false,
