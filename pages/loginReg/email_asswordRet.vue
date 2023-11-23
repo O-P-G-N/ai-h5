@@ -99,6 +99,11 @@
 			},
 			// 第一步下一步
 			nextStep() {
+				let re = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+				if(!re.test(this.from.to)) {
+					uni.$u.toast(this.$t("login.tips22"));
+					return
+				}
 				if (this.from.to) {
 					this.loading = true
 					this.forbidden = true
@@ -168,7 +173,7 @@
 						email: this.from.to,
 					},
 					success: (res) => {
-						this.pageIndex = 2;
+						if(res.code == 200) this.pageIndex = 2;
 					}
 				});
 			},

@@ -282,6 +282,7 @@
 	"login.tips20": "手機註冊暫未開通",
 	"login.tips21": "請選擇國家",
 	"login.activity_code": "邀請碼",
+	"login.tips22": "郵箱格式有誤",
 	
 	"user.asset.details.index.asset_detail": "資產明細",
 	"user.asset.details.index.charge_record": "充值記錄",

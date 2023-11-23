@@ -119,16 +119,16 @@
 			},
 			//手机注册
 			mobileLogin() {
-				uni.$u.toast(this.$t("login.tips20"));
-				// if(this.invitationCode){
-				// 	uni.navigateTo({
-				// 		url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
-				// 	});
-				// }else{
-				// 	uni.navigateTo({
-				// 		url: `/pages/loginReg/phone_reg`
-				// 	});
-				// }
+				// uni.$u.toast(this.$t("login.tips20"));
+				if(this.invitationCode){
+					uni.navigateTo({
+						url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
+					});
+				}else{
+					uni.navigateTo({
+						url: `/pages/loginReg/phone_reg`
+					});
+				}
 			},
 			onLocaleChange(e) {
 				uni.setLocale(e.code);
