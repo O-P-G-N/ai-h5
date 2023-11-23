@@ -196,7 +196,8 @@
 				let that = this
 				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？！’‘“”~ `]).*$/
+				let patrnsa = /^(?=.*?[$#./";:><\[\]}{\-=+_\\|。，、？！’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《]).*$/
 				let patrnss = /^(?=.*?[a-z]).*$/;
 				if (that.from.countryCode == "") {
 					uni.showToast({
@@ -251,7 +252,14 @@
 						success: function(res) {},
 					})
 					return
-				} else {
+				}else if (that.from.password.indexOf(" ") != -1||!patrnsa.test(that.from.email)) {
+					uni.showToast({
+						title: that.$t("login.tips23"),
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				}  else {
 					if (patrn.test(that.from.password)) {
 						that.forbidden = true;
 						that.loading = true

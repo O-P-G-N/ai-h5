@@ -176,10 +176,11 @@
 				let that = this
 				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？！’‘“”~ `]).*$/
 				let patrnss = /^(?=.*?[a-z]).*$/;
 				let emailPattern =
 					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
+				let patrnsa = /^(?=.*?[￥$#./";:><\[\]}{\-=+_\\|。，、？！’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《]).*$/
 				if (!emailPattern.test(that.from.email)) {
 					uni.showToast({
 						title: that.$t("login.tips9"),
@@ -222,6 +223,13 @@
 				} else if (that.from.password.length < 8) {
 					uni.showToast({
 						title: that.$t("login.tips4"),
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				} else if (that.from.password.indexOf(" ") != -1||!patrnsa.test(that.from.email)) {
+					uni.showToast({
+						title: that.$t("login.tips23"),
 						icon: "none",
 						success: function(res) {},
 					})

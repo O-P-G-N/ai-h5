@@ -19,7 +19,7 @@
 			font-style:normal;font-size:14.0000pt;mso-font-kerning:0.0000pt;
 			background:rgb(254,254,254);mso-shading:rgb(254,254,254);"><font face="宋体">概述</font></span><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
-			font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;mso-fareast-font-family:宋体;
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
@@ -189,7 +189,7 @@
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
 			font-style:normal;font-size:14.0000pt;mso-font-kerning:0.0000pt;
 			background:rgb(254,254,254);mso-shading:rgb(254,254,254);"><font face="宋体">。</font></span><span><a href="https://gate.io/api2"></a></span><span><a href="https://gate.io/zendesk"></a></span><span><a href="https://www.gateex.cc/privacy-policy"></a></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;mso-fareast-font-family:宋体;
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
@@ -216,13 +216,13 @@
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
 			font-style:normal;font-size:14.0000pt;mso-font-kerning:0.0000pt;
 			background:rgb(254,254,254);mso-shading:rgb(254,254,254);">&nbsp;<font face="宋体">服務，您同意您已閱讀、理解並接受本協議規定的所有條款和條件以及您可能需要接受的任何其他協議作為隱私政策。此外，在使用服務的某些功能時，您可能需要遵守適用於這些功能的特定附加條款和條件。</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;mso-fareast-font-family:宋体;
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
 			font-style:normal;font-size:14.0000pt;mso-font-kerning:0.0000pt;
 			background:rgb(254,254,254);mso-shading:rgb(254,254,254);"><font face="宋体">請仔細閱讀這些條款，因為它們管轄您對服務的使用和對網站的訪問。這些條款包含重要條款，包括仲裁和調解條款，要求所有索賠均通過調解和具有法律約束力的仲裁方式解決。通過訪問網站並使用服務，您承認並同意，除其他外，</font>1) <font face="宋体">交易或持有硬幣、代幣、加密貨幣、數字貨幣或類似數字資產涉及重大風險，損失可能是巨大的，並且您遭受的任何損失和責任均不可投保。您瞭解與上述數字資產及其衍生品交易相關的風險；</font><font face="Times">2</font><font face="宋体">）您應承擔與使用上述數字資產及其衍生品的服務和交易相關的所有風險；</font><font face="Times">3) </font><font face="宋体">在任何情況下，我們均不對任何此類風險或由此導致的不利結果承擔責任。</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;mso-fareast-font-family:宋体;
 			color:rgb(51,51,51);letter-spacing:0.0000pt;text-transform:none;
@@ -3760,7 +3760,7 @@
 			font-size:14.0000pt;mso-font-kerning:0.0000pt;background:rgb(254,254,254);
 			mso-shading:rgb(254,254,254);">General</span><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
-			font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
@@ -3844,7 +3844,7 @@
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
 			font-size:14.0000pt;mso-font-kerning:0.0000pt;background:rgb(254,254,254);
 			mso-shading:rgb(254,254,254);">&nbsp;and/or any of its affiliates, related body corporate are referred to as “we”, “our” “us” or “Site”.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
@@ -3857,13 +3857,13 @@
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
 			font-size:14.0000pt;mso-font-kerning:0.0000pt;background:rgb(254,254,254);
 			mso-shading:rgb(254,254,254);">&nbsp;Services, you agree that you have read, understood and accepted all terms and conditions stipulated in this Agreement alongside any other agreements you may be required to accept such as the Privacy Policy. In addition, when using some features of the Services, you may be subject to specific additional terms and conditions applicable to those features.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
 			font-size:14.0000pt;mso-font-kerning:0.0000pt;background:rgb(254,254,254);
 			mso-shading:rgb(254,254,254);">Please read these terms carefully as they govern your use of Services and access to the Sites. THESE TERMS CONTAIN IMPORTANT PROVISIONS INCLUDING AN ARBITRATION AND MEDIATION PROVISION THAT REQUIRES ALL CLAIMS TO BE RESOLVED BY WAY OF MEDIATION AND LEGALLY BINDING ARBITRATION. BY ACCESSING THE SITES AND MAKING USE OF SERVICES YOU ACKNOLEDGE AND AGREE THAT, INTER ALIA, 1) THE TRADING OR HOLDING OF COINS, TOKENS, CRYPTOCURRENCIES, DIGITAL CURRENCIES, OR DIGITAL ASSETS OF THE LIKE INVOLVES SIGNIFICANT RISKS, THE LOSSES CAN BE SUBSTANTIAL AND ANY LOSS AND LIABILITY YOU INCUR IS NOT INSURABLE. YOU ARE AWARE OF THE RISKS ASSOCIATED WITH TRANSACTIONS OF THE ABOVEMENTIONED DIGITAL ASSETS AND THEIR DERIVATIVES; 2) YOU SHALL ASSUME ALL RISKS RELATED TO THE USE OF SERVICES AND TRANSACTIONS OF THE ABOVEMENTIONED DIGITAL ASSETS AND THEIR DERIVATIVES; AND 3) WE SHALL UNDER NO CIRCUMSTANCES BE LIABLE FOR ANY SUCH RISKS OR ADVERSE OUTCOMES RESULTED THEREFROM.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
-			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-right:18.7500pt;margin-bottom:5.0000pt;
+			mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p><p class="p" align="justify" style="margin-top:0.0000pt;margin-bottom:5.0000pt;
 			margin-left:0.0000pt;mso-margin-bottom-alt:auto;padding:0pt 0pt 0pt 0pt ;
 			mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:Times;color:rgb(51,51,51);
 			letter-spacing:0.0000pt;text-transform:none;font-style:normal;
