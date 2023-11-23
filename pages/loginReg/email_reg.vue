@@ -18,7 +18,7 @@
 						v-model="from.code"></u-input>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.password" :placeholder="$t('login.tips10')" :password="eyeShow">
+					<u-input v-model="from.password" :placeholder="$t('login.tips10')" maxlength="32" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>

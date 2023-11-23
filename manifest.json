@@ -61,7 +61,7 @@
     "vueVersion" : "2",
     "locale" : "en",
     "h5" : {
-        "template" : "",
+        "template" : "template.h5.html",
         "router" : {
             "mode" : ""
         },
