@@ -21,7 +21,8 @@
 
 				</view>
 				<view class="hint" v-if='imgUrl'>{{$t("index.savelocally")}}</view>
-				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text></view>
+				<view class="content-title" style="margin-top: 30rpx;"><text>{{$t("index.screendescription")}}</text>
+				</view>
 				<view class="detail-content">{{parameter.content}}</view>
 
 				<view class="content-title"><text>{{$t("index.creativeinfo")}}</text></view>
@@ -85,7 +86,10 @@
 		</view>
 		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="generateImg"></image>
-			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
+			<view style="display: flex;align-items: center;">
+				<view class="buttonDown" @click="save">{{$t("index.tips25")}}</view>
+				<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
+			</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -110,7 +114,7 @@
 				isGenerate: false,
 				generateImg: '',
 				progress: 0,
-				create:this.$t("index.ai.create"),//AI创作国际化
+				create: this.$t("index.ai.create"), //AI创作国际化
 				showPopup: false,
 				showDetail: {
 					title: '',
@@ -147,13 +151,23 @@
 					data: this.generateImg,
 					success: function() {
 						uni.showToast({
-							title:that.$t("index.tips8"),
+							title: that.$t("index.tips8"),
 							success: function(res) {
 								that.show = false
 							}
 						})
 					}
 				});
+			},
+			save() {
+				let that = this
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.download = 'xx';
+				a.href = that.generateImg;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
 			}
 		}
 	}

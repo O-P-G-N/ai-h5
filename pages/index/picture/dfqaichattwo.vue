@@ -121,11 +121,10 @@
 			<!-- <image mode="widthFix" class="privImg" :src="generateImg"></image> -->
 			<u-swiper height="320" :current="currentIndex" @change="imgIndex" class="privImg" :list="imgUrl"
 				imgMode="widthFix" circular :autoplay="false" radius="5" bgColor="#ffffff"></u-swiper>
-			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
-			<!-- <view style="display: flex;align-items: center;">
-
-				<view class="buttonDown" @click="save">保存</view>
-			</view> -->
+			<view style="display: flex;align-items: center;">
+				<view class="buttonDown" @click="save">{{$t("index.tips25")}}</view>
+				<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
+			</view>
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -349,7 +348,14 @@
 				});
 			},
 			save() {
-
+				let that = this
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.download = 'xx';
+				a.href = that.imgUrl[that.imgUrlIndex];
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
 			}
 		}
 	}
