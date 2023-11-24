@@ -246,11 +246,11 @@
 							text: this.modelText
 						},
 						success: (res) => {
-							if (res.code == 500) {
+							if (res.code == 200) {
+								this.aiModelText = res.data;
 								this.btnDisabled = false
 								this.loading = false
-							} else if (res.code == 200) {
-								this.aiModelText = res.data;
+							} else {
 								this.btnDisabled = false
 								this.loading = false
 							}
