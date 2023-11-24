@@ -316,10 +316,11 @@
 			}
 		},
 		onReady() {
-			this.getAccount();
+			
 		},
 		onShow() {
 			this.$store.dispatch('app/getUnread')
+			this.getAccount();
 			// this.getAccountIsComplete();
 			// this.getListData()
 			this.getExponentData();

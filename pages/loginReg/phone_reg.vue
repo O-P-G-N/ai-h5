@@ -7,12 +7,12 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true"
+						<vue-country-intl schema="input" :iosMobileReadonly="false" :placeholder="$t('login.tips21')" :searchAble="true"
 							type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.phone" :placeholder="enterphone">
+					<u-input type="number" v-model="from.phone" :placeholder="enterphone">
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
 						<view slot="suffix" class="email_content_btn">
 							<u-code :start-text="getcode" ref="uCode" @change="codeChange"
@@ -455,8 +455,19 @@
 							}
 
 							.country-intl-label {
+								
 								background: #eff3fa !important;
+								>span:last-child{
+									width: 80%;
+									white-space: nowrap;
+									/*不换行强制文本在一行显示*/
+									overflow: hidden;
+									/*超出盒子宽度部分文字被隐藏*/
+									text-overflow: ellipsis;
+										/*当文本溢出包含元素时发生的事情 ellipsis*/
+								}
 							}
+							
 						}
 
 						.country-intl-label {

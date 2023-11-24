@@ -11,7 +11,7 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :iosMobileReadonly="false" type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -370,6 +370,15 @@
 
 							.country-intl-label {
 								background: #eff3fa !important;
+								>span:last-child{
+									width: 80%;
+									white-space: nowrap;
+									/*不换行强制文本在一行显示*/
+									overflow: hidden;
+									/*超出盒子宽度部分文字被隐藏*/
+									text-overflow: ellipsis;
+										/*当文本溢出包含元素时发生的事情 ellipsis*/
+								}
 							}
 						}
 

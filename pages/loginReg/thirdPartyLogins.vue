@@ -8,7 +8,7 @@
 		<view class="container_nei">
 			<view class="main">
 				<view class="inputevery_content">
-					<vue-country-intl schema="input" :placeholder="$t('login.tips21')" :searchAble="true" type="phone"
+					<vue-country-intl schema="input" :iosMobileReadonly="false" :placeholder="$t('login.tips21')" :searchAble="true" type="phone"
 						@onChange="onChange" v-model="from.countryCode"></vue-country-intl>
 				</view>
 				<u-cell-group :border="false">
@@ -219,6 +219,15 @@
 						.country-intl-label {
 							border-radius: 17px !important;
 							background: #f5f6fa !important;
+							>span:last-child{
+								width: 80%;
+								white-space: nowrap;
+								/*不换行强制文本在一行显示*/
+								overflow: hidden;
+								/*超出盒子宽度部分文字被隐藏*/
+								text-overflow: ellipsis;
+									/*当文本溢出包含元素时发生的事情 ellipsis*/
+							}
 						}
 					}
 

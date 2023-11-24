@@ -263,7 +263,7 @@
 												}, 1000)
 											},
 										})
-									} else if (res.code == 500) {
+									} else  {
 										that.forbidden = false;
 										that.loading = false;
 									}
@@ -314,7 +314,7 @@
 												}, 1000)
 											},
 										})
-									} else if (res.code == 500) {
+									} else {
 										that.forbidden = false;
 										that.loading = false;
 									}

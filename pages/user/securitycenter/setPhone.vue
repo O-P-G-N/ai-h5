@@ -8,13 +8,13 @@
 		<view class="container_nei">
 			<view class="main">
 				<view class="inputevery_content">
-					<vue-country-intl schema="input" :searchAble="true" type="phone" @onChange="onChange"
+					<vue-country-intl :iosMobileReadonly="false" schema="input" :searchAble="true" type="phone" @onChange="onChange"
 						v-model="from.countryCode"></vue-country-intl>
 				</view>
 				<u-cell-group :border="false">
 					<u-cell>
 						<view slot="value" class="email_content">
-							<u-input :placeholder="$t('login.enterphone')" class="email_content_text"
+							<u-input type="number" :placeholder="$t('login.enterphone')" class="email_content_text"
 								v-model="from.phone">
 								<view slot="suffix" class="email_content_btn">
 									<u-code unique-key="editpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"
@@ -213,6 +213,15 @@
 						.country-intl-label {
 							border-radius: 17px !important;
 							background: #f5f6fa !important;
+							>span:last-child{
+								width: 80%;
+								white-space: nowrap;
+								/*不换行强制文本在一行显示*/
+								overflow: hidden;
+								/*超出盒子宽度部分文字被隐藏*/
+								text-overflow: ellipsis;
+									/*当文本溢出包含元素时发生的事情 ellipsis*/
+							}
 						}
 					}
 

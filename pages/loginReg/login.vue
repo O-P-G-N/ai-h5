@@ -265,10 +265,10 @@
 
 
 				} catch (err) {
-					this.errorStr = err
+					// this.errorStr = err
 					console.warn(`failed to connect..`, err);
 				}
-				console.info("----------------", result);
+				// console.info("----------------", result);
 
 
 				// try {
