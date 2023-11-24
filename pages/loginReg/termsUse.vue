@@ -3,7 +3,6 @@
 		<u-navbar @leftClick="goBackUser" :left-text="back" :title="termsuse" :safeAreaInsetTop="false"
 			titleStyle="fontWeight: 600"></u-navbar>
 		<view class="main" v-if="pageShow==0">
-			<body style="tab-interval:21pt;text-justify-trim:punctuation;"><!--StartFragment-->
 				<div class="Section0" style="layout-grid:15.6000pt;">
 					<h4 align="justify" style="margin-left:0.0000pt;text-indent:0.0000pt;mso-pagination:widow-orphan;
 			text-align:justify;text-justify:inter-ideograph;background:rgb(254,254,254);"><b><span style="mso-spacerun:'yes';font-family:Times;mso-fareast-font-family:宋体;
@@ -6854,14 +6853,12 @@
 							<o:p>&nbsp;</o:p>
 						</span></p>
 				</div><!--EndFragment-->
-			</body>
 			<!-- <web-view src="../../static/file/termsUse/zh-Hant.htm"></web-view> -->
 		</view>
 		<view class="main" v-else-if="pageShow==1">
 			<web-view src="../../static/file/termsUse/zh-Hans.htm"></web-view>
 		</view>
 		<view class="main" v-else-if="pageShow==2">
-			<body style="tab-interval:21pt;text-justify-trim:punctuation;"><!--StartFragment-->
 				<div class="Section0" style="layout-grid:15.6000pt;">
 					<p class="MsoNormal"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;
 			mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
@@ -12612,7 +12609,6 @@
 							<o:p>&nbsp;</o:p>
 						</span></p>
 				</div><!--EndFragment-->
-			</body>
 			<!-- <web-view src="../../static/file/termsUse/en.html"></web-view> -->
 		</view>
 	</view>
