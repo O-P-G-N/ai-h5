@@ -164,7 +164,7 @@
 							let setTime = new Date(v.endTime);
 							let nowTime = new Date();
 							let restSec = setTime.getTime() - nowTime.getTime();
-							let count = nowTime.getTime() - new Date(v.createTime).getTime();
+							let count = nowTime.getTime() - new Date(v.createTime).getTime() - 480 - nowTime.getTimezoneOffset();
 							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 							v.minu = parseInt(restSec / (60 * 1000) % 60);

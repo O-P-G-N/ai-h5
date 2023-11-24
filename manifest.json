@@ -68,5 +68,8 @@
         "devServer" : {
             "https" : false
         }
-    }
+    },
+	"networkTimeout":{
+		"request": 3000000
+	}
 }
