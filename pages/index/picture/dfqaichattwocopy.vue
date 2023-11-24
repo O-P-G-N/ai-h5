@@ -84,7 +84,7 @@
 
 			</template>
 		</view>
-		<u-popup :show="show" mode="center" customStyle="{'background-color':'transparent'}">
+		<u-popup :show="show" closeOnClickOverlay @close="show=false" mode="center" customStyle="{'background-color':'transparent'}">
 			<image mode="widthFix" class="privImg" :src="generateImg"></image>
 			<view style="display: flex;align-items: center;">
 				<view class="buttonDown" @click="save">{{$t("index.tips25")}}</view>

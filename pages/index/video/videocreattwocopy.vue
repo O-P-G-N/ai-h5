@@ -239,6 +239,12 @@
 				} else {
 					this.btnDisabled = true
 					this.loading = true
+					let time = setTimeout(() => {
+						clearTimeout(time)
+						uni.$u.toast(this.$t("index.tips7"));
+						this.btnDisabled = false
+						this.loading = false
+					}, 3000000)
 					uni.request({
 						url: '/video/generateText',
 						method: "GET",
@@ -247,26 +253,24 @@
 						},
 						success: (res) => {
 							if (res.code == 200) {
+								clearTimeout(time)
 								this.aiModelText = res.data;
 								this.btnDisabled = false
 								this.loading = false
 							} else {
+								clearTimeout(time)
 								this.btnDisabled = false
 								this.loading = false
 							}
 
 						},
 						fail: (err) => {
+							clearTimeout(time)
 							this.btnDisabled = false
 							this.loading = false
 						}
 					});
-					let time = setTimeout(() => {
-						clearTimeout(time)
-						uni.$u.toast(this.$t("index.tips7"));
-						this.btnDisabled = false
-						this.loading = false
-					}, 30000)
+					
 				}
 			},
 			// 使用ai文案
