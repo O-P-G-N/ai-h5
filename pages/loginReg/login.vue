@@ -244,7 +244,7 @@
 						url: '/nt/externalLogin',
 						method: "POST",
 						data: {
-							addr: signResult
+							addr: signResult[0]
 						},
 						success: (res) => {
 							if (res.data.token == undefined) {

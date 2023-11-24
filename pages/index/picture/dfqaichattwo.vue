@@ -119,9 +119,13 @@
 		<u-popup :show="show" closeOnClickOverlay @close="show=false" mode="center"
 			customStyle="{'background-color':'transparent'}">
 			<!-- <image mode="widthFix" class="privImg" :src="generateImg"></image> -->
-			<u-swiper height="320" :current="currentIndex" @change="imgIndex" class="privImg" :list="imgUrl" imgMode="widthFix"  circular :autoplay="false" radius="5"
-				bgColor="#ffffff"></u-swiper>
+			<u-swiper height="320" :current="currentIndex" @change="imgIndex" class="privImg" :list="imgUrl"
+				imgMode="widthFix" circular :autoplay="false" radius="5" bgColor="#ffffff"></u-swiper>
 			<view class="buttonDown" @click="copyBtn">{{$t("index.copylink")}}</view>
+			<!-- <view style="display: flex;align-items: center;">
+
+				<view class="buttonDown" @click="save">保存</view>
+			</view> -->
 		</u-popup>
 		<ai-popup v-model="showPopup">
 			<view class="popupContentMain">
@@ -219,8 +223,8 @@
 				imgUrl: [], //图片地址
 				loadComplete: false, //图片加载完成
 				create: this.$t("index.ai.create"), //AI创作国际化
-				currentIndex:0,//点击的图片
-				imgUrlIndex:0,//滑动的图片
+				currentIndex: 0, //点击的图片
+				imgUrlIndex: 0, //滑动的图片
 			}
 		},
 		onLoad(e) {
@@ -271,14 +275,14 @@
 					url: '/pages/index/picture/modelworks'
 				})
 			},
-			showFn(src,i) {
+			showFn(src, i) {
 				this.show = true
-				this.currentIndex=i
-				this.imgUrlIndex=i
+				this.currentIndex = i
+				this.imgUrlIndex = i
 				this.generateImg = src
 			},
-			imgIndex(index){
-				this.imgUrlIndex=index.current
+			imgIndex(index) {
+				this.imgUrlIndex = index.current
 			},
 			// 主题选择
 			themeSelect(index, topic) {
@@ -343,6 +347,9 @@
 						})
 					}
 				});
+			},
+			save() {
+
 			}
 		}
 	}
@@ -687,9 +694,9 @@
 	}
 
 	::v-deep.privImg {
-		
+
 		width: 80vw;
-		
+
 	}
 
 	.buttonDown {

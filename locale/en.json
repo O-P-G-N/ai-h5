@@ -295,7 +295,7 @@
 	"login.tips5": "Contains numbers",
 	"login.tips6": "The password entered twice is inconsistent",
 	"login.tips7": "Reset successful",
-	"login.tips8": "Password must contain at least letters and numbers",
+	"login.tips8": "Login password must contain at least letters and numbers",
 	"login.tips9": "please enter your vaild email",
 	"login.tips10": "Please enter your password",
 	"login.tips11": "Landed successfully",
@@ -430,7 +430,7 @@
 	"user.islands.sc.fdp.i4": "Transaction password cannot have capital letters",
 	"user.islands.sc.fdp.i5": "The transaction password cannot have special characters",
 	"user.islands.sc.fdp.i6": "Transaction password cannot contain lowercase letters",
-	"user.islands.sc.fdp.i7": "The transaction password can only be pure numbers, and other letters are prohibited from being entered.",
+	"user.islands.sc.fdp.i7": "The transaction password can only be pure numbers",
 
 	"user.islands.sc.idx.i1": "security center",
 	"user.islands.sc.idx.i2": "have set",

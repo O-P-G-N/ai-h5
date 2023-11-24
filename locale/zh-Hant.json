@@ -296,7 +296,7 @@
 	"login.tips5": "包含數字",
 	"login.tips6": "兩次輸入密碼不一致",
 	"login.tips7": "重置成功",
-	"login.tips8": "密碼至少包含字母和數字",
+	"login.tips8": "登陸密碼至少包含字母和數字",
 	"login.tips9": "請輸入正確的郵箱",
 	"login.tips10": "請輸入登錄密碼",
 	"login.tips11": "登陸成功",
@@ -431,7 +431,7 @@
 	"user.islands.sc.fdp.i4": "交易密碼不能有大寫字母",
 	"user.islands.sc.fdp.i5": "交易密碼不能有特殊字符",
 	"user.islands.sc.fdp.i6": "交易密碼不能有小寫字母",
-	"user.islands.sc.fdp.i7": "交易密碼只能是純數字，其他字母禁止輸入",
+	"user.islands.sc.fdp.i7": "交易密碼只能是純數字",
 
 	"user.islands.sc.idx.i1": "安全中心",
 	"user.islands.sc.idx.i2": "已設置",

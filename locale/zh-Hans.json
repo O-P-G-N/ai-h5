@@ -296,7 +296,7 @@
 	"login.tips5":"包含数字",
 	"login.tips6":"两次输入密码不一致",
 	"login.tips7":"重置成功",
-	"login.tips8":"密码至少包含字母和数字",
+	"login.tips8":"登录密码至少包含字母和数字",
 	"login.tips9":"请输入正确的邮箱",
 	"login.tips10":"请输入登录密码",
 	"login.tips11":"登陆成功",
@@ -428,7 +428,7 @@
 	"user.islands.sc.fdp.i4": "交易密码不能有大写字母",
 	"user.islands.sc.fdp.i5": "交易密码不能有特殊字符",
 	"user.islands.sc.fdp.i6": "交易密码不能有小写字母",
-	"user.islands.sc.fdp.i7": "交易密码只能是纯数字，其他字母禁止输入",
+	"user.islands.sc.fdp.i7": "交易密码只能是纯数字",
 	
 	
 	"user.islands.sc.idx.i1": "安全中心",
