@@ -14,7 +14,7 @@
 				<u-cell-group :border="false">
 					<u-cell>
 						<view slot="value" class="email_content">
-							<u-input :placeholder="$t('login.enterphone')" class="email_content_text"
+							<u-input type="number" :placeholder="$t('login.enterphone')" class="email_content_text"
 								v-model="from.phone">
 								<view slot="suffix" class="email_content_btn">
 									<u-code unique-key="editpass" :start-text="$t('user.islands.sc.edp.i4')" ref="uCode"

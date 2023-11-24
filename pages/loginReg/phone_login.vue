@@ -13,7 +13,7 @@
 					</view>
 				</view>
 				<view class="inputevery">
-					<u-input v-model="from.username" :placeholder="phone">
+					<u-input type="number" v-model="from.username" :placeholder="phone">
 						<u--text class="phone_tip" :text="countryCode" slot="prefix"></u--text>
 					</u-input>
 				</view>

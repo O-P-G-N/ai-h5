@@ -191,7 +191,7 @@
 								// console.log(res.data);
 								uni.hideLoading()
 								uni.navigateTo({
-									url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${that.from.amount}&type=${that.from.type==1?' USDT-TRC20':' USDT-ERC20'}`
+									url: `/pages/user/starpay?to=${res.data.to}&actionId=${res.data.actionId}&amount=${that.from.amount}&type=${that.from.type==1?' USDT-TRC20':that.from.type==2?' USDT-ERC20':that.from.type==3?' USDT-BSC':''}`
 								});
 							} else if (res.code == 500) {
 								uni.hideLoading()

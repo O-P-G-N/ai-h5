@@ -91,6 +91,9 @@
 					// } catch {
 
 					// }
+					if(this.chatList[this.chatList.length - 1].reply==""&&this.chatList.length>2&&this.chatList[this.chatList.length - 1].who==0){
+						this.chatList.pop() 
+					}
 					this.chatList.push({
 						reply: this.question,
 						who: 1
@@ -107,7 +110,6 @@
 						},
 						success: (res) => {
 							if (res.data.reply != undefined) {
-
 								this.chatList[this.chatList.length - 1].reply = res.data.reply
 							} else {
 								this.chatList.pop()
@@ -117,13 +119,9 @@
 							// console.log(this.chatList);
 						},
 						fail() {
-							this.chatList.push({
-								reply: ""
-							})
+							
 						}
 					});
-
-
 					this.question = ""
 				}
 

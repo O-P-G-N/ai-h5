@@ -75,6 +75,11 @@
 			},
 			clear(){
 				this.$store.commit('app/clear',false)
+				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+					this.$store.commit('app/judgLanguage', 1)
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					this.$store.commit('app/judgLanguage', 0)
+				}
 			}
 		}
 	}
