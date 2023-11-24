@@ -24,7 +24,7 @@
 					<u-input class="email_content_text" type="number" :placeholder="entercode"
 						v-model="from.code"></u-input>
 				</view>
-				
+
 				<view class="inputevery">
 					<u-input v-model="from.password" :placeholder="enterpassword" maxlength="32" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
@@ -196,9 +196,10 @@
 				let that = this
 				let num = /[0-9]/im
 				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrnsa = /^(?=.*?[$#./";:><\[\]}{\-=+_\\|。，、？！’‘“”~ `]).*$/
-				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《]).*$/
 				let patrnss = /^(?=.*?[a-z]).*$/;
+				let patrnsa = /^(?=.*?[$/";:><\[\]}{\-=+_\\|。，、’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《]).*$/
+				let hz = /^(?=.*?[u4e00-u9fa5]).*$/
 				if (that.from.countryCode == "") {
 					uni.showToast({
 						title: that.$t("login.tips18"),
@@ -252,14 +253,14 @@
 						success: function(res) {},
 					})
 					return
-				}else if (that.from.password.indexOf(" ") != -1||!patrnsa.test(that.from.email)) {
+				} else if (that.from.password.indexOf(" ") != -1 ||patrnsa.test(that.from.password)||hz.test(that.from.password)) {
 					uni.showToast({
 						title: that.$t("login.tips23"),
 						icon: "none",
 						success: function(res) {},
 					})
 					return
-				}  else {
+				} else {
 					if (patrn.test(that.from.password)) {
 						that.forbidden = true;
 						that.loading = true
@@ -284,7 +285,7 @@
 											}, 1000)
 										},
 									})
-								} else{
+								} else {
 									that.forbidden = false;
 									that.loading = false;
 								}
@@ -393,7 +394,8 @@
 						display: flex;
 						align-items: center;
 						color: #fff;
-						.get_code{
+
+						.get_code {
 							display: flex;
 							align-items: center;
 							width: 100%;
