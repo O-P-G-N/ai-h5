@@ -104,11 +104,10 @@
 		methods: {
 			// 返回登录首页
 			goBackUser() {
-				const pages = getCurrentPages();
-				if (pages.length > 1) {
-					uni.navigateBack({
-						delta: 1
-					});
+				if (this.pageIndex == 2) {
+					this.pageIndex = 1
+				} else if (this.pageIndex == 1) {
+					this.pageIndex = 0
 				} else {
 					uni.navigateTo({
 						url: `/pages/loginReg/login`

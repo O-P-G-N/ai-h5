@@ -219,87 +219,109 @@
 						success: function(res) {},
 					})
 					return
-				} else if (that.from.withdrawPassword == "") {
-					uni.$u.toast(this.$t('login.traderPassword'));
-					return
-				} else if (that.from.withdrawPassword.length < 6) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
-					return
-				} else if (patrn.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
-					return
-				} else if (patrns.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
-					return
-				} else if (patrnss.test(this.from.withdrawPassword)) {
-					uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
-					return
-				} else if (this.from.withdrawPassword != this.from.newWithdrawPassword) {
-					uni.$u.toast(this.$t('login.traderPassword2'));
-					return
 				} else {
 					if (patrn.test(that.from.password)) {
-						that.forbidden = true;
-						that.loading = true
-						uni.request({
-							url: '/nt/registerEmail',
-							method: "POST",
-							data: that.from,
-							success: (res) => {
-								// uni.$u.toast('注册成功');
-								if (res.code == 200) {
-									that.forbidden = false;
-									that.loading = false;
-									uni.showToast({
-										title: that.$t("login.tips15"),
-										success: function(res1) {
-											let times = setTimeout(() => {
-												clearTimeout(times)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
-								} else if (res.code == 500) {
-									that.forbidden = false;
-									that.loading = false;
-								}
+						if (that.from.withdrawPassword == "") {
+							uni.$u.toast(this.$t('login.traderPassword'));
+							return
+						} else if (that.from.withdrawPassword.length < 6) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrn.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrns.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrnss.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (this.from.withdrawPassword != this.from.newWithdrawPassword) {
+							uni.$u.toast(this.$t('login.traderPassword2'));
+							return
+						} else {
+							that.forbidden = true;
+							that.loading = true
+							uni.request({
+								url: '/nt/registerEmail',
+								method: "POST",
+								data: that.from,
+								success: (res) => {
+									// uni.$u.toast('注册成功');
+									if (res.code == 200) {
+										that.forbidden = false;
+										that.loading = false;
+										uni.showToast({
+											title: that.$t("login.tips15"),
+											success: function(res1) {
+												let times = setTimeout(() => {
+													clearTimeout(times)
+													uni.setStorageSync("user", res.data)
+													uni.switchTab({
+														url: `/pages/index/index`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										that.forbidden = false;
+										that.loading = false;
+									}
 
-							}
-						});
+								}
+							});
+						}
 					} else if (patrns.test(that.from.password)) {
-						that.forbidden = true;
-						that.loading = true
-						uni.request({
-							url: '/nt/registerEmail',
-							method: "POST",
-							data: that.from,
-							success: (res) => {
-								// uni.$u.toast('注册成功');
-								if (res.code == 200) {
-									that.forbidden = false;
-									that.loading = false;
-									uni.showToast({
-										title: that.$t("login.tips15"),
-										success: function(res1) {
-											let time = setTimeout(() => {
-												clearTimeout(time)
-												uni.setStorageSync("user", res.data)
-												uni.switchTab({
-													url: `/pages/index/index`
-												});
-											}, 1000)
-										},
-									})
-								} else if (res.code == 500) {
-									that.forbidden = false;
-									that.loading = false;
-								}
+						if (that.from.withdrawPassword == "") {
+							uni.$u.toast(this.$t('login.traderPassword'));
+							return
+						} else if (that.from.withdrawPassword.length < 6) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrn.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrns.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (patrnss.test(this.from.withdrawPassword)) {
+							uni.$u.toast(this.$t('user.islands.sc.fdp.i7'));
+							return
+						} else if (this.from.withdrawPassword != this.from.newWithdrawPassword) {
+							uni.$u.toast(this.$t('login.traderPassword2'));
+							return
+						} else {
+							that.forbidden = true;
+							that.loading = true
+							uni.request({
+								url: '/nt/registerEmail',
+								method: "POST",
+								data: that.from,
+								success: (res) => {
+									// uni.$u.toast('注册成功');
+									if (res.code == 200) {
+										that.forbidden = false;
+										that.loading = false;
+										uni.showToast({
+											title: that.$t("login.tips15"),
+											success: function(res1) {
+												let time = setTimeout(() => {
+													clearTimeout(time)
+													uni.setStorageSync("user", res.data)
+													uni.switchTab({
+														url: `/pages/index/index`
+													});
+												}, 1000)
+											},
+										})
+									} else if (res.code == 500) {
+										that.forbidden = false;
+										that.loading = false;
+									}
 
-							}
-						});
+								}
+							});
+						}
 					} else {
 						uni.$u.toast(that.$t("login.tips8"));
 						return

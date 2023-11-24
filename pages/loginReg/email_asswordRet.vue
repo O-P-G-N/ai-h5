@@ -97,11 +97,10 @@
 		methods: {
 			// 返回登录首页
 			goBackUser() {
-				const pages = getCurrentPages();
-				if (pages.length > 1) {
-					uni.navigateBack({
-						delta: 1
-					});
+				if (this.pageIndex == 2) {
+					this.pageIndex = 1
+				} else if (this.pageIndex == 1) {
+					this.pageIndex = 0
 				} else {
 					uni.navigateTo({
 						url: `/pages/loginReg/login`
@@ -111,7 +110,7 @@
 			// 第一步下一步
 			nextStep() {
 				let re = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-				if(!re.test(this.from.to)) {
+				if (!re.test(this.from.to)) {
 					uni.$u.toast(this.$t("login.tips22"));
 					return
 				}
@@ -184,7 +183,7 @@
 						email: this.from.to,
 					},
 					success: (res) => {
-						if(res.code == 200) this.pageIndex = 2;
+						if (res.code == 200) this.pageIndex = 2;
 					}
 				});
 			},
