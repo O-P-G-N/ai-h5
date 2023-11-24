@@ -109,6 +109,7 @@
 	"index.tips22": "load more",
 	"index.tips23": "loading...",
 	"index.tips24": "no more",
+	"index.tips25":"save",
 
 	"home.charge": "charge",
 	"home.withdraw": "withdraw",
@@ -163,7 +164,7 @@
 	"ac.prc8": "Buying amount",
 	"ac.prc9": "Maximum number of copies that can be purchased with current balance",
 	"ac.prc10": "Maximum number of copies that can be purchased at the current level",
-	"ac.prc11": "Red envelope balance",
+	"ac.prc11": "Available Balance",
 	"ac.prc12": "Contract running days",
 	"ac.prc13": "Credit rating requirements",
 	"ac.prc14": "Create contract",
