@@ -65,9 +65,10 @@
 									:showText="false"></u-line-progress>
 							</view>
 							<view class="paogress_tips" v-if="v.status!=2&&v.status!=1">
-								<view style="display: flex;">
+								<view style="display: flex;" v-if="v.count > 0">
 									{{$t("user.con_detail.i40")}}（{{$t("user.con_detail.i41")}}:{{v.day}}{{$t("user.con_detail.i42")}}{{v.hour}}{{$t("user.con_detail.i43")}}{{v.minu}}{{$t("user.con_detail.i44")}}）
 								</view>
+								<view v-else>收益结算中</view>
 								<view class="">{{v.paogress}}%</view>
 							</view>
 							<view class="modelbtns" v-if="v.status!=2&&v.status!=1">
@@ -165,6 +166,7 @@
 							let nowTime = new Date();
 							let restSec = setTime.getTime() - nowTime.getTime();
 							let count = nowTime.getTime() - new Date(v.createTime).getTime() - 480 - nowTime.getTimezoneOffset();
+							v.count = count
 							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 							v.minu = parseInt(restSec / (60 * 1000) % 60);
