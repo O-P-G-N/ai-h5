@@ -25,18 +25,16 @@
 						</view>
 						<view :class="i% 2 == 0 && !v.who?'chakra-card':'chakra-cards'">{{v.reply}}</view>
 					</view> -->
-				<view :class="i% 2 == 0 && !v.who ?'chat_show_box':'chat_show_box_one'" v-for="(v,i) in chatList"
-					:key="i">
-					<image class="chat_show_box_left" v-if="i% 2 == 0 && !v.who " src="@/static/tabbar/tx.png" mode="">
+				<view :class="!v.who ?'chat_show_box':'chat_show_box_one'" v-for="(v,i) in chatList" :key="i">
+					<image class="chat_show_box_left" v-if="!v.who " src="@/static/tabbar/tx.png" mode="">
 					</image>
-					<view class="chat_show_box_center_one" v-if="i% 2 == 0 && !v.who ">
+					<view class="chat_show_box_center_one" v-if="!v.who ">
 						<text style="margin-right: 2px;">{{v.reply}}</text>
 						<!-- <acousticWave v-if="chatList.length>3&&i==chatList.length-3"></acousticWave> -->
 						<omit v-if="chatList[chatList.length-1].reply==''&&i==chatList.length-1"></omit>
 					</view>
 					<view class="chat_show_box_center_two" v-else>{{v.reply}}</view>
-					<image class="chat_show_box_right" v-if="i% 2 != 0 && v.who " src="@/static/market/human.png"
-						mode=""></image>
+					<image class="chat_show_box_right" v-if="v.who " src="@/static/market/human.png" mode=""></image>
 				</view>
 			</scroll-view>
 			<view class="chat_text">
@@ -89,7 +87,7 @@
 					return
 				} else {
 					// try {
-						
+
 					// } catch {
 
 					// }
@@ -99,7 +97,7 @@
 					})
 					this.chatList.push({
 						reply: "",
-						who:0
+						who: 0
 					})
 					uni.request({
 						url: `/chat/quiz`,
@@ -108,7 +106,12 @@
 							question: this.question
 						},
 						success: (res) => {
-							this.chatList[this.chatList.length-1].reply=res.data.reply
+							if (res.data.reply != undefined) {
+
+								this.chatList[this.chatList.length - 1].reply = res.data.reply
+							} else {
+								this.chatList.pop()
+							}
 							// res.data.reply = "nihaoya "
 							// this.chatList.push(res.data)
 							// console.log(this.chatList);
@@ -120,7 +123,7 @@
 						}
 					});
 
-					
+
 					this.question = ""
 				}
 
@@ -254,16 +257,19 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					animation: glowing 5s linear normal ;
+					animation: glowing 5s linear normal;
 				}
+
 				@keyframes glowing {
-					0%{
+					0% {
 						background-position: 400% 0;
 					}
-					50%{
-						background-position:200% 0;
+
+					50% {
+						background-position: 200% 0;
 					}
-					100%{
+
+					100% {
 						background-position: 0 0;
 					}
 				}
