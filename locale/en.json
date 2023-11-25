@@ -621,6 +621,6 @@
 	"user.con_detail.i69": "sure",
 	"user.con_detail.i70": "cancel",
 
-	"app.main.js.i1": "The operation is too frequent, please try again later."
-
+	"app.main.js.i1": "The operation is too frequent, please try again later.",
+	"app.main.js.i2": "Login failed, please log in again"
 }

@@ -7,7 +7,7 @@
 		</u-navbar>
 		<view style="padding:0 20px;box-sizing: border-box; margin-top: 20px;" v-if="noticeList.length>0">
 			<u-collapse @open="openNotice" accordion>
-				<u-collapse-item v-for="(v,i) in noticeList" :key="i" :border="false" :title="v.title" :name="v.id">
+				<u-collapse-item v-for="(v,i) in noticeList" :key="i" :border="false" :title="v.title" :name="v.messageId">
 					<text class="u-collapse-content">{{v.content}}</text>
 					<u-badge slot="value" :offset="[10, 12]" :absolute="true" v-if="v.status==0" :isDot="true"
 						type="error"></u-badge>
@@ -98,7 +98,7 @@
 					}
 				})
 				this.noticeList.map((v)=>{
-					if(v.id==val){
+					if(v.messageId==val){
 						v.status=1
 					}
 				})

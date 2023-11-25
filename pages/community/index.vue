@@ -57,7 +57,7 @@
 								</view>
 								<view class="orderhao">
 									<text>{{$t("comm.prc13")}}</text>
-									<text>{{v.vip}}</text>
+									<text>{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</text>
 								</view>
 								<view class="orderhao">
 									<text>{{$t("comm.prc14")}}</text>

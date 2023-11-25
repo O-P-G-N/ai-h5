@@ -622,6 +622,7 @@
 	"user.con_detail.i69": "確認",
 	"user.con_detail.i70": "取消",
 
-	"app.main.js.i1": "操作過於頻繁,請稍後再試"
+	"app.main.js.i1": "操作過於頻繁,請稍後再試",
+	"app.main.js.i2": "登錄失效，請重新登錄"
 
 }

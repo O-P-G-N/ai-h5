@@ -53,13 +53,13 @@
 					</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">{{v.amount}}</view>
+					<view class="text">{{v.sign}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
 					<view class="text">{{v.days}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">{{Number(v.bili)*100}}%</view>
+					<view class="text">{{(Number(v.bili)*100).toFixed(0)}}%</view>
 				</u-col>
 			</u-row>
 		</view>
@@ -89,13 +89,13 @@
 					</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">{{v.amount}}</view>
+					<view class="text">{{v.sign}}</view>
 				</u-col>
 				<u-col span="3" textAlign="center">
 					<view class="text">{{v.days}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
-					<view class="text">{{Number(v.bili)*100}}%</view>
+					<view class="text">{{(Number(v.bili)*100).toFixed(0)}}%</view>
 				</u-col>
 			</u-row>
 		</view>
@@ -155,17 +155,31 @@
 								});
 							}
 						})
-						this.securityList.map((e) => {
-							if (e.amount > this.amountMin) {
+						res.data.vips.map((e) => {
+							if (Number(res.data.sum) > Number(e.amount)) {
+								this.amountMin = e.amount
+							} else {
 								if (this.amountMax == "") {
 									this.amountMax = e.amount
 								}
-							} else {
-								this.amountMin = e.amount
-							}
+
+							};
+							// if (e.amount > this.amountMin) {
+
+							// 	if (this.amountMax == "") {
+							// 		this.amountMax = e.amount
+							// 	}
+							// } else {
+							// 	console.log(this.amountMin);
+							// 	this.amountMin = e.amount
+							// }
 
 						})
-						this.amountSum = currency(this.amountMax, {precision: 0}).subtract(res.data.sum);
+						console.log(this.amountMin);
+						console.log(this.amountMax);
+						this.amountSum = currency(this.amountMax, {
+							precision: 0
+						}).subtract(res.data.sum);
 						this.propes = (this.amountSum - this.amountMin) / this.amountMax
 						// this.propes = currency(this.amountSum, {precision: 0}).subtract(this.amountMin).divide(this.amountMax)
 					}
