@@ -92,7 +92,7 @@
 					<view class="bg-purple" :class="v.days==from.payDays?'active':''">{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</view>
 				</u-col>
 				<u-col span="4">
-					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">{{(Number(v.bili)*100).toFixed(0)}}%
+					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">{{(Number(v.bili)*100).toFixed(2)}}%
 					</view>
 				</u-col>
 			</u-row>

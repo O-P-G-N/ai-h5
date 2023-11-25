@@ -168,7 +168,6 @@
 							precision: 0
 						}).subtract(res.data.sum).value;
 						this.amountPropes =(((Number( res.data.sum)-this.amountMin) / (this.amountMax-this.amountMin))*100).toFixed(0);
-						console.log(this.amountPropes);
 						// this.propes = currency(this.amountSum, {precision: 0}).subtract(this.amountMin).divide(this.amountMax)
 					}
 				});
