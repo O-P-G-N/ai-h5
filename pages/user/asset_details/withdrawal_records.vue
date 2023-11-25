@@ -11,15 +11,15 @@
 					<view class="capital">
 						<view class="capital_top">
 							<text>{{$t('user.asset.details.wr.withdraw_type')}}</text>
-							<text>{{v.type==1?' USDT-TRC20':' USDT-ERC20'}}</text>
+							<text>{{v.type==1?' USDT-TRC20':v.type==2?' USDT-ERC20':v.type==3?' USDT-BSC':''}}</text>
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.wr.order_sn')}}</text>
 							<text>{{v.orderNo}}</text>
 						</view>
 						<view class="orderhao">
-							<text>{{$t('user.asset.details.wr.withdraw_address')}}</text>
-							<text>{{v.payAddress}}</text>
+							<text style="line-height: 23px;min-width: 64px;display: inline-block;margin-right: 5px;">{{$t('user.asset.details.wr.withdraw_address')}}</text>
+							<text style="line-height: 23px;">{{v.payAddress}}</text>
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.wr.withdraw_amount')}}</text>

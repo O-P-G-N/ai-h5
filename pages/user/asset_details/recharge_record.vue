@@ -11,7 +11,7 @@
 					<view class="capital">
 						<view class="capital_top">
 							<text>{{$t('user.asset.details.rc.charge_type')}}</text>
-							<text>{{v.type==1?' USDT-TRC20':' USDT-ERC20'}}</text>
+							<text>{{v.type==1?' USDT-TRC20':v.type==2?' USDT-ERC20':v.type==3?' USDT-BSC':''}}</text>
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.rc.order_sn')}}</text>
