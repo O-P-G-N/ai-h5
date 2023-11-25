@@ -53,7 +53,6 @@
 			this.loadMore()
 		},
 		methods: {
-	
 			back() {
 				uni.navigateBack()
 			},

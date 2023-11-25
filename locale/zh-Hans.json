@@ -344,6 +344,8 @@
 	"user.asset.details.wr.withdraw_status": "提现状态",
 	"user.asset.details.wr.withdraw_time": "提现时间",
 	"user.asset.helpcenter.idx.help_center": "帮助中心",
+	"user.asset.helpcenter.idx.help_center1": "充值中",
+	"user.asset.helpcenter.idx.help_center2": "已到账",
 	
 	"user.asset.islands.ctf.coupon": "卡券",
 	"user.asset.islands.ctf.Novice_gift": "新手礼包券",

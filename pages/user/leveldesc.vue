@@ -103,6 +103,7 @@
 </template>
 
 <script>
+	import currency from "currency.js"
 	export default {
 		data() {
 			return {
@@ -164,8 +165,9 @@
 							}
 
 						})
-						this.amountSum = this.amountMax - res.data.sum;
+						this.amountSum = currency(this.amountMax, {precision: 0}).subtract(res.data.sum);
 						this.propes = (this.amountSum - this.amountMin) / this.amountMax
+						// this.propes = currency(this.amountSum, {precision: 0}).subtract(this.amountMin).divide(this.amountMax)
 					}
 				});
 			},

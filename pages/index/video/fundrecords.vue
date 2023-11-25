@@ -31,7 +31,7 @@
 				<!-- <ai-button :btnHeight="'57px'" :bg="'#f5f6fa'" :color="'#333'" class="ghszrBtn">更换数字人</ai-button> -->
 				<view class="tools">
 					<view class="toolsDemo" v-if="progress==100">
-						<text class="title">{{$t("index.duration")}}时长</text>
+						<text class="title">{{$t("index.duration")}}</text>
 						<text class="detail jifen">{{videoInfo.timeCost}}S</text>
 					</view>
 					<view class="toolsDemo noBottm">

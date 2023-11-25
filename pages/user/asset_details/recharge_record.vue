@@ -19,7 +19,7 @@
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.rc.charge_status')}}</text>
-							<text class="rechargetype">{{v.status==0?$t('user.asset.details.rc.to_pay'):$t('user.asset.details.rc.payed')}}</text>
+							<text class="rechargetype">{{v.status==0?$t('user.asset.helpcenter.idx.help_center1'):$t('user.asset.helpcenter.idx.help_center2')}}</text>
 						</view>
 						<view class="orderhao">
 							<text>{{$t('user.asset.details.rc.charge_amount')}}</text>

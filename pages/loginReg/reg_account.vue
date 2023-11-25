@@ -49,7 +49,7 @@
 						class="blur" @click="viewPolicy">《{{$t('login.agreement4')}}》</text>
 				</view>
 				<view class="register">
-					{{$t('login.noaccount')}}？
+					{{$t('login.existingaccount')}}？
 					<text class="blur" @click="logNow">{{$t('login.loginnow')}}</text>
 				</view>
 			</view>

@@ -44,11 +44,13 @@
 						Order ID：{{contractDetails.orderSn}}
 					</view>
 					<view class="order_sn">
-						{{$t('user.con_detail.i24')}}：{{contractDetails.createTime}}
+						<view class="">{{$t('user.con_detail.i24')}}：</view>
+						<view class="">{{contractDetails.createTime}}</view>
 					</view>
 					<view class="order_sn" v-if="contractDetails.status==0">
+						<view class="">{{$t('user.con_detail.i25')}}:</view>
+						<view class="">{{contractDetails.endTime}}</view>
 						
-						<u-notice-bar :text="$t('user.con_detail.i25')"></u-notice-bar>：{{contractDetails.endTime}}
 					</view>
 					<view class="order_sn" v-if="contractDetails.status==2||contractDetails.status==1">
 						{{$t('user.con_detail.i26')}}：{{contractDetails.updateTime}}
@@ -264,9 +266,10 @@
 						}
 					}
 					.order_sn {
-						idth: 100%;
+						width: 100%;
 						margin-top: 10px;
 						text-indent: 1.5em;
+						
 					}
 				}
 
