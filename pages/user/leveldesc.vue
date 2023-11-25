@@ -162,25 +162,13 @@
 								if (this.amountMax == "") {
 									this.amountMax = e.amount
 								}
-
 							};
-							// if (e.amount > this.amountMin) {
-
-							// 	if (this.amountMax == "") {
-							// 		this.amountMax = e.amount
-							// 	}
-							// } else {
-							// 	console.log(this.amountMin);
-							// 	this.amountMin = e.amount
-							// }
-
 						})
-						console.log(this.amountMin);
-						console.log(this.amountMax);
 						this.amountSum = currency(this.amountMax, {
 							precision: 0
-						}).subtract(res.data.sum);
-						this.propes = (this.amountSum - this.amountMin) / this.amountMax
+						}).subtract(res.data.sum).value;
+						this.amountPropes =(((Number( res.data.sum)-this.amountMin) / (this.amountMax-this.amountMin))*100).toFixed(0);
+						console.log(this.amountPropes);
 						// this.propes = currency(this.amountSum, {precision: 0}).subtract(this.amountMin).divide(this.amountMax)
 					}
 				});
