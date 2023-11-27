@@ -46,7 +46,7 @@
 						<view class="fdTitle">{{$t('user.capital_flow.i24')}}</view>
 					</view>
 					<view class="right">
-						<view class="pfdz">B+: {{$t('user.capital_flow.i25')}}{{bonusRatio}}%</view>
+						<view class="pfdz">{{$t('user.capital_flow.i25')}}{{bonusRatio}}%</view>
 						<view class="intCs">
 							<text class="intCs_text">{{integralAmount}}</text>
 						</view>

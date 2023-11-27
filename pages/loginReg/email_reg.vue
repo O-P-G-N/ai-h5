@@ -143,8 +143,13 @@
 			},
 			// 获取验证码
 			getCode() {
+				let emailPattern =
+					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
 				if (this.from.email == "") {
 					uni.$u.toast(this.$t("login.tips12"));
+					return
+				} else if (!emailPattern.test(this.from.email)) {
+					uni.$u.toast(this.$t("login.tips9"));
 					return
 				} else {
 					if (this.$refs.uCode.canGetCode) {

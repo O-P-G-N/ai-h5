@@ -126,7 +126,7 @@
 			<text>{{$t('index.ai.creation')}}</text>
 			
 		</view>
-		<u-swiper class="swiper_list" radius="20" :list="list" keyName="address" showTitle imgMode="widthFix"  autoplay circular></u-swiper>
+		<u-swiper class="swiper_list" height="368" radius="20" :list="list" keyName="address" showTitle imgMode="widthFix"  autoplay circular></u-swiper>
 
 		<!-- <view class="justcard">
 			<view class="justcard_bottom">
@@ -739,16 +739,16 @@
 			}
 		}
 
-		.swiper_list {
-			height: 368px !important;
-			.u-swiper__wrapper{
-				height: 368px !important;
-			}
+		// .swiper_list {
+		// 	height: 368px !important;
+		// 	.u-swiper__wrapper{
+		// 		height: 368px !important;
+		// 	}
 
-			.u-swiper__wrapper__item__wrapper__title {
-				bottom: 0px;
-			}
-		}
+		// 	.u-swiper__wrapper__item__wrapper__title {
+		// 		bottom: 0px;
+		// 	}
+		// }
 
 		.justcard {
 			padding: 15px 18px;

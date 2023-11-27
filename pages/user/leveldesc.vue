@@ -156,18 +156,26 @@
 							}
 						})
 						res.data.vips.map((e) => {
-							if (Number(res.data.sum) > Number(e.amount)) {
-								this.amountMin = e.amount
+							if (Number(res.data.sum) > Number(e.hongbao)) {
+								this.amountMin = e.hongbao
 							} else {
 								if (this.amountMax == "") {
-									this.amountMax = e.amount
+									this.amountMax = e.hongbao
+									
 								}
 							};
 						})
-						this.amountSum = currency(this.amountMax, {
-							precision: 0
-						}).subtract(res.data.sum).value;
-						this.amountPropes =(((Number( res.data.sum)-this.amountMin) / (this.amountMax-this.amountMin))*100).toFixed(0);
+						if(this.amountMin==res.data.vips[res.data.vips.length-1].hongbao){
+							this.amountMax="∞"
+							this.amountPropes=100
+							this.amountSum=0
+						}else{
+							this.amountSum = currency(this.amountMax, {
+								precision: 0
+							}).subtract(res.data.sum).value;
+							this.amountPropes =(((Number( res.data.sum)-this.amountMin) / (this.amountMax-this.amountMin))*100).toFixed(0);
+						}
+						
 						// this.propes = currency(this.amountSum, {precision: 0}).subtract(this.amountMin).divide(this.amountMax)
 					}
 				});

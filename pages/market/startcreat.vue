@@ -199,8 +199,8 @@
 				if(that.from.payNum==""){
 					uni.$u.toast(that.$t("ac.prc16"));
 					return
-				}else if(that.from.payNum>(Number(that.balanceMax)/Number(that.pageData.remark))){
-					uni.$u.toast(`${that.$t("ac.prc9")}${Number(that.balanceMax)/Number(that.pageData.remark)}${that.$t("ac.prc4")}`);
+				}else if(that.from.payNum>Math.floor((Number(that.balanceMax)/Number(that.pageData.remark)))){
+					uni.$u.toast(`${that.$t("ac.prc9")}${Math.floor((that.balanceMax)/Number(that.pageData.remark))}${that.$t("ac.prc4")}`);
 					return
 				}else if(that.from.payNum>that.gradeMax){
 					uni.$u.toast(`${that.$t("ac.prc10")}${that.gradeMax}${that.$t("ac.prc4")}`);
