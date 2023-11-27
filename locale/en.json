@@ -503,7 +503,7 @@
 	"user.capital_flow.i43": "enter the coin amount to withdraw",
 	"user.capital_flow.i44": "actual amount transferred into the account",
 	"user.capital_flow.i45": "manage cost",
-	"user.capital_flow.i451": "3% of the principal withdrawal amount and 5% of the income withdrawal amount",
+	"user.capital_flow.i451": "The principal withdrawal fee is 3 USDT",
 	"user.capital_flow.i46": "Minimum withdrawal amount",
 	"user.capital_flow.i47": "Maximum withdrawal amount",
 	"user.capital_flow.i48": "trade code",

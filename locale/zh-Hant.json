@@ -504,7 +504,7 @@
 	"user.capital_flow.i43": "請輸入提幣數量",
 	"user.capital_flow.i44": "實際到賬",
 	"user.capital_flow.i45": "資金管理費",
-	"user.capital_flow.i451": "本金提款金額的3%,收益提款金額的5%",
+	"user.capital_flow.i451": "本金提款手續費為3 USDT",
 	"user.capital_flow.i46": "最小提幣數量",
 	"user.capital_flow.i47": "最大提幣數量",
 	"user.capital_flow.i48": "交易密碼",

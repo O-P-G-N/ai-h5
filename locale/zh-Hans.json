@@ -502,7 +502,7 @@
 	"user.capital_flow.i43": "请输入提币数量",
 	"user.capital_flow.i44": "实际到账",
 	"user.capital_flow.i45": "资金管理费",
-	"user.capital_flow.i451": "本金提款金额的3%,收益提款金额的5%",
+	"user.capital_flow.i451": "本金提款手续费为3 USDT",
 	"user.capital_flow.i46": "最小提币数量",
 	"user.capital_flow.i47": "最大提币数量",
 	"user.capital_flow.i48": "交易密码",
