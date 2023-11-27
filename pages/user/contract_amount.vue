@@ -162,17 +162,35 @@
 					method: "GET",
 					success: (res) => {
 						res.data.rows.map((v) => {
-							let setTime = new Date(v.endTime);
-							let nowTime = new Date();
-							let restSec = setTime.getTime() - nowTime.getTime() + (-480 - nowTime.getTimezoneOffset())*60*1000;
-							let count = nowTime.getTime() - new Date(v.createTime).getTime() 
-							v.count = restSec
+							if(v.status==4){
+								v.countdown=(new Date(v.updateTime).getTime()+24*60*60*1000)-new Date().getTime()
+							}
+							if(v.status==0){
+								let setTime = new Date(v.endTime);
+								let nowTime = new Date();
+								let restSec = setTime.getTime() - nowTime.getTime() + (-480 - nowTime.getTimezoneOffset())*60*1000;
+								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
+								v.count = restSec
+								
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+									.toFixed(2);
+							}else if(v.status==4){
+								let setTime = new Date(v.endTime);
+								let nowTime = new Date(v.updateTime);
+								let restSec = setTime.getTime() - nowTime.getTime() + (-480 - nowTime.getTimezoneOffset())*60*1000;
+								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
+								v.count = restSec
+								
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+									.toFixed(2);
+							}
 							
-							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
-							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
-							v.minu = parseInt(restSec / (60 * 1000) % 60);
-							v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
-								.toFixed(2);
 						})
 						this.contractList = res.data.rows;
 
