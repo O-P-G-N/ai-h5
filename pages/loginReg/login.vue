@@ -13,7 +13,7 @@
 			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.welcome')}}</view>
 			<view class="subsectiontwo">
-				<button class="subsectiontwo_every" @click="mobileLogin">
+				<button class="subsectiontwo_every" @click="mobileLogin" v-if="pageShow">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
 						{{$t('login.type.phone')}}
@@ -91,6 +91,7 @@
 				provider: null,
 				availableLanguages: [],
 				selectedLanguage: '',
+				pageShow:true,
 			};
 		},
 		computed: {
@@ -171,6 +172,13 @@
 				this.applicationLocale = e.locale;
 			})
 		},
+		onShow() {
+			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+				this.pageShow=true
+			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+				this.pageShow=false
+			}
+		},
 		methods: {
 			//手机登录
 			mobileLogin() {
@@ -194,6 +202,11 @@
 			onLocaleChange(e) {
 				uni.setLocale(e.code);
 				this.$i18n.locale = e.code;
+				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+					this.pageShow=true
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					this.pageShow=false
+				}
 			},
 			// 选择语言
 			selectLang() {

@@ -1,12 +1,13 @@
 <template>
 	<view class="login" @click="closeLang">
-		<u-navbar @leftClick="goBackUser" :left-text="back" :title="register" :safeAreaInsetTop="false"
-			titleStyle="fontWeight: 600"></u-navbar>
+		<u-navbar @leftClick="goBackUser" :left-text="$t('login.back')" :title="$t('login.register')"
+			:safeAreaInsetTop="false" titleStyle="fontWeight: 600"></u-navbar>
 		<view class="navbar">
 			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
 			<view class="lang-down-menu" v-if="langShow">
 				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
-					{{item.text}}</view>
+					{{item.text}}
+				</view>
 
 			</view>
 		</view>
@@ -14,13 +15,13 @@
 			<view class="title_h1">AlitaGPT</view>
 			<view class="title_h3">{{$t('login.registertitle')}}</view>
 			<view class="subsectiontwo">
-				<button class="subsectiontwo_every" @click="mobileLogin">
+				<button class="subsectiontwo_every" @click="mobileLogin" v-if="pageShow">
 					<view class="flex_al_center">
 						<image class="icon" src="@/static/login/phone.png" mode=""></image>
 						{{$t('login.type.phones.register')}}
 					</view>
 				</button>
-				<view class="line">
+				<view class="line" v-if="pageShow">
 					<view class="divider"></view>
 					<view class="lint_text">{{$t('login.orregisterto')}}</view>
 				</view>
@@ -65,10 +66,11 @@
 				invitationCode: "", //邀请码
 				register: this.$t('login.register'), //注册国际化
 				back: this.$t('login.back'), //返回国际化
+				pageShow:true,
 			};
 		},
 		created() {
-
+			
 		},
 		onLoad(option) {
 			if (option.code) {
@@ -80,6 +82,13 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
+		},
+		onShow() {
+			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+				this.pageShow=true
+			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+				this.pageShow=false
+			}
 		},
 		computed: {
 			locales() {
@@ -104,6 +113,8 @@
 				uni.navigateTo({
 					url: `/pages/loginReg/login`
 				});
+
+				
 			},
 			// 查看用户协议
 			viewTerms() {
@@ -120,11 +131,11 @@
 			//手机注册
 			mobileLogin() {
 				// uni.$u.toast(this.$t("login.tips20"));
-				if(this.invitationCode){
+				if (this.invitationCode) {
 					uni.navigateTo({
 						url: `/pages/loginReg/phone_reg?invitationCode=${this.invitationCode}`
 					});
-				}else{
+				} else {
 					uni.navigateTo({
 						url: `/pages/loginReg/phone_reg`
 					});
@@ -133,6 +144,11 @@
 			onLocaleChange(e) {
 				uni.setLocale(e.code);
 				this.$i18n.locale = e.code;
+				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+					this.pageShow=true
+				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+					this.pageShow=false
+				}
 			},
 			// 选择语言
 			selectLang() {
