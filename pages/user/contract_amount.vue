@@ -29,7 +29,7 @@
 										<view class="">{{$t('user.con_detail.i14')}}</view>
 									</view>
 									<view class="modelshouyi_every">
-										<view class="shouyilvprice"><text>{{Number(v.bili)*100}}%</text></view>
+										<view class="shouyilvprice"><text>{{Number(v.bili).toFixed(2)}}%</text></view>
 										<view class="">{{$t('user.con_detail.i15')}}</view>
 									</view>
 								</view>
@@ -44,7 +44,7 @@
 									<view class="titles">{{$t('user.con_detail.i22')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">0{{$t('user.con_detail.i19')}}</view>
+									<view class="intro">{{v.dealNum}}{{$t('user.con_detail.i19')}}</view>
 									<view class="titles">{{$t('user.con_detail.i20')}}</view>
 								</view>
 							</view>
@@ -80,7 +80,7 @@
 								<text>{{$t('user.con_detail.i30')}}:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
-							<button class="lookmore" @click="seeMore(v.id)" v-if="v.status!=2&&v.status!=1">
+							<button class="lookmore" @click="seeMore(v.id,v.dealNum)" v-if="v.status!=2&&v.status!=1">
 								{{$t('user.con_detail.i31')}}
 								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
 							</button>
@@ -163,32 +163,36 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							if(v.status==4){
-								v.countdown=(new Date(v.updateTime).getTime()+24*60*60*1000)-new Date().getTime()
+								v.countdown=(new Date(v.updateTime).getTime()+24*60*60*1000)-new Date(v.now).getTime()
 							}
 							if(v.status==0){
 								let setTime = new Date(v.endTime);
-								let nowTime = new Date();
-								let restSec = setTime.getTime() - nowTime.getTime() + (-480 - nowTime.getTimezoneOffset())*60*1000;
+								let nowTime = new Date(v.now);
+								let restSec = setTime.getTime() - nowTime.getTime();
 								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
-								v.count = restSec
-								
+								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
 								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
 									.toFixed(2);
+								if(v.count<0){
+									v.paogress=100
+								}
 							}else if(v.status==4){
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.updateTime);
-								let restSec = setTime.getTime() - nowTime.getTime() + (-480 - nowTime.getTimezoneOffset())*60*1000;
+								let restSec = setTime.getTime() - nowTime.getTime();
 								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
-								v.count = restSec
-								
+								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
 								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
 									.toFixed(2);
+									if(v.count<0){
+										v.paogress=100
+									}
 							}
 							
 						})
@@ -232,9 +236,9 @@
 				return diffDays;
 			},
 			// 查看更多
-			seeMore(id) {
+			seeMore(id,dealNum) {
 				uni.navigateTo({
-					url: `/pages/user/contract_details?id=${id}`
+					url: `/pages/user/contract_details?id=${id}&dealNum=${dealNum}`
 				});
 			},
 			// 上划加载

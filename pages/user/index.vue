@@ -64,6 +64,14 @@
 						<text v-else class="texta">******</text>
 					</view>
 				</view>
+				<view class="yuecardtop">
+					<view class="yuecardtopevery_one">
+						<text>{{$t('user.con_detail.i73')}}:</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.aai}} AAI ≈ {{myInfo.aai2usdtAmount}} USDT</text>
+						<text v-else class="texta">******</text>
+					</view>
+					
+				</view>
 			</view>
 
 		</view>
@@ -124,9 +132,12 @@
 		<view class="heard_left">
 			<image class="homecs" src="~@/static/index/homecs.png"></image>
 			<text>{{$t('index.ai.creation')}}</text>
-			
+
 		</view>
-		<u-swiper class="swiper_list" height="368" radius="20" :list="list" keyName="address" showTitle imgMode="widthFix"  autoplay circular></u-swiper>
+		<view v-if="list.length>0">
+			<u-swiper class="swiper_list" height="368" radius="20" :list="list" keyName="address" showTitle
+				imgMode="widthFix" autoplay circular></u-swiper>
+		</view>
 
 		<!-- <view class="justcard">
 			<view class="justcard_bottom">
@@ -190,10 +201,10 @@
 					</view>
 				</view>
 			</view> -->
-			
+
 		</view>
 		<Footer pageName='user'></Footer>
-		
+
 		<u-modal @confirm="setConfirm" :show="show" :title="tips" :content='content'></u-modal>
 	</view>
 </template>
@@ -208,7 +219,7 @@
 			return {
 				eyeShow: false, //用户名展示
 				eyeShows: true, //金额展示
-			
+
 				myInfo: {}, //我的信息
 				infoShow: false, //是否显示
 				myUserName: "", //我的用户名
@@ -242,21 +253,20 @@
 					}
 				});
 				uni.request({
-					url: `/workImage/list`,
+					url: `/workImage/listForUser`,
 					method: "POST",
-					data: {
+					data:{
 						keyword: "",
 						pageNum: 1,
 						pageSize: 10
 					},
 					success: (res) => {
 						this.list = res.data.rows;
-
 					}
 				});
 			},
 			// 等级说明
-			levelDesc(){
+			levelDesc() {
 				uni.navigateTo({
 					url: `/pages/user/leveldesc`
 				});
@@ -293,7 +303,7 @@
 			// 积分兑换
 			integralExchange() {
 				uni.navigateTo({
-					url: `/pages/user/integral_exchange`
+					url: `/pages/user/exchange_index/index`
 				});
 			},
 			// 查看历史记录
@@ -481,9 +491,10 @@
 			right: 20px;
 			top: 15px;
 			z-index: 99;
-			.user_head_right_set{
+
+			.user_head_right_set {
 				width: 60rpx;
-				height:60rpx;
+				height: 60rpx;
 			}
 
 			.user_head_right_content {
@@ -495,9 +506,11 @@
 				align-items: center;
 				justify-content: center;
 				position: relative;
-				.badge{
+
+				.badge {
 					z-index: 111;
 				}
+
 				.user_head_right_content_img {
 					width: 60rpx;
 					height: 60rpx;
@@ -576,6 +589,19 @@
 						display: flex;
 						flex-direction: column;
 
+						.texta {
+							width: 100%;
+							font-size: 14px;
+							color: #000;
+							font-weight: 800;
+						}
+					}
+					.yuecardtopevery_one{
+						width: 100%;
+						font-size: 12px;
+						display: flex;
+						flex-direction: column;
+						
 						.texta {
 							width: 100%;
 							font-size: 14px;
@@ -675,29 +701,33 @@
 				font-size: 14px;
 			}
 		}
-		.asset_details{
+
+		.asset_details {
 			width: 100%;
 			height: 148rpx;
 			margin-top: 40rpx;
-			background:url("@/static/user/property_bg.png") no-repeat;
+			background: url("@/static/user/property_bg.png") no-repeat;
 			background-size: cover;
 			padding: 20rpx 46rpx;
 			box-sizing: border-box;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			.asset_details_left{
-				.asset_details_left_top{
+
+			.asset_details_left {
+				.asset_details_left_top {
 					display: flex;
 					align-items: center;
 					margin-bottom: 4rpx;
-					.asset_details_left_top_style{
+
+					.asset_details_left_top_style {
 						width: 4px;
 						height: 16px;
 						background: #0077FF;
 						border-radius: 0px 0px 0px 0px;
 					}
-					.asset_details_left_top_title{
+
+					.asset_details_left_top_title {
 						margin-left: 8rpx;
 						font-size: 18px;
 						font-family: PingFang SC, PingFang SC;
@@ -705,37 +735,39 @@
 						color: #4A567D;
 					}
 				}
-				.asset_details_left_bottom{
+
+				.asset_details_left_bottom {
 					margin-left: 16rpx;
 					font-size: 10px;
 					font-family: PingFang SC, PingFang SC;
 					font-weight: bold;
-					color: rgba(89,98,126,0.38);
+					color: rgba(89, 98, 126, 0.38);
 				}
 			}
-			.asset_details_right{
+
+			.asset_details_right {
 				width: 116rpx;
 				height: 116rpx;
 			}
 		}
-		
+
 		.heard_left {
 			margin-top: 20px;
 			margin-bottom: 6px;
 			display: flex;
 			align-items: center;
-		
+
 			.homecs {
 				width: 50rpx;
 				height: 50rpx;
 			}
-		
+
 			text {
 				margin-left: 10rpx;
 				color: #1b1b1b;
 				font-size: 38rpx;
 				font-weight: bold;
-		
+
 			}
 		}
 
@@ -861,7 +893,7 @@
 				border: unset !important;
 			}
 
-			
+
 		}
 
 		.slot-content {

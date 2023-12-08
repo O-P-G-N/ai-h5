@@ -49,14 +49,16 @@
 							:placeholder="$t('user.capital_flow.i43')" />
 					</view>
 				</u-cell>
-				<u-cell :title="$t('user.capital_flow.i45')" :value="commissionRate"
-					:label="$t('user.capital_flow.i451')"></u-cell>
+				<u-cell class="receipt_time" :title="$t('user.con_detail.i82')" :isLink="true" @click="selectBy"
+					:value="selectType">
+				</u-cell>
+				<u-cell :title="$t('user.capital_flow.i45')" :value="commissionRate" :label="lableText"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i46')" :value="withdrawalInfo.withdrawMin"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i47')" :value="withdrawalInfo.withdrawMax"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i48')">
 					<view slot="value" class="code_content">
 						<u-input v-model="from.withdrawPassword" :placeholder="$t('user.capital_flow.i49')"
-							:password="eyeShow">
+							:type="eyeShow?'password':'number'">
 							<image @click="showHidden" slot="suffix" class="eye"
 								:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 							</image>
@@ -94,7 +96,7 @@
 					</view>
 					<view class="steps_content">
 						<view class="steps_content_title_two">{{$t('user.capital_flow.i55')}}</view>
-						<view class="desc">{{$t('user.capital_flow.i56')}}</view>
+						<view class="desc">{{from.speed==1?$t('user.capital_flow.i94'):from.speed==2?$t('user.capital_flow.i95'):from.speed==3?$t('user.capital_flow.i96'):''}}</view>
 					</view>
 				</view>
 				<view class="steps">
@@ -147,8 +149,12 @@
 			</view>
 			<button class="tips_btn" @click="determine" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
-		<u-picker closeOnClickOverlay @cancel="close" keyName="name" @confirm="confirm" @close="close" :show="show"
+		<u-picker closeOnClickOverlay @cancel="close" :cancelText="$t('index.cancellation')"
+			:confirmText="$t('index.determine')" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
+		<u-picker closeOnClickOverlay @cancel="closes" :cancelText="$t('index.cancellation')"
+			:confirmText="$t('index.determine')" keyName="name" @confirm="confirms" @close="closes" :show="shows"
+			:columns="column"></u-picker>
 	</view>
 </template>
 
@@ -159,6 +165,7 @@
 			return {
 				userName: "", //用户名
 				currencyType: " USDT-TRC20", //币种名称
+				selectType: this.$t("user.con_detail.i79"), //到账时间
 				realityAmount: "", //实际提现金额
 				from: {
 					type: "1", //币种
@@ -168,8 +175,11 @@
 					questionKey: "", //密保Key
 					withdrawPassword: "", //交易密码
 					answer: "", //密保答案
+					speed: "1", //到账时间
 				}, //表单验证
 				show: false, //选择币种状态
+				shows: false, //到账时间状态
+				lableText: "",
 				columns: [
 					[{
 						type: "1",
@@ -180,6 +190,18 @@
 					}, {
 						type: "3",
 						name: ' USDT-BSC'
+					}]
+				],
+				column: [
+					[{
+						type: "1",
+						name: this.$t("user.con_detail.i79")
+					}, {
+						type: "2",
+						name: this.$t("user.con_detail.i80")
+					}, {
+						type: "3",
+						name: this.$t("user.con_detail.i81")
 					}]
 				],
 				tipsShow: false, //温馨提示弹窗状态
@@ -200,6 +222,7 @@
 		onShow() {
 			this.getUserName();
 			this.getWithdrawalInfo()
+			this.lableText = this.$t('user.capital_flow.i451') + "5%"
 		},
 		onReady() {
 			uni.request({
@@ -242,16 +265,16 @@
 						// this.from.questionKey = res.data.questionList[0].key;
 					}
 				});
-				uni.request({
-					url: `/aicommon/getDict`,
-					method: "GET",
-					data: {
-						dictType: 'fee'
-					},
-					success: (res) => {
-						this.commissionRate = res.data[0].dictValue;
-					}
-				});
+				// uni.request({
+				// 	url: `/aicommon/getDict`,
+				// 	method: "GET",
+				// 	data: {
+				// 		dictType: 'fee'
+				// 	},
+				// 	success: (res) => {
+				// 		this.commissionRate = res.data[0].dictValue;
+				// 	}
+				// });
 			},
 			// 计算金额
 			calculateAmount(val) {
@@ -328,6 +351,32 @@
 				this.from.type = val.value[0].type;
 				this.currencyType = val.value[0].name;
 			},
+			// 到账时间
+			selectBy() {
+				this.shows = true
+			},
+			// 点击屏蔽罩关闭
+			closes() {
+				this.shows = false;
+			},
+			// 确定选择到账时间按钮
+			confirms(val) {
+				let num = null
+				if(val.value[0].type ==1){
+					num="5%";
+				}else if(val.value[0].type == 2) {
+					num = "2.5%";
+				} else {
+					num = "2%"
+				}
+				this.shows = false;
+				this.from.speed = val.value[0].type;
+				this.selectType = val.value[0].name;
+				this.from.amount = "";
+				this.commissionRate = "";
+				this.realityAmount = "";
+				this.lableText = this.$t('user.capital_flow.i451') + num
+			},
 			// 提交提现申请
 			subApplication() {
 				let that = this
@@ -388,29 +437,45 @@
 		watch: {
 			"from.amount": {
 				handler(val) {
-					if (Number(val) - Number(this.commissionRate) < 0) {
-						this.realityAmount = 0
+					let commission = null;
+					if (this.from.speed == 1) {
+						commission = 0.05
+					} else if (this.from.speed == 2) {
+						commission = 0.025
 					} else {
-						if (val.split(".").length > 1) {
-							if (val.split(".")[1].length <= 6) {
-								this.realityAmount = currency(val, {
-									precision: 6
-								}).subtract(this.commissionRate).value;
-							} else {
-								this.$nextTick(() => {
-									this.from.amount = val.split(".")[0].concat(".").concat(val.split(".")[1]
-										.substring(0, 6))
-								})
-								this.realityAmount = currency(val.split(".")[0].concat(".").concat(val.split(".")[1]
-									.substring(0, 6)), {
-									precision: 6
-								}).subtract(this.commissionRate).value;
-							}
+						commission = 0.02
+					}
+					if (val.split(".").length > 1) {
+						if (val.split(".")[1].length <= 6) {
+							this.commissionRate = currency(val, {
+								precision: 6
+							}).multiply(commission).value;
+							this.realityAmount = currency(val, {
+								precision: 6
+							}).subtract(this.commissionRate).value;
 						} else {
+							this.$nextTick(() => {
+								this.from.amount = val.split(".")[0].concat(".").concat(val.split(".")[1]
+									.substring(0, 6))
+							})
+							this.commissionRate = currency(val.split(".")[0].concat(".").concat(val.split(".")[1]
+								.substring(0, 6)), {
+								precision: 6
+							}).multiply(commission).value;
 							this.realityAmount = currency(val, {
 								precision: 6
 							}).subtract(this.commissionRate).value;
 						}
+					} else {
+						if (this.from.amount.length > 0) {
+							this.commissionRate = currency(val, {
+								precision: 6
+							}).multiply(commission).value;
+							this.realityAmount = currency(val, {
+								precision: 6
+							}).subtract(this.commissionRate).value;
+						}
+
 					}
 				},
 				deep: true
@@ -429,6 +494,7 @@
 		overflow: hidden;
 		padding: 20px;
 		box-sizing: border-box;
+
 
 		.u-navbar {
 			height: 51px;
@@ -484,6 +550,15 @@
 							line-height: 22px;
 							color: #303133;
 						}
+					}
+				}
+			}
+
+			.receipt_time {
+				.u-cell__body {
+					.u-cell__body__content {
+
+						flex: 1 !important;
 					}
 				}
 			}
@@ -677,6 +752,7 @@
 				margin-bottom: 30px;
 			}
 
+
 			.withdrawal_amount {
 				display: flex;
 				align-items: center;
@@ -710,6 +786,8 @@
 				}
 
 				.withdrawal_add_text {
+					width: 50%;
+					word-wrap: anywhere;
 					font-size: 14px;
 					font-family: PingFang SC-Bold, PingFang SC;
 					font-weight: bold;

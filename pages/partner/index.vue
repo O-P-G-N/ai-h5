@@ -14,17 +14,6 @@
 		</u-navbar>
 		<view class="chat-view">
 			<scroll-view class="chat_show" :scroll-y="true" :scroll-top="scrollTop">
-				<!-- <view :class="i% 2 == 0 && !v.who ?'css-7feio9':'css-p92e7h'" v-for="(v,i) in chatList" :key="i">
-						<view class="css-18ak0yj" v-if="i% 2 == 0 && !v.who ">
-							<image class="css-18ak0yj_img" src="@/static/market/6527edd6282c8.webp" mode=""></image>
-						</view>
-						<view class="css-v5t6b3" v-else>
-							<view class="css-f2diyg">
-								<image class="css-f2diyg_img" src="@/static/market/human.png" mode=""></image>
-							</view>
-						</view>
-						<view :class="i% 2 == 0 && !v.who?'chakra-card':'chakra-cards'">{{v.reply}}</view>
-					</view> -->
 				<view :class="!v.who ?'chat_show_box':'chat_show_box_one'" v-for="(v,i) in chatList" :key="i">
 					<image class="chat_show_box_left" v-if="!v.who " src="@/static/tabbar/tx.png" mode="">
 					</image>
@@ -64,7 +53,36 @@
 
 			};
 		},
+		onShow() {
+			this.getList()
+		},
 		methods: {
+			// 获取连天记录
+			getList(){
+				uni.request({
+					url: `/chat/list`,
+					method: "GET",
+					data:{
+						pageNum:10000,
+						pageSize:10
+					},
+					success: (res) => {
+						res.data.rows.map((v)=>{
+							this.chatList.push({
+								reply: v.question,
+								who: 1
+							})
+							this.chatList.push({
+								reply: v.answer,
+								who: 0
+							})
+						})
+					},
+					fail() {
+						
+					}
+				});
+			},
 			// 返回
 			goBackUser() {
 				uni.switchTab({

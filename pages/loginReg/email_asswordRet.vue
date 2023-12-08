@@ -63,7 +63,7 @@
 	export default {
 		data() {
 			return {
-				pageIndex: 0, //页面索1
+				pageIndex: 0, //页面索引
 				from: {
 					to: "", //邮箱号
 					type: 2, //类型
@@ -101,6 +101,7 @@
 					this.pageIndex = 1
 				} else if (this.pageIndex == 1) {
 					this.pageIndex = 0
+					this.value=""
 				} else {
 					uni.navigateTo({
 						url: `/pages/loginReg/login`
@@ -197,18 +198,31 @@
 			},
 			// 重置
 			reset() {
+				let that = this
 				let num = /[0-9]/im
-				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
-				if (this.formData.password.length < 8) {
-					uni.$u.toast(this.$t("login.tips8"));
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
+				let emailPattern =
+					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
+				let patrnsa = /^(?=.*?[$/";:><\[\]}{\-=+_\\|。，、’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《])(?=.*?\d).*$/
+				let hz =
+					/^(?=.*?[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0]).*$/
+					
+				if (that.formData.password.length < 8) {
+					uni.$u.toast(this.$t("login.tips4"));
+					return
+				} else if (that.formData.password.indexOf(" ") != -1 || patrnsa.test(that.formData.password) || hz.test(that.formData
+						.password)) {
+					uni.showToast({
+						title: that.$t("login.tips23"),
+						icon: "none",
+						success: function(res) {},
+					})
 					return
 				} else {
-					if (patrn.test(this.formData.password)) {
-						if (!num.test(this.formData.password)) {
-							uni.$u.toast(this.$t("login.tips5"));
-							return
-						} else if (this.formData.password != this.formData.confirmPassword) {
+					if (patrn.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
 							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
@@ -221,6 +235,7 @@
 									newPassword: this.formData.password,
 								},
 								success: (res) => {
+									if(res.code==200){
 									uni.showToast({
 										title: this.$t("login.tips7"),
 										success: function(res) {
@@ -232,15 +247,13 @@
 											}, 1000)
 										},
 									})
-
+									}
+							
 								}
 							});
 						}
-					} else if (patrns.test(this.formData.password)) {
-						if (!num.test(this.formData.password)) {
-							uni.$u.toast(this.$t("login.tips5"));
-							return
-						} else if (this.formData.password != this.formData.confirmPassword) {
+					} else if (patrns.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
 							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
@@ -253,26 +266,134 @@
 									newPassword: this.formData.password,
 								},
 								success: (res) => {
+									if(res.code==200){
 									uni.showToast({
 										title: this.$t("login.tips7"),
 										success: function(res) {
-											let times = setTimeout(() => {
-												clearTimeout(times)
+											let time = setTimeout(() => {
+												clearTimeout(time)
 												uni.redirectTo({
 													url: `/pages/loginReg/login`
 												});
 											}, 1000)
 										},
 									})
-
+									}
+							
+								}
+							});
+						}
+					}else if (patrnss.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
+							uni.$u.toast(this.$t("login.tips6"));
+							return
+						}else {
+							uni.request({
+								url: '/nt/updatePasswordForEmail',
+								method: "POST",
+								data: {
+									code: this.value,
+									email: this.from.to,
+									newPassword: this.formData.password,
+								},
+								success: (res) => {
+									if(res.code==200){
+									uni.showToast({
+										title: this.$t("login.tips7"),
+										success: function(res) {
+											let time = setTimeout(() => {
+												clearTimeout(time)
+												uni.redirectTo({
+													url: `/pages/loginReg/login`
+												});
+											}, 1000)
+										},
+									})
+									}
+							
 								}
 							});
 						}
 					} else {
-						uni.$u.toast(this.$t("login.tips8"));
+						
+						uni.$u.toast(that.$t("login.tips8"));
 						return
 					}
 				}
+					
+				// if (this.formData.password.length < 8) {
+				// 	uni.$u.toast(this.$t("login.tips8"));
+				// 	return
+				// } else {
+				// 	if (patrn.test(this.formData.password)) {
+				// 		if (!num.test(this.formData.password)) {
+				// 			uni.$u.toast(this.$t("login.tips5"));
+				// 			return
+				// 		} else if (this.formData.password != this.formData.confirmPassword) {
+				// 			uni.$u.toast(this.$t("login.tips6"));
+				// 			return
+				// 		} else {
+				// 			uni.request({
+				// 				url: '/nt/updatePasswordForEmail',
+				// 				method: "POST",
+				// 				data: {
+				// 					code: this.value,
+				// 					email: this.from.to,
+				// 					newPassword: this.formData.password,
+				// 				},
+				// 				success: (res) => {
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips7"),
+				// 						success: function(res) {
+				// 							let time = setTimeout(() => {
+				// 								clearTimeout(time)
+				// 								uni.redirectTo({
+				// 									url: `/pages/loginReg/login`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+
+				// 				}
+				// 			});
+				// 		}
+				// 	} else if (patrns.test(this.formData.password)) {
+				// 		if (!num.test(this.formData.password)) {
+				// 			uni.$u.toast(this.$t("login.tips5"));
+				// 			return
+				// 		} else if (this.formData.password != this.formData.confirmPassword) {
+				// 			uni.$u.toast(this.$t("login.tips6"));
+				// 			return
+				// 		} else {
+				// 			uni.request({
+				// 				url: '/nt/updatePasswordForEmail',
+				// 				method: "POST",
+				// 				data: {
+				// 					code: this.value,
+				// 					email: this.from.to,
+				// 					newPassword: this.formData.password,
+				// 				},
+				// 				success: (res) => {
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips7"),
+				// 						success: function(res) {
+				// 							let times = setTimeout(() => {
+				// 								clearTimeout(times)
+				// 								uni.redirectTo({
+				// 									url: `/pages/loginReg/login`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+
+				// 				}
+				// 			});
+				// 		}
+				// 	} else {
+				// 		uni.$u.toast(this.$t("login.tips8"));
+				// 		return
+				// 	}
+				// }
 			}
 		}
 	}

@@ -484,6 +484,22 @@
 				"navigationBarTitleText" : "第三方登录",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "pages/user/exchange_index/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "兑换",
+				"navigationStyle" : "custom"
+			}
+		},
+		{
+			"path" : "pages/user/exchange_index/aai_exchange",
+			"style" : 
+			{
+				"navigationBarTitleText" : "aai兑换",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

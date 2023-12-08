@@ -7,7 +7,7 @@
 		</u-navbar>
 		<view class="main">
 			<view class="cell">
-				<input class="uni-input" v-model="nickName" maxlength="20" :placeholder="$t('user.islands.sc.sn.i4')" />
+				<input class="uni-input" v-model="nickName" maxlength="16" :placeholder="$t('user.islands.sc.sn.i4')" />
 			</view>
 			<view class="tip">
 				<view class="">{{$t('user.islands.sc.sn.i1')}}：</view>

@@ -1,6 +1,6 @@
 <template>
 	<view class="integral_exchange">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" :leftText="$t('user.about.i1')" :title="$t('user.capital_flow.i15')"
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" :leftText="$t('user.about.i1')" :title="$t('user.con_detail.i78')"
 			:safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
@@ -12,15 +12,15 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>1 USDT={{exchangeNum}}{{$t('user.capital_flow.i21')}}</text>
+				<text>{{exchangeNum}} AAI=1 USDT</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
 					<view class="left">
 						<view class="iconImgs">
-							<image src="@/static/user/bbji.png" mode=""></image>
+							<image src="@/static/user/aai.png" mode=""></image>
 						</view>
-						<view class=""> USDT</view>
+						<view class="">AAI</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">
@@ -29,7 +29,7 @@
 							{{$t('user.capital_flow.i23')}}:{{accountBalance?accountBalance:0}}
 						</view>
 						<view class="intCs">
-							<input @input="calculateAmount" class="uni-input" type="number" maxlength="140"
+							<input v-model="redPacket" class="uni-input" type="number" maxlength="140"
 								:placeholder="$t('user.capital_flow.i76')" />
 						</view>
 					</view>
@@ -40,13 +40,13 @@
 				<view class="content " style="top: 20px;">
 					<view class="left">
 						<view class="iconImgs">
-							<image src="@/static/user/guanguan.png" mode=""></image>
+							<image src="@/static/user/bbji.png" mode=""></image>
 						</view>
-						<view class="">{{$t('user.capital_flow.i21')}}</view>
+						<view class=""> USDT</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i24')}}</view>
 					</view>
 					<view class="right">
-						<view class="pfdz">{{$t('user.capital_flow.i25')}}{{bonusRatio}}%</view>
+						<view class="pfdz">{{$t('user.asset.details.wr.service_charge')}}:{{bonusRatio}}%</view>
 						<view class="intCs">
 							<text class="intCs_text">{{integralAmount}}</text>
 						</view>
@@ -72,12 +72,13 @@
 </template>
 
 <script>
+	import currency from "currency.js"
 	export default {
 		data() {
 			return {
 				integralAmount: "0", //转换积分
 				exchangeNum: "", //兑换数量
-				bonusRatio: "", //加赠比例
+				bonusRatio: "", //手续费
 				redPacket: "", //消耗的红包数量
 				accountBalance: "", //账户余额
 				forbidden:false,//是否禁用
@@ -87,29 +88,12 @@
 		onShow() {
 			this.getExchangeInfo()
 		},
-		onLoad() {
-			const pages = getCurrentPages();
-			console.log(pages);
-			if (pages.length > 1) {
-				uni.setStorageSync('router', pages);
-			}
-		},
 		methods: {
-			// 返回个人中心
+			// 返回
 			goBackUser() {
-				const pages = getCurrentPages();
-				if (pages.length > 1) {
-					uni.navigateBack({
-						delta: 1
-					});
-				} else {
-					uni.redirectTo({
-						url: `/${uni.getStorageSync("router")}`
-					});
-					uni.switchTab({
-						url: `/${uni.getStorageSync("router")}`
-					});
-				}
+				uni.navigateTo({
+					url: `/pages/user/exchange_index/index`
+				});
 			},
 			// 获取兑换信息
 			getExchangeInfo() {
@@ -117,19 +101,19 @@
 					url: `/aicommon/getDict`,
 					method: "GET",
 					data: {
-						dictType: 'score'
+						dictType: 'ptb'
 					},
 					success: (res) => {
 						console.log(res);
 						this.exchangeNum = res.data[0].dictValue;
-						this.bonusRatio = res.data[1].dictValue;
+						this.bonusRatio=res.data[2].dictValue;
 					}
 				});
 				uni.request({
-					url: `/member/getAccount`,
+					url: `/member/myWallet`,
 					method: "GET",
 					success: (res) => {
-						this.accountBalance = res.data.hongbao;
+						this.accountBalance = res.data.aai;
 					}
 				});
 			},
@@ -142,12 +126,6 @@
 			// 交换
 			exchange() {
 				uni.$u.toast(this.$t('user.capital_flow.i30'));
-			},
-			// 计算金额
-			calculateAmount(val) {
-				this.redPacket = val.detail.value;
-				this.integralAmount = Number(val.detail.value) * (Number(this.exchangeNum) + (Number(this.exchangeNum) * (
-					Number(this.bonusRatio) / 100)))
 			},
 			// 确定兑换
 			redeemNow() {
@@ -166,10 +144,10 @@
 						mask: true
 					})
 					uni.request({
-						url: `/member/scoreConvert`,
+						url: `/member/exchangeAai`,
 						method: "POST",
 						data: {
-							hongbao: that.redPacket
+							aai: that.redPacket
 						},
 						success: (res) => {
 							if(res.code==200){
@@ -198,6 +176,43 @@
 				}
 			}
 		},
+		watch: {
+			"redPacket": {
+				handler(val) {
+					if (val.split(".").length > 1) {
+						if (val.split(".")[1].length <= 6) {
+							this.integralAmount = currency(val, {
+								precision: 6
+							}).divide(this.exchangeNum).subtract(currency(val, {
+								precision: 6
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+						} else {
+							this.$nextTick(() => {
+								this.redPacket = val.split(".")[0].concat(".").concat(val.split(".")[1]
+									.substring(0, 6))
+							})
+							this.integralAmount = currency(val.split(".")[0].concat(".").concat(val.split(".")[1]
+								.substring(0, 6)), {
+								precision: 6
+							}).divide(this.exchangeNum).subtract(currency(val, {
+								precision: 6
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+							
+						}
+					} else {
+						if (this.redPacket.length > 0) {
+							this.integralAmount = currency(val, {
+								precision: 6
+							}).divide(this.exchangeNum).subtract(currency(val, {
+								precision: 6
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+						}
+		
+					}
+				},
+				deep: true
+			}
+		}
 	}
 </script>
 

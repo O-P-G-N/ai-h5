@@ -36,10 +36,10 @@
 					<text class="titles">{{$t('user.capital_flow.i6')}}</text>
 					<text class="intro">{{$t('user.capital_flow.i7')}}</text>
 					<u-cell-group class="start_time">
-						<u-cell :title="from.begin?from.begin:$t('user.capital_flow.i9')" @click="startEndTime('start')" :isLink="true"></u-cell>
+						<u-cell :title="from.begin?from.begin:$t('user.capital_flow.i8')" @click="startEndTime('start')" :isLink="true"></u-cell>
 					</u-cell-group>
 					<u-cell-group class="end_time">
-						<u-cell :title="from.end?from.end:$t('user.capital_flow.i10')" @click="startEndTime('end')" :isLink="true"></u-cell>
+						<u-cell :title="from.end?from.end:$t('user.capital_flow.i9')" @click="startEndTime('end')" :isLink="true"></u-cell>
 					</u-cell-group>
 				</view>
 				<view class="anniubtn">
@@ -49,7 +49,7 @@
 			</view>
 		</u-popup>
 		<u-datetime-picker closeOnClickOverlay @close="closeTime" @cancel="closeTime" @confirm="confirmTime"
-			:show="timeShow" v-model="timeValue" mode="datetime"></u-datetime-picker>
+			:show="timeShow" :maxDate="maxDate" :minDate="minDate" v-model="timeValue" mode="datetime"></u-datetime-picker>
 	</view>
 </template>
 
@@ -70,6 +70,8 @@
 				PageCount: 0, //总页数
 				contentList: [], //记录列表
 				status: "loadmore",
+				maxDate:uni.$u.props.datetimePicker.maxDate,//最大可选时间
+				minDate:uni.$u.props.datetimePicker.minDate,//最小可选时间
 			};
 		},
 		
@@ -112,10 +114,19 @@
 				this.from.end="";
 				this.show = true;
 			},
+			
 			// 选择开始和结束时间
 			startEndTime(val) {
+				this.timeValue=Number(new Date());
 				if (val == "start") {
-					if(this.from.begin==this.$t('user.capital_flow.i9')){
+					if(this.from.end!=""){
+						this.maxDate=new Date(this.from.end).getTime()
+						this.minDate=uni.$u.props.datetimePicker.minDate
+					}else{
+						this.maxDate=uni.$u.props.datetimePicker.maxDate
+						this.minDate=uni.$u.props.datetimePicker.minDate
+					}
+					if(this.from.begin==this.$t('user.capital_flow.i8')){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
@@ -124,9 +135,17 @@
 						this.timeShow = true;
 						this.timeFlag = true;
 						this.timeValue=this.from.begin
+						
 					}
 				} else {
-					if(this.from.end==this.$t('user.capital_flow.i10')){
+					if(this.from.begin!=""){
+						this.minDate=new Date(this.from.begin).getTime()
+						this.maxDate=uni.$u.props.datetimePicker.maxDate
+					}else{
+						this.maxDate=uni.$u.props.datetimePicker.maxDate
+						this.minDate=uni.$u.props.datetimePicker.minDate
+					}
+					if(this.from.end==this.$t('user.capital_flow.i9')){
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
@@ -147,12 +166,12 @@
 			// 确定时间
 			confirmTime(val) {
 				if (this.timeFlag) {
-					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue=Number(new Date());
 				} else {
-					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM:ss')
+					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue=Number(new Date());
@@ -164,6 +183,7 @@
 					begin: "",
 					end: "",
 				}
+				this.timeValue=Number(new Date())
 			},
 			// 确定
 			determine(){

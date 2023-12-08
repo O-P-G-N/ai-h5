@@ -336,7 +336,7 @@
 					.menu_item_menus_text {
 						display: inline-block;
 						width: 45%;
-						height: 16px;
+						// height: 16px;
 						line-height: 16px;
 						text-align: center;
 						background: #edf0ff;

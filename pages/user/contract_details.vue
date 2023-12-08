@@ -21,7 +21,7 @@
 								<view class="">{{$t('user.con_detail.i14')}}</view>
 							</view>
 							<view class="modelshouyi_every">
-								<view class="shouyilvprice"><text>{{Number(contractDetails.bili)*100}}%</text></view>
+								<view class="shouyilvprice"><text>{{(Number(contractDetails.bili)*100).toFixed(2)}}%</text></view>
 								<view class="">{{$t('user.con_detail.i15')}}</view>
 							</view>
 						</view>
@@ -36,7 +36,7 @@
 							<view class="titles">{{$t('user.con_detail.i22')}}</view>
 						</view>
 						<view class="contract_every">
-							<view class="intro">1{{$t('user.con_detail.i19')}}</view>
+							<view class="intro">{{dealNum}}{{$t('user.con_detail.i19')}}</view>
 							<view class="titles">{{$t('user.con_detail.i20')}}</view>
 						</view>
 					</view>
@@ -79,11 +79,13 @@
 		data() {
 			return {
 				contractDetails: {}, //交易详情
-				marketData:[],//交易行情
+				marketData:[],//交易行情,
+				dealNum:"",//随机数
 			};
 		},
 		onLoad(option) {
 			this.getContractDetails(option.id)
+			this.dealNum=option.dealNum
 		},
 		methods: {
 			// 返回合约金额

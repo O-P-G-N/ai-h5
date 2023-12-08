@@ -11,7 +11,7 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :iosMobileReadonly="false" type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :iosMobileReadonly="false" :placeholder="$t('login.tips21')" type="phone" @onChange="onChange" v-model="countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -44,7 +44,7 @@
 			<view class="title_h2">{{$t('login.mobileverification')}}</view>
 			<view class="inputmain">
 				<view class="inputevery">
-					<u-input v-model="formData.password" :placeholder="enterpassword" :password="eyeShow">
+					<u-input v-model="formData.password" maxlength="32" :placeholder="enterpassword" :password="eyeShow">
 						<image @click="showHidden" slot="suffix" class="eye"
 							:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode=""></image>
 					</u-input>
@@ -182,7 +182,9 @@
 						countryCode: this.from.countryCode
 					},
 					success: (res) => {
+						if(res.code==200){
 						this.pageIndex = 2;
+						}
 					}
 				});
 			},
@@ -196,18 +198,35 @@
 			},
 			// 重置
 			reset() {
+				let that = this
 				let num = /[0-9]/im
-				let patrn = /^(?=.*?[A-Z]).*$/
-				let patrns = /^(?=.*?[*?!&￥$%^#,./@";:><\[\]}{\-=+_\\|》《。，、？’‘“”~ `]).*$/
-				if (this.formData.password.length < 8) {
-					uni.$u.toast(this.$t("login.tips4"));
+				let patrn = /^(?=.*?[A-Z])(?=.*?\d).*$/
+				let patrnss = /^(?=.*?[a-z])(?=.*?\d).*$/;
+				let emailPattern =
+					/^[A-Za-z0-9]+([-._][A-Za-z0-9]+)*@[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z]{2,6}|[A-Za-z]{2,4}\.[A-Za-z]{2,3})$/
+				let patrnsa = /^(?=.*?[$/";:><\[\]}{\-=+_\\|。，、’‘“”~ `]).*$/
+				let patrns = /^(?=.*?[～！!@#¥%.&*（）：“？》《])(?=.*?\d).*$/
+				let hz =
+					/^(?=.*?[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0]).*$/
+					
+				if (that.formData.password.length < 8) {
+					uni.showToast({
+						title: that.$t("login.tips4"),
+						icon: "none",
+						success: function(res) {},
+					})
+					return
+				} else if (that.formData.password.indexOf(" ") != -1 || patrnsa.test(that.formData.password) || hz.test(that.formData
+						.password)) {
+					uni.showToast({
+						title: that.$t("login.tips23"),
+						icon: "none",
+						success: function(res) {},
+					})
 					return
 				} else {
-					if (patrn.test(this.formData.password)) {
-						if (!num.test(this.formData.password)) {
-							uni.$u.toast(this.$t("login.tips5"));
-							return
-						} else if (this.formData.password != this.formData.confirmPassword) {
+					if (patrn.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
 							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
@@ -235,11 +254,8 @@
 								}
 							});
 						}
-					} else if (patrns.test(this.formData.password)) {
-						if (!num.test(this.formData.password)) {
-							uni.$u.toast(this.$t("login.tips5"));
-							return
-						} else if (this.formData.password != this.formData.confirmPassword) {
+					} else if (patrns.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
 							uni.$u.toast(this.$t("login.tips6"));
 							return
 						} else {
@@ -256,8 +272,8 @@
 									uni.showToast({
 										title: this.$t("login.tips7"),
 										success: function(res) {
-											let time = setTimeout(() => {
-												clearTimeout(time)
+											let times = setTimeout(() => {
+												clearTimeout(times)
 												uni.redirectTo({
 													url: `/pages/loginReg/login`
 												});
@@ -267,11 +283,116 @@
 								}
 							});
 						}
+				
+					}else if (patrnss.test(that.formData.password)) {
+						if (this.formData.password != this.formData.confirmPassword) {
+							uni.$u.toast(this.$t("login.tips6"));
+							return
+						} else {
+							uni.request({
+								url: '/nt/updatePasswordForPhone',
+								method: "POST",
+								data: {
+									code: this.value,
+									phone: this.from.to,
+									newPassword: this.formData.password,
+									countryCode: this.from.countryCode
+								},
+								success: (res) => {
+									uni.showToast({
+										title: this.$t("login.tips7"),
+										success: function(res) {
+											let times = setTimeout(() => {
+												clearTimeout(times)
+												uni.redirectTo({
+													url: `/pages/loginReg/login`
+												});
+											}, 1000)
+										},
+									})
+								}
+							});
+						}
+				
 					} else {
-						uni.$u.toast(this.$t("login.tips8"));
+						uni.$u.toast(that.$t("login.tips8"));
 						return
 					}
 				}
+					
+				// if (this.formData.password.length < 8) {
+				// 	uni.$u.toast(this.$t("login.tips4"));
+				// 	return
+				// } else {
+				// 	if (patrn.test(this.formData.password)) {
+				// 		if (!num.test(this.formData.password)) {
+				// 			uni.$u.toast(this.$t("login.tips5"));
+				// 			return
+				// 		} else if (this.formData.password != this.formData.confirmPassword) {
+				// 			uni.$u.toast(this.$t("login.tips6"));
+				// 			return
+				// 		} else {
+				// 			uni.request({
+				// 				url: '/nt/updatePasswordForPhone',
+				// 				method: "POST",
+				// 				data: {
+				// 					code: this.value,
+				// 					phone: this.from.to,
+				// 					newPassword: this.formData.password,
+				// 					countryCode: this.from.countryCode
+				// 				},
+				// 				success: (res) => {
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips7"),
+				// 						success: function(res) {
+				// 							let times = setTimeout(() => {
+				// 								clearTimeout(times)
+				// 								uni.redirectTo({
+				// 									url: `/pages/loginReg/login`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				}
+				// 			});
+				// 		}
+				// 	} else if (patrns.test(this.formData.password)) {
+				// 		if (!num.test(this.formData.password)) {
+				// 			uni.$u.toast(this.$t("login.tips5"));
+				// 			return
+				// 		} else if (this.formData.password != this.formData.confirmPassword) {
+				// 			uni.$u.toast(this.$t("login.tips6"));
+				// 			return
+				// 		} else {
+				// 			uni.request({
+				// 				url: '/nt/updatePasswordForPhone',
+				// 				method: "POST",
+				// 				data: {
+				// 					code: this.value,
+				// 					phone: this.from.to,
+				// 					newPassword: this.formData.password,
+				// 					countryCode: this.from.countryCode
+				// 				},
+				// 				success: (res) => {
+				// 					uni.showToast({
+				// 						title: this.$t("login.tips7"),
+				// 						success: function(res) {
+				// 							let time = setTimeout(() => {
+				// 								clearTimeout(time)
+				// 								uni.redirectTo({
+				// 									url: `/pages/loginReg/login`
+				// 								});
+				// 							}, 1000)
+				// 						},
+				// 					})
+				// 				}
+				// 			});
+				// 		}
+				// 	} else {
+				// 		uni.$u.toast(this.$t("login.tips8"));
+				// 		return
+				// 	}
+				// }
 
 
 			}

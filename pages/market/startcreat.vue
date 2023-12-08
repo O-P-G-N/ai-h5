@@ -30,18 +30,19 @@
 					</view>
 					<view class="tuoguan">{{$t("ac.prc3")}}</view>
 					<view class="transactionList">
-						<view class="every" @click="selectCopies(1)" :class="from.payNum==1?'everyactive':''">1{{$t("ac.prc4")}}
+						<view class="every" @click="selectCopies(1)" :class="from.payNum==1?'everyactive':''">
+							1{{$t("ac.prc4")}}
 						</view>
-						<view class="every" @click="selectCopies(10)" :class="from.payNum==10?'everyactive':''">10{{$t("ac.prc4")}}
+						<view class="every" @click="selectCopies(10)" :class="from.payNum==10?'everyactive':''">
+							10{{$t("ac.prc4")}}
 						</view>
 						<view class="every" @click="selectCopies(100)" :class="from.payNum==100?'everyactive':''">
 							100{{$t("ac.prc4")}}</view>
 						<view class="every" @click="selectCopies(500)" :class="from.payNum==500?'everyactive':''">
 							500{{$t("ac.prc4")}}</view>
 						<view class="mairu">
-							<input class="uni-input" v-model="from.payNum"
-								placeholder-style="color:rgb(192, 196, 204)" maxlength="12" @input="customAmount" type="number"
-								:placeholder="prc5" />
+							<input class="uni-input" v-model="from.payNum" placeholder-style="color:rgb(192, 196, 204)"
+								maxlength="12" @input="customAmount" type="number" :placeholder="prc5" />
 						</view>
 					</view>
 					<view class="meifen">{{$t("ac.prc6")}}{{pageData.remark}} USDT</view>
@@ -49,16 +50,16 @@
 				<view class="yujimain" v-if="pageData.dictSort">
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc8")}}</view>
-						<text class="buymoney_num">{{from.payHongbao}}  USDT</text>
+						<text class="buymoney_num">{{from.payHongbao}} USDT</text>
 					</view>
-					<view class="buymoney">
+					<!-- <view class="buymoney">
 						<view class="">{{$t("ac.prc9")}}</view>
 						<text class="buymoney_text">{{Math.floor(Number(balanceMax)/Number(pageData.remark))}}{{$t("ac.prc4")}}</text>
 					</view>
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc10")}}</view>
 						<text class="buymoney_text">{{gradeMax}}{{$t("ac.prc4")}}</text>
-					</view>
+					</view> -->
 					<view class="buymoney">
 						<view class="">{{$t("ac.prc27")}}</view>
 						<text class="buymoney_text_one">+{{from.integral}}</text>
@@ -73,33 +74,36 @@
 				</view>
 			</view>
 			<u-row customStyle="margin-bottom: 10px">
-				<u-col span="4">
+				<u-col span="6">
 					<view class="bg-purple-light">{{$t("ac.prc12")}}</view>
 				</u-col>
-				<u-col span="4">
+				<!-- <u-col span="4">
 					<view class="bg-purple-light">{{$t("ac.prc13")}}</view>
-				</u-col>
-				<u-col span="4">
+				</u-col> -->
+				<u-col span="6">
 					<view class="bg-purple-light">{{$t("ac.prc26")}}</view>
 				</u-col>
 			</u-row>
 			<u-row customStyle="margin-bottom: 10px" v-for="(v,i) in revenueList" :key="i"
-				@click="selectDays(v.id,v.vip,v.days,v.bili)">
-				<u-col span="4">
+				@click="selectDays(v.id,v.minUsdt,v.days,v.bili)">
+				<u-col span="6">
 					<view class="bg-purple purple_first" :class="v.days==from.payDays?'active':''">{{v.days}}</view>
 				</u-col>
-				<u-col span="4">
-					<view class="bg-purple" :class="v.days==from.payDays?'active':''">{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</view>
-				</u-col>
-				<u-col span="4">
-					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">{{(Number(v.bili)*100).toFixed(2)}}%
+				<!-- <u-col span="4">
+					<view class="bg-purple" :class="v.days==from.payDays?'active':''">
+						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</view>
+				</u-col> -->
+				<u-col span="6">
+					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">
+						{{Number(v.bili).toFixed(2)}}%
 					</view>
 				</u-col>
 			</u-row>
 
 		</view>
 		<view class="createbtn">
-			<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian" @click="createContract">{{$t("ac.prc14")}}</ai-button>
+			<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="chuangjian"
+				@click="createContract">{{$t("ac.prc14")}}</ai-button>
 			<!-- <button class="chuangjian" @click="createContract"></button> -->
 		</view>
 	</view>
@@ -110,31 +114,30 @@
 		data() {
 			return {
 				from: {
-					payNum: 1,//购买分数
-					payDays: "",//购买天数
-					bili:"",//每天收益
-					type:null,//购买类型
-					payHongbao:"",//购买红包数量
-					integral:1,//积分
+					payNum: 1, //购买分数
+					payDays: "", //购买天数
+					bili: "", //每天收益
+					type: null, //购买类型
+					payHongbao: "", //购买红包数量
+					integral: 1, //积分
 				},
-				forbidden:false,//是否禁用
-				loading:false,//加载状态
+				forbidden: false, //是否禁用
+				loading: false, //加载状态
 				revenueList: [], //每日收益显示
 				userVip: "", //用户等级
 				pageData: {}, //页面展示数据
-				balanceMax:"",//余额最大购买份数
-				gradeMax:"",//等级最大购买份数
-				accountBalance:"",//红包余额
-				prc14:this.$t("ac.prc14"),//创建合约国际化
-				prc5:this.$t("ac.prc5"),//自定义买入份额国际化
+				balanceMax: "", //余额最大购买份数
+				gradeMax: "", //等级最大购买份数
+				accountBalance: "", //红包余额
+				prc14: this.$t("ac.prc14"), //创建合约国际化
+				prc5: this.$t("ac.prc5"), //自定义买入份额国际化
 			};
 		},
 		onLoad(option) {
-			this.from.type=option.type;
+			this.from.type = option.type;
 		},
 		onShow() {
 			this.getDayRevenue(this.from.type);
-			this.getAccount();
 		},
 		methods: {
 			// 获取每日收益
@@ -143,27 +146,27 @@
 					url: `/island/benefit/${val}`,
 					method: "GET",
 					success: (res) => {
-						this.revenueList = res.data.list;
+						this.revenueList = res.data.list.sort(function(a, b) {
+							return function(a,b){
+								if (a.days < b.days) {
+										return -1;
+									} else if (a.days > b.days) {
+									return 1;
+								} else {
+									return 0;
+								}
+							} 
+						});
 						this.userVip = res.data.uvip;
-						this.pageData=res.data.info;
-						this.balanceMax=res.data.hongbao;
-						this.gradeMax=res.data.max;
+						this.pageData = res.data.info;
+						this.accountBalance = res.data.hongbao;
+						this.gradeMax = res.data.max;
 						this.from.payDays = res.data.list[0].days;
 						this.from.bili = res.data.list[0].bili;
-						this.from.payHongbao=Number(this.from.payNum)*Number(this.pageData.remark);
+						this.from.payHongbao = Number(this.from.payNum) * Number(this.pageData.remark);
 					}
 				});
-				
-			},
-			// 获取红包余额
-			getAccount() {
-				uni.request({
-					url: `/member/getAccount`,
-					method: "GET",
-					success: (res) => {
-						this.accountBalance = res.data.hongbao.toString();
-					}
-				});
+
 			},
 			// 返回
 			goBackUser() {
@@ -174,18 +177,18 @@
 			// 自定义份数
 			customAmount(val) {
 				this.from.payNum = val.detail.value;
-				this.from.integral=val.detail.value;
-				this.from.payHongbao=Number(val.detail.value)*Number(this.pageData.remark)
+				this.from.integral = val.detail.value;
+				this.from.payHongbao = Number(val.detail.value) * Number(this.pageData.remark)
 			},
 			// 选择份数
 			selectCopies(val) {
 				this.from.payNum = val;
-				this.from.integral=val;
-				this.from.payHongbao=Number(val)*Number(this.pageData.remark)
+				this.from.integral = val;
+				this.from.payHongbao = Number(val) * Number(this.pageData.remark)
 			},
 			// 选择天数
-			selectDays(id, vip,days,bili) {
-				if (this.userVip >= vip) {
+			selectDays(id, minUsdt, days, bili) {
+				if (this.accountBalance >= minUsdt) {
 					this.from.payDays = days;
 					this.from.bili = bili;
 				} else {
@@ -193,47 +196,48 @@
 				}
 			},
 			// 创建合约
-			createContract(){
-				let that=this
-				console.log(this.from);
-				if(that.from.payNum==""){
+			createContract() {
+				let that = this
+				// console.log(this.from);
+				// if(that.from.payNum>Math.floor((Number(that.balanceMax)/Number(that.pageData.remark)))){
+				// 	uni.$u.toast(`${that.$t("ac.prc9")}${Math.floor((that.balanceMax)/Number(that.pageData.remark))}${that.$t("ac.prc4")}`);
+				// 	return
+				// }else if(that.from.payNum>that.gradeMax){
+				// 	uni.$u.toast(`${that.$t("ac.prc10")}${that.gradeMax}${that.$t("ac.prc4")}`);
+				// 	return
+				// }else
+				if (that.from.payNum == "") {
 					uni.$u.toast(that.$t("ac.prc16"));
 					return
-				}else if(that.from.payNum>Math.floor((Number(that.balanceMax)/Number(that.pageData.remark)))){
-					uni.$u.toast(`${that.$t("ac.prc9")}${Math.floor((that.balanceMax)/Number(that.pageData.remark))}${that.$t("ac.prc4")}`);
-					return
-				}else if(that.from.payNum>that.gradeMax){
-					uni.$u.toast(`${that.$t("ac.prc10")}${that.gradeMax}${that.$t("ac.prc4")}`);
-					return
-				}else if(that.from.payDays==""){
+				} else if (that.from.payDays == "") {
 					uni.$u.toast(that.$t("ac.prc17"));
 					return
-				}else{
-					that.forbidden=true;
-					that.loading=true;
+				} else {
+					that.forbidden = true;
+					that.loading = true;
 					uni.request({
 						url: '/island/contract',
 						method: "POST",
 						data: that.from,
 						success: (res) => {
-							if(res.code==200){
-								that.forbidden=false;
-								that.loading=false;
+							if (res.code == 200) {
+								that.forbidden = false;
+								that.loading = false;
 								uni.showToast({
 									title: that.$t("ac.prc18"),
 									success: function() {
-										 let time=setTimeout(()=>{
-											 clearTimeout(time)
-											 console.log(res);
+										let time = setTimeout(() => {
+											clearTimeout(time)
+											console.log(res);
 											uni.navigateTo({
 												url: `/pages/user/contract_amount`
 											});
-										},2000)
+										}, 2000)
 									},
 								})
-							}else if(res.code==500){
-								that.forbidden=false;
-								that.loading=false;
+							} else if (res.code == 500) {
+								that.forbidden = false;
+								that.loading = false;
 							}
 						}
 					});
@@ -444,7 +448,8 @@
 							color: #111;
 							margin-left: 10px;
 						}
-						.buymoney_text_one{
+
+						.buymoney_text_one {
 							font-size: 15px;
 							font-family: PingFang SC, PingFang SC;
 							font-weight: 400;

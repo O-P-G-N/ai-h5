@@ -95,9 +95,11 @@
 				</template>
 				<template v-else-if="constenList.length==0&&constenShow">
 					<view class="data_none">
-						<u-empty :text="$t('index.tips21')" mode="data"
+						<image class="data_none_img" src="@/static/index/index.png" mode=""></image>
+						<view class="">{{$t('index.tips21')}}</view>
+						<!-- <u-empty :text="$t('index.tips21')" mode="data"
 							icon="http://cdn.uviewui.com/uview/empty/data.png">
-						</u-empty>
+						</u-empty> -->
 					</view>
 				</template>
 			</view>
@@ -762,7 +764,16 @@
 
 			.data_none {
 				width: 100%;
-				height: 300px;
+				height: 200px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				color: #ccc;
+				.data_none_img{
+					width: 220rpx;
+					height: 220rpx;
+				}
 			}
 
 			.content-item {

@@ -37,7 +37,7 @@
 		mixins: [listMixin],
 		data() {
 			return {
-				pageUrl: `/withdraw/list`,
+				pageUrl: `/score/list`,
 			};
 		},
 		onLoad() {

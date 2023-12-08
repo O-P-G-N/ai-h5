@@ -23,80 +23,44 @@
 		<view class="divider">
 			<view class="divider_left"></view>
 			<view class="divider_center">
-				{{$t("user.con_detail.i51")}}
+				{{$t("user.con_detail.i52")}}
 			</view>
 			<view class="divider_right"></view>
 		</view>
 		<view class="security_currency">
 			<view class="security_currency_top">
-				<image class="security_currency_top_img" src="@/static/user/security.png" mode=""></image>
+				<image class="security_currency_top_img" src="@/static/user/vip_img.png" mode=""></image>
 				<text class="security_currency_top_text">{{$t("user.con_detail.i52")}}</text>
 			</view>
 			<u-row class="row_one">
-				<u-col span="1" textAlign="center">
+				<u-col span="3" textAlign="center">
 					<view class="title">{{$t("user.con_detail.i54")}}</view>
 				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="title">{{$t("user.con_detail.i55")}}</view>
+				<u-col span="9" textAlign="center">
+					<view class="title">{{$t("user.con_detail.i72")}}</view>
 				</u-col>
-				<u-col span="3" textAlign="center">
+				<!-- <u-col span="3" textAlign="center">
 					<view class="title">{{$t("user.con_detail.i56")}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
 					<view class="title">{{$t("user.con_detail.i57")}}</view>
-				</u-col>
+				</u-col> -->
 			</u-row>
 			<u-row class="row_two" v-for="(v,i) in securityList" :key="i">
-				<u-col span="1" textAlign="center">
+				<u-col span="3" textAlign="center">
 					<view class="text">
-						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}
+						{{v.label}}
 					</view>
 				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="text">{{v.sign}}</view>
+				<u-col span="9" textAlign="center">
+					<view class="text">{{v.min}}</view>
 				</u-col>
-				<u-col span="3" textAlign="center">
+				<!-- <u-col span="3" textAlign="center">
 					<view class="text">{{v.days}}</view>
 				</u-col>
 				<u-col span="4" textAlign="center">
 					<view class="text">{{(Number(v.bili)*100).toFixed(0)}}%</view>
-				</u-col>
-			</u-row>
-		</view>
-		<view class="security_currency">
-			<view class="security_currency_top">
-				<image class="security_currency_top_img" src="@/static/user/currency.png" mode=""></image>
-				<text class="security_currency_top_text">{{$t("user.con_detail.i53")}}</text>
-			</view>
-			<u-row class="row_one">
-				<u-col span="1" textAlign="center">
-					<view class="title">{{$t("user.con_detail.i54")}}</view>
-				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="title">{{$t("user.con_detail.i55")}}</view>
-				</u-col>
-				<u-col span="3" textAlign="center">
-					<view class="title">{{$t("user.con_detail.i56")}}</view>
-				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="title">{{$t("user.con_detail.i57")}}</view>
-				</u-col>
-			</u-row>
-			<u-row class="row_two" v-for="(v,i) in currencyList" :key="i">
-				<u-col span="1" textAlign="center">
-					<view class="text">
-						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}
-					</view>
-				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="text">{{v.sign}}</view>
-				</u-col>
-				<u-col span="3" textAlign="center">
-					<view class="text">{{v.days}}</view>
-				</u-col>
-				<u-col span="4" textAlign="center">
-					<view class="text">{{(Number(v.bili)*100).toFixed(0)}}%</view>
-				</u-col>
+				</u-col> -->
 			</u-row>
 		</view>
 	</view>
@@ -141,22 +105,18 @@
 					url: '/island/vip-rules',
 					method: "GET",
 					success: (res) => {
-						res.data.lists.map((v) => {
-							if (v.type == 1) {
-								this.securityList.push(v);
-								this.securityList = this.securityList.sort(function(a, b) {
-									return (a.vip - b.vip)
-								});
-
-							} else {
-								this.currencyList.push(v);
-								this.currencyList = this.currencyList.sort(function(a, b) {
-									return (a.vip - b.vip)
-								});
+						this.securityList = res.data.vips.sort(function(a, b) {
+							return (a.value - b.value)
+						});
+						this.securityList.map((v,i)=>{
+							if(i==this.securityList.length-1){
+								v.min=`${v.label}≥${v.hongbao}`
+							}else{
+								v.min=`${v.hongbao}≤${v.label}<${this.securityList[i+1].hongbao}`
 							}
 						})
 						res.data.vips.map((e) => {
-							if (Number(res.data.sum) > Number(e.hongbao)) {
+							if (Number(res.data.sum) >= Number(e.hongbao)) {
 								this.amountMin = e.hongbao
 							} else {
 								if (this.amountMax == "") {

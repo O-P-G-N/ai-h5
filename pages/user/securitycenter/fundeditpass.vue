@@ -31,7 +31,7 @@
 					<u-cell :title="$t('user.islands.sc.edp.i7')">
 						<view slot="value" class="code_content">
 							<u-input v-model="from.newPassword" maxlength="6"
-								:placeholder="$t('user.islands.sc.edp.i8')" :password="eyeShow">
+								:placeholder="$t('user.islands.sc.edp.i8')" :type="eyeShow?'password':'number'">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -40,8 +40,8 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.confirmPassword" :placeholder="$t('user.islands.sc.edp.i0')"
-								:password="eyeShows">
+							<u-input v-model="from.confirmPassword" maxlength="6" :placeholder="$t('user.islands.sc.edp.i0')"
+								 :type="eyeShows?'password':'number'">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>

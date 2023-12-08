@@ -83,20 +83,20 @@
 				<u-row class="row_one" justify="space-between">
 					<u-col class="col_one" span="6" textAlign="center" justify="flex-start">
 						<view class="title">{{$t("ac.prc29")}}
-							<image class="title_img" src="@/static/user/sort.png"></image>
+							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 						<view class="title">/{{$t("ac.prc30")}}
-							<image class="title_img" src="@/static/user/sort.png"></image>
+							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 					</u-col>
 					<u-col span="3" textAlign="right" justify="flex-end">
 						<view class="title_one">{{$t("ac.prc31")}}
-							<image class="title_img" src="@/static/user/sort.png"></image>
+							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 					</u-col>
 					<u-col span="3" textAlign="right" justify="flex-end">
-						<view class="title_one">{{$t("ac.prc32")}}(%)<image class="title_img"
-								src="@/static/user/sort.png"></image>
+						<view class="title_one">{{$t("ac.prc32")}}(%)
+						<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 					</u-col>
 				</u-row>
