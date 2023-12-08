@@ -21,7 +21,7 @@
 								<view class="">{{$t('user.con_detail.i14')}}</view>
 							</view>
 							<view class="modelshouyi_every">
-								<view class="shouyilvprice"><text>{{(Number(contractDetails.bili)*100).toFixed(2)}}%</text></view>
+								<view class="shouyilvprice"><text>{{Number(contractDetails.bili).toFixed(2)}}%</text></view>
 								<view class="">{{$t('user.con_detail.i15')}}</view>
 							</view>
 						</view>
