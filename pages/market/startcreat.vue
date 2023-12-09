@@ -110,6 +110,7 @@
 </template>
 
 <script>
+	import currency from "currency.js"
 	export default {
 		data() {
 			return {
@@ -163,7 +164,7 @@
 						this.gradeMax = res.data.max;
 						this.from.payDays = res.data.list[0].days;
 						this.from.bili = res.data.list[0].bili;
-						this.from.payHongbao = Number(this.from.payNum) * Number(this.pageData.remark);
+						this.from.payHongbao =currency(this.from.payNum, {precision: 0}).multiply(this.pageData.remark).value; 
 					}
 				});
 
@@ -178,13 +179,13 @@
 			customAmount(val) {
 				this.from.payNum = val.detail.value;
 				this.from.integral = val.detail.value;
-				this.from.payHongbao = Number(val.detail.value) * Number(this.pageData.remark)
+				this.from.payHongbao =currency(val.detail.value, {precision: 0}).multiply(this.pageData.remark).value;
 			},
 			// 选择份数
 			selectCopies(val) {
 				this.from.payNum = val;
 				this.from.integral = val;
-				this.from.payHongbao = Number(val) * Number(this.pageData.remark)
+				this.from.payHongbao = currency(val, {precision: 0}).multiply(this.pageData.remark).value 
 			},
 			// 选择天数
 			selectDays(id, minUsdt, days, bili) {
