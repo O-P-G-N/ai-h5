@@ -60,7 +60,7 @@
 					</view>
 					<view class="yuecardtopevery">
 						<text>{{$t('home.asset.credit')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.creditScore}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.activeIncome}}</text>
 						<text v-else class="texta">******</text>
 					</view>
 				</view>
