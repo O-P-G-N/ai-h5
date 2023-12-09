@@ -63,7 +63,7 @@
 					url: `/chat/list`,
 					method: "GET",
 					data:{
-						pageNum:10000,
+						pageNum:1,
 						pageSize:10
 					},
 					success: (res) => {
