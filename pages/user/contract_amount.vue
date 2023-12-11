@@ -223,7 +223,6 @@
 										 this.id = id;
 										 if (status == 0) {
 										 	let c = this.$t('user.con_detail.i33')
-											alert(stop)
 											this.modalContent=c.replace("%contractConfStop%",stop);
 										 } else {
 											 this.modalContent= this.$t('user.con_detail.i34')
