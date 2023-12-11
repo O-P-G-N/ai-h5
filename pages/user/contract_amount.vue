@@ -88,7 +88,8 @@
 					</u-list-item>
 				</u-list>
 
-				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
+				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')"
+					:nomore-text="$t('index.tips24')" :status="status" />
 				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" :title="tips"
 					:content='modalContent'></u-modal>
 			</view>
@@ -162,39 +163,42 @@
 					method: "GET",
 					success: (res) => {
 						res.data.rows.map((v) => {
-							if(v.status==4){
-								v.countdown=(new Date(v.updateTime).getTime()+24*60*60*1000)-new Date(v.now).getTime()
+							if (v.status == 4) {
+								v.countdown = (new Date(v.updateTime).getTime() + 24 * 60 * 60 *
+									1000) - new Date(v.now).getTime()
 							}
-							if(v.status==0){
+							if (v.status == 0) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.now);
 								let restSec = setTime.getTime() - nowTime.getTime();
-								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
+								let count = nowTime.getTime() - new Date(v.createTime).getTime()
 								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
-								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+										100)
 									.toFixed(2);
-								if(v.count<0){
-									v.paogress=100
+								if (v.count < 0) {
+									v.paogress = 100
 								}
-							}else if(v.status==4){
+							} else if (v.status == 4) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.updateTime);
 								let restSec = setTime.getTime() - nowTime.getTime();
-								let count = nowTime.getTime() - new Date(v.createTime).getTime() 
+								let count = nowTime.getTime() - new Date(v.createTime).getTime()
 								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
-								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) * 100)
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+										100)
 									.toFixed(2);
-									if(v.count<0){
-										v.paogress=100
-									}
+								if (v.count < 0) {
+									v.paogress = 100
+								}
 							}
-							
+
 						})
 						this.contractList = res.data.rows;
 
@@ -211,28 +215,28 @@
 			// 设置合约
 			contractSet(id, status) {
 				uni.request({
-									url: `/aicommon/getDictbyDictTypeAndKey`,
-									method: "GET",
-									data: {
-										dictType: 'contract_conf',
-										key:"stop"
-									},
-									success: (res) => {
-										let stop= res.data 
-										 this.show = true
-										 this.id = id;
-										 if (status == 0) {
-										 	let c = this.$t('user.con_detail.i33')
-											alert(stop)
-											this.modalContent=c.replace("%contractConfStop%",stop);
-										 } else {
-											 this.modalContent= this.$t('user.con_detail.i34')
-											
-										 }
-										 this.status = status;
-									}
-								});
-				
+					url: `/aicommon/getDictbyDictTypeAndKey`,
+					method: "GET",
+					data: {
+						dictType: 'contract_conf',
+						key: "stop"
+					},
+					success: (res) => {
+						let stop = res.data
+						this.show = true
+						this.id = id;
+						if (status == 0) {
+							let c = this.$t('user.con_detail.i33')
+							alert(stop)
+							this.modalContent = c.replace("%contractConfStop%", stop);
+						} else {
+							this.modalContent = this.$t('user.con_detail.i34')
+
+						}
+						this.status = status;
+					}
+				});
+
 
 			},
 			// 倒计时
@@ -251,7 +255,7 @@
 				return diffDays;
 			},
 			// 查看更多
-			seeMore(id,dealNum) {
+			seeMore(id, dealNum) {
 				uni.navigateTo({
 					url: `/pages/user/contract_details?id=${id}&dealNum=${dealNum}`
 				});

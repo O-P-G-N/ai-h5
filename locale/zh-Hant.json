@@ -636,6 +636,7 @@
 	"user.con_detail.i80": "次日到帳-手續費2.5%",
 	"user.con_detail.i81": "普通到帳-手續費2%",
 	"user.con_detail.i82": "到帳時間",
+	"user.con_detail.i83": "開始時間和結束時間不能一致",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試",
 	"app.main.js.i2": "登錄失效，請重新登錄"

@@ -1,7 +1,7 @@
 <template>
 	<view class="capital_flow">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回" :title="$t('user.asset.details.index.flow')"
-			:safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" leftText="返回"
+			:title="$t('user.asset.details.index.flow')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -19,7 +19,8 @@
 						</view>
 						<view class="orderhao">
 							<text class="title">{{$t('user.capital_flow.i4')}}</text>
-							<text :class="v.useHongbao<0?'greens':'reds'">{{v.useHongbao<0?'':'+'}}{{v.useHongbao}}</text>
+							<text
+								:class="v.useHongbao<0?'greens':'reds'">{{v.useHongbao<0?'':'+'}}{{v.useHongbao}}</text>
 						</view>
 						<view class="orderhao">
 							<text class="title">{{$t('user.capital_flow.i5')}}</text>
@@ -27,7 +28,8 @@
 						</view>
 					</view>
 				</view>
-				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')" :nomore-text="$t('index.tips24')" :status="status" />
+				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')"
+					:nomore-text="$t('index.tips24')" :status="status" />
 			</view>
 		</view>
 		<u-popup :show="show" mode="center" class="popup_content_center">
@@ -36,10 +38,12 @@
 					<text class="titles">{{$t('user.capital_flow.i6')}}</text>
 					<text class="intro">{{$t('user.capital_flow.i7')}}</text>
 					<u-cell-group class="start_time">
-						<u-cell :title="from.begin?from.begin:$t('user.capital_flow.i8')" @click="startEndTime('start')" :isLink="true"></u-cell>
+						<u-cell :title="from.begin?from.begin:$t('user.capital_flow.i8')" @click="startEndTime('start')"
+							:isLink="true"></u-cell>
 					</u-cell-group>
 					<u-cell-group class="end_time">
-						<u-cell :title="from.end?from.end:$t('user.capital_flow.i9')" @click="startEndTime('end')" :isLink="true"></u-cell>
+						<u-cell :title="from.end?from.end:$t('user.capital_flow.i9')" @click="startEndTime('end')"
+							:isLink="true"></u-cell>
 					</u-cell-group>
 				</view>
 				<view class="anniubtn">
@@ -49,7 +53,9 @@
 			</view>
 		</u-popup>
 		<u-datetime-picker closeOnClickOverlay @close="closeTime" @cancel="closeTime" @confirm="confirmTime"
-			:show="timeShow" :maxDate="maxDate" :minDate="minDate" v-model="timeValue" mode="datetime"></u-datetime-picker>
+			:show="timeShow" :maxDate="maxDate" :minDate="minDate" v-model="timeValue"
+			mode="datetime"></u-datetime-picker>
+			<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -70,11 +76,11 @@
 				PageCount: 0, //总页数
 				contentList: [], //记录列表
 				status: "loadmore",
-				maxDate:uni.$u.props.datetimePicker.maxDate,//最大可选时间
-				minDate:uni.$u.props.datetimePicker.minDate,//最小可选时间
+				maxDate: uni.$u.props.datetimePicker.maxDate, //最大可选时间
+				minDate: uni.$u.props.datetimePicker.minDate, //最小可选时间
 			};
 		},
-		
+
 		onShow() {
 			this.getCapitalFlow()
 		},
@@ -88,7 +94,7 @@
 			const pages = getCurrentPages();
 			console.log(pages);
 			if (pages.length > 1) {
-				uni.setStorageSync('router', pages[pages.length-2].route);
+				uni.setStorageSync('router', pages[pages.length - 2].route);
 			}
 		},
 		methods: {
@@ -110,52 +116,52 @@
 			},
 			// 筛选
 			viewHistory() {
-				this.from.begin="";
-				this.from.end="";
+				this.from.begin = "";
+				this.from.end = "";
 				this.show = true;
 			},
-			
+
 			// 选择开始和结束时间
 			startEndTime(val) {
-				this.timeValue=Number(new Date());
+				this.timeValue = Number(new Date());
 				if (val == "start") {
-					if(this.from.end!=""){
-						this.maxDate=new Date(this.from.end).getTime()
-						this.minDate=uni.$u.props.datetimePicker.minDate
-					}else{
-						this.maxDate=uni.$u.props.datetimePicker.maxDate
-						this.minDate=uni.$u.props.datetimePicker.minDate
+					if (this.from.end != "") {
+						this.maxDate = new Date(this.from.end).getTime()
+						this.minDate = uni.$u.props.datetimePicker.minDate
+					} else {
+						this.maxDate = uni.$u.props.datetimePicker.maxDate
+						this.minDate = uni.$u.props.datetimePicker.minDate
 					}
-					if(this.from.begin==this.$t('user.capital_flow.i8')){
+					if (this.from.begin == this.$t('user.capital_flow.i8')) {
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
-					}else{
+					} else {
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
-						this.timeValue=this.from.begin
-						
+						this.timeValue = this.from.begin
+
 					}
 				} else {
-					if(this.from.begin!=""){
-						this.minDate=new Date(this.from.begin).getTime()
-						this.maxDate=uni.$u.props.datetimePicker.maxDate
-					}else{
-						this.maxDate=uni.$u.props.datetimePicker.maxDate
-						this.minDate=uni.$u.props.datetimePicker.minDate
+					if (this.from.begin != "") {
+						this.minDate = new Date(this.from.begin).getTime()
+						this.maxDate = uni.$u.props.datetimePicker.maxDate
+					} else {
+						this.maxDate = uni.$u.props.datetimePicker.maxDate
+						this.minDate = uni.$u.props.datetimePicker.minDate
 					}
-					if(this.from.end==this.$t('user.capital_flow.i9')){
+					if (this.from.end == this.$t('user.capital_flow.i9')) {
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
-					}else{
+					} else {
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
-						this.timeValue=this.from.end;
+						this.timeValue = this.from.end;
 					}
-					
+
 				}
 			},
 			// 关闭时间选择器
@@ -169,28 +175,36 @@
 					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
 					this.show = true;
 					this.timeShow = false;
-					this.timeValue=Number(new Date());
+					this.timeValue = Number(new Date());
 				} else {
 					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
 					this.show = true;
 					this.timeShow = false;
-					this.timeValue=Number(new Date());
+					this.timeValue = Number(new Date());
 				}
 			},
 			// 重置
-			reset(){
-				this.from={
+			reset() {
+				this.from = {
 					begin: "",
 					end: "",
 				}
-				this.timeValue=Number(new Date())
+				this.timeValue = Number(new Date())
 			},
 			// 确定
-			determine(){
-				this.show = false;
-				this.timeShow = false;
-				this.from.pageNum = 1;
-				this.getCapitalFlow();
+			determine() {
+				let that=this
+				if (this.from.begin == this.from.end&&this.from.begin) {
+					that.$refs.uToast.show({
+						message:that.$t('user.con_detail.i83'),
+						position:"top"
+					})
+				} else {
+					this.show = false;
+					this.timeShow = false;
+					this.from.pageNum = 1;
+					this.getCapitalFlow();
+				}
 			},
 			// 获取提现记录
 			getCapitalFlow() {
@@ -219,7 +233,7 @@
 						data: this.from,
 						success: (res) => {
 							this.contentList.push(...res.data.rows);
-			
+
 						}
 					});
 				} else {

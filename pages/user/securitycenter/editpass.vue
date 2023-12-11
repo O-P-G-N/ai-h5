@@ -44,7 +44,7 @@
 						</view>
 					</u-cell>
 				</u-cell-group>
-				<view class="verify">
+				<!-- <view class="verify">
 					<view class="verify_item">
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
 						<text class="verify_item_text">{{$t('user.islands.sc.edp.i11')}}</text>
@@ -57,7 +57,7 @@
 						<u-icon size="20px" color="rgb(0, 0, 0)" name="close-circle-fill"></u-icon>
 						<text class="verify_item_text">{{$t('user.islands.sc.edp.i13')}}</text>
 					</view>
-				</view>
+				</view> -->
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
 					class="next-btn editpassbtn" @click="ConfMod">{{$t('user.islands.sc.edp.i14')}}</ai-button>
 			</view>
@@ -139,6 +139,7 @@
 			},
 			// 显示隐藏
 			showHiddens() {
+				
 				this.eyeShows = !this.eyeShows;
 			},
 			// 确认修改

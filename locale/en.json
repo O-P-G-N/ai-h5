@@ -635,6 +635,7 @@
 	"user.con_detail.i80": "Deposit the next day - handling fee 2.5%",
 	"user.con_detail.i81": "Ordinary deposit-handling fee 2%",
 	"user.con_detail.i82": "Arrival time",
+	"user.con_detail.i83": "The start and end times cannot be consistent",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later.",
 	"app.main.js.i2": "Login failed, please log in again"

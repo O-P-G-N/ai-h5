@@ -635,6 +635,7 @@
 	"user.con_detail.i80": "次日到账-手续费2.5%",
 	"user.con_detail.i81": "普通到账-手续费2%",
 	"user.con_detail.i82": "到账时间",
+	"user.con_detail.i83": "开始与结束时间不能一致",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试",
 	"app.main.js.i2": "登录失效，请重新登录"
