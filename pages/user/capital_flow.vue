@@ -19,7 +19,7 @@
 						</view>
 						<view class="orderhao">
 							<text class="title">{{$t('user.capital_flow.i4')}}</text>
-							<text :class="v.type==6||v.type==1?'greens':'reds'">{{v.type==6||v.type==1?'':'+'}}{{v.useHongbao}}</text>
+							<text :class="v.useHongbao<0?'greens':'reds'">{{v.useHongbao<0?'':'+'}}{{v.useHongbao}}</text>
 						</view>
 						<view class="orderhao">
 							<text class="title">{{$t('user.capital_flow.i5')}}</text>

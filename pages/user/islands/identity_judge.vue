@@ -123,7 +123,7 @@
 				<image class="info_body_img_htxe" src="@/static/user/HTXE2.png" mode=""></image>
 			</view>
 		</view>
-		<view class="activate_popup" v-if="!activateShow&&$store.getters.languageType==1">
+		<!-- <view class="activate_popup" v-if="!activateShow&&$store.getters.languageType==1">
 			<view class="activate_popup_box">
 
 				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn.png" mode="">
@@ -131,8 +131,8 @@
 				<image class="activate_popup_box_del" @click.stop="activateShow=true" src="@/static/user/del.png"
 					mode=""></image>
 			</view>
-		</view>
-		<view class="activate_popups" v-if="!activateShow&&$store.getters.languageType==0">
+		</view> -->
+		<!-- <view class="activate_popups" v-if="!activateShow&&$store.getters.languageType==0">
 			<view class="activate_popup_box">
 		
 				<image class="activate_popup_box_open" @click="rechargeActive" src="@/static/user/openBtn_1.png" mode="">
@@ -140,7 +140,7 @@
 				<image class="activate_popup_box_del" @click.stop="activateShow=true" src="@/static/user/del.png"
 					mode=""></image>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
