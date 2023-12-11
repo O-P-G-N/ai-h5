@@ -585,7 +585,7 @@
 	"user.con_detail.i30": "There will be no income after termination of the contract.Countdown:",
 	"user.con_detail.i31": "See more deal details",
 	"user.con_detail.i32": "There's no contract yet. Create one",
-	"user.con_detail.i33": "Are you sure you want to terminate the contract?",
+	"user.con_detail.i33": "Are you sure you want to terminate the contract?If the normal end time of the contract is not reached, a penalty of %contractConfStop%% of the principal will be charged.",
 	"user.con_detail.i34": "Are you sure you want to cancel and terminate the contract?",
 	"user.con_detail.i35": "Contract terminated",
 	"user.con_detail.i36": "The contract has been cancelled and terminated",

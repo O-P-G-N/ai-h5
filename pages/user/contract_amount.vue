@@ -210,14 +210,29 @@
 			},
 			// 设置合约
 			contractSet(id, status) {
-				this.show = true
-				this.id = id;
-				if (status == 0) {
-					this.modalContent = this.$t('user.con_detail.i33')
-				} else {
-					this.modalContent = this.$t('user.con_detail.i34')
-				}
-				this.status = status;
+				uni.request({
+									url: `/aicommon/getDictbyDictTypeAndKey`,
+									method: "GET",
+									data: {
+										dictType: 'contract_conf',
+										key:"stop"
+									},
+									success: (res) => {
+										let stop= res.data 
+										 this.show = true
+										 this.id = id;
+										 if (status == 0) {
+										 	let c = this.$t('user.con_detail.i33')
+											alert(stop)
+											this.modalContent=c.replace("%contractConfStop%",stop);
+										 } else {
+											 this.modalContent= this.$t('user.con_detail.i34')
+											
+										 }
+										 this.status = status;
+									}
+								});
+				
 
 			},
 			// 倒计时

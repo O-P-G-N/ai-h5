@@ -586,7 +586,7 @@
 	"user.con_detail.i30": "中止合約后將不再有任何收益。倒計時",
 	"user.con_detail.i31": "查看更多交易詳情",
 	"user.con_detail.i32": "還沒有合約，快去創建合約吧",
-	"user.con_detail.i33": "您確定要中止合約嗎？",
+	"user.con_detail.i33": "您確定要中止合約嗎？未到合約正常結束時間，將收取%contractConfStop%%的本金違約金",
 	"user.con_detail.i34": "您確定要取消中止合約嗎？",
 	"user.con_detail.i35": "合約已中止",
 	"user.con_detail.i36": "合約已取消中止",
