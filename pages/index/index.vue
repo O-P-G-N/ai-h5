@@ -14,7 +14,7 @@
 				<image class="justchating" src="~@/static/index/justchating.webp"></image>
 				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
-					<text class="nick_name">{{myInfo.nickName}}</text>
+					<text class="nick_name">AlitaGPT</text>
 					<image class="homejiantou" src="~@/static/index/homejiantou.webp"></image>
 				</view>
 			</view>
@@ -431,8 +431,11 @@
 			// 社区
 			communityBtn() {
 				// uni.$u.toast('社区功能暂未开放');
-				uni.switchTab({
-					url: `/pages/user/index`
+				// uni.switchTab({
+				// 	url: `/pages/user/index`
+				// });
+				uni.navigateTo({
+					url: `/pages/partner/index`
 				});
 			},
 			getImgList() {
@@ -599,12 +602,12 @@
 					font-weight: bold;
 					line-height: 1;
 					width: 54px;
-					white-space: nowrap;
-					/*不换行强制文本在一行显示*/
-					overflow: hidden;
-					/*超出盒子宽度部分文字被隐藏*/
-					text-overflow: ellipsis
-						/*当文本溢出包含元素时发生的事情 ellipsis*/
+					// white-space: nowrap;
+					// /*不换行强制文本在一行显示*/
+					// overflow: hidden;
+					// /*超出盒子宽度部分文字被隐藏*/
+					// text-overflow: ellipsis
+					// 	/*当文本溢出包含元素时发生的事情 ellipsis*/
 				}
 
 				.homejiantou {
