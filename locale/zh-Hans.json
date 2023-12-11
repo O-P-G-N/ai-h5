@@ -586,7 +586,7 @@
 	"user.con_detail.i31": "查看更多交易详情",
 	"user.con_detail.i32": "还没有合约，快去创建合约吧",
 	"user.con_detail.i33": "您确定要终止该合约吗？",
-	"user.con_detail.i34": "您确定要取消终止该合约吗？",
+	"user.con_detail.i34": "您确定要取消终止该合约吗？未到合約正常結束時間，將收取%contractConfStop%的本金違約金",
 	"user.con_detail.i35": "合约已终止",
 	"user.con_detail.i36": "合约已取消终止",
 	"user.con_detail.i37": "正在为您拼命加载中...",
