@@ -236,7 +236,8 @@
 						this.status = status;
 					}
 				});
-				url: `/aicommon/getDictbyDictTypeAndKey`,
+				uni.request({
+					url: `/aicommon/getDictbyDictTypeAndKey`,
 					method: "GET",
 					data: {
 						dictType: 'contract_conf',
@@ -255,105 +256,103 @@
 						}
 						this.status = status;
 					}
-			});
+				});
 
+			},
+			// 倒计时
+			getCountDown(startDate) {
+				const oneDay = 24 * 60 * 60 * 1000;
+				let start = new Date(startDate).getTime() + oneDay;
+				const diffDays = start - Date.now();
+				return diffDays;
+			},
+			// 计算天数
+			getDaysDiff(startDate, endDate) {
+				const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+				const start = new Date(startDate);
+				const end = new Date(endDate);
+				const diffDays = Math.round(Math.abs((end - start) / oneDay));
+				return diffDays;
+			},
+			// 查看更多
+			seeMore(id, dealNum) {
+				uni.navigateTo({
+					url: `/pages/user/contract_details?id=${id}&dealNum=${dealNum}`
+				});
+			},
+			// 上划加载
+			scrolltolower() {
+				this.status = "loading"
+				if (this.from.pageNum < Math.ceil((this.total / 10))) {
+					this.from.pageNum++;
+					uni.request({
+						url: `/island/contracts/${this.from.pageNum}`,
+						method: "GET",
+						success: (res) => {
+							res.data.rows.map((v) => {
+								let setTime = new Date(v.endTime);
+								let nowTime = new Date();
+								let restSec = setTime.getTime() - nowTime.getTime();
+								let count = nowTime.getTime() - new Date(v.createTime).getTime();
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+									100).toFixed(2);
+							})
+							this.contractList.push(...res.data.rows);
+						}
+					});
+				} else {
+					this.status = "nomore"
+				}
 
-
-	},
-	// 倒计时
-	getCountDown(startDate) {
-			const oneDay = 24 * 60 * 60 * 1000;
-			let start = new Date(startDate).getTime() + oneDay;
-			const diffDays = start - Date.now();
-			return diffDays;
-		},
-		// 计算天数
-		getDaysDiff(startDate, endDate) {
-			const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
-			const start = new Date(startDate);
-			const end = new Date(endDate);
-			const diffDays = Math.round(Math.abs((end - start) / oneDay));
-			return diffDays;
-		},
-		// 查看更多
-		seeMore(id, dealNum) {
-			uni.navigateTo({
-				url: `/pages/user/contract_details?id=${id}&dealNum=${dealNum}`
-			});
-		},
-		// 上划加载
-		scrolltolower() {
-			this.status = "loading"
-			if (this.from.pageNum < Math.ceil((this.total / 10))) {
-				this.from.pageNum++;
+			},
+			// 模态框取消
+			cancel() {
+				this.show = false
+			},
+			// 模态框确认按钮
+			confirm() {
+				let that = this
+				let expectOver = null
+				that.show = false;
+				if (that.status == 0) {
+					expectOver = 4
+				} else {
+					expectOver = 0
+				}
 				uni.request({
-					url: `/island/contracts/${this.from.pageNum}`,
+					url: `/island/contract/${that.id}`,
 					method: "GET",
+					data: {
+						over: expectOver
+					},
 					success: (res) => {
-						res.data.rows.map((v) => {
-							let setTime = new Date(v.endTime);
-							let nowTime = new Date();
-							let restSec = setTime.getTime() - nowTime.getTime();
-							let count = nowTime.getTime() - new Date(v.createTime).getTime();
-							v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
-							v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
-							v.minu = parseInt(restSec / (60 * 1000) % 60);
-							v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
-								100).toFixed(2);
-						})
-						this.contractList.push(...res.data.rows);
+						if (that.status == 0) {
+							uni.showToast({
+								title: that.$t('user.con_detail.i35'),
+								success: function(res) {
+									that.from.page = 1;
+									that.getContractList();
+								}
+
+							})
+						} else {
+							uni.showToast({
+								title: that.$t('user.con_detail.i36'),
+								success: function(res) {
+									that.from.page = 1;
+									that.getContractList();
+								}
+
+							})
+						}
 					}
 				});
-			} else {
-				this.status = "nomore"
 			}
 
 		},
-		// 模态框取消
-		cancel() {
-			this.show = false
-		},
-		// 模态框确认按钮
-		confirm() {
-			let that = this
-			let expectOver = null
-			that.show = false;
-			if (that.status == 0) {
-				expectOver = 4
-			} else {
-				expectOver = 0
-			}
-			uni.request({
-				url: `/island/contract/${that.id}`,
-				method: "GET",
-				data: {
-					over: expectOver
-				},
-				success: (res) => {
-					if (that.status == 0) {
-						uni.showToast({
-							title: that.$t('user.con_detail.i35'),
-							success: function(res) {
-								that.from.page = 1;
-								that.getContractList();
-							}
-
-						})
-					} else {
-						uni.showToast({
-							title: that.$t('user.con_detail.i36'),
-							success: function(res) {
-								that.from.page = 1;
-								that.getContractList();
-							}
-
-						})
-					}
-				}
-			});
-		}
-
-	},
 	}
 </script>
 
