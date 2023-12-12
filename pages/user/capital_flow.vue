@@ -140,7 +140,7 @@
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = true;
-						this.timeValue = this.from.begin
+						this.timeValue = this.from.begin+":00"
 
 					}
 				} else {
@@ -159,7 +159,7 @@
 						this.show = false;
 						this.timeShow = true;
 						this.timeFlag = false;
-						this.timeValue = this.from.end;
+						this.timeValue = this.from.end+":59";
 					}
 
 				}
@@ -172,12 +172,12 @@
 			// 确定时间
 			confirmTime(val) {
 				if (this.timeFlag) {
-					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
+					this.from.begin = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')+":00"
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue = Number(new Date());
 				} else {
-					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')
+					this.from.end = uni.$u.timeFormat(val.value, 'yyyy-mm-dd hh:MM')+":59"
 					this.show = true;
 					this.timeShow = false;
 					this.timeValue = Number(new Date());
