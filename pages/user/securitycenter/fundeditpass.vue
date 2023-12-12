@@ -99,6 +99,9 @@
 		onShow() {
 			this.determineTitle()
 			uni.hideKeyboard()
+			this.$nextTick(()=>{
+				this.show=false;
+			})
 		},
 		methods: {
 			// 返回积分查看
