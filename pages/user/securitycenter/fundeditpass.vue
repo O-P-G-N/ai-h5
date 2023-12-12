@@ -63,7 +63,7 @@
 						<text class="verify_item_text">包含数字</text>
 					</view> -->
 				</view>
-				<u-keyboard ref="uKeyboard" @confirm="show=false" @cancel="show=false" :cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')"
+				<u-keyboard :safeAreaInsetBottom="true" ref="uKeyboard" @confirm="show=false" @cancel="show=false" :cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')"
 					@change="valChange" mode="number" @backspace="backspace" :dotDisabled="true"
 					:show="show"></u-keyboard>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
