@@ -83,6 +83,7 @@
 				tips: "", //提示语
 				loading: false, //模态框按钮等待状态
 				btnDisabled: false, //模态框是否禁用按钮
+				
 			};
 		},
 		created() {},

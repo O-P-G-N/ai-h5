@@ -30,7 +30,7 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i7')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.newPassword" maxlength="6"
+							<u-input v-model="from.newPassword" @focus="focusNew(true)" maxlength="6"
 								:placeholder="$t('user.islands.sc.edp.i8')" :type="eyeShow?'password':'number'">
 								<image @click="showHidden" slot="suffix" class="eye"
 									:src="eyeShow?'../../../static/login/close.png':'../../../static/login/open.png'"
@@ -40,8 +40,8 @@
 					</u-cell>
 					<u-cell :title="$t('user.islands.sc.edp.i9')">
 						<view slot="value" class="code_content">
-							<u-input v-model="from.confirmPassword" maxlength="6" :placeholder="$t('user.islands.sc.edp.i0')"
-								 :type="eyeShows?'password':'number'">
+							<u-input v-model="from.confirmPassword" maxlength="6" @focus="focusNew(false)"
+								:placeholder="$t('user.islands.sc.edp.i0')" :type="eyeShows?'password':'number'">
 								<image @click="showHiddens" slot="suffix" class="eye"
 									:src="eyeShows?'../../../static/login/close.png':'../../../static/login/open.png'"
 									mode=""></image>
@@ -63,6 +63,9 @@
 						<text class="verify_item_text">包含数字</text>
 					</view> -->
 				</view>
+				<u-keyboard ref="uKeyboard" @confirm="show=false" @cancel="show=false" :cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')"
+					@change="valChange" mode="number" @backspace="backspace" :dotDisabled="true"
+					:show="show"></u-keyboard>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
 					class="next-btn editpassbtn" @click="ConfMod">{{$t('user.islands.sc.edp.i14')}}</ai-button>
 			</view>
@@ -88,6 +91,8 @@
 				tips: "", //提示语
 				loading: false, //模态框按钮等待状态
 				btnDisabled: false, //模态框是否禁用按钮
+				show: false, //数字键盘状态
+				newFlag: true,
 			};
 		},
 		created() {},
@@ -124,7 +129,7 @@
 			// 获取验证码
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-				this.$refs.uCode.start();
+					this.$refs.uCode.start();
 					uni.request({
 						url: `/aicommon/sendCodeMustToken`,
 						method: "GET",
@@ -141,6 +146,41 @@
 					uni.$u.toast(this.$t('user.islands.sc.edp.i17'));
 				}
 
+			},
+			// 输入密码聚焦
+			focusNew(val) {
+				this.newFlag = val;
+				this.show = true;
+			},
+			valChange(val) {
+				if (this.newFlag) {
+					this.from.newPassword += val;
+					if (this.from.newPassword.length > 6) {
+						this.show = false;
+						if (this.from.newPassword.length) this.from.newPassword = this.from.newPassword.substr(0, this.from
+							.newPassword.length - 1)
+					}
+				} else {
+					this.from.confirmPassword += val;
+					if (this.from.confirmPassword.length > 6) {
+						this.show = false;
+						if (this.from.confirmPassword.length) this.from.confirmPassword = this.from.confirmPassword.substr(
+							0, this.from
+							.confirmPassword.length - 1)
+					}
+				}
+
+			},
+			//退格
+			backspace() {
+				if (this.newFlag) {
+					if (this.from.newPassword.length) this.from.newPassword = this.from.newPassword.substr(0, this.from
+						.newPassword.length - 1)
+				} else {
+					if (this.from.confirmPassword.length) this.from.confirmPassword = this.from.confirmPassword.substr(0,
+						this.from
+						.confirmPassword.length - 1);
+				}
 			},
 			// 提示语
 			codeChange(text) {

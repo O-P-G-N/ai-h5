@@ -57,8 +57,8 @@
 				<u-cell :title="$t('user.capital_flow.i47')" :value="withdrawalInfo.withdrawMax"></u-cell>
 				<u-cell :title="$t('user.capital_flow.i48')">
 					<view slot="value" class="code_content">
-						<u-input v-model="from.withdrawPassword" :placeholder="$t('user.capital_flow.i49')"
-							:type="eyeShow?'password':'number'">
+						<u-input v-model="from.withdrawPassword" @focus="focusNew"
+							:placeholder="$t('user.capital_flow.i49')" :type="eyeShow?'password':'number'">
 							<image @click="showHidden" slot="suffix" class="eye"
 								:src="eyeShow?'../../static/login/close.png':'../../static/login/open.png'" mode="">
 							</image>
@@ -96,7 +96,9 @@
 					</view>
 					<view class="steps_content">
 						<view class="steps_content_title_two">{{$t('user.capital_flow.i55')}}</view>
-						<view class="desc">{{from.speed==1?$t('user.capital_flow.i94'):from.speed==2?$t('user.capital_flow.i95'):from.speed==3?$t('user.capital_flow.i96'):''}}</view>
+						<view class="desc">
+							{{from.speed==1?$t('user.capital_flow.i94'):from.speed==2?$t('user.capital_flow.i95'):from.speed==3?$t('user.capital_flow.i96'):''}}
+						</view>
 					</view>
 				</view>
 				<view class="steps">
@@ -149,6 +151,9 @@
 			</view>
 			<button class="tips_btn" @click="determine" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
+		<u-keyboard ref="uKeyboard" @confirm="numShow=false" @cancel="numShow=false"
+			:cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')" @change="valChange"
+			mode="number" @backspace="backspace" :dotDisabled="true" :show="numShow"></u-keyboard>
 		<u-picker closeOnClickOverlay @cancel="close" :cancelText="$t('index.cancellation')"
 			:confirmText="$t('index.determine')" keyName="name" @confirm="confirm" @close="close" :show="show"
 			:columns="columns"></u-picker>
@@ -217,6 +222,7 @@
 				forbidden: false, //是否禁用按钮
 				tips: "", //提示语
 				checkboxValue: [], //勾选提示
+				numShow: false, //数字键盘状态
 			}
 		},
 		onShow() {
@@ -280,6 +286,25 @@
 			calculateAmount(val) {
 				console.log("1", this.amount);
 
+			},
+			// 输入密码聚焦
+			focusNew(val) {
+				this.numShow = true;
+			},
+			valChange(val) {
+				this.from.withdrawPassword += val;
+				if (this.from.withdrawPassword.length > 6) {
+					this.numShow = false;
+					if (this.from.withdrawPassword.length) this.from.withdrawPassword = this.from.withdrawPassword.substr(
+						0, this.from
+						.withdrawPassword.length - 1)
+				}
+			},
+			//退格
+			backspace() {
+				if (this.from.withdrawPassword.length) this.from.withdrawPassword = this.from.withdrawPassword.substr(0,
+					this.from
+					.withdrawPassword.length - 1)
 			},
 
 			// 关闭弹窗
@@ -362,9 +387,9 @@
 			// 确定选择到账时间按钮
 			confirms(val) {
 				let num = null
-				if(val.value[0].type ==1){
-					num="5%";
-				}else if(val.value[0].type == 2) {
+				if (val.value[0].type == 1) {
+					num = "5%";
+				} else if (val.value[0].type == 2) {
 					num = "2.5%";
 				} else {
 					num = "2%"
