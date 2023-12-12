@@ -10,7 +10,7 @@
 				<view class="capital">
 					<view class="capital_top">
 						<text>{{$t('user.capital_flow.i14')}}</text>
-						<text>{{$t('user.capital_flow.i15')}}</text>
+						<text>{{v.typeStr}}</text>
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i16')}}</text>
@@ -41,9 +41,8 @@
 			};
 		},
 		onLoad() {
-			this.getList(1);
+			this.getList();
 			const pages = getCurrentPages();
-			console.log(pages);
 			if (pages.length > 1) {
 				uni.setStorageSync('router', pages[pages.length-2].route);
 			}
