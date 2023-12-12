@@ -151,7 +151,7 @@
 			</view>
 			<button class="tips_btn" @click="determine" slot="confirmButton">{{$t('user.capital_flow.i12')}}</button>
 		</u-modal>
-		<u-keyboard ref="uKeyboard" @confirm="numShow=false" @cancel="numShow=false"
+		<u-keyboard :safeAreaInsetBottom="true" ref="uKeyboard" @confirm="numShow=false" @cancel="numShow=false"
 			:cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')" @change="valChange"
 			mode="number" @backspace="backspace" :dotDisabled="true" :show="numShow"></u-keyboard>
 		<u-picker closeOnClickOverlay @cancel="close" :cancelText="$t('index.cancellation')"
@@ -289,6 +289,7 @@
 			},
 			// 输入密码聚焦
 			focusNew(val) {
+				uni.hideKeyboard()
 				this.numShow = true;
 			},
 			valChange(val) {
