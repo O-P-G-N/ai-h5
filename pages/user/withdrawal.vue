@@ -228,6 +228,10 @@
 		onShow() {
 			this.getUserName();
 			this.getWithdrawalInfo()
+			uni.hideKeyboard()
+			this.$nextTick(()=>{
+				this.numShow=false;
+			})
 			this.lableText = this.$t('user.capital_flow.i451') + "5%"
 		},
 		onReady() {
@@ -846,6 +850,9 @@
 				font-weight: 400;
 				color: rgba(51, 51, 51, .6);
 			}
+		}
+		.u-transition{
+			background-color: transparent !important;
 		}
 	}
 </style>

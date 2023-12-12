@@ -98,6 +98,10 @@
 		created() {},
 		onShow() {
 			this.determineTitle()
+			uni.hideKeyboard()
+			this.$nextTick(()=>{
+				this.show=false;
+			})
 		},
 		methods: {
 			// 返回积分查看
@@ -255,6 +259,9 @@
 		background-color: #fff;
 
 		box-sizing: border-box;
+		.u-transition{
+			background-color: transparent !important;
+		}
 
 		.u-navbar {
 			height: 53px;
