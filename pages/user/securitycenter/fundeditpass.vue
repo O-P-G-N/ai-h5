@@ -149,6 +149,7 @@
 			},
 			// 输入密码聚焦
 			focusNew(val) {
+				uni.hideKeyboard()
 				this.newFlag = val;
 				this.show = true;
 			},
