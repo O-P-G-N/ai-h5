@@ -18,11 +18,11 @@
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i16')}}</text>
-						<text>{{v.ausdt}}</text>
+						<text>{{v.usdt}}</text>
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i98')}}</text>
-						<text>{{v.aaiExchange}}</text>
+						<text>{{v.aaiExchangeFee}}%</text>
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i99')}}</text>
@@ -30,7 +30,7 @@
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i100')}}</text>
-						<text>{{v.aaiExchangeFee}}%</text>
+						<text>1 USDT={{v.aai2usdt}}AAI</text>
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i18')}}</text>
