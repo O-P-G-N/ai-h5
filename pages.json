@@ -500,6 +500,14 @@
 				"navigationBarTitleText" : "aai兑换",
 				"navigationStyle" : "custom"
 			}
+		},
+		{
+			"path" : "pages/user/aaihistory",
+			"style" : 
+			{
+				"navigationBarTitleText" : "aai兑换记录",
+				"navigationStyle" : "custom"
+			}
 		}
 	],
 	"tabBar": {

@@ -228,10 +228,11 @@
 		onShow() {
 			this.getUserName();
 			this.getWithdrawalInfo()
-			uni.hideKeyboard()
 			this.$nextTick(()=>{
+				uni.hideKeyboard()
 				this.numShow=false;
 			})
+			
 			this.lableText = this.$t('user.capital_flow.i451') + "5%"
 		},
 		onReady() {

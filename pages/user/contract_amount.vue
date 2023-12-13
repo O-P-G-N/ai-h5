@@ -182,7 +182,7 @@
 								if (v.count < 0) {
 									v.paogress = 100
 								}
-								if (v.paogress > 1) {
+								if (v.paogress > 100) {
 									v.paogress = 100
 								}
 							} else if (v.status == 4) {
@@ -200,7 +200,7 @@
 								if (v.count < 0) {
 									v.paogress = 100
 								}
-								if (v.paogress > 1) {
+								if (v.paogress > 100) {
 									v.paogress = 100
 								}
 							}

@@ -109,7 +109,7 @@
 	"index.tips22": "加載更多",
 	"index.tips23": "加載中...",
 	"index.tips24": "沒有更多",
-	"index.tips25":"保存",
+	"index.tips25": "保存",
 
 
 	"home.charge": "充值",
@@ -311,11 +311,11 @@
 	"login.tips19": "請輸入正確的手機號",
 	"login.tips20": "手機註冊暫未開通",
 	"login.tips21": "請選擇國家",
-	"login.tips23":"禁止輸入空格，反義符，漢字等其他的字符",
+	"login.tips23": "禁止輸入空格，反義符，漢字等其他的字符",
 	"login.activity_code": "邀請碼",
 
 	"login.tips22": "郵箱格式有誤",
-	
+
 
 	"login.traderPassword": "請輸入交易密碼",
 	"login.traderPassword1": "請確認交易密碼",
@@ -536,6 +536,11 @@
 	"user.capital_flow.i94": "預計10分鐘內到賬",
 	"user.capital_flow.i95": "預計24小時內到賬",
 	"user.capital_flow.i96": "預計48小時內到賬",
+	"user.capital_flow.i97": "兌換AAI金額",
+	"user.capital_flow.i98": "手續費",
+	"user.capital_flow.i99": "實際兌換金額",
+	"user.capital_flow.i100": "匯率",
+	"user.capital_flow.i101": "AAI兌換",
 
 	"user.capital_flow.i76": "請輸入金額",
 	"user.capital_flow.i77": "系統公告",

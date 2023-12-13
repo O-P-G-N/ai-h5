@@ -120,7 +120,7 @@
 			// 查看历史记录
 			viewHistory() {
 				uni.navigateTo({
-					url: `/pages/user/history`
+					url: `/pages/user/aaihistory`
 				});
 			},
 			// 交换

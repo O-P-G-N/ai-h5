@@ -63,9 +63,9 @@
 						<text class="verify_item_text">包含数字</text>
 					</view> -->
 				</view>
-				<u-keyboard :safeAreaInsetBottom="true" ref="uKeyboard" @confirm="show=false" @cancel="show=false" :cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')"
-					@change="valChange" mode="number" @backspace="backspace" :dotDisabled="true"
-					:show="show"></u-keyboard>
+				<u-keyboard :safeAreaInsetBottom="true" ref="uKeyboard" @confirm="show=false" @cancel="show=false"
+					:cancelText="$t('index.cancellation')" :confirmText="$t('index.determine')" @change="valChange"
+					mode="number" @backspace="backspace" :dotDisabled="true" :show="show"></u-keyboard>
 				<ai-button :disabled="btnDisabled" :loading="loading" :bg="'#333'" :btnHeight="'53px'"
 					class="next-btn editpassbtn" @click="ConfMod">{{$t('user.islands.sc.edp.i14')}}</ai-button>
 			</view>
@@ -98,9 +98,9 @@
 		created() {},
 		onShow() {
 			this.determineTitle()
-			uni.hideKeyboard()
-			this.$nextTick(()=>{
-				this.show=false;
+			this.$nextTick(() => {
+				uni.hideKeyboard()
+				this.show = false;
 			})
 		},
 		methods: {
@@ -259,7 +259,8 @@
 		background-color: #fff;
 
 		box-sizing: border-box;
-		.u-transition{
+
+		.u-transition {
 			background-color: transparent !important;
 		}
 

@@ -534,6 +534,11 @@
 	"user.capital_flow.i94": "预计10分钟内到账",
 	"user.capital_flow.i95": "预计24小时内到账",
 	"user.capital_flow.i96": "预计48小时内到账",
+	"user.capital_flow.i97": "兑换AAI金额",
+	"user.capital_flow.i98": "手续费",
+	"user.capital_flow.i99": "实际兑换金额",
+	"user.capital_flow.i100": "汇率",
+	"user.capital_flow.i101": "AAI兑换",
 	
 	
 	"user.capital_flow.i76": "请输入金额",

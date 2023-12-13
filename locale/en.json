@@ -535,6 +535,11 @@
 	"user.capital_flow.i94": "Expected to arrive within 10 minutes",
 	"user.capital_flow.i95": "Expected to arrive within 24 hours",
 	"user.capital_flow.i96": "Expected to arrive within 48 hours",
+	"user.capital_flow.i97": "Redeem AAI amount",
+	"user.capital_flow.i98": "handling fee",
+	"user.capital_flow.i99": "Actual exchange amount",
+	"user.capital_flow.i100": "exchange rate",
+		"user.capital_flow.i101": "AAI exchange",
 
 	"user.capital_flow.i76": "Please enter the amount",
 	"user.capital_flow.i77": "System bulletin",
