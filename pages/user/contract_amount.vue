@@ -182,6 +182,9 @@
 								if (v.count < 0) {
 									v.paogress = 100
 								}
+								if (v.paogress > 1) {
+									v.paogress = 100
+								}
 							} else if (v.status == 4) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.updateTime);
@@ -195,6 +198,9 @@
 										100)
 									.toFixed(2);
 								if (v.count < 0) {
+									v.paogress = 100
+								}
+								if (v.paogress > 1) {
 									v.paogress = 100
 								}
 							}

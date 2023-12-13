@@ -24,7 +24,7 @@
 						</view>
 					</template> -->
 					<template >
-						<video id="myVideo" :poster="videoInfo.imgUrl" class="myVideo" @pause="ended"
+						<video id="myVideo" :poster="videoInfo.imgUrl" class="myVideo"  @pause="ended"
 							@ended="ended" :src="videoInfo.address" controls></video>
 					</template>
 				</view>
