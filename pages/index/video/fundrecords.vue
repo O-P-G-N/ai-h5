@@ -13,7 +13,7 @@
 		<view class="main">
 			<view class="content">
 				<view class="shengchengDemo" v-if="progress==100">
-					<template v-if="playFlag">
+					<!-- <template v-if="playFlag">
 						<view class="videoevery_nei">
 							<view class="videopadding">
 								<view class="bofangbtn" @click="playBtn">
@@ -22,9 +22,9 @@
 							</view>
 							<image class="morentu" :src="videoInfo.imgUrl" mode=""></image>
 						</view>
-					</template>
-					<template v-else>
-						<video id="myVideo" :show-center-play-btn="false" class="myVideo" autoplay @pause="ended"
+					</template> -->
+					<template >
+						<video id="myVideo" :poster="videoInfo.imgUrl" class="myVideo" @pause="ended"
 							@ended="ended" :src="videoInfo.address" controls></video>
 					</template>
 				</view>
