@@ -12,15 +12,15 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>{{exchangeNum}} AAI=1 USDT</text>
+				<text>{{exchangeNum}} ALITA=1 USDT</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
 					<view class="left">
 						<view class="iconImgs">
-							<image src="@/static/user/aai.png" mode=""></image>
+							<image src="@/static/user/alita.png" mode=""></image>
 						</view>
-						<view class="">AAI</view>
+						<view class="">ALITA</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">

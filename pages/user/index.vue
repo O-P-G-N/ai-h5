@@ -67,7 +67,7 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery_one">
 						<text>{{$t('user.con_detail.i73')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.aai}} AAI ≈ {{myInfo.aai2usdtAmount}} USDT</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.aai}} ALITA ≈ {{myInfo.aai2usdtAmount}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
 					

@@ -30,7 +30,7 @@
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i100')}}</text>
-						<text>1 USDT={{v.aai2usdt}}AAI</text>
+						<text>1 USDT={{v.aai2usdt}}ALITA</text>
 					</view>
 					<view class="orderhao">
 						<text>{{$t('user.capital_flow.i18')}}</text>
