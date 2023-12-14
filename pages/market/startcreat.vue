@@ -16,7 +16,7 @@
 							<view class="in">{{pageData.dictSort==1?$t("ac.share"):$t("ac.crypt")}}</view>
 						</view>
 						<view class="right">
-							<view class="right_first">{{pageData.dictValue}}</view>
+							<view class="right_first">{{yearRate}}%</view>
 							<view class="right_last">{{$t("ac.prc1")}}</view>
 						</view>
 					</view>
@@ -85,7 +85,7 @@
 				</u-col>
 			</u-row>
 			<u-row customStyle="margin-bottom: 10px" v-for="(v,i) in revenueList" :key="i"
-				@click="selectDays(v.id,v.minUsdt,v.days,v.bili)">
+				@click="selectDays(v.id,v.minUsdt,v.days,v.bili,v.yearRate)">
 				<u-col span="6">
 					<view class="bg-purple purple_first" :class="v.days==from.payDays?'active':''">{{v.days}}</view>
 				</u-col>
@@ -132,6 +132,7 @@
 				accountBalance: "", //红包余额
 				prc14: this.$t("ac.prc14"), //创建合约国际化
 				prc5: this.$t("ac.prc5"), //自定义买入份额国际化
+				yearRate:"",//年化收益
 			};
 		},
 		onLoad(option) {
@@ -164,6 +165,7 @@
 						this.gradeMax = res.data.max;
 						this.from.payDays = res.data.list[0].days;
 						this.from.bili = res.data.list[0].bili;
+						this.yearRate = res.data.list[0].yearRate;
 						this.from.payHongbao =currency(this.from.payNum, {precision: 0}).multiply(this.pageData.remark).value; 
 					}
 				});
@@ -188,10 +190,11 @@
 				this.from.payHongbao = currency(val, {precision: 0}).multiply(this.pageData.remark).value 
 			},
 			// 选择天数
-			selectDays(id, minUsdt, days, bili) {
+			selectDays(id, minUsdt, days, bili,yearRate) {
 				if (this.accountBalance >= minUsdt) {
 					this.from.payDays = days;
 					this.from.bili = bili;
+					this.yearRate=yearRate;
 				} else {
 					uni.$u.toast(this.$t("ac.prc15"));
 				}

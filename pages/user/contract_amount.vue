@@ -89,7 +89,7 @@
 				</u-list>
 
 				<u-loadmore :loading-text="$t('index.tips23')" :loadmore-text="$t('index.tips22')"
-					:nomore-text="$t('index.tips24')" :status="status" />
+					:nomore-text="$t('index.tips24')" :status="loadStatus" />
 				<u-modal showCancelButton @cancel="cancel" @confirm="confirm" :show="show" :title="tips"
 					:content='modalContent'></u-modal>
 			</view>
@@ -104,6 +104,7 @@
 
 <script>
 	import dayjs from 'dayjs'
+	import BigNumber from "bignumber.js";
 	import {
 		data
 	} from '../../uni_modules/uview-ui/libs/mixin/mixin';
@@ -116,11 +117,11 @@
 				loadShow: true, //加载页状态
 				contractList: [], //合约列表
 				total: 0, //总条数
-				status: "", //状态
 				show: false, //暂停弹窗
 				modalContent: "", //模态框提示语
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
+				loadStatus:"",//加载状态
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 				load: this.$t("user.con_detail.i37"), //加載国际化
 			};
@@ -164,23 +165,24 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							if (v.status == 4) {
-								v.countdown = Number((new Date(v.updateTime).getTime()) + 24 * 60 * 60 *
-									1000) - Number(new Date(v.now).getTime()) 
+								let now=dayjs(v.now).valueOf()
+								v.countdown=dayjs(v.updateTime).add(1, 'day').subtract(now, 'millisecond').valueOf() 
+								// v.countdown = Number((new Date(v.updateTime).getTime()) + 24 * 60 * 60 *
+								// 	1000) - Number(new Date(v.now).getTime()) 
 							}
 							if (v.status == 0) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.now);
-								let restSec = Number(setTime.getTime()) - Number(nowTime.getTime());
-								let count = Number(nowTime.getTime()) -Number(new Date(v.createTime).getTime())
+								let restSec = new BigNumber(setTime.getTime()).minus(nowTime.getTime()).toFixed(0);
+								let count = new BigNumber(nowTime.getTime()).minus(new Date(v.createTime).getTime()).toFixed(0);
 								v.count = restSec;
-								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
-								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
-								v.minu = parseInt(restSec / (60 * 1000) % 60);
-								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
-										100)
-									.toFixed(2);
+								v.day = Math.floor(new BigNumber(restSec).div(86400000)).toFixed(0);
+								v.hour = Math.floor(new BigNumber(restSec).div(3600000).modulo(24).toFixed(0));
+								v.minu = Math.floor(new BigNumber(restSec).div(60000).modulo(60).toFixed(0));
+								v.paogress =new BigNumber(new BigNumber(count).div(new BigNumber(v.payDays).times(86400000))).times(100).toFixed(2);
+								console.log(v.paogress);
 								if (v.count < 0) {
-									v.paogress = 100
+									v.paogress = 100 
 								}
 								if (v.paogress > 100) {
 									v.paogress = 100
@@ -213,7 +215,7 @@
 							clearTimeout(time)
 
 						}, 1500)
-						this.status = "loadmore";
+						this.loadStatus = "loadmore";
 						this.total = res.data.total;
 					}
 				});
@@ -287,7 +289,7 @@
 			},
 			// 上划加载
 			scrolltolower() {
-				this.status = "loading"
+				this.loadStatus = "loading"
 				if (this.from.pageNum < Math.ceil((this.total / 10))) {
 					this.from.pageNum++;
 					uni.request({
@@ -309,7 +311,7 @@
 						}
 					});
 				} else {
-					this.status = "nomore"
+					this.loadStatus = "nomore"
 				}
 
 			},
