@@ -75,6 +75,7 @@
 </template>
 
 <script>
+	import dayjs from 'dayjs'
 	export default {
 		data() {
 			return {
@@ -118,8 +119,8 @@
 			// 计算天数
 			getDaysDiff(startDate, endDate) {
 				const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
-				const start = new Date(startDate);
-				const end = new Date(endDate);
+				const start = dayjs(startDate).valueOf();
+				const end = dayjs(endDate).valueOf();
 				const diffDays = Math.round(Math.abs((end - start) / oneDay));
 				return diffDays;
 			},

@@ -121,7 +121,7 @@
 				modalContent: "", //模态框提示语
 				id: "", //选择暂停的合约id
 				status: "", //选择暂停的合约状态
-				loadStatus:"",//加载状态
+				loadStatus: "", //加载状态
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 				load: this.$t("user.con_detail.i37"), //加載国际化
 			};
@@ -165,38 +165,50 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							if (v.status == 4) {
-								let now=dayjs(v.now).valueOf()
-								v.countdown=dayjs(v.updateTime).add(1, 'day').subtract(now, 'millisecond').valueOf() 
+								let now = dayjs(v.now).valueOf()
+								v.countdown = dayjs(v.updateTime).add(1, 'day').subtract(now,
+									'millisecond').valueOf()
 								// v.countdown = Number((new Date(v.updateTime).getTime()) + 24 * 60 * 60 *
 								// 	1000) - Number(new Date(v.now).getTime()) 
 							}
 							if (v.status == 0) {
-								let setTime = new Date(v.endTime);
-								let nowTime = new Date(v.now);
-								let restSec = new BigNumber(setTime.getTime()).minus(nowTime.getTime()).toFixed(0);
-								let count = new BigNumber(nowTime.getTime()).minus(new Date(v.createTime).getTime()).toFixed(0);
+								let setTime = dayjs(v.endTime).valueOf();
+								let nowTime = dayjs(v.now).valueOf();
+								let createTime = dayjs(v.createTime).valueOf();
+								let restSec = new BigNumber(setTime).minus(nowTime).toFixed(0);
+								let count = new BigNumber(nowTime).minus(createTime).toFixed(0);
 								v.count = restSec;
-								v.day = Math.floor(new BigNumber(restSec).div(86400000)).toFixed(0);
-								v.hour = Math.floor(new BigNumber(restSec).div(3600000).modulo(24).toFixed(0));
-								v.minu = Math.floor(new BigNumber(restSec).div(60000).modulo(60).toFixed(0));
-								v.paogress =new BigNumber(new BigNumber(count).div(new BigNumber(v.payDays).times(86400000))).times(100).toFixed(2);
-								console.log(v.paogress);
+								// v.day = Math.floor(new BigNumber(restSec).div(86400000)).toFixed(0);
+								// v.hour = Math.floor(new BigNumber(restSec).div(3600000).modulo(24).toFixed(0));
+								// v.minu = Math.floor(new BigNumber(restSec).div(60000).modulo(60).toFixed(0));
+								// v.paogress =new BigNumber(new BigNumber(count).div(new BigNumber(v.payDays).times(86400000))).times(100).toFixed(2);
+								// console.log(v.paogress);
+								v.count = restSec;
+								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
+								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
+								v.minu = parseInt(restSec / (60 * 1000) % 60);
+								v.paogress = ((Number(count) / (Number(v.payDays) * 24 * 60 * 60 *
+											1000)) *
+										100)
+									.toFixed(2);
 								if (v.count < 0) {
-									v.paogress = 100 
+									v.paogress = 100
 								}
 								if (v.paogress > 100) {
 									v.paogress = 100
 								}
 							} else if (v.status == 4) {
-								let setTime = new Date(v.endTime);
-								let nowTime = new Date(v.updateTime);
-								let restSec = Number(setTime.getTime()) - Number(nowTime.getTime());
-								let count = Number(nowTime.getTime()) -Number(new Date(v.createTime).getTime())
+								let endTime = dayjs(v.endTime).valueOf();
+								let updateTime = dayjs(v.updateTime).valueOf();
+								let createTimes = dayjs(v.createTime).valueOf();
+								let restSec = Number(endTime) - Number(updateTime);
+								let count = Number(updateTime) - Number(createTimes)
 								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
-								v.paogress = ((Number(count) / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+								v.paogress = ((Number(count) / (Number(v.payDays) * 24 * 60 * 60 *
+											1000)) *
 										100)
 									.toFixed(2);
 								if (v.count < 0) {
