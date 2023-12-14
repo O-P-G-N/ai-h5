@@ -164,14 +164,14 @@
 					success: (res) => {
 						res.data.rows.map((v) => {
 							if (v.status == 4) {
-								v.countdown = (new Date(v.updateTime).getTime() + 24 * 60 * 60 *
-									1000) - new Date(v.now).getTime()
+								v.countdown = Number((new Date(v.updateTime).getTime()) + 24 * 60 * 60 *
+									1000) - Number(new Date(v.now).getTime()) 
 							}
 							if (v.status == 0) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.now);
-								let restSec = setTime.getTime() - nowTime.getTime();
-								let count = nowTime.getTime() - new Date(v.createTime).getTime()
+								let restSec = Number(setTime.getTime()) - Number(nowTime.getTime());
+								let count = Number(nowTime.getTime()) -Number(new Date(v.createTime).getTime())
 								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
@@ -188,13 +188,13 @@
 							} else if (v.status == 4) {
 								let setTime = new Date(v.endTime);
 								let nowTime = new Date(v.updateTime);
-								let restSec = setTime.getTime() - nowTime.getTime();
-								let count = nowTime.getTime() - new Date(v.createTime).getTime()
+								let restSec = Number(setTime.getTime()) - Number(nowTime.getTime());
+								let count = Number(nowTime.getTime()) -Number(new Date(v.createTime).getTime())
 								v.count = restSec;
 								v.day = parseInt(restSec / (60 * 60 * 24 * 1000));
 								v.hour = parseInt(restSec / (60 * 60 * 1000) % 24);
 								v.minu = parseInt(restSec / (60 * 1000) % 60);
-								v.paogress = ((count / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
+								v.paogress = ((Number(count) / (Number(v.payDays) * 24 * 60 * 60 * 1000)) *
 										100)
 									.toFixed(2);
 								if (v.count < 0) {

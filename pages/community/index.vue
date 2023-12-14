@@ -1,6 +1,6 @@
 <template>
 	<view class="myteam">
-		<u-navbar :title="prc1" @rightClick="capitalFlow" :safeAreaInsetTop="false">
+		<u-navbar :title="$t('comm.prc1')" @rightClick="capitalFlow" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="" mode=""></image>
 			</view>
@@ -275,7 +275,7 @@
 			margin: 16px 0;
 			width: 100%;
 			height: 154px;
-			background-image: url("@/static/islands/islandsbg.png");
+			background-image: url("@/static/islands/islandsbg1.png");
 			background-size: 100% 154px;
 			padding: 18px;
 			background-repeat: no-repeat;

@@ -190,7 +190,7 @@
 	"ac.prc34": "Ten thousand",
 	"ac.prc35": "100 million",
 	"ac.prc36": "trillions",
-	"ac.prc37": "US sharesA shares/HK shares",
+	"ac.prc37": "US stocks",
 	"ac.prc38": "Cryptocurrency TOP10",
 
 	"pa.prc1": "Upgrade training",
@@ -205,7 +205,7 @@
 	"pa.prc10": "Not open yet!",
 	"pa.prc11": "online",
 
-	"comm.prc1": "my island",
+	"comm.prc1": "my floating island",
 	"comm.prc2": "My coupons",
 	"comm.prc3": "invite",
 	"comm.prc4": "Total number of islanders",

@@ -30,7 +30,7 @@
 						<text class="cbac">{{$t('home.asset.total')}}</text>
 					</view>
 					<view class="balancenum">
-						<text v-if="eyeShows">{{myInfo.total}}</text>
+						<text v-if="eyeShows">{{myInfo.total}} USDT</text>
 						<text v-else>******</text>
 						<image class="balancenum_img" @click="eyeShows=!eyeShows"
 							:src="eyeShows?'../../static/user/eye.png':'../../static/user/hide.png'" mode=""></image>
@@ -43,7 +43,7 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewContract">
 						<text>{{$t('home.asset.in_contract')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.contract}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.contract}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery" @click="viewHistory">
@@ -55,12 +55,12 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery" @click="viewCapitalFlow">
 						<text>{{$t('home.asset.hongbao_balance')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.hongbao}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.hongbao}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
 					<view class="yuecardtopevery">
 						<text>{{$t('home.asset.credit')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.activeIncome}}</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.activeIncome}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
 				</view>
