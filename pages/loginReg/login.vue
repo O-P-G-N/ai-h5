@@ -26,7 +26,7 @@
 					</view>
 				</button>
 				<!-- <a
-					href="tpoutside://pull.activity?param={callbackUrl:'http: / /115.205.0.178:9011\/taaBizApi /tALITAnitData',action: 'login',actionId:'1648522106711',blockchains:[{chainId:'1',network:'ethereum'}],dappIcon:'https: /\/eosknights.io /img /icon.png',dappName:'zs',protocol:'TokenPocket',version:'2.0'}">
+					href="tpoutside://pull.activity?param={callbackUrl:'http: / /115.205.0.178:9011\/taaBizApi /tALITnitData',action: 'login',actionId:'1648522106711',blockchains:[{chainId:'1',network:'ethereum'}],dappIcon:'https: /\/eosknights.io /img /icon.png',dappName:'zs',protocol:'TokenPocket',version:'2.0'}">
 					<button class="subsectiontwo_every" @click="walletLogin">
 
 						<view class="flex_al_center">

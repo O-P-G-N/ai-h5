@@ -15,6 +15,7 @@
 					<view class="u-nav-slot" slot="left">
 						<image class="head_back_img" src="@/static/market/market_logo.png" mode=""></image>
 					</view>
+					<view class="center_title" slot="center">Defi Vault</view>
 				</u-navbar>
 				<view class="justcard">
 					<view class="justcard_left">
@@ -44,7 +45,7 @@
 						</button>
 					</view>
 				</view>
-				<view class="marketeverytitles">AI{{$t('ac.int')}}+{{$t('ac.lht')}}</view>
+				<view class="marketeverytitles">{{$t('ac.int')}} AI + Defi Vault</view>
 				<view class="modellist">
 					<view class="modellist_every" @click="createContract(1)">
 						<view class="modeltop">
@@ -738,6 +739,10 @@
 						.u-navbar__content__title {
 							font-weight: 600;
 							font-size: 17px;
+						}
+						.center_title{
+							font-weight: 800;
+							font-size: 20px;
 						}
 
 					}

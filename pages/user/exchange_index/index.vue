@@ -12,7 +12,7 @@
 				<view class="cellgroup">
 					<u-cell-group :border="false">
 						<u-cell :title="$t('user.con_detail.i74')" :label="$t('user.con_detail.i76')" :is-link="true"
-							@click="ALITAExchange">
+							@click="ALITExchange">
 							<image slot="icon" class="exchange_icon" src="@/static/user/alita.png" mode=""></image>
 						</u-cell>
 						<u-cell :title="$t('user.con_detail.i75')" :label="$t('user.con_detail.i77')" :is-link="true"
@@ -50,8 +50,8 @@
 					url: `/pages/user/integral_exchange`
 				});
 			},
-			// ALITA兑换
-			ALITAExchange() {
+			// ALIT兑换
+			ALITExchange() {
 				uni.navigateTo({
 					url: `/pages/user/exchange_index/aai_exchange`
 				});

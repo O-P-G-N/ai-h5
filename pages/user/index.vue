@@ -67,7 +67,7 @@
 				<view class="yuecardtop">
 					<view class="yuecardtopevery_one">
 						<text>{{$t('user.con_detail.i73')}}:</text>
-						<text v-if="eyeShows" class="texta">{{myInfo.aai}} ALITA ≈ {{myInfo.aai2usdtAmount}} USDT</text>
+						<text v-if="eyeShows" class="texta">{{myInfo.aai}} ALIT ≈ {{myInfo.aai2usdtAmount}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
 					
@@ -545,7 +545,7 @@
 					}
 
 					.balancenum {
-						font-size: 25px;
+						font-size: 20px;
 						color: #000;
 						font-weight: 1000;
 						margin-top: 10px;
@@ -564,12 +564,12 @@
 					color: #ffe600;
 					display: flex !important;
 					align-items: center;
-					align-content: center;
+					justify-content: center;
 					margin: 0;
 					font-size: 12px;
 					margin-bottom: -5px;
 					height: 36px;
-					line-height: 36px;
+					line-height: 15px;
 				}
 			}
 

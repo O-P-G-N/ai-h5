@@ -655,11 +655,13 @@
 	.detail-content {
 		width: calc(100% - 60rpx);
 		border: 2rpx solid #9f9f9f;
-		height: 100rpx;
+		// height: 100rpx;
+		padding: 30rpx;
 		border-radius: 30rpx;
 		display: flex;
 		align-items: center;
-		padding: 0 30rpx;
+		word-break:break-all;
+		// padding: 0 30rpx;
 		margin: 20rpx 0 30rpx 0;
 		color: #080808;
 		font-size: 28rpx;

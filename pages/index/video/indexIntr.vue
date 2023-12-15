@@ -146,6 +146,8 @@
 			}, */
 			// 创建文案
 			createCopy(v) {
+				innerAudioContext.stop();
+				this.playFlag = false;
 				uni.navigateTo({
 					url: `/pages/index/video/videocreattwocopy?from=${JSON.stringify(v)}`
 				});
@@ -230,6 +232,8 @@
 			},
 			tabSelectClick(e) {
 				this.timbreList = []
+				innerAudioContext.stop();
+				this.playFlag = false;
 				if (e.value == "new") {
 					uni.$u.toast('敬请期待');
 					this.contentList2 = []
@@ -377,6 +381,7 @@
 			.intro {
 				width: calc(100% - 30rpx);
 				font-size: 28rpx;
+				line-height: 20px;
 				color: #868686;
 			}
 		}

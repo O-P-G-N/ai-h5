@@ -11,7 +11,7 @@
 		</view>
 		<view class="container">
 			<view class="justcard">
-				<image class="justchating" src="~@/static/index/justchating.webp"></image>
+				<image class="justchating" src="~@/static/index/justchating.png"></image>
 				<view class="button" @click="communityBtn">
 					<image class="usewrs" src="~@/static/index/awesome-users.webp"></image>
 					<text class="nick_name">AlitaGPT</text>
@@ -571,8 +571,8 @@
 
 			.justchating {
 				padding: 30rpx 36rpx;
-				width: 300rpx;
-				height: 60rpx;
+				width: 350rpx;
+				height: 70rpx;
 			}
 
 			.button {

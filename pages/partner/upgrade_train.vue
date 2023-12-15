@@ -36,7 +36,7 @@
 				<view class="menu_item_menus">
 					<text class="menu_item_menus_text" v-for="(item,index) in v.word" :key="index">{{item}}</text>
 				</view>
-				<view class="menu_item_points">{{v.price}}{{$t("pa.prc7")}}</view>
+				<view class="menu_item_points">{{v.price}} {{$t("pa.prc7")}}</view>
 				<u-button type="info" :text="prc8" @click="exchange(v.id)"></u-button>
 				<view class="waterView" v-if='showWater&&clickIndex == i' :style="{left:XY.left,top:XY.top}">
 					<view class="point"></view>

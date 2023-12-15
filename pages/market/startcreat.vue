@@ -31,15 +31,15 @@
 					<view class="tuoguan">{{$t("ac.prc3")}}</view>
 					<view class="transactionList">
 						<view class="every" @click="selectCopies(1)" :class="from.payNum==1?'everyactive':''">
-							1{{$t("ac.prc4")}}
+							1 {{$t("ac.prc4")}}
 						</view>
 						<view class="every" @click="selectCopies(10)" :class="from.payNum==10?'everyactive':''">
-							10{{$t("ac.prc4")}}
+							10 {{$t("ac.prc4")}}
 						</view>
 						<view class="every" @click="selectCopies(100)" :class="from.payNum==100?'everyactive':''">
-							100{{$t("ac.prc4")}}</view>
+							100 {{$t("ac.prc4")}}</view>
 						<view class="every" @click="selectCopies(500)" :class="from.payNum==500?'everyactive':''">
-							500{{$t("ac.prc4")}}</view>
+							500 {{$t("ac.prc4")}}</view>
 						<view class="mairu">
 							<input class="uni-input" v-model="from.payNum" placeholder-style="color:rgb(192, 196, 204)"
 								maxlength="12" @input="customAmount" type="number" :placeholder="prc5" />
