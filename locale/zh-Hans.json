@@ -313,6 +313,8 @@
 	"login.tips21":"请选择国家",
 	"login.tips22": "邮箱格式有误",
 	"login.tips23":"禁止输入空格，反义符，汉字等其他的字符",
+	"login.tips24":"正在登录中...",
+	"login.tips25":"网络错误，请重试...",
 	"login.activity_code":"邀请码",
 	"login.traderPassword":"请输入交易密码",
 	"login.traderPassword1":"请确认交易密码",

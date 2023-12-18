@@ -311,6 +311,8 @@
 	"login.tips20": "Mobile phone registration is not available yet",
 	"login.tips21": "Please select a country",
 	"login.tips23": "It is forbidden to enter spaces, antonyms, Chinese characters and other characters",
+	"login.tips24":"Logging in...",
+	"login.tips25":"Network error, please try again...",
 	"login.activity_code": "invite code",
 
 	"login.tips22": "email error",

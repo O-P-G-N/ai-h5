@@ -8,8 +8,9 @@
 			<view class="inputmain">
 				<view class="inputevery">
 					<view class="inputevery_content">
-						<vue-country-intl schema="input" :iosMobileReadonly="false" :placeholder="$t('login.tips21')" :searchAble="true"
-							type="phone" @onChange="onChange" v-model="from.countryCode"></vue-country-intl>
+						<vue-country-intl schema="input" :iosMobileReadonly="false" :placeholder="$t('login.tips21')"
+							:searchAble="true" type="phone" @onChange="onChange"
+							v-model="from.countryCode"></vue-country-intl>
 					</view>
 				</view>
 				<view class="inputevery">
@@ -37,7 +38,10 @@
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
 					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading"
-						class="next-btn loginbtn" @click="loginBtn">{{$t('login.login')}}</ai-button>
+						class="next-btn loginbtn" @click="loginBtn"><text
+							v-if="languageType">{{$t('login.login')}}</text><text
+							v-else>{{$t('login.tips24')}}{{CountDown}}</text>
+					</ai-button>
 					<view class="register">
 						{{$t('login.noaccount')}}？
 						<text class="blur" @click="regAccount">{{$t('login.registernow')}}</text>
@@ -50,6 +54,7 @@
 </template>
 
 <script>
+	import code from '../../uni_modules/uview-ui/libs/config/props/code';
 	export default {
 		data() {
 			return {
@@ -68,6 +73,8 @@
 				phone: this.$t('login.cell-phone-number'), //手机号国际化
 				password: this.$t('login.password'), //密码国际化
 				back: this.$t('login.back'), //返回国际化
+				languageType: true, //
+				CountDown: 10, //倒计时
 			};
 		},
 		onShow() {
@@ -139,23 +146,42 @@
 					})
 					return
 				} else {
-					this.loading = true
-					this.forbidden = false
+					that.loading = true
+					that.forbidden = false
+					that.languageType = false
+					let timee = setInterval(() => {
+						that.CountDown--
+						if (that.CountDown <= 0) {
+							that.loading = false;
+							that.forbidden = true;
+							clearInterval(timee)
+							that.CountDown=10;
+							that.languageType = true;
+							uni.$u.toast(that.$t("login.tips25"));
+						}
+					},1000)
 					uni.request({
 						url: '/nt/login',
 						method: "POST",
-						data: this.from,
+						data: that.from,
 						success: (res) => {
 							if (res.code == 500) {
 								that.loading = false;
 								that.forbidden = true;
+								clearInterval(timee)
+								that.CountDown=10;
+								that.languageType = true;
 							} else if (res.code == 200) {
+								clearInterval(timee)
+								that.CountDown=10;
+								that.languageType = true;
 								if (that.checkboxValue[0] == 1) {
 									uni.setStorageSync("phoneCheck", that.checkboxValue[0])
 									uni.setStorageSync("phone", that.from)
 								}
+								that.$store.commit('app/clear', true)
 								uni.showToast({
-									title: this.$t("login.tips11"),
+									title: that.$t("login.tips11"),
 									success: function() {
 										let times = setTimeout(() => {
 											that.loading = false;
@@ -377,14 +403,15 @@
 
 							.country-intl-label {
 								background: #eff3fa !important;
-								>span:last-child{
+
+								>span:last-child {
 									width: 80%;
 									white-space: nowrap;
 									/*不换行强制文本在一行显示*/
 									overflow: hidden;
 									/*超出盒子宽度部分文字被隐藏*/
 									text-overflow: ellipsis;
-										/*当文本溢出包含元素时发生的事情 ellipsis*/
+									/*当文本溢出包含元素时发生的事情 ellipsis*/
 								}
 							}
 						}

@@ -30,7 +30,9 @@
 				<view class="btns">
 					<view class="rightforget" @click="forgotPassword">{{$t('login.forgotpassword')}}？</view>
 					<ai-button :disabled="from.username&&from.password&&forbidden?false:true" :loading="loading"
-						class="next-btn loginbtn" @click="loginBtn">{{$t('login.login')}}</ai-button>
+						class="next-btn loginbtn" @click="loginBtn"><text
+							v-if="languageType">{{$t('login.login')}}</text><text
+							v-else>{{$t('login.tips24')}}{{CountDown}}</text></ai-button>
 					<view class="register">
 						{{$t('login.noaccount')}}？
 						<text class="blur" @click="regAccount">{{$t('login.registernow')}}</text>
@@ -59,6 +61,8 @@
 				typeEmail: this.$t('login.type.email'), //邮箱登录国际化
 				password: this.$t('login.password'), //密码国际化
 				Email: this.$t('login.Email'), //密码国际化
+				languageType: true, //
+				CountDown: 10, //倒计时
 			};
 		},
 		onShow() {
@@ -119,14 +123,29 @@
 					})
 					return
 				}else{
-					that.loading = true
-					that.forbidden = false
+					that.loading = true;
+					that.forbidden = false;
+					that.languageType = false
+					let timee = setInterval(() => {
+						that.CountDown--
+						if (that.CountDown <= 0) {
+							that.loading = false;
+							that.forbidden = true;
+							clearInterval(timee)
+							that.CountDown=10;
+							that.languageType = true;
+							uni.$u.toast(that.$t("login.tips25"));
+						}
+					},1000)
 					uni.request({
 						url: '/nt/login',
 						method: "POST",
 						data: that.from,
 						success: (res) => {
 							if (res.code == 200) {
+								clearInterval(timee)
+								that.CountDown=10;
+								that.languageType = true;
 								if (that.checkboxValue[0] == 1) {
 									uni.setStorageSync("emailCheck", that.checkboxValue[0])
 									uni.setStorageSync("email", that.from)
@@ -149,6 +168,9 @@
 							} else {
 								that.loading = false;
 								that.forbidden = true;
+								clearInterval(timee)
+								that.CountDown=10;
+								that.languageType = true;
 					
 							}
 					

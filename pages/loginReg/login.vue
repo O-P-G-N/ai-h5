@@ -176,6 +176,10 @@
 				this.pageShow=true
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
 				this.pageShow=false
+			}else if (uni.getStorageSync("UNI_LOCALE") == "zh-Hans") {
+				this.pageShow=true
+			}else{
+				this.pageShow=false
 			}
 		},
 		methods: {

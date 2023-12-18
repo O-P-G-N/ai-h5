@@ -312,6 +312,8 @@
 	"login.tips20": "手機註冊暫未開通",
 	"login.tips21": "請選擇國家",
 	"login.tips23": "禁止輸入空格，反義符，漢字等其他的字符",
+	"login.tips24":"正在登陸中...",
+	"login.tips25":"網絡錯誤，請重試...",
 	"login.activity_code": "邀請碼",
 
 	"login.tips22": "郵箱格式有誤",
