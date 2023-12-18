@@ -131,9 +131,8 @@
 		},
 		async mounted() {
 			// Init SDK
-
+			
 			await this.sdk?.init().then(() => {
-
 				this.provider = this.sdk?.getProvider();
 				// Chain changed
 				this.provider?.on("chainChanged", (chain) => {

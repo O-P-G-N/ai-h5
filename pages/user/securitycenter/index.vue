@@ -153,6 +153,7 @@
 						uni.navigateTo({
 							url: `/pages/loginReg/login`
 						});
+						location.reload();
 					},
 				})
 			},
