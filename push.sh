@@ -1,4 +1,6 @@
+
 cd /c/work/tyy-ai-h5/
+git checkout -f
 git pull
 #setx NODE_ENV prod
 rm -rf unpackage
