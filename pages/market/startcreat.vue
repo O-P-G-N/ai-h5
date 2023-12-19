@@ -74,26 +74,26 @@
 				</view>
 			</view>
 			<u-row customStyle="margin-bottom: 10px">
-				<u-col span="6">
+				<u-col span="4">
 					<view class="bg-purple-light">{{$t("ac.prc12")}}</view>
 				</u-col>
-				<!-- <u-col span="4">
+				<u-col span="4">
 					<view class="bg-purple-light">{{$t("ac.prc13")}}</view>
-				</u-col> -->
-				<u-col span="6">
+				</u-col>
+				<u-col span="4">
 					<view class="bg-purple-light">{{$t("ac.prc26")}}</view>
 				</u-col>
 			</u-row>
 			<u-row customStyle="margin-bottom: 10px" v-for="(v,i) in revenueList" :key="i"
 				@click="selectDays(v.id,v.minUsdt,v.days,v.bili,v.yearRate)">
-				<u-col span="6">
+				<u-col span="4">
 					<view class="bg-purple purple_first" :class="v.days==from.payDays?'active':''">{{v.days}}</view>
 				</u-col>
-				<!-- <u-col span="4">
+				<u-col span="4">
 					<view class="bg-purple" :class="v.days==from.payDays?'active':''">
-						{{v.vip==1?"E":v.vip==2?"D":v.vip==3?"C":v.vip==4?"B":v.vip==5?"A":v.vip==6?"S":""}}</view>
-				</u-col> -->
-				<u-col span="6">
+						{{v.minUsdt}}</view>
+				</u-col>
+				<u-col span="4">
 					<view class="bg-purple purple_last" :class="v.days==from.payDays?'active':''">
 						{{Number(v.bili).toFixed(2)}}%
 					</view>

@@ -53,7 +53,7 @@
 					</view>
 				</u-col>
 				<u-col span="9" textAlign="center">
-					<view class="text">{{v.min}}</view>
+					<view class="text">{{v.hongbao}}</view>
 				</u-col>
 				<!-- <u-col span="3" textAlign="center">
 					<view class="text">{{v.days}}</view>
