@@ -1,6 +1,7 @@
 
 cd /c/work/tyy-ai-h5/
 git checkout -f
+git checkout -f
 git pull
 #setx NODE_ENV prod
 rm -rf unpackage
@@ -16,3 +17,4 @@ ssh root@49.0.201.46 "rm -rf /www/wwwroot/www\.aigptstar\.com/h5*"
 scp h5.tar.gz root@49.0.201.46:/www/wwwroot/www\.aigptstar\.com/
 ssh root@49.0.201.46 "cd /www/wwwroot/www\.aigptstar\.com/ && tar -zxvf h5\.tar\.gz"
 cd /c/work/tyy-ai-h5/
+git checkout -f
