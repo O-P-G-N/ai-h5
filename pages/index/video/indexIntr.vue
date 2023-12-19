@@ -70,6 +70,9 @@
 						<view class="everyone_bottom">
 							<view class="labels">{{v.lang}}</view>
 						</view>
+						<view class="everyone_bottom">
+							<view class="labels">{{v.sex==1?$t("index.male"):$t("index.woman")}}</view>
+						</view>
 					</view>
 				</template>
 				<template v-else>
