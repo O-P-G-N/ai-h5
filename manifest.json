@@ -56,5 +56,6 @@
         },
         "usingComponents" : true
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "locale" : "en"
 }

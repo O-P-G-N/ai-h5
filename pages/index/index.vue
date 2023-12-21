@@ -1,13 +1,13 @@
 <template>
 	<view @click="closeLang">
 		<view class="globalMian">
-			<image class="global" @click.stop="selectLang" src="~@/static/index/global.png"></image>
-			<view class="lang-down-menu" v-if="langShow">
+			<image class="global" @click="onLocaleChange" src="~@/static/login/language_1.png"></image>
+			<!-- <view class="lang-down-menu" v-if="langShow">
 				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
 					{{item.text}}
 				</view>
 
-			</view>
+			</view> -->
 		</view>
 		<view class="container">
 			<view class="justcard">
@@ -194,7 +194,8 @@
 				myInfo: {}, //人员信息
 				deviceType: "", //设备类型
 				constenShow: false, //状态判断
-				onlineUrl:""
+				onlineUrl:"",
+				languagesType: false,
 			}
 		},
 		computed: {
@@ -272,9 +273,11 @@
 			this.getImgList();
 			this.getAccountIsComplete();
 			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
-				this.$store.commit('app/judgLanguage', 1)
+				this.$store.commit('app/judgLanguage', 1);
+				this.languagesType = true;
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
-				this.$store.commit('app/judgLanguage', 0)
+				this.$store.commit('app/judgLanguage', 0);
+				this.languagesType =false;
 			}
 			this.onlineUrl = app_config.onlineUrl
 		},
@@ -459,8 +462,14 @@
 				});
 			},
 			onLocaleChange(e) {
-				uni.setLocale(e.code);
-				this.$i18n.locale = e.code;
+				this.languagesType = !this.languagesType;
+				if (this.languagesType) {
+					uni.setLocale('zh-Hant');
+					this.$i18n.locale = 'zh-Hant';
+				} else {
+					uni.setLocale('en');
+					this.$i18n.locale = 'en';
+				}
 				this.from.pageNum = 1;
 				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
 					this.$store.commit('app/judgLanguage', 1)

@@ -1,15 +1,15 @@
 <template>
-	<view class="login" @click="closeLang">
+	<view class="login" >
 		<u-navbar @leftClick="goBackUser" :left-text="$t('login.back')" :title="$t('login.register')"
 			:safeAreaInsetTop="false" titleStyle="fontWeight: 600"></u-navbar>
 		<view class="navbar">
-			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
-			<view class="lang-down-menu" v-if="langShow">
+			<image class="navbar_img" @click="onLocaleChange" src="@/static/login/language_1.png" mode=""></image>
+			<!-- <view class="lang-down-menu" v-if="langShow">
 				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
 					{{item.text}}
 				</view>
 
-			</view>
+			</view> -->
 		</view>
 		<view class="container_nei">
 			<view class="title_h1">AlitaGPT</view>
@@ -67,6 +67,7 @@
 				register: this.$t('login.register'), //注册国际化
 				back: this.$t('login.back'), //返回国际化
 				pageShow:true,
+				languagesType:false,
 			};
 		},
 		created() {
@@ -86,8 +87,10 @@
 		onShow() {
 			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
 				this.pageShow=true
+				this.languagesType=true;
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
 				this.pageShow=false
+				this.languagesType=false;
 			}
 		},
 		computed: {
@@ -141,9 +144,15 @@
 					});
 				}
 			},
-			onLocaleChange(e) {
-				uni.setLocale(e.code);
-				this.$i18n.locale = e.code;
+			onLocaleChange() {
+				this.languagesType=!this.languagesType;
+				if(this.languagesType){
+					uni.setLocale('zh-Hant');
+					this.$i18n.locale ='zh-Hant';
+				}else{
+					uni.setLocale('en');
+					this.$i18n.locale ='en';
+				}
 				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
 					this.pageShow=true
 				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {

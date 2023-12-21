@@ -1,13 +1,13 @@
 <template>
-	<view class="login" @click="closeLang">
+	<view class="login">
 		<view class="navbar">
-			<image class="navbar_img" @click.stop="selectLang" src="@/static/login/language.png" mode=""></image>
-			<view class="lang-down-menu" v-if="langShow">
-				<view class="extend-link" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
+			<image class="navbar_img" @click="onLocaleChange" src="@/static/login/language_1.png" mode=""></image>
+			<!-- <view class="lang-down-menu" v-if="langShow">
+				<view class="extend-link" v-for="(item, index) in locales" :key="index" >
 					{{item.text}}
 				</view>
 
-			</view>
+			</view> -->
 		</view>
 		<view class="container_nei">
 			<view class="title_h1">AlitaGPT</view>
@@ -91,7 +91,8 @@
 				provider: null,
 				availableLanguages: [],
 				selectedLanguage: '',
-				pageShow:true,
+				pageShow: true,
+				languagesType: false,
 			};
 		},
 		computed: {
@@ -131,7 +132,7 @@
 		},
 		async mounted() {
 			// Init SDK
-			
+
 			await this.sdk?.init().then(() => {
 				this.provider = this.sdk?.getProvider();
 				// Chain changed
@@ -173,13 +174,15 @@
 		},
 		onShow() {
 			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
-				this.pageShow=true
+				this.pageShow = true;
+				this.languagesType = true;
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
-				this.pageShow=false
-			}else if (uni.getStorageSync("UNI_LOCALE") == "zh-Hans") {
-				this.pageShow=true
-			}else{
-				this.pageShow=false
+				this.pageShow = false;
+				this.languagesType = false;
+			} else if (uni.getStorageSync("UNI_LOCALE") == "zh-Hans") {
+				this.pageShow = true
+			} else {
+				this.pageShow = false
 			}
 		},
 		methods: {
@@ -202,13 +205,20 @@
 					url: `/pages/loginReg/privacyPolicy`
 				});
 			},
-			onLocaleChange(e) {
-				uni.setLocale(e.code);
-				this.$i18n.locale = e.code;
+			onLocaleChange() {
+				this.languagesType = !this.languagesType;
+				if (this.languagesType) {
+					uni.setLocale('zh-Hant');
+					this.$i18n.locale = 'zh-Hant';
+				} else {
+					uni.setLocale('en');
+					this.$i18n.locale = 'en';
+				}
+
 				if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
-					this.pageShow=true
+					this.pageShow = true
 				} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
-					this.pageShow=false
+					this.pageShow = false
 				}
 			},
 			// 选择语言
