@@ -100,15 +100,15 @@
 					</u-col>
 				</u-row>
 				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
-					<u-col span="6" textAlign="center" justify="flex-start">
+					<u-col span="3" textAlign="center" justify="flex-start">
 						<view class="title"><text
 								class="currency">{{v.symbol}}</text><text
 								class="usdt">/USDT</text></view>
 						<!-- <view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
 						</view> -->
 					</u-col>
-					<u-col span="3" textAlign="right" justify="flex-end">
-						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
+					<u-col span="6" textAlign="right" justify="flex-end">
+						<view class="price_one">${{v.lastPrice}}</view>
 					</u-col>
 					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
 						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%
@@ -346,11 +346,13 @@
 								res.data.map((v) => {
 									v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
 									v.symbol=v.symbol.slice(0,v.symbol.indexOf("U"))
+									v.lastPrice=Number(v.lastPrice).toFixed(2)
 								})
 								
 								res1.data.map((v,i) => {
 									v.symbol =v.slug;
-									v.lastPrice=v.floorPriceUsd;
+									v.lastPrice=Number(v.floorPriceUsd).toFixed(8);
+									console.log(Number(v.floorPriceUsd).toFixed(12));
 									v.priceChangePercent=0
 									
 								})
