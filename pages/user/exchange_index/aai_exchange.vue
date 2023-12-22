@@ -52,6 +52,10 @@
 						</view>
 					</view>
 				</view>
+				<view class="tips">
+					<view class="">btc gas fee≈</view>
+					<view class="">{{gas}}</view>
+				</view>
 			</view>
 		</view>
 		<!-- <view class="small_tip">{{$t("user.con_detail.i39")}}</view> -->
@@ -83,6 +87,7 @@
 				accountBalance: "", //账户余额
 				forbidden:false,//是否禁用
 				loading:false,//加载状态
+				gas:""
 			};
 		},
 		onShow() {
@@ -97,6 +102,10 @@
 			},
 			// 获取兑换信息
 			getExchangeInfo() {
+				uni.showLoading({
+					title: this.$t('user.con_detail.i37'),
+					mask: true
+				})
 				uni.request({
 					url: `/aicommon/getDict`,
 					method: "GET",
@@ -114,6 +123,17 @@
 					method: "GET",
 					success: (res) => {
 						this.accountBalance = res.data.aai;
+					}
+				});
+				uni.request({
+					url: `/member/getGas`,
+					method: "POST",
+					data: {
+						aai: 0
+					},
+					success: (res) => {
+						uni.hideLoading()
+						this.gas=res.data.gas;
 					}
 				});
 			},
@@ -135,6 +155,9 @@
 					return
 				} else if (that.redPacket > that.accountBalance) {
 					uni.$u.toast(that.$t('user.capital_flow.i32'));
+					return
+				} else if (Number(that.integralAmount) < 0) {
+					uni.$u.toast(that.$t('user.capital_flow.i102'));
 					return
 				} else {
 					that.forbidden=true;
@@ -185,7 +208,7 @@
 								precision: 6
 							}).divide(this.exchangeNum).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
 						} else {
 							this.$nextTick(() => {
 								this.redPacket = val.split(".")[0].concat(".").concat(val.split(".")[1]
@@ -196,7 +219,7 @@
 								precision: 6
 							}).divide(this.exchangeNum).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
 							
 						}
 					} else {
@@ -205,7 +228,7 @@
 								precision: 6
 							}).divide(this.exchangeNum).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).value;
+							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
 						}
 		
 					}
@@ -271,7 +294,7 @@
 			background: #fff;
 			border: 1px solid hsla(0, 0%, 55.3%, .2);
 			border-radius: 20px 20px 20px 20px;
-			padding: 16px 12px 49px 12px;
+			padding: 16px 12px 20px 12px;
 			margin-top: 14px;
 
 			.bili {
@@ -382,6 +405,12 @@
 						width: 100%;
 						height: 100%;
 					}
+				}
+				.tips{
+					margin-top: 60rpx;
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
 				}
 			}
 		}

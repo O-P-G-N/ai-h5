@@ -40,11 +40,11 @@
 									<view class="titles">{{$t('user.con_detail.i16')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">{{v.payedDays}}{{$t('user.con_detail.i18')}}</view>
+									<view class="intro">{{v.payedDays?v.payedDays:0}}{{$t('user.con_detail.i18')}}</view>
 									<view class="titles">{{$t('user.con_detail.i22')}}</view>
 								</view>
 								<view class="contract_every">
-									<view class="intro">{{v.dealNum}}{{$t('user.con_detail.i19')}}</view>
+									<view class="intro">{{v.statusStr}}</view>
 									<view class="titles">{{$t('user.con_detail.i20')}}</view>
 								</view>
 							</view>
@@ -80,7 +80,7 @@
 								<text>{{$t('user.con_detail.i30')}}:</text>
 								<u-count-down :time="v.countdown" format="HH:mm:ss"></u-count-down>
 							</view>
-							<button class="lookmore" @click="seeMore(v.id,v.dealNum)" v-if="v.status!=2&&v.status!=1">
+							<button class="lookmore" @click="seeMore(v.id,v.statusStr)" v-if="v.status!=2&&v.status!=1">
 								{{$t('user.con_detail.i31')}}
 								<image class="lookmore_img" src="@/static/user/rightjt.png" mode=""></image>
 							</button>
@@ -294,9 +294,9 @@
 				return diffDays;
 			},
 			// 查看更多
-			seeMore(id, dealNum) {
+			seeMore(id, statusStr) {
 				uni.navigateTo({
-					url: `/pages/user/contract_details?id=${id}&dealNum=${dealNum}`
+					url: `/pages/user/contract_details?id=${id}&statusStr=${statusStr}`
 				});
 			},
 			// 上划加载

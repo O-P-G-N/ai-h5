@@ -48,6 +48,9 @@
 							<view class="yinsetitle">{{displayedTimbre.name}}</view>
 							<view class="yinseintro">{{displayedTimbre.lang}}</view>
 						</view>
+						<view class="everyone_bottom">
+							<view class="labels">{{displayedTimbre.sex==1?$t("index.male"):$t("index.woman")}}</view>
+						</view>
 					</view>
 					<view class="rightjt">
 						<image class="rightjt_img" src="@/static/index/rightjt.png" mode=""></image>
@@ -75,6 +78,9 @@
 						</view>
 						<view class="everyone_bottom">
 							<view class="labels">{{v.lang}}</view>
+						</view>
+						<view class="everyone_bottom">
+							<view class="labels">{{v.sex==1?$t("index.male"):$t("index.woman")}}</view>
 						</view>
 					</view>
 				</view>
@@ -457,7 +463,7 @@
 
 				.yinse_content {
 					margin: 5px 0 5px 16px;
-					width: calc(100% - 106px);
+					width: calc(100% - 136px);
 
 					.yinsetitle {
 						font-size: 17px;
@@ -481,6 +487,10 @@
 						color: #999;
 						font-size: 14px;
 					}
+				}
+				.everyone_bottom{
+					display: flex;
+					align-items: center;
 				}
 
 				.rightjt {

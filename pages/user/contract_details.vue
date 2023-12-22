@@ -36,7 +36,7 @@
 							<view class="titles">{{$t('user.con_detail.i22')}}</view>
 						</view>
 						<view class="contract_every">
-							<view class="intro">{{dealNum}}{{$t('user.con_detail.i19')}}</view>
+							<view class="intro">{{statusStr}}</view>
 							<view class="titles">{{$t('user.con_detail.i20')}}</view>
 						</view>
 					</view>
@@ -56,7 +56,7 @@
 						{{$t('user.con_detail.i26')}}：{{contractDetails.updateTime}}
 					</view>
 				</view>
-				<view class="jiaoyititles">{{$t('user.con_detail.i21')}}</view>
+				<!-- <view class="jiaoyititles">{{$t('user.con_detail.i21')}}</view>
 				<view class="tablemain">
 					<view class="tablemain_body" v-for="(v,i) in marketData" :key="i">
 						<view class="">{{v.createTime}}</view>
@@ -68,7 +68,7 @@
 							<view class="">Price：{{v.price}}| Floating P/L：{{v.floating}}</view>
 						</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>
@@ -81,12 +81,12 @@
 			return {
 				contractDetails: {}, //交易详情
 				marketData:[],//交易行情,
-				dealNum:"",//随机数
+				statusStr:"",//随机数
 			};
 		},
 		onLoad(option) {
 			this.getContractDetails(option.id)
-			this.dealNum=option.dealNum
+			this.statusStr=option.statusStr
 		},
 		methods: {
 			// 返回合约金额

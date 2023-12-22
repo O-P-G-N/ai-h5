@@ -86,36 +86,34 @@
 						<view class="title">{{$t("ac.prc29")}}
 							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
-						<view class="title">/{{$t("ac.prc30")}}
-							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
-						</view>
+						<!-- <view class="title">/{{$t("ac.prc30")}}
+						</view> -->
 					</u-col>
 					<u-col span="3" textAlign="right" justify="flex-end">
 						<view class="title_one">{{$t("ac.prc31")}}
 							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 					</u-col>
-					<u-col span="3" textAlign="right" justify="flex-end">
+					<!-- <u-col span="3" textAlign="right" justify="flex-end">
 						<view class="title_one">{{$t("ac.prc32")}}(%)
-						<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
-					</u-col>
+					</u-col> -->
 				</u-row>
 				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
 					<u-col span="6" textAlign="center" justify="flex-start">
 						<view class="title"><text
-								class="currency">{{v.symbol.slice(0,v.symbol.indexOf("U"))}}</text><text
+								class="currency">{{v.slug}}</text><text
 								class="usdt">/USDT</text></view>
-						<view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
-						</view>
+						<!-- <view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
+						</view> -->
 					</u-col>
-					<u-col span="3" textAlign="right" justify="flex-end">
-						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
+					<u-col span="6" textAlign="right" justify="flex-end">
+						<view class="price_one">${{v.floorPriceUsd}}</view>
 					</u-col>
-					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
+					<!-- <u-col class="col_last" span="3" textAlign="right" justify="flex-end">
 						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%
 						</view>
-					</u-col>
+					</u-col> -->
 				</u-row>
 				<view style="height: 300px; width: 100%;"></view>
 
@@ -330,15 +328,26 @@
 		methods: {
 			// 获取指数列表数据
 			getExponentData() {
+				// uni.request({
+				// 	url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT", "BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
+				// 	method: "GET",
+				// 	success: (res) => {
+				// 		res.data.map((v) => {
+				// 			v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
+				// 		})
+				// 		this.exponentList = res.data;
+				// 		// console.log(this.exponentList);
+				// 	},
+				// })
 				uni.request({
-					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
+					url: `/marketDetail/collections`,
 					method: "GET",
 					success: (res) => {
-						res.data.map((v) => {
-							v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
-						})
+						// res.data.map((v) => {
+						// 	v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
+						// })
 						this.exponentList = res.data;
-						console.log(this.exponentList);
+						// console.log(this.exponentList);
 					},
 				})
 			},
