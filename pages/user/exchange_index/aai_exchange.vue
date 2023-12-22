@@ -12,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>{{exchangeNum}} ALIT=1 USDT</text>
+				<text>{{exchangeNum}} ch@i=1 USDT</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -20,7 +20,7 @@
 						<view class="iconImgs">
 							<image src="@/static/user/alita.png" mode=""></image>
 						</view>
-						<view class="">ALIT</view>
+						<view class="">ch@i</view>
 						<view class="fdTitle">{{$t('user.capital_flow.i22')}}</view>
 					</view>
 					<view class="right">

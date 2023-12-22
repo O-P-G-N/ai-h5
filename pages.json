@@ -497,7 +497,7 @@
 			"path" : "pages/user/exchange_index/aai_exchange",
 			"style" : 
 			{
-				"navigationBarTitleText" : "ALIT兑换",
+				"navigationBarTitleText" : "ch@i兑换",
 				"navigationStyle" : "custom"
 			}
 		},
@@ -505,7 +505,7 @@
 			"path" : "pages/user/aaihistory",
 			"style" : 
 			{
-				"navigationBarTitleText" : "ALIT兑换记录",
+				"navigationBarTitleText" : "ch@i兑换记录",
 				"navigationStyle" : "custom"
 			}
 		}

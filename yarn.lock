@@ -1125,7 +1125,7 @@
     "globals" "^11.1.0"
 
 "@babel/types@^7.20.0", "@babel/types@^7.22.15", "@babel/types@^7.22.19", "@babel/types@^7.22.5", "@babel/types@^7.23.0", "@babel/types@^7.23.3", "@babel/types@^7.23.4", "@babel/types@^7.4.4":
-  "integrity" "sha512-7uIFwVYpoplT5jp/kVv6EF93VaJ8H+Yn5IczYiALIT98ajzjfoZfslet/e0sLh+wVBjb2qqIut1b0S26VSafsSQ=="
+  "integrity" "sha512-7uIFwVYpoplT5jp/kVv6EF93VaJ8H+Yn5IczYich@i98ajzjfoZfslet/e0sLh+wVBjb2qqIut1b0S26VSafsSQ=="
   "resolved" "https://registry.npmjs.org/@babel/types/-/types-7.23.4.tgz"
   "version" "7.23.4"
   dependencies:
@@ -2180,7 +2180,7 @@
     "node-int64" "^0.4.0"
 
 "buffer-from@^1.0.0":
-  "integrity" "sha512-E+XQCRwSbALITChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="
+  "integrity" "sha512-E+XQCRwSbch@iChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="
   "resolved" "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz"
   "version" "1.1.2"
 
