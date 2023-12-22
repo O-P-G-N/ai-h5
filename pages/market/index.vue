@@ -60,6 +60,8 @@
 							{{$t('ac.s3')}}
 							<br>
 							{{$t('ac.s4')}}
+							<br>
+							<text v-if="textHeight" style="color: transparent;">{{$t('ac.s5')}}</text>
 						</view>
 						<button class="creatmodel">{{$t('ac.cac')}}</button>
 					</view>
@@ -312,7 +314,7 @@
 				currencyName: "", //货币名称
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 				exponentList: [], //指数列表
-				textHeight:""
+				textHeight:false
 			}
 		},
 		onReady() {
@@ -325,9 +327,9 @@
 			// this.getListData()
 			this.getExponentData();
 			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
-				this.textHeight="0px"
+				this.textHeight=false
 			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
-				this.textHeight="166px"
+				this.textHeight=true
 			}
 		},
 		created() {},
