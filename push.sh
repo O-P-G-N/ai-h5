@@ -3,7 +3,7 @@ cd /Users/xiaokangy/work/tyy-ai-h5/
 git checkout -f
 git checkout -f
 git pull
-#setx NODE_ENV prod
+#setx NODE_ENV prod1
 #rm -rf unpackage
 cat common/1.js>common/config.js
 cli publish --platform h5 --project tyy-ai-h5
