@@ -4,7 +4,7 @@ git checkout -f
 git checkout -f
 git pull
 #setx NODE_ENV prod
-rm -rf unpackage
+#rm -rf unpackage
 cat common/1.js>common/config.js
 cli publish --platform h5 --project tyy-ai-h5
 cd /c/work/tyy-ai-h5/unpackage/dist/build/
