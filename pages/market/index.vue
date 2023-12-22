@@ -86,34 +86,34 @@
 						<view class="title">{{$t("ac.prc29")}}
 							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
-						<!-- <view class="title">/{{$t("ac.prc30")}}
-						</view> -->
+						<view class="title">/{{$t("ac.prc30")}}
+						</view>
 					</u-col>
 					<u-col span="3" textAlign="right" justify="flex-end">
 						<view class="title_one">{{$t("ac.prc31")}}
 							<!-- <image class="title_img" src="@/static/user/sort.png"></image> -->
 						</view>
 					</u-col>
-					<!-- <u-col span="3" textAlign="right" justify="flex-end">
+					<u-col span="3" textAlign="right" justify="flex-end">
 						<view class="title_one">{{$t("ac.prc32")}}(%)
 						</view>
-					</u-col> -->
+					</u-col>
 				</u-row>
 				<u-row class="row_one" justify="space-between" v-for="(v,i) in exponentList" :key="i">
 					<u-col span="6" textAlign="center" justify="flex-start">
 						<view class="title"><text
-								class="currency">{{v.slug}}</text><text
+								class="currency">{{v.symbol}}</text><text
 								class="usdt">/USDT</text></view>
 						<!-- <view class="transaction_volume">{{$t("ac.prc33")}}{{v.quoteVolume.value}}{{v.quoteVolume.unit}}
 						</view> -->
 					</u-col>
-					<u-col span="6" textAlign="right" justify="flex-end">
-						<view class="price_one">${{v.floorPriceUsd}}</view>
+					<u-col span="3" textAlign="right" justify="flex-end">
+						<view class="price_one">${{Number(v.lastPrice).toFixed(2)}}</view>
 					</u-col>
-					<!-- <u-col class="col_last" span="3" textAlign="right" justify="flex-end">
+					<u-col class="col_last" span="3" textAlign="right" justify="flex-end">
 						<view :class="v.priceChangePercent>0?'chgg':'chg'">{{Number(v.priceChangePercent).toFixed(2)}}%
 						</view>
-					</u-col> -->
+					</u-col>
 				</u-row>
 				<view style="height: 300px; width: 100%;"></view>
 
@@ -312,6 +312,7 @@
 				currencyName: "", //货币名称
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
 				exponentList: [], //指数列表
+				textHeight:""
 			}
 		},
 		onReady() {
@@ -323,33 +324,49 @@
 			// this.getAccountIsComplete();
 			// this.getListData()
 			this.getExponentData();
+			if (uni.getStorageSync("UNI_LOCALE") == "zh-Hant") {
+				this.textHeight="0px"
+			} else if (uni.getStorageSync("UNI_LOCALE") == "en") {
+				this.textHeight="166px"
+			}
 		},
 		created() {},
 		methods: {
 			// 获取指数列表数据
 			getExponentData() {
-				// uni.request({
-				// 	url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT", "BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
-				// 	method: "GET",
-				// 	success: (res) => {
-				// 		res.data.map((v) => {
-				// 			v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
-				// 		})
-				// 		this.exponentList = res.data;
-				// 		// console.log(this.exponentList);
-				// 	},
-				// })
+				// url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT", "BNBUSDT","XRPUSDT","SOLUSDT","ADAUSDT","DOGEUSDT","TRXUSDT","LINKUSDT","MATICUSDT"])}`,
 				uni.request({
-					url: `/marketDetail/collections`,
+					url: `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=${JSON.stringify(["BTCUSDT","ETHUSDT",])}`,
 					method: "GET",
 					success: (res) => {
-						// res.data.map((v) => {
-						// 	v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
-						// })
-						this.exponentList = res.data;
+						uni.request({
+							url: `/marketDetail/collections`,
+							method: "GET",
+							success: (res1) => {
+								res.data.map((v) => {
+									v.quoteVolume = this.bigNumberTransform(v.quoteVolume)
+									v.symbol=v.symbol.slice(0,v.symbol.indexOf("U"))
+								})
+								
+								res1.data.map((v,i) => {
+									v.symbol =v.slug;
+									v.lastPrice=v.floorPriceUsd;
+									v.priceChangePercent=0
+									
+								})
+								res1.data.map((v,i) => {
+									if(v.slug=="ETH"){
+										res1.data.splice(i,1)
+									}
+								})
+								this.exponentList = res.data;
+								this.exponentList.push(...res1.data)
+							},
+						})
 						// console.log(this.exponentList);
 					},
 				})
+				
 			},
 			bigNumberTransform(value) {
 				let param = {};
@@ -897,6 +914,7 @@
 							color: hsla(0, 0%, 100%, .7);
 							font-size: 13px;
 							line-height: 1.6;
+							max-height: v-bind(textHeight);
 							margin-top: 16px;
 						}
 
