@@ -352,8 +352,10 @@
 								res1.data.map((v,i) => {
 									v.symbol =v.slug;
 									v.lastPrice=Number(v.floorPriceUsd).toFixed(8);
-									console.log(Number(v.floorPriceUsd).toFixed(12));
 									v.priceChangePercent=0
+									if(v.slug=="ordi"){
+										v.lastPrice=Number(v.floorPriceUsd).toFixed(3);
+									}
 									
 								})
 								res1.data.map((v,i) => {
