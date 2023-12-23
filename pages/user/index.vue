@@ -207,9 +207,9 @@
 
 		<u-modal @confirm="setConfirm" @cancel="show=false" showCancelButton :cancelText="$t('model.tips7')" :confirmText="$t('model.tips8')"
 			:show="show" :content='content'>
-			<view class="slot-content">
-				<view class="">{{$t('model.tips5')}}</view>
-				<view class="">{{$t('model.tips6')}}</view>
+			<view class="slot-content" slot="default">
+				<view class="slot-content_item">{{$t('model.tips5')}}</view>
+				<view class="slot-content_item">{{$t('model.tips6')}}</view>
 			</view>
 		</u-modal>
 	</view>
@@ -229,7 +229,7 @@
 				myInfo: {}, //我的信息
 				infoShow: false, //是否显示
 				myUserName: "", //我的用户名
-				show: false, //温馨提示模态框
+				show: true, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
@@ -415,9 +415,23 @@
 		}
 
 		.u-modal__content {
-			.u-modal__content__text {
-
-				text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+			padding: 10px;
+			.slot-content{
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				justify-content: center;
+				color: #000;
+				.slot-content_item{
+					height: 30px;
+					line-height: 30px;
+				}
 			}
 		}
 
