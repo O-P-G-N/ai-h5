@@ -649,6 +649,7 @@
 	"user.con_detail.i81": "普通到帳-手續費2%",
 	"user.con_detail.i82": "到帳時間",
 	"user.con_detail.i83": "開始時間和結束時間不能一致",
+	"user.con_detail.i84": "由於btc網路費率較高，請用戶切勿頻繁閃兌，以免造成不必要的損失",
 
 	"app.main.js.i1": "操作過於頻繁,請稍後再試",
 	"app.main.js.i2": "登錄失效，請重新登錄"

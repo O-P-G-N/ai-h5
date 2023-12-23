@@ -649,6 +649,7 @@
 	"user.con_detail.i81": "Ordinary deposit-handling fee 2%",
 	"user.con_detail.i82": "Arrival time",
 	"user.con_detail.i83": "The start and end times cannot be consistent",
+	"user.con_detail.i84": "Due to the surge in Btc gas fee, please don't trade too frequently just in case of the unnecessary loss.",
 
 	"app.main.js.i1": "The operation is too frequent, please try again later.",
 	"app.main.js.i2": "Login failed, please log in again"

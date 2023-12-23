@@ -648,6 +648,7 @@
 	"user.con_detail.i81": "普通到账-手续费2%",
 	"user.con_detail.i82": "到账时间",
 	"user.con_detail.i83": "开始与结束时间不能一致",
+	"user.con_detail.i84": "由于btc网络费率较高，请用户切勿频繁闪兑，以免造成不必要的损失",
 	
 	"app.main.js.i1": "操作过于频繁,请稍后再试",
 	"app.main.js.i2": "登录失效，请重新登录"

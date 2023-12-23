@@ -1,7 +1,7 @@
 <template>
 	<view class="integral_exchange">
-		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" :leftText="$t('user.about.i1')" :title="$t('user.con_detail.i78')"
-			:safeAreaInsetTop="false">
+		<u-navbar @leftClick="goBackUser" @rightClick="viewHistory" :leftText="$t('user.about.i1')"
+			:title="$t('user.con_detail.i78')" :safeAreaInsetTop="false">
 			<view class="u-nav-slot" slot="left">
 				<image class="head_back_img" src="@/static/user/round_back.png" mode=""></image>
 			</view>
@@ -12,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>{{exchangeNum}} ch@i ≈ 1 USDT</text>
+				<text>1 ch@i ≈ {{floorPriceUsd}} USDT</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
@@ -59,7 +59,11 @@
 			</view>
 		</view>
 		<!-- <view class="small_tip">{{$t("user.con_detail.i39")}}</view> -->
-		<ai-button :btnHeight="'50px'" :bg="'#333'" :disabled="forbidden" :loading="loading" class="ljdh" @click="redeemNow">{{$t("user.capital_flow.i26")}}</ai-button>
+		<ai-button :btnHeight="'50px'" :bg="btnColor?'#333':'#ccc'" :disabled="forbidden" :loading="loading"
+			class="ljdh" @click="redeemNow">{{$t("user.capital_flow.i26")}}</ai-button>
+		<view style="margin-top: 10px;">
+			{{$t('user.con_detail.i84')}}
+		</view>
 		<!-- <button class="ljdh" @click="redeemNow"></button> -->
 		<!-- <view class="tuiguang">
 			<view>
@@ -85,9 +89,11 @@
 				bonusRatio: "", //手续费
 				redPacket: "", //消耗的红包数量
 				accountBalance: "", //账户余额
-				forbidden:false,//是否禁用
-				loading:false,//加载状态
-				gas:""
+				forbidden: false, //是否禁用
+				loading: false, //加载状态
+				btnColor: false, //
+				gas: "",
+				floorPriceUsd: ""
 			};
 		},
 		onShow() {
@@ -101,12 +107,12 @@
 				});
 			},
 			// 获取兑换信息
-			getExchangeInfo() {
-				uni.showLoading({
+			async getExchangeInfo() {
+				await uni.showLoading({
 					title: this.$t('user.con_detail.i37'),
 					mask: true
 				})
-				uni.request({
+				await uni.request({
 					url: `/aicommon/getDict`,
 					method: "GET",
 					data: {
@@ -114,26 +120,34 @@
 					},
 					success: (res) => {
 						console.log(res);
-						this.exchangeNum = res.data[0].dictValue;
-						this.bonusRatio=res.data[2].dictValue;
+						// this.exchangeNum = res.data[0].dictValue;
+						this.bonusRatio = res.data[2].dictValue;
 					}
 				});
-				uni.request({
+				await uni.request({
+					url: `/marketDetail/getChiPrice`,
+					method: "GET",
+					success: (res1) => {
+						this.floorPriceUsd = res1.data.floorPriceUsd
+						console.log(res1);
+					},
+				})
+				await uni.request({
 					url: `/member/myWallet`,
 					method: "GET",
-					success: (res) => {
-						this.accountBalance = res.data.aai;
+					success: (res2) => {
+						this.accountBalance = res2.data.aai;
 					}
 				});
-				uni.request({
+				await uni.request({
 					url: `/member/getGas`,
 					method: "POST",
 					data: {
 						aai: 0
 					},
-					success: (res) => {
+					success: (res3) => {
 						uni.hideLoading()
-						this.gas=res.data.gas;
+						this.gas = res3.data.gas;
 					}
 				});
 			},
@@ -149,7 +163,7 @@
 			},
 			// 确定兑换
 			redeemNow() {
-				let that=this
+				let that = this
 				if (that.redPacket == "") {
 					uni.$u.toast(that.$t('user.capital_flow.i31'));
 					return
@@ -160,8 +174,8 @@
 					uni.$u.toast(that.$t('user.capital_flow.i102'));
 					return
 				} else {
-					that.forbidden=true;
-					that.loading=true;
+					that.forbidden = true;
+					that.loading = true;
 					uni.showLoading({
 						title: that.$t('user.con_detail.i45'),
 						mask: true
@@ -173,9 +187,9 @@
 							aai: that.redPacket
 						},
 						success: (res) => {
-							if(res.code==200){
-								that.forbidden=false;
-								that.loading=false;
+							if (res.code == 200) {
+								that.forbidden = false;
+								that.loading = false;
 								uni.hideLoading()
 								uni.showToast({
 									title: that.$t('user.capital_flow.i75'),
@@ -188,12 +202,12 @@
 										}, 1000)
 									},
 								})
-							}else if(res.code==500){
+							} else if (res.code == 500) {
 								uni.hideLoading()
-								that.forbidden=false;
-								that.loading=false;
+								that.forbidden = false;
+								that.loading = false;
 							}
-							
+
 						}
 					});
 				}
@@ -203,12 +217,29 @@
 			"redPacket": {
 				handler(val) {
 					if (val.split(".").length > 1) {
+						65.4597
 						if (val.split(".")[1].length <= 6) {
+							// this.integralAmount = currency(val, {
+							// 	precision: 6
+							// }).divide(this.exchangeNum).subtract(currency(val, {
+							// 	precision: 6
+							// }).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this
+							// 	.gas).value;
 							this.integralAmount = currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).subtract(currency(val, {
+							}).multiply(this.floorPriceUsd).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
+							}).multiply(this.floorPriceUsd).multiply(currency(this.bonusRatio).divide(100))).subtract(
+								this
+								.gas).value;
+							if (this.integralAmount < 0) {
+								this.integralAmount = 0;
+								this.btnColor = false;
+								this.forbidden = true;
+							} else {
+								this.btnColor = true;
+								this.forbidden = false;
+							}
 						} else {
 							this.$nextTick(() => {
 								this.redPacket = val.split(".")[0].concat(".").concat(val.split(".")[1]
@@ -217,20 +248,40 @@
 							this.integralAmount = currency(val.split(".")[0].concat(".").concat(val.split(".")[1]
 								.substring(0, 6)), {
 								precision: 6
-							}).divide(this.exchangeNum).subtract(currency(val, {
+							}).multiply(this.floorPriceUsd).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
-							
+							}).multiply(this.floorPriceUsd).multiply(currency(this.bonusRatio).divide(100))).subtract(
+								this
+								.gas).value;
+							if (this.integralAmount < 0) {
+								this.integralAmount = 0
+								this.btnColor = false;
+								this.forbidden = true;
+							} else {
+								this.btnColor = true;
+								this.forbidden = false;
+							}
+
 						}
 					} else {
 						if (this.redPacket.length > 0) {
 							this.integralAmount = currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).subtract(currency(val, {
+							}).multiply(this.floorPriceUsd).subtract(currency(val, {
 								precision: 6
-							}).divide(this.exchangeNum).multiply(currency(this.bonusRatio).divide(100))).subtract(this.gas).value;
+							}).multiply(this.floorPriceUsd).multiply(currency(this.bonusRatio).divide(100))).subtract(
+								this
+								.gas).value;
+							if (this.integralAmount < 0) {
+								this.integralAmount = 0
+								this.btnColor = false;
+								this.forbidden = true;
+							} else {
+								this.btnColor = true;
+								this.forbidden = false;
+							}
 						}
-		
+
 					}
 				},
 				deep: true
@@ -406,7 +457,8 @@
 						height: 100%;
 					}
 				}
-				.tips{
+
+				.tips {
 					margin-top: 60rpx;
 					display: flex;
 					align-items: center;
@@ -414,7 +466,8 @@
 				}
 			}
 		}
-		.small_tip{
+
+		.small_tip {
 			font-size: 14px;
 			font-family: PingFang SC, PingFang SC;
 			font-weight: 400;
