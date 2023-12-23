@@ -278,10 +278,8 @@
 									url: `/pages/loginReg/thirdPartyLogins?addr=${signResult}`
 								});
 								uni.hideLoading()
-								location.reload();
 							} else {
 								uni.setStorageSync("user", res.data)
-								location.reload();
 								uni.hideLoading()
 								uni.switchTab({
 									url: `/pages/index/index`
