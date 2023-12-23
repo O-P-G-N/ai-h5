@@ -188,6 +188,7 @@
 											that.forbidden = true;
 											clearTimeout(times)
 											uni.setStorageSync("user", res.data)
+											uni.setStorageSync("show", true);
 											uni.switchTab({
 												url: `/pages/index/index`
 											});

@@ -262,6 +262,10 @@
 			}
 		},
 		onLoad() {
+			if(uni.getStorageSync("show")){
+				uni.$u.toast(this.$t("login.tips11"));
+				uni.setStorageSync("show", false);
+			}
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();

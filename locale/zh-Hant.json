@@ -236,6 +236,10 @@
 	"model.tips2": "您的密保問題未設置,請設置您的密保問題",
 	"model.tips3": "您的暱稱未設置,請設置您的暱稱",
 	"model.tips4": "網絡問題，請重試！",
+	"model.tips5":"為了您的資金安全",
+	"model.tips6":"請綁定郵箱後再進行體現",
+	"model.tips7":"暫不綁定",
+	"model.tips8":"去綁定",
 
 	"login.type.email": "郵箱登錄",
 	"login.type.phone": "手機登錄",

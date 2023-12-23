@@ -70,7 +70,7 @@
 						<text v-if="eyeShows" class="texta">{{myInfo.aai}} ch@i ≈ {{myInfo.aai2usdtAmount}} USDT</text>
 						<text v-else class="texta">******</text>
 					</view>
-					
+
 				</view>
 			</view>
 
@@ -205,7 +205,13 @@
 		</view>
 		<Footer pageName='user'></Footer>
 
-		<u-modal @confirm="setConfirm" :show="show" :title="tips" :content='content'></u-modal>
+		<u-modal @confirm="setConfirm" @cancel="show=false" showCancelButton :cancelText="$t('model.tips7')" :confirmText="$t('model.tips8')"
+			:show="show" :content='content'>
+			<view class="slot-content">
+				<view class="">{{$t('model.tips5')}}</view>
+				<view class="">{{$t('model.tips6')}}</view>
+			</view>
+		</u-modal>
 	</view>
 </template>
 
@@ -255,7 +261,7 @@
 				uni.request({
 					url: `/workImage/listForUser`,
 					method: "POST",
-					data:{
+					data: {
 						keyword: "",
 						pageNum: 1,
 						pageSize: 10
@@ -273,22 +279,10 @@
 			},
 			// 设置完整性判断
 			setConfirm() {
-				if (this.setIndex == 0) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/settingName`
-					});
-				} else if (this.setIndex == 1) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/Confidentiality`
-					});
-				} else if (this.setIndex == 2) {
-					this.show = false;
-					uni.navigateTo({
-						url: `/pages/user/securitycenter/fundeditpass`
-					});
-				}
+				this.show = false;
+				uni.navigateTo({
+					url: `/pages/user/securitycenter/setEmail`
+				});
 			},
 			// 查看通知
 			viewNotices() {
@@ -332,37 +326,27 @@
 			},
 			// 提现
 			withdrawal() {
-				uni.navigateTo({
-					url: `/pages/user/withdrawal`
-				});
-				// uni.request({
-				// 	url: `/member/getAccountIsComplete`,
-				// 	method: "GET",
-				// 	success: (res) => {
-				// 		if (res.code == 200) {
-				// 			if (!res.data.withdrawPassword) {
-				// 				this.show = true;
-				// 				this.setIndex = 2;
-				// 				this.content = this.$t("model.tips1")
-				// 			} else if (!res.data.question) {
-				// 				this.show = true;
-				// 				this.setIndex = 1;
-				// 				this.content = this.$t("model.tips2")
-				// 			} else if (!res.data.nickName) {
-				// 				this.show = true;
-				// 				this.setIndex = 0;
-				// 				this.content = this.$t("model.tips3")
-				// 			} else {
-				// 				uni.navigateTo({
-				// 					url: `/pages/user/withdrawal`
-				// 				});
-				// 			}
-				// 		} else if (res.code == 500) {
-				// 			uni.$u.toast(this.$t("model.tips4"))
-				// 		}
-
-				// 	}
+				// uni.navigateTo({
+				// 	url: `/pages/user/withdrawal`
 				// });
+				uni.request({
+					url: `/member/getAccountIsComplete`,
+					method: "GET",
+					success: (res) => {
+						if (res.code == 200) {
+							if (!res.data.email) {
+								this.show = true;
+							} else {
+								uni.navigateTo({
+									url: `/pages/user/withdrawal`
+								});
+							}
+						} else if (res.code == 500) {
+							uni.$u.toast(this.$t("model.tips4"))
+						}
+
+					}
+				});
 
 			},
 			// 关于我们
@@ -596,12 +580,13 @@
 							font-weight: 800;
 						}
 					}
-					.yuecardtopevery_one{
+
+					.yuecardtopevery_one {
 						width: 100%;
 						font-size: 12px;
 						display: flex;
 						flex-direction: column;
-						
+
 						.texta {
 							width: 100%;
 							font-size: 14px;

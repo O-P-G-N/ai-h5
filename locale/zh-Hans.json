@@ -236,6 +236,10 @@
 	"model.tips2":"您的密保问题未设置,请设置您的密保问题",
 	"model.tips3":"您的昵称未设置,请设置您的昵称",
 	"model.tips4":"网络问题，请重试！",
+	"model.tips5":"为了您的资金安全",
+	"model.tips6":"请绑定邮箱后再进行提现",
+	"model.tips7":"暂不绑定",
+	"model.tips8":"去绑定",
 	
 	"login.type.email": "邮箱登录",
 	"login.type.phone":"手机登录",

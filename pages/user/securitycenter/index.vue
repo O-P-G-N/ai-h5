@@ -150,6 +150,7 @@
 					method: "GET",
 					success: (res) => {
 						uni.removeStorageSync("user");
+						uni.removeStorageSync("show")
 						uni.navigateTo({
 							url: `/pages/loginReg/login`
 						});

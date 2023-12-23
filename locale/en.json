@@ -236,6 +236,10 @@
 	"model.tips2": "Your security question has not been set, please set your security question",
 	"model.tips3": "Your nickname is not set, please set your nickname",
 	"model.tips4": "Network problem, please try again!",
+	"model.tips5":"For The Safety Of Your Funds",
+	"model.tips6":"Please Bind Email Before Withdrawing Money",
+	"model.tips7":"Cancel",
+	"model.tips8":"Bind",
 
 	"login.type.email": "Email login",
 	"login.type.phone": "Mobile login",
