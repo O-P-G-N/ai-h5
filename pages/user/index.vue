@@ -229,7 +229,7 @@
 				myInfo: {}, //我的信息
 				infoShow: false, //是否显示
 				myUserName: "", //我的用户名
-				show: false, //温馨提示模态框
+				show: true, //温馨提示模态框
 				content: "", //提示框内容
 				setIndex: null, //设置索引
 				tips: this.$t("user.islands.sc.sn.i1"), //温馨提示国际化
@@ -431,6 +431,7 @@
 				.slot-content_item{
 					height: 30px;
 					line-height: 30px;
+					text-align: center;
 				}
 			}
 		}
