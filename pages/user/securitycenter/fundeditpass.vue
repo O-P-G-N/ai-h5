@@ -112,14 +112,24 @@
 			},
 			// 判断标题
 			determineTitle() {
-				if (uni.getStorageSync("user").phone) {
-					this.titleShow = 1;
-					this.from.phone = uni.getStorageSync("user").phone;
-					this.name = uni.getStorageSync("user").phone;
-				} else {
+				// if (uni.getStorageSync("user").phone) {
+				// 	this.titleShow = 1;
+				// 	this.from.phone = uni.getStorageSync("user").phone;
+				// 	this.name = uni.getStorageSync("user").phone;
+				// } else {
+				// 	this.titleShow = 2;
+				// 	this.from.email = uni.getStorageSync("user").email;
+				// 	this.name = uni.getStorageSync("user").email;
+				// }
+				
+				if (uni.getStorageSync("user").email) {
 					this.titleShow = 2;
 					this.from.email = uni.getStorageSync("user").email;
 					this.name = uni.getStorageSync("user").email;
+				} else {
+					this.titleShow = 1;
+					this.from.phone = uni.getStorageSync("user").phone;
+					this.name = uni.getStorageSync("user").phone;
 				}
 			},
 			// 显示隐藏

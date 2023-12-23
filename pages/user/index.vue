@@ -334,7 +334,7 @@
 					method: "GET",
 					success: (res) => {
 						if (res.code == 200) {
-							if (!res.data.email) {
+							if (!res.data.email&&!res.data.phone) {
 								this.show = true;
 							} else {
 								uni.navigateTo({
