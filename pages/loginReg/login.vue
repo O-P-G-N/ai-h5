@@ -270,7 +270,8 @@
 						url: '/nt/externalLogin',
 						method: "POST",
 						data: {
-							addr: signResult[0]
+							addr: signResult[0],
+							type:4
 						},
 						success: (res) => {
 							if (res.data.token == undefined) {
@@ -280,7 +281,7 @@
 								uni.hideLoading()
 							} else {
 								uni.setStorageSync("user", res.data)
-								uni.setStorageSync("show", true);
+								uni.setStorageSync("show", true); 
 								uni.hideLoading()
 								uni.switchTab({
 									url: `/pages/index/index`

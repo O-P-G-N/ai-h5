@@ -258,13 +258,28 @@
 		methods: {
 			// 获取账号
 			getUserName() {
-				if (uni.getStorageSync("user").phone) {
-					this.userName = uni.getStorageSync("user").phone;
-					this.userType = 1;
-				} else {
-					this.userName = uni.getStorageSync("user").email;
-					this.userType = 2;
-				}
+				// if (uni.getStorageSync("user").phone) {
+				// 	this.userName = uni.getStorageSync("user").phone;
+				// 	this.userType = 1;
+				// } else {
+				// 	this.userName = uni.getStorageSync("user").email;
+				// 	this.userType = 2;
+				// }
+				
+				uni.request({
+					url: `/member/userInfo`,
+					method: "GET",
+					success: (res) => {
+						if (res.data.email) {
+							this.userName = res.data.email;
+							this.userType = 2;
+						} else {
+							this.userName = res.data.phone;
+							this.userType = 1;
+						}
+					}
+				});
+				
 			},
 			// 获取提现相关信息
 			getWithdrawalInfo() {

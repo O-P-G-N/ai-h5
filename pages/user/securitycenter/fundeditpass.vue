@@ -112,7 +112,7 @@
 			},
 			// 判断标题
 			determineTitle() {
-				// if (uni.getStorageSync("user").phone) {
+				// if (uni.getStorageSync("user").phone) { 
 				// 	this.titleShow = 1;
 				// 	this.from.phone = uni.getStorageSync("user").phone;
 				// 	this.name = uni.getStorageSync("user").phone;
@@ -121,16 +121,22 @@
 				// 	this.from.email = uni.getStorageSync("user").email;
 				// 	this.name = uni.getStorageSync("user").email;
 				// }
-				
-				if (uni.getStorageSync("user").email) {
-					this.titleShow = 2;
-					this.from.email = uni.getStorageSync("user").email;
-					this.name = uni.getStorageSync("user").email;
-				} else {
-					this.titleShow = 1;
-					this.from.phone = uni.getStorageSync("user").phone;
-					this.name = uni.getStorageSync("user").phone;
-				}
+				uni.request({
+					url: `/member/userInfo`,
+					method: "GET",
+					success: (res) => {
+						if (res.data.email) {
+							this.titleShow = 2;
+							this.from.email = res.data.email;
+							this.name = res.data.email;
+						} else {
+							this.titleShow = 1;
+							this.from.phone = res.data.phone;
+							this.name = res.data.phone;
+						}
+					}
+				});
+
 			},
 			// 显示隐藏
 			showHidden() {

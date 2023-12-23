@@ -134,15 +134,22 @@
 				// 	this.from.email = uni.getStorageSync("user").email;
 				// }
 				
-				if (uni.getStorageSync("user").email) {
-					this.titleShow = 2;
-					this.name = uni.getStorageSync("user").email;
-					this.from.email = uni.getStorageSync("user").email;
-				} else {
-					this.titleShow = 1;
-					this.name = uni.getStorageSync("user").phone;
-					this.from.phone = uni.getStorageSync("user").phone;
-				}
+				uni.request({
+					url: `/member/userInfo`,
+					method: "GET",
+					success: (res) => {
+						if (res.data.email) {
+							this.titleShow = 2;
+							this.name = res.data.email;
+							this.from.email = res.data.email;
+						} else {
+							this.titleShow = 1;
+							this.name = res.data.phone;
+							this.from.phone = res.data.phone;
+						}
+					}
+				});
+				
 			},
 			// 显示隐藏
 			showHidden() {
