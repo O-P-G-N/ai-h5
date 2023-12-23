@@ -12,7 +12,7 @@
 		<view class="mains">
 			<view class="bili">
 				{{$t('user.capital_flow.i20')}}：
-				<text>{{exchangeNum}} ch@i=1 USDT</text>
+				<text>{{exchangeNum}} ch@i ≈ 1 USDT</text>
 			</view>
 			<view class="activeDemo">
 				<view class="content">
